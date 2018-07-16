@@ -1,0 +1,15 @@
+server:
+  servlet:
+    contextPath: /monitor
+  port: 7000
+
+spring:
+  main:
+    banner-mode: "off"
+
+monitor:
+  websocket:
+    # Must not contain an eventual contextPath
+    endpoint: "/ws"
+    allowed-origins:
+      - "*"
