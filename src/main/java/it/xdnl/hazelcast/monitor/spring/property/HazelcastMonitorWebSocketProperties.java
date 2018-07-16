@@ -1,4 +1,4 @@
-package it.xdnl.hazelcast.monitor.property;
+package it.xdnl.hazelcast.monitor.spring.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -9,14 +9,14 @@ import java.util.List;
 
 @Component
 @ConfigurationProperties("monitor.websocket")
-public class WebSocketProperties {
+public class HazelcastMonitorWebSocketProperties {
     @NestedConfigurationProperty
     private String endpoint;
 
     @NestedConfigurationProperty
     private List<String> allowedOrigins = new ArrayList<>();
 
-    public WebSocketProperties() {
+    public HazelcastMonitorWebSocketProperties() {
     }
 
     public void setEndpoint(String endpoint) {
