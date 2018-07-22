@@ -1,0 +1,76 @@
+<div class="Page__Side">
+  <mdc-drawer drawer="permanent" [fixed]="false">
+    <mdc-drawer-content>
+      <mdc-list-group>
+        <mdc-list>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>user</mdc-icon>
+            Members
+            <div mdcListItemMeta>
+              {{ currentStats?.membersCount }}
+            </div>
+          </mdc-list-item>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>map</mdc-icon>
+            Maps
+            <div mdcListItemMeta>
+              {{ currentStats?.mapCount }}
+            </div>
+          </mdc-list-item>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>map</mdc-icon>
+            Queues
+            <div mdcListItemMeta>
+              {{ currentStats?.queueCount }}
+            </div>
+          </mdc-list-item>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>map</mdc-icon>
+            Locks
+            <div mdcListItemMeta>
+              {{ currentStats?.lockCount }}
+            </div>
+          </mdc-list-item>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>map</mdc-icon>
+            Topics
+            <div mdcListItemMeta>
+              {{ currentStats?.topicCount }}
+            </div>
+          </mdc-list-item>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>map</mdc-icon>
+            Lists
+            <div mdcListItemMeta>
+              {{ currentStats?.listCount }}
+            </div>
+          </mdc-list-item>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>map</mdc-icon>
+            Sets
+            <div mdcListItemMeta>
+              {{ currentStats?.setCount }}
+            </div>
+          </mdc-list-item>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>map</mdc-icon>
+            Multimaps
+            <div mdcListItemMeta>
+              {{ currentStats?.multiMapCount }}
+            </div>
+          </mdc-list-item>
+          <mdc-list-item>
+            <mdc-icon mdcListItemGraphic>map</mdc-icon>
+            Ringbuffers
+            <div mdcListItemMeta>
+              {{ currentStats?.ringbufferCount }}
+            </div>
+          </mdc-list-item>
+        </mdc-list>
+      </mdc-list-group>
+    </mdc-drawer-content>
+  </mdc-drawer>
+</div>
+<div class="Page__Main">
+  <p>Lorem ipsum sit amet dolor
+</div>

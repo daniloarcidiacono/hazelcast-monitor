@@ -1,0 +1,49 @@
+.Page__Main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ConnectCard {
+  position: relative;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &__Progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  &__Logo {
+    height: 100px;
+    background-size: 100% auto;
+    background: url(../../assets/logos/HazelcastLogo-Orange_Dark.svg) center no-repeat;
+  }
+
+  &__Form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+  }
+
+  &__ProtocolSelector {
+    width: 70px;
+    margin-right: 1em;
+    position:relative;
+    top: -1px;
+  }
+
+  &__ConnectButton {
+    margin-top: 4em;
+  }
+
+  &__DisconnectButton {
+    margin-top: 4em;
+  }
+}

@@ -1,0 +1,38 @@
+<div class="Page__Main" mdcTypography>
+  <div class="ClustersCard" [mdcElevation]="4">
+    <div class="ClustersCard__Logo"></div>
+    <h1 mdcHeadline6>Choose an instance to monitor</h1>
+    <div>
+      {{ bindings.form.value | json}}
+    </div>
+    <form [formGroup]="bindings.form" class="ClustersCard__Form">
+      <!--<mdc-select formControlName="cluster"-->
+                  <!--[disabled]="!hasClusters()"-->
+                  <!--[box]="false"-->
+                  <!--[outlined]="false"-->
+                  <!--[autosize]="false"-->
+                  <!--placeholder="Instance"-->
+                  <!--[floatingLabel]="true">-->
+
+      <select formControlName="cluster">
+        <option [ngValue]="undefined" selected disabled></option>
+        <option *ngFor="let cluster of bindings.clusters" [ngValue]="cluster">
+          {{ cluster.instanceName }}
+        </option>
+      </select>
+      <!--</mdc-select>-->
+      <mdc-text-field-helper-text [validation]="true" [persistent]="false">
+        <span *ngIf="bindings.form.controls['cluster'].errors?.required">Cluster is required</span>
+      </mdc-text-field-helper-text>
+
+      <button mdc-button
+              [primary]="true"
+              [raised]="true"
+              [disabled]="!isNextButtonEnabled()"
+              (click)="next()"
+              class="ClustersCard__NextButton">
+        Go to Dashboard
+      </button>
+    </form>
+  </div>
+</div>

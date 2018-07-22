@@ -1,0 +1,29 @@
+.Page {
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+
+  &__Top {
+    flex-grow: 0;
+  }
+
+  &__Bottom {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__Side {
+    flex-grow: 0;
+  }
+
+  &__Main {
+    flex-grow: 1;
+    overflow: auto;
+  }
+}
+
+.Page__Side + .Page__Main {
+  margin-left: 1em;
+}
