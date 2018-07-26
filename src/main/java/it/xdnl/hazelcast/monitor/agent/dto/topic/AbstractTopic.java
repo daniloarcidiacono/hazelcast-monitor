@@ -1,4 +1,4 @@
-package it.xdnl.hazelcast.monitor.agent.dto.request.topic;
+package it.xdnl.hazelcast.monitor.agent.dto.topic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,15 +11,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     include = JsonTypeInfo.As.PROPERTY
 )
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = StatisticsTopicMessage.class, name = StatisticsTopicMessage.TOPIC_TYPE)
+    @JsonSubTypes.Type(value = StatisticsTopic.class, name = StatisticsTopic.TOPIC_TYPE),
+    @JsonSubTypes.Type(value = MembersTopic.class, name = MembersTopic.TOPIC_TYPE),
+    @JsonSubTypes.Type(value = ClustersTopic.class, name = ClustersTopic.TOPIC_TYPE),
+    @JsonSubTypes.Type(value = MapsTopic.class, name = MapsTopic.TOPIC_TYPE),
+    @JsonSubTypes.Type(value = MapTopic.class, name = MapTopic.TOPIC_TYPE)
 })
-public abstract class TopicMessage {
+public abstract class AbstractTopic {
     private String topicType;
     private String instanceName;
 
     @JsonCreator
-    public TopicMessage(@JsonProperty("topicType") final String topicType,
-                        @JsonProperty("instanceName") final String instanceName) {
+    public AbstractTopic(@JsonProperty("topicType") final String topicType,
+                         @JsonProperty("instanceName") final String instanceName) {
         this.topicType = topicType;
         this.instanceName = instanceName;
     }

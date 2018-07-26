@@ -18,13 +18,15 @@ public abstract class ClientConnection {
     }
 
     public void receive(final String payload) {
-        for (ClientConnectionListener listener : listeners) {
+        // Iterate a copy of the original set to prevent ConcurrentModificationExceptions
+        for (ClientConnectionListener listener : new HashSet<>(listeners)) {
             listener.received(this, payload);
         }
     }
 
     public void close() {
-        for (ClientConnectionListener listener : listeners) {
+        // Iterate a copy of the original set to prevent ConcurrentModificationExceptions
+        for (ClientConnectionListener listener : new HashSet<>(listeners)) {
             listener.closed(this);
         }
     }

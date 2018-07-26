@@ -1,9 +1,10 @@
 package it.xdnl.hazelcast.monitor.agent.dto;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ErrorMessage extends Message {
+public class ErrorMessage extends AbstractMessage {
     public static final String MESSAGE_TYPE = "error";
     private List<String> errors = new ArrayList<>();
 
@@ -13,9 +14,7 @@ public class ErrorMessage extends Message {
 
     public ErrorMessage(final String ...errors) {
         super(MESSAGE_TYPE);
-        for (String error : errors) {
-            this.errors.add(error);
-        }
+        this.errors.addAll(Arrays.asList(errors));
     }
 
     public ErrorMessage(final Iterable<String> errors) {

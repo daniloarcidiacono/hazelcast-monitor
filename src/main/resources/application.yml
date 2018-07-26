@@ -7,7 +7,17 @@ spring:
   main:
     banner-mode: "off"
 
+logging:
+  level:
+    it.xdnl.hazelcast.monitor: DEBUG
+
+dto:
+  generate: false
+
 monitor:
+  threads:
+    threadPoolSize: 2
+
   websocket:
     # Must not contain an eventual contextPath
     endpoint: "/ws"

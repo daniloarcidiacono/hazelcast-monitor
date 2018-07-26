@@ -2,40 +2,61 @@ package it.xdnl.hazelcast.monitor.agent.handler;
 
 import it.xdnl.hazelcast.monitor.agent.ClientConnection;
 import it.xdnl.hazelcast.monitor.agent.dto.ErrorMessage;
-import it.xdnl.hazelcast.monitor.agent.dto.Message;
-import it.xdnl.hazelcast.monitor.agent.dto.request.topic.StatisticsTopicMessage;
-import it.xdnl.hazelcast.monitor.agent.dto.request.SubscribeMessage;
+import it.xdnl.hazelcast.monitor.agent.dto.AbstractMessage;
+import it.xdnl.hazelcast.monitor.agent.dto.request.SubscribeRequest;
+import it.xdnl.hazelcast.monitor.agent.dto.request.UnsubscribeRequest;
+import it.xdnl.hazelcast.monitor.agent.dto.response.SubscribeResponse;
+import it.xdnl.hazelcast.monitor.agent.factory.TopicProducerFactory;
 import it.xdnl.hazelcast.monitor.agent.helper.ConnectionSubscriptionsRegistry;
 import it.xdnl.hazelcast.monitor.agent.utils.ClientConnectionUtils;
-import it.xdnl.hazelcast.monitor.topic.StatisticsTopic;
-import it.xdnl.hazelcast.monitor.topic.Topic;
+import it.xdnl.hazelcast.monitor.agent.producer.AbstractTopicProducer;
 
-// TODO: Creare factory e passarla come parametro al costruttore!
 public class SubscribeMessageHandler implements MessageHandler {
     private ConnectionSubscriptionsRegistry registry = new ConnectionSubscriptionsRegistry();
+    private TopicProducerFactory topicProducerFactory;
 
-    private Topic instanceTopic(final SubscribeMessage message) {
-        if (message.getTopic() instanceof StatisticsTopicMessage) {
-            StatisticsTopicMessage statisticsTopicMessage = (StatisticsTopicMessage)message.getTopic();
-            return new StatisticsTopic(statisticsTopicMessage.getInstanceName());
-        }
-
-        return null;
+    public SubscribeMessageHandler(final TopicProducerFactory topicProducerFactory) {
+        this.topicProducerFactory = topicProducerFactory;
     }
 
     @Override
-    public void process(final ClientConnection connection, final Message genericMessage) {
-        final SubscribeMessage message = (SubscribeMessage)genericMessage;
-        final Topic topic = instanceTopic(message);
+    public void process(final ClientConnection connection, final AbstractMessage genericMessage) {
+        if (genericMessage instanceof SubscribeRequest) {
+            onSubscribeMessage(connection, (SubscribeRequest) genericMessage);
+        }
+
+        if (genericMessage instanceof UnsubscribeRequest) {
+            onUnsubscribeMessage(connection, (UnsubscribeRequest) genericMessage);
+        }
+    }
+
+    private void onUnsubscribeMessage(final ClientConnection connection, final UnsubscribeRequest request) {
+        registry.unsubscribe(request.getSubscriptionId());
+    }
+
+    private void onSubscribeMessage(final ClientConnection connection, final SubscribeRequest request) {
+        final AbstractTopicProducer topic = topicProducerFactory.instanceTopicProducer(request);
         if (topic != null) {
-            registry.subscribe(connection, topic);
+            // Subscribe
+            final long subscriptionId = registry.subscribe(connection, topic);
+
+            // Notify the user
+            ClientConnectionUtils.convertAndReply(connection, request, new SubscribeResponse(
+                request.getTopic(),
+                subscriptionId
+            ));
+
+            // Begin the topic
+            // This must be done after we send the response to the client, to ensure that
+            // no topic updates are received before the subscription confirmation.
+            topic.start();
         } else {
-            ClientConnectionUtils.convertAndSend(connection, new ErrorMessage("Unrecognized topic"));
+            ClientConnectionUtils.convertAndReply(connection, request, new ErrorMessage("Unrecognized topic"));
         }
     }
 
     @Override
-    public boolean supports(final Message message) {
-        return message instanceof SubscribeMessage;
+    public boolean supports(final AbstractMessage message) {
+        return (message instanceof SubscribeRequest) || (message instanceof UnsubscribeRequest);
     }
 }

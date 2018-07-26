@@ -1,14 +1,16 @@
-package it.xdnl.hazelcast.monitor.topic;
+package it.xdnl.hazelcast.monitor.agent.producer;
+
+import it.xdnl.hazelcast.monitor.agent.product.Product;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Topic {
+public abstract class AbstractTopicProducer {
     private Set<TopicListener> listeners = new HashSet<>();
     private String topicType;
 
-    public Topic(String topicType) {
+    public AbstractTopicProducer(String topicType) {
         this.topicType = topicType;
     }
 
@@ -25,6 +27,14 @@ public abstract class Topic {
             listeners.remove(listener);
         }
     }
+
+    public void start() {
+    }
+
+    public void stop() {
+    }
+
+    public abstract Product produce();
 
     public void notice(final Object object) {
         for (TopicListener listener : listeners) {

@@ -6,10 +6,10 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 
-public class WebSocketClientConnection extends ClientConnection {
+public class MonitorWebSocketClientConnection extends ClientConnection {
     private WebSocketSession session;
 
-    public WebSocketClientConnection(WebSocketSession session) {
+    public MonitorWebSocketClientConnection(WebSocketSession session) {
         this.session = session;
     }
 

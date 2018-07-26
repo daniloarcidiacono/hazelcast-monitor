@@ -9,14 +9,14 @@ import java.util.List;
 
 @Component
 @ConfigurationProperties("monitor.websocket")
-public class HazelcastMonitorWebSocketProperties {
+public class MonitorWebSocketProperties {
     @NestedConfigurationProperty
     private String endpoint;
 
     @NestedConfigurationProperty
     private List<String> allowedOrigins = new ArrayList<>();
 
-    public HazelcastMonitorWebSocketProperties() {
+    public MonitorWebSocketProperties() {
     }
 
     public void setEndpoint(String endpoint) {
