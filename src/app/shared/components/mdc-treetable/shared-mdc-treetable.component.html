@@ -1,0 +1,23 @@
+<div class="MdcTreeTable">
+  <div class="mdc-data-table mdc-data-table--select-multiple">
+    <table class="mdc-data-table__content">
+      <thead>
+        <tr class="mdc-data-table__row" *ngFor="let row of model.headerRowCount() | times">
+          <th class="mdc-data-table__column mdc-data-table__column--sortable" *ngFor="let col of (model.colCount() + 1) | times">
+            {{ model.headerData(row, col) }}
+          </th>
+        </tr>
+        </thead>
+      <tbody>
+        <tr class="mdc-data-table__row" *ngFor="let node of tree" (click)="toggleCollapse(node)">
+          <td class="mdc-data-table__cell">
+            <ng-container *ngTemplateOutlet="template; context: { $implicit: node }"> </ng-container>
+          </td>
+          <td class="mdc-data-table__cell" *ngFor="let col of model.colCount() | times">
+            {{ model.data(node, col) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="MdcPaginator">
+  <mdc-select [box]="false"
+              [outlined]="false"
+              placeholder="Page"
+              [floatingLabel]="true"
+              class="MdcPaginator__PageSelector">
+    <option [value]="page + 1" *ngFor="let page of total | times"> {{ page + 1 }}</option>
+  </mdc-select>
+
+  <mdc-select [box]="false"
+              [outlined]="false"
+              placeholder="Items per page"
+              [floatingLabel]="true"
+              class="MdcPaginator__ItemsPerPageSelector">
+    <option [value]="items" *ngFor="let items of [5, 10, 15, 25]">{{ items }}</option>
+  </mdc-select>
+
+  <div class="MdcPaginator__Caption">
+    {{ current }} of {{ total }}
+  </div>
+
+  <div class="MdcPaginator__Buttons">
+    <button mdc-button
+            [primary]="false"
+            [raised]="false"
+            class="MdcButton__Icon--rounded">
+      <mdc-icon>chevron_left</mdc-icon>
+    </button>
+
+    <button mdc-button
+            [primary]="false"
+            [raised]="false"
+            class="MdcButton__Icon--rounded">
+      <mdc-icon>chevron_right</mdc-icon>
+    </button>
+  </div>
+</div>

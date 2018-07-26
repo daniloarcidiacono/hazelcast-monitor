@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {ConnectionState, SharedWebSocketService} from "@shared/services/shared-websocket.service";
 import {SharedClustersService} from "@shared/services/shared-clusters.service";
+import {MdcMenuItem} from "@angular-mdc/web";
+import {Router} from "@angular/router";
 
 enum PulseState {
   NONE,
@@ -22,12 +24,23 @@ export class SharedConnectionIndicatorComponent {
   private pulse: PulseState = PulseState.NONE;
 
   public constructor(private wsService: SharedWebSocketService,
-                     private clusterService: SharedClustersService) {
+                     private clusterService: SharedClustersService,
+                     private router: Router) {
     this.wsService.onMessageReceived.subscribe(
       (message: string) => {
         this.startPulse();
       }
     );
+  }
+
+  public handleMenuSelect(event: { index: number, item: MdcMenuItem }): void {
+    if (event.index === 0) {
+      this.router.navigateByUrl('/clusters');
+    }
+
+    if (event.index === 1) {
+      this.wsService.disconnect();
+    }
   }
 
   private startPulse(): void {

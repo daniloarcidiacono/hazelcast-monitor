@@ -17,6 +17,26 @@ export interface StatisticsProductDTO extends ProductDTO {
   ringbufferCount: number;
 }
 
+export interface MembersProductDTO extends ProductDTO {
+  members: MemberSummaryDTO[];
+}
+
+export interface MemberSummaryDTO {
+  address: string;
+  port: number;
+  version: string;
+  uuid: string;
+}
+
+export interface MapsProductDTO extends ProductDTO {
+  maps: MapSummaryDTO[];
+}
+
+export interface MapSummaryDTO {
+  name: string;
+  size: number;
+}
+
 export interface MapProductDTO extends ProductDTO {
   data: EntryDTO[];
 }
@@ -24,15 +44,6 @@ export interface MapProductDTO extends ProductDTO {
 export interface EntryDTO {
   key: any;
   value: any;
-}
-
-export interface MembersProductDTO extends ProductDTO {
-  members: MemberDTO[];
-}
-
-export interface MemberDTO {
-  address: string;
-  port: number;
-  version: string;
-  uuid: string;
+  keyString: string;
+  valueString: string;
 }

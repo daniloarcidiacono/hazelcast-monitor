@@ -1,7 +1,15 @@
 <div mdcTypography class="ConnectionIndicator">
-  <div class="ConnectionIndicator__Caption">
-    {{ connectionUrl }}
-  </div>
-  <span class="ConnectionIndicator__Dot"
-        [ngClass]="dotClass"></span>
+  <mdc-menu-anchor #anchor>
+    <div class="ConnectionIndicator__Caption" (click)="menu.toggle()">
+      {{ connectionUrl }}
+    </div>
+    <mdc-menu #menu
+              (select)="handleMenuSelect($event)"
+              [anchor]="anchor"
+              anchorCorner="bottom-start">
+      <mdc-menu-item id="0">Change instance</mdc-menu-item>
+      <mdc-menu-item id="1">Disconnect</mdc-menu-item>
+    </mdc-menu>
+  </mdc-menu-anchor>
+  <span class="ConnectionIndicator__Dot" [ngClass]="dotClass"></span>
 </div>

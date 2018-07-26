@@ -1,12 +1,12 @@
 import {Component, HostBinding, OnDestroy} from '@angular/core';
-import {ConnectionState, SharedWebSocketService} from "../shared/services/shared-websocket.service";
-import {Router} from "@angular/router";
-import {SharedHazelcastAgentService} from "@shared/services/shared-hazelcast-agent.service";
-import {SharedSnackbarService} from "@shared/services/shared-snackbar.service";
-import {SharedClustersService} from "@shared/services/shared-clusters.service";
-import {Subscription} from "rxjs/index";
-import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from "@shared/dto/hazelcast-monitor.dto";
-import {MembersProductDTO, StatisticsProductDTO} from "@shared/dto/topic-products.dto";
+import {ConnectionState, SharedWebSocketService} from '../shared/services/shared-websocket.service';
+import {Router} from '@angular/router';
+import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
+import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
+import {SharedClustersService} from '@shared/services/shared-clusters.service';
+import {Subscription} from 'rxjs/index';
+import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
+import {StatisticsProductDTO} from '@shared/dto/topic-products.dto';
 
 @Component({
   templateUrl: './page-dashboard.component.html',
@@ -44,5 +44,16 @@ export class PageDashboardComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.statsSub.unsubscribe();
     this.wsStateSub.unsubscribe();
+  }
+
+  public navigateTo(section: string): void {
+    this.router.navigate([
+      '/dashboard',
+      {
+        outlets: {
+          'section': section
+        }
+      }
+    ]);
   }
 }

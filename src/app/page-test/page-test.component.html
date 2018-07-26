@@ -1,0 +1,64 @@
+<div class="Page__Main">
+  <shared-mdc-treetable [model]="treeTableModel">
+    <ng-template let-node>
+      <div class="MdcTreeNode MdcTreeNode__Content" [ngClass]="depthClass(node)" style="margin-right: 3em">
+        <div class="MdcTreeNode__Expander">
+          <ng-container *ngIf="node.children().length > 0">
+            <mdc-icon *ngIf="node.collapsed()">chevron_right</mdc-icon>
+            <mdc-icon *ngIf="!node.collapsed()">expand_more</mdc-icon>
+          </ng-container>
+        </div>
+        <div class="MdcTreeNode__Icon" *ngIf="isArray(node)">
+          {{ node.parentPropertyName }}
+        </div>
+        <!--<div class="MdcTreeNode__Icon">-->
+          <!--&lt;!&ndash;<img src="../../../../assets/braces.svg" *ngIf="!isArray()"&ndash;&gt;-->
+          <!--<mdc-icon *ngIf="!isArray(node) && node.collapsed() && node.children().length > 0">folder</mdc-icon>-->
+          <!--<mdc-icon *ngIf="!isArray(node) && !node.collapsed() && node.children().length > 0">folder_open</mdc-icon>-->
+          <!--<span *ngIf="isArray(node)">-->
+           <!--{{ node.parentPropertyName }}-->
+          <!--</span>-->
+        <!--</div>-->
+        <div class="MdcTreeNode__Label">
+          <div class="MdcTreeNode__LabelKey" *ngIf="!isArray(node)">
+            {{ node.parentPropertyName }}
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </shared-mdc-treetable>
+  <shared-mdc-table [model]="tableModel">
+  </shared-mdc-table>
+  <shared-mdc-paginator [total]="tableModel.rowCount()">
+  </shared-mdc-paginator>
+  <shared-mdc-tree [model]="model">
+    <ng-template let-node>
+      <!--Ciao-->
+      <!--{{ node.parentPropertyName }}-->
+
+      <div class="MdcTreeNode MdcTreeNode__Content" [ngClass]="depthClass(node)">
+        <div class="MdcTreeNode__Expander" *ngIf="node.children().length > 0">
+          <mdc-icon *ngIf="node.collapsed()">chevron_right</mdc-icon>
+          <mdc-icon *ngIf="!node.collapsed()">expand_more</mdc-icon>
+        </div>
+        <div class="MdcTreeNode__Icon">
+          <!--<img src="../../../../assets/braces.svg" *ngIf="!isArray()"-->
+          <mdc-icon *ngIf="!isArray(node) && node.collapsed() && node.children().length > 0">folder</mdc-icon>
+          <mdc-icon *ngIf="!isArray(node) && !node.collapsed() && node.children().length > 0">folder_open</mdc-icon>
+          <span *ngIf="isArray(node)">
+           {{ node.parentPropertyName }}
+          </span>
+        </div>
+        <div class="MdcTreeNode__Label">
+          <div class="MdcTreeNode__LabelKey" *ngIf="!isArray(node)">
+            {{ node.parentPropertyName }}<span *ngIf="!node.children().length > 0">:</span>
+          </div>
+          <div class="MdcTreeNode__LabelValue" *ngIf="!node.children().length > 0">
+            {{ node.data }}
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </shared-mdc-tree>
+  <button (click)="addProperty()">Add</button>
+</div>

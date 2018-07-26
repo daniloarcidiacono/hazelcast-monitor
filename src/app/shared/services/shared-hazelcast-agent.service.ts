@@ -9,9 +9,12 @@ import {
 } from '@shared/dto/hazelcast-monitor.dto';
 import {Observable, Observer, of, Subscription} from 'rxjs/index';
 import {SharedWebSocketService} from '@shared/services/shared-websocket.service';
-import {ClustersTopicDTO, StatisticsTopicDTO} from '@shared/dto/topics.dto';
+import {ClustersTopicDTO, MapsTopicDTO, MapTopicDTO, MembersTopicDTO, StatisticsTopicDTO} from '@shared/dto/topics.dto';
 import {mergeAll} from 'rxjs/internal/operators';
-import {ClustersProductDTO, StatisticsProductDTO} from '@shared/dto/topic-products.dto';
+import {
+  ClustersProductDTO, MapProductDTO, MapsProductDTO, MembersProductDTO,
+  StatisticsProductDTO
+} from '@shared/dto/topic-products.dto';
 
 @Injectable()
 export class SharedHazelcastAgentService {
@@ -220,6 +223,49 @@ export class SharedHazelcastAgentService {
       topic: <StatisticsTopicDTO>{
         topicType: 'stats',
         instanceName: instanceName
+      }
+    };
+
+    return this.subTo(subRequest);
+  }
+
+  public subscribeToMembers(instanceName: string): Observable<SubscriptionNoticeResponseDTO<MembersProductDTO>> {
+    const subRequest: SubscribeRequestDTO = {
+      messageType: 'subscribe',
+      messageId: this.wsService.generateMessageId(),
+      frequency: 1,
+      topic: <MembersTopicDTO>{
+        topicType: 'members',
+        instanceName: instanceName
+      }
+    };
+
+    return this.subTo(subRequest);
+  }
+
+  public subscribeToMaps(instanceName: string): Observable<SubscriptionNoticeResponseDTO<MapsProductDTO>> {
+    const subRequest: SubscribeRequestDTO = {
+      messageType: 'subscribe',
+      messageId: this.wsService.generateMessageId(),
+      frequency: 1,
+      topic: <MapsTopicDTO>{
+        topicType: 'maps',
+        instanceName: instanceName
+      }
+    };
+
+    return this.subTo(subRequest);
+  }
+
+  public subscribeToMap(instanceName: string, mapName: string): Observable<SubscriptionNoticeResponseDTO<MapProductDTO>> {
+    const subRequest: SubscribeRequestDTO = {
+      messageType: 'subscribe',
+      messageId: this.wsService.generateMessageId(),
+      frequency: 1,
+      topic: <MapTopicDTO>{
+        topicType: 'map',
+        instanceName: instanceName,
+        mapName: mapName
       }
     };
 

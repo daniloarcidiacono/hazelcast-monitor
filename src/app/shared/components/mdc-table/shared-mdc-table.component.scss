@@ -1,0 +1,161 @@
+// Code based on: https://github.com/iFaxity/mdc-data-table
+@import '~@angular-mdc/theme/material-components-web/theme/mixins';
+@import '~@angular-mdc/theme/material-components-web/theme/variables';
+@import '~@angular-mdc/theme/material-components-web/typography/mixins';
+@import '~@angular-mdc/theme/material-components-web/typography/variables';
+
+@mixin mdc-theme-prop-alpha($property, $style, $alpha) {
+  $tone: mdc-theme-contrast-tone($style);
+  $tone-color: if($tone == dark, black, white);
+
+  #{$property}: rgba($tone-color, $alpha);
+}
+
+.mdc-data-table {
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+  white-space: nowrap;
+  font-size: 13px;
+  overflow-x: auto;
+  background-color: $mdc-theme-background;
+  @include mdc-theme-prop(color, text-primary-on-background);
+
+  &--select-multiple, &--select {
+    tbody .mdc-data-table__row {
+      cursor: pointer;
+    }
+  }
+
+  &--select-multiple {
+    & .mdc-data-table__cell:first-of-type, & .mdc-data-table__column:first-of-type {
+      // calculate correct width and padding for the checkbox to fit
+      padding: 0 (24px - 11px);
+      width: 24px * 2 + 18px;
+
+      padding-left: 24px;
+      border-right: 1px solid;
+      @include mdc-theme-prop-alpha(border-color, $mdc-theme-background, .12);
+    }
+  }
+
+  &__content {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  &__cell {
+    font-weight: 400;
+    border-collapse: separate;
+    border-spacing: 0px;
+  }
+
+  &__cell, &__column {
+    position: relative;
+    height: 48px;
+    text-align: left;
+    padding: 0 56px 0 0;
+    box-sizing: border-box;
+    vertical-align: middle;
+    @include mdc-typography-overflow-ellipsis;
+
+    &--top {
+      vertical-align: top;
+    }
+
+    &--centered {
+      text-align: center;
+    }
+
+    &--numeric {
+      text-align: right;
+    }
+
+    &:nth-child(2) {
+      padding-left: 16px;
+    }
+
+    &:last-of-type {
+      padding-right: 24px;
+    }
+  }
+
+  &__column {
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0;
+    font-size: 12px;
+    @include mdc-theme-prop(color, text-secondary-on-background);
+
+    &--sortable {
+      user-select: none;
+      cursor: pointer;
+
+      &:before {
+        content: '';
+        font-family: 'Material Icons';
+        font-size: 16px;
+        font-feature-settings: 'liga';
+        vertical-align: sub;
+
+        display: inline-block;
+        margin-right: 5px;
+        transition: transform .2s ease;
+      }
+
+      &:hover:before {
+        @include mdc-theme-prop(color, text-icon-on-background);
+      }
+
+      &[aria-sort=descending], &[aria-sort=ascending] {
+        @include mdc-theme-prop(color, text-primary-on-background);
+        &:before {
+          content: 'arrow_upward';
+        }
+      }
+
+      &[aria-sort=descending]:before {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+
+  // row in table column
+  thead .mdc-data-table__row {
+    position: relative;
+    height: 56px;
+    border-bottom: 1px solid;
+    @include mdc-theme-prop-alpha(border-color, $mdc-theme-background, .12);
+  }
+
+  // row in table body
+  tbody .mdc-data-table__row {
+    position: relative;
+    height: 48px;
+    overflow: hidden;
+    transition: background-color .15s linear;
+    border-bottom: 1px solid;
+    @include mdc-theme-prop-alpha(border-color, $mdc-theme-background, .12);
+
+    &:hover {
+      @include mdc-theme-prop-alpha(background-color, $mdc-theme-background, .07);
+    }
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    &--disabled {
+      pointer-events: none;
+    }
+
+    &--selected, &:active {
+      background-color: rgba($mdc-theme-primary, .07);
+      //@include mdc-theme-prop-alpha(background-color, $mdc-theme-background, .04);
+
+      &:hover {
+        background-color: rgba($mdc-theme-primary, .12);
+      }
+    }
+  }
+}

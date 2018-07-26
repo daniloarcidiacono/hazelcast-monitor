@@ -3,14 +3,14 @@
     <mdc-drawer-content>
       <mdc-list-group>
         <mdc-list>
-          <mdc-list-item>
-            <mdc-icon mdcListItemGraphic>user</mdc-icon>
+          <mdc-list-item (click)="navigateTo('members')">
+            <mdc-icon mdcListItemGraphic>account_circle</mdc-icon>
             Members
             <div mdcListItemMeta>
               {{ currentStats?.membersCount }}
             </div>
           </mdc-list-item>
-          <mdc-list-item>
+          <mdc-list-item (click)="navigateTo('maps')">
             <mdc-icon mdcListItemGraphic>map</mdc-icon>
             Maps
             <div mdcListItemMeta>
@@ -72,5 +72,5 @@
   </mdc-drawer>
 </div>
 <div class="Page__Main">
-  <p>Lorem ipsum sit amet dolor
+  <router-outlet name="section"></router-outlet>
 </div>

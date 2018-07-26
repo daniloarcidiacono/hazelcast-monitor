@@ -1,0 +1,37 @@
+<div class="DashboardMap" mdcTypography>
+  <div mdcHeadline5 class="DashboardMap__Title">
+    <button mdc-button
+            [primary]="false"
+            [raised]="false"
+            class="MdcButton__Icon--rounded"
+            (click)="goBack()">
+      <mdc-icon>arrow_back</mdc-icon>
+    </button>
+    {{ mapName }}
+  </div>
+  <shared-mdc-table [model]="tableModel">
+    <ng-template #cellTemplate let-node let-row="row" let-col="col">
+      <ng-container *ngIf="!node.complex">
+        {{ node.stringValue }}
+      </ng-container>
+
+      <ng-container *ngIf="node.complex">
+        <div style="display: flex; flex-direction: row; align-items: center;">
+          <button mdcIconButton
+                  #expandButton
+                  iconOn="arrow_drop_up"
+                  iconOff="arrow_drop_down"
+                  labelOn="Inspect"
+                  labelOff="Close">
+          </button>
+          <div>
+            {{ node.stringValue }}
+          </div>
+        </div>
+        <div *ngIf="expandButton.on">
+          <map-tree [data]="node.value"></map-tree>
+        </div>
+      </ng-container>
+    </ng-template>
+  </shared-mdc-table>
+</div>
