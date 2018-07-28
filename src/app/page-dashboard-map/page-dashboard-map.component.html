@@ -1,12 +1,5 @@
 <div class="DashboardMap" mdcTypography>
   <div mdcHeadline5 class="DashboardMap__Title">
-    <button mdc-button
-            [primary]="false"
-            [raised]="false"
-            class="MdcButton__Icon--rounded"
-            (click)="goBack()">
-      <mdc-icon>arrow_back</mdc-icon>
-    </button>
     {{ mapName }}
   </div>
   <shared-mdc-table [model]="tableModel">

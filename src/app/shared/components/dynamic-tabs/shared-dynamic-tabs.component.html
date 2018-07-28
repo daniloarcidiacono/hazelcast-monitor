@@ -1,0 +1,22 @@
+<mdc-tab-bar-scroller>
+  <mdc-tab-bar-scroll-back>
+    <mdc-icon>navigate_before</mdc-icon>
+  </mdc-tab-bar-scroll-back>
+  <mdc-tab-bar-scroll-frame>
+    <mdc-tab-bar [primary]="true">
+      <mdc-tab *ngFor="let tab of tabs; let tabIndex = index"
+               [active]="tab.active"
+               (selected)="selectTab(tabIndex)">
+        <div class="Tab__Content">
+          <mdc-icon class="Tab__Close" (click)="closeTab(tabIndex)">close</mdc-icon>
+          {{ tab.label }}
+        </div>
+      </mdc-tab>
+    </mdc-tab-bar>
+  </mdc-tab-bar-scroll-frame>
+  <mdc-tab-bar-scroll-forward>
+    <mdc-icon>navigate_next</mdc-icon>
+  </mdc-tab-bar-scroll-forward>
+</mdc-tab-bar-scroller>
+<ng-template tab-host>
+</ng-template>

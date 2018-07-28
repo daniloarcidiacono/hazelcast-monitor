@@ -1,0 +1,17 @@
+@import "~@angular-mdc/theme/material-components-web/theme/_variables.scss";
+
+.Tab {
+  &__Content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__Close {
+    margin-right: 1em;
+  }
+
+  &__Close:hover {
+    color: $mdc-theme-accent;
+  }
+}

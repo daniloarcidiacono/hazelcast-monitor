@@ -16,8 +16,8 @@ import {MdcTypographyModule} from "@angular-mdc/web";
     MdcTypographyModule,
 
     // Shared
-    SharedMdcTableModule,
-    SharedServicesModule
+    SharedServicesModule,
+    SharedMdcTableModule
   ],
   providers: [
   ]
