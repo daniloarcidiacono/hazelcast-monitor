@@ -13,6 +13,18 @@ import {PageDashboardMapsComponent} from "../page-dashboard-maps/page-dashboard-
 import {SharedTabsService} from "@shared/services/shared-tabs.service";
 import {TabData} from "@shared/components/dynamic-tabs/shared-dynamic-tabs.model";
 
+interface SeparatorItem {
+  separator: boolean;
+}
+interface SectionItem {
+  icon: string;
+  caption: string;
+  count: () => number;
+  tab: TabData;
+}
+
+type DashboardSection = SeparatorItem | SectionItem;
+
 @Component({
   templateUrl: './page-dashboard.component.html',
   styleUrls: ['./page-dashboard.component.scss']
@@ -23,6 +35,198 @@ export class PageDashboardComponent implements OnDestroy {
 
   @ViewChild(SharedDynamicTabsComponent)
   private tabsComponent: SharedDynamicTabsComponent;
+
+  public sections: DashboardSection[] = [
+    {
+      icon: 'group',
+      caption: 'Members',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.membersCount : undefined;
+      },
+      tab: {
+        label: 'Members',
+        componentClass: PageDashboardMembersComponent
+      }
+    },
+    {
+      separator: true
+    },
+    {
+      icon: '',
+      caption: 'Atomic longs',
+      count: () => {
+        // @TODO: AtomicLongs statistics
+        return undefined;
+      },
+      tab: {
+        label: 'AtomicLongs',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: '',
+      caption: 'Atomic references',
+      count: () => {
+        // @TODO: AtomicReferences statistics
+        return undefined;
+      },
+      tab: {
+        label: 'AtomicReferences',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: 'memory',
+      caption: 'Caches',
+      count: () => {
+        // @TODO: Caches statistics
+        return undefined;
+      },
+      tab: {
+        label: 'Caches',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: '',
+      caption: 'Count-down latches',
+      count: () => {
+        // @TODO: CountDonwLatches statistic
+        return undefined;
+      },
+      tab: {
+        label: 'CountDownLatches',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: 'format_list_numbered',
+      caption: 'Lists',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.listCount : undefined;
+      },
+      tab: {
+        label: 'Lists',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: 'lock',
+      caption: 'Locks',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.lockCount : undefined;
+      },
+      tab: {
+        label: 'Locks',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: 'map',
+      caption: 'Maps',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.mapCount : undefined;
+      },
+      tab: {
+        label: 'Maps',
+        componentClass: PageDashboardMapsComponent
+      }
+    },
+    {
+      icon: 'map',
+      caption: 'Multi-maps',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.multiMapCount : undefined;
+      },
+      tab: {
+        label: 'MultiMaps',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: 'list',
+      caption: 'Queues',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.queueCount : undefined;
+      },
+      tab: {
+        label: 'Queues',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: 'map',
+      caption: 'Replicated maps',
+      count: () => {
+        // @TODO: Replicated maps stats
+        return undefined;
+      },
+      tab: {
+        label: 'ReplicatedMaps',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: '360',
+      caption: 'Ringbuffers',
+      count: () => {
+        // @TODO: Ringbuffer stats
+        return undefined;
+      },
+      tab: {
+        label: 'Ringbuffers',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: 'traffic',
+      caption: 'Semaphores',
+      count: () => {
+        // @TODO: Sempahores stats
+        return undefined;
+      },
+      tab: {
+        label: 'Semaphores',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: '',
+      caption: 'Sets',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.setCount : undefined;
+      },
+      tab: {
+        label: 'Sets',
+        componentClass: undefined
+      }
+    },
+    {
+      icon: 'question_answer',
+      caption: 'Topics',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.topicCount : undefined;
+      },
+      tab: {
+        label: 'Topics',
+        componentClass: undefined
+      }
+    },
+    {
+      separator: true
+    },
+    {
+      icon: 'bug_report',
+      caption: 'Monitor internals',
+      count: () => {
+        return undefined;
+      },
+      tab: {
+        label: 'Monitor internals',
+        componentClass: undefined
+      }
+    }
+  ];
 
   private wsStateSub: Subscription;
   private statsSub: Subscription;
@@ -62,33 +266,9 @@ export class PageDashboardComponent implements OnDestroy {
     this.wsStateSub.unsubscribe();
   }
 
-  public navigateTo(section: string): void {
-    if (section === 'members') {
-      this.tabService.addTab(
-        {
-          label: 'Members',
-          componentClass: PageDashboardMembersComponent
-        }
-      );
+  public navigateTo(section: SectionItem): void {
+    if (section.tab.componentClass !== undefined) {
+      this.tabService.addTab(section.tab);
     }
-
-    if (section === 'maps') {
-      this.tabService.addTab(
-        {
-          label: 'Maps',
-          componentClass: PageDashboardMapsComponent
-        }
-      );
-    }
-
-    /*
-    this.router.navigate([
-      '/dashboard',
-      {
-        outlets: {
-          'section': section
-        }
-      }
-    ]);*/
   }
 }

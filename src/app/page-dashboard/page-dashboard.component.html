@@ -3,69 +3,17 @@
     <mdc-drawer-content>
       <mdc-list-group>
         <mdc-list>
-          <mdc-list-item (click)="navigateTo('members')">
-            <mdc-icon mdcListItemGraphic>account_circle</mdc-icon>
-            Members
-            <div mdcListItemMeta>
-              {{ currentStats?.membersCount }}
-            </div>
-          </mdc-list-item>
-          <mdc-list-item (click)="navigateTo('maps')">
-            <mdc-icon mdcListItemGraphic>map</mdc-icon>
-            Maps
-            <div mdcListItemMeta>
-              {{ currentStats?.mapCount }}
-            </div>
-          </mdc-list-item>
-          <mdc-list-item>
-            <mdc-icon mdcListItemGraphic>map</mdc-icon>
-            Queues
-            <div mdcListItemMeta>
-              {{ currentStats?.queueCount }}
-            </div>
-          </mdc-list-item>
-          <mdc-list-item>
-            <mdc-icon mdcListItemGraphic>map</mdc-icon>
-            Locks
-            <div mdcListItemMeta>
-              {{ currentStats?.lockCount }}
-            </div>
-          </mdc-list-item>
-          <mdc-list-item>
-            <mdc-icon mdcListItemGraphic>map</mdc-icon>
-            Topics
-            <div mdcListItemMeta>
-              {{ currentStats?.topicCount }}
-            </div>
-          </mdc-list-item>
-          <mdc-list-item>
-            <mdc-icon mdcListItemGraphic>map</mdc-icon>
-            Lists
-            <div mdcListItemMeta>
-              {{ currentStats?.listCount }}
-            </div>
-          </mdc-list-item>
-          <mdc-list-item>
-            <mdc-icon mdcListItemGraphic>map</mdc-icon>
-            Sets
-            <div mdcListItemMeta>
-              {{ currentStats?.setCount }}
-            </div>
-          </mdc-list-item>
-          <mdc-list-item>
-            <mdc-icon mdcListItemGraphic>map</mdc-icon>
-            Multimaps
-            <div mdcListItemMeta>
-              {{ currentStats?.multiMapCount }}
-            </div>
-          </mdc-list-item>
-          <mdc-list-item>
-            <mdc-icon mdcListItemGraphic>map</mdc-icon>
-            Ringbuffers
-            <div mdcListItemMeta>
-              {{ currentStats?.ringbufferCount }}
-            </div>
-          </mdc-list-item>
+          <ng-container *ngFor="let section of sections">
+            <mdc-list-item *ngIf="!section.separator" (click)="navigateTo(section)">
+              <mdc-icon mdcListItemGraphic>{{ section.icon }}</mdc-icon>
+              {{ section.caption }}
+              <div mdcListItemMeta>
+                {{ section.count() }}
+              </div>
+            </mdc-list-item>
+            <mdc-list-divider *ngIf="!!section.separator"></mdc-list-divider>
+          </ng-container>
+
         </mdc-list>
       </mdc-list-group>
     </mdc-drawer-content>
