@@ -53,16 +53,16 @@ public class MembersProduct implements Product {
         }
     }
 
-    private List<MemberSummary> members = new ArrayList<>();
+    private List<MemberSummary> objects = new ArrayList<>();
 
     public MembersProduct() {
     }
 
-    public List<MemberSummary> getMembers() {
-        return members;
+    public List<MemberSummary> getObjects() {
+        return objects;
     }
 
-    public void setMembers(List<MemberSummary> members) {
-        this.members = members;
+    public void setObjects(final List<MemberSummary> objects) {
+        this.objects = objects;
     }
 }

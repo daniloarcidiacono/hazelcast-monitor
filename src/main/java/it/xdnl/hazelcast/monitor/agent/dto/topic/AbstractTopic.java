@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 @JsonSubTypes({
     @JsonSubTypes.Type(value = StatisticsTopic.class, name = StatisticsTopic.TOPIC_TYPE),
-    @JsonSubTypes.Type(value = MembersTopic.class, name = MembersTopic.TOPIC_TYPE),
     @JsonSubTypes.Type(value = ClustersTopic.class, name = ClustersTopic.TOPIC_TYPE),
-    @JsonSubTypes.Type(value = MapsTopic.class, name = MapsTopic.TOPIC_TYPE),
+    @JsonSubTypes.Type(value = MembersTopic.class, name = MembersTopic.TOPIC_TYPE),
+    @JsonSubTypes.Type(value = DistributedObjectsTopic.class, name = DistributedObjectsTopic.TOPIC_TYPE),
     @JsonSubTypes.Type(value = MapTopic.class, name = MapTopic.TOPIC_TYPE)
 })
 public abstract class AbstractTopic {

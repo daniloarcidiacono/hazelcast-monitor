@@ -1,14 +1,14 @@
 package it.xdnl.hazelcast.monitor.spring.component;
 
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.IMap;
+import com.hazelcast.cache.ICache;
+import com.hazelcast.core.*;
+import com.hazelcast.ringbuffer.Ringbuffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -65,15 +65,51 @@ public class TestComponent {
             this.stats = stats;
         }
     }
-    private IMap<String, String> myMap;
-    private IMap<ComplexKey, ComplexValue> myMap2;
-    private IMap<ComplexKey, String> myMap3;
+
+    private IExecutorService myExecutor;
+    private ICache<Object, Object> myCache;
+    private ISet<Object> mySet;
+    private ITopic<Object> myTopic;
+    private IQueue<Object> myQueue;
+    private IMap<Object, Object> myMap;
+    private IAtomicLong myAtomicLong;
+    private IAtomicReference<Object> myAtomicReference;
+    private ICountDownLatch myCountDownLatch;
+    private IList<Object> myList;
+    private ILock myLock;
+    private MultiMap<Object, Object> myMultiMap;
+    private ITopic<Object> myReliableTopic;
+    private ReplicatedMap<Object, Object> myReplicatedMap;
+    private Ringbuffer<Object> myRingbuffer;
+    private ISemaphore mySemaphore;
 
     @PostConstruct
     public void init() {
-        myMap = hazelcastInstance.getMap("simple_map");
-        myMap.put("myKey1", "myValue1");
-        myMap.put("myKey2", "myValue2");
+        hazelcastInstance.getExecutorService("myExecutor");
+        myCache = hazelcastInstance.getCacheManager().getCache("myCache");
+        myCache.put("ciao", "Ceo");
+        mySet = hazelcastInstance.getSet("mySet");
+        myTopic = hazelcastInstance.getTopic("myTopic");
+        myQueue = hazelcastInstance.getQueue("myQueue");
+        myMap = hazelcastInstance.getMap("myMap");
+        myAtomicLong = hazelcastInstance.getAtomicLong("myAtomicLong");
+        myAtomicReference = hazelcastInstance.getAtomicReference("myAtomicReference");
+        myCountDownLatch = hazelcastInstance.getCountDownLatch("myCountDownLatch");
+        myList = hazelcastInstance.getList("myList");
+        myLock = hazelcastInstance.getLock("myLock");
+        myMultiMap = hazelcastInstance.getMultiMap("myMultiMap");
+        myReliableTopic = hazelcastInstance.getReliableTopic("myReliableTopic");
+        myReplicatedMap = hazelcastInstance.getReplicatedMap("myReplicatedMap");
+        myRingbuffer = hazelcastInstance.getRingbuffer("myRingbuffer");
+        mySemaphore = hazelcastInstance.getSemaphore("mySemaphore");
+
+        myMap.put(new ComplexKey("Danilo1", 28), new ComplexValue(1, 2, 3));
+        myMap.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
+
+        /*
+        this.myMap = hazelcastInstance.getMap("simple_map");
+        this.myMap.put("myKey1", "myValue1");
+        this.myMap.put("myKey2", "myValue2");
 
         myMap2 = hazelcastInstance.getMap("complex_map");
         myMap2.put(new ComplexKey("Danilo1", 28), new ComplexValue(1, 2, 3));
@@ -99,6 +135,6 @@ public class TestComponent {
         myMap3.put(new ComplexKey("Dani7lo", 28), "Arcidiacono");
         myMap3.put(new ComplexKey("Mari8o", 50), "Rhossi");
         myMap3.put(new ComplexKey("Dani9lo", 28), "Arcidiacono");
-        myMap3.put(new ComplexKey("Mari10o", 50), "Rhossi");
+        myMap3.put(new ComplexKey("Mari10o", 50), "Rhossi");*/
     }
 }

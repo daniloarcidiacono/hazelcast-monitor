@@ -1,12 +1,15 @@
 package it.xdnl.hazelcast.monitor.agent.producer;
 
 import it.xdnl.hazelcast.monitor.agent.product.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduledTopicProducer extends AbstractTopicProducer implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(ScheduledTopicProducer.class);
     private final ScheduledExecutorService threadPool;
     private ScheduledFuture<?> scheduledFuture;
     private Long delay;
@@ -36,7 +39,12 @@ public class ScheduledTopicProducer extends AbstractTopicProducer implements Run
 
     @Override
     public final void run() {
-        notice(produce());
+        try {
+            notice(produce());
+        } catch (Exception e) {
+            logger.error("Producer has thrown an exception, stopping", e);
+            stop();
+        }
     }
 
     @Override

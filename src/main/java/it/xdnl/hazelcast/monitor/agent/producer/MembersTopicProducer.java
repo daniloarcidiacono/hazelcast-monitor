@@ -19,23 +19,18 @@ public class MembersTopicProducer extends AbstractTopicProducer {
 
     @Override
     public MembersProduct produce() {
-        try {
-            final MembersProduct product = new MembersProduct();
-            for (Member member : instance.getCluster().getMembers()) {
-                product.getMembers().add(
-                        new MembersProduct.MemberSummary(
-                                member.getAddress().getHost(),
-                                member.getAddress().getPort(),
-                                member.getVersion().toString(),
-                                member.getUuid()
-                        )
-                );
-            }
-
-            return product;
-        } catch (Exception e) {
-            logger.error("Error", e);
-            return null;
+        final MembersProduct product = new MembersProduct();
+        for (Member member : instance.getCluster().getMembers()) {
+            product.getObjects().add(
+                new MembersProduct.MemberSummary(
+                    member.getAddress().getHost(),
+                    member.getAddress().getPort(),
+                    member.getVersion().toString(),
+                    member.getUuid()
+                )
+            );
         }
+
+        return product;
     }
 }
