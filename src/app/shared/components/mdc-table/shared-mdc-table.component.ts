@@ -1,9 +1,6 @@
 import {
-  Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef,
-  ViewEncapsulation
+  Component, ContentChild, EventEmitter, Input, Output, TemplateRef, ViewEncapsulation,
 } from '@angular/core';
-import {SharedMdcTableModel} from "@shared/components/mdc-table/shared-mdc-table.model";
-import {OutputDef} from "@angular/core/src/view";
 
 @Component({
   selector: 'shared-mdc-table',
@@ -11,9 +8,9 @@ import {OutputDef} from "@angular/core/src/view";
   styleUrls: [ './shared-mdc-table.component.scss' ],
   encapsulation: ViewEncapsulation.None
 })
-export class SharedMdcTableComponent implements OnInit {
+export class SharedMdcTableComponent {
   @Input()
-  private model: SharedMdcTableModel;
+  private model: any[];
 
   @Input()
   public selectable: boolean = false;
@@ -21,19 +18,12 @@ export class SharedMdcTableComponent implements OnInit {
   @ContentChild('headerTemplate')
   private headerTemplate: TemplateRef<any>;
 
-  @ContentChild('cellTemplate')
-  private cellTemplate: TemplateRef<any>;
+  @ContentChild('bodyTemplate')
+  private bodyTemplate: TemplateRef<any>;
 
   @Output()
   private onRowClick: EventEmitter<number> = new EventEmitter<number>();
 
   public constructor() {
-  }
-
-  public ngOnInit(): void {
-  }
-
-  public signalBodyRowClick(row: number): void {
-    this.onRowClick.emit(row);
   }
 }

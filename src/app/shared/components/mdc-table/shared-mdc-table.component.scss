@@ -53,22 +53,33 @@
   &__cell, &__column {
     position: relative;
     height: 48px;
-    text-align: left;
     padding: 0 56px 0 0;
     box-sizing: border-box;
-    vertical-align: middle;
+
     @include mdc-typography-overflow-ellipsis;
 
-    &--top {
-      vertical-align: top;
+    &--left {
+      text-align: left;
     }
 
     &--centered {
       text-align: center;
     }
 
-    &--numeric {
+    &--right {
       text-align: right;
+    }
+
+    &--top {
+      vertical-align: top;
+    }
+
+    &--middle {
+      vertical-align: middle;
+    }
+
+    &--bottom {
+      vertical-align: bottom;
     }
 
     &:nth-child(2) {
@@ -77,6 +88,27 @@
 
     &:last-of-type {
       padding-right: 24px;
+    }
+  }
+
+  &__row {
+    text-align: left;
+    vertical-align: middle;
+
+    &--centered {
+      text-align: center;
+    }
+
+    &--right {
+      text-align: right;
+    }
+
+    &--top {
+      vertical-align: top;
+    }
+
+    &--bottom {
+      vertical-align: top;
     }
   }
 

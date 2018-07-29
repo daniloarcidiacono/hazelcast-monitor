@@ -24,23 +24,6 @@ import {PageDashboardMapComponent} from "./page-dashboard-map/page-dashboard-map
         component: PageDashboardComponent,
         canActivate: [
           SharedDashboardGuard
-        ],
-        children: [
-          {
-            path: 'members',
-            component: PageDashboardMembersComponent,
-            outlet: 'section'
-          },
-          {
-            path: 'maps',
-            component: PageDashboardMapsComponent,
-            outlet: 'section'
-          },
-          {
-            path: 'maps/:name',
-            component: PageDashboardMapComponent,
-            outlet: 'section'
-          }
         ]
       },
       {

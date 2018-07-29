@@ -4,7 +4,8 @@
       <mdc-list-group>
         <mdc-list>
           <ng-container *ngFor="let section of sections">
-            <mdc-list-item *ngIf="!section.separator" (click)="navigateTo(section)">
+            <mdc-list-item *ngIf="!section.separator"
+                           (click)="navigateTo(section)">
               <mdc-icon mdcListItemGraphic>{{ section.icon }}</mdc-icon>
               {{ section.caption }}
               <div mdcListItemMeta>
@@ -13,7 +14,6 @@
             </mdc-list-item>
             <mdc-list-divider *ngIf="!!section.separator"></mdc-list-divider>
           </ng-container>
-
         </mdc-list>
       </mdc-list-group>
     </mdc-drawer-content>

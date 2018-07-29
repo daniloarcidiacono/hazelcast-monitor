@@ -9,10 +9,13 @@ import {
 } from '@shared/dto/hazelcast-monitor.dto';
 import {Observable, Observer, of, Subscription} from 'rxjs/index';
 import {SharedWebSocketService} from '@shared/services/shared-websocket.service';
-import {ClustersTopicDTO, MapsTopicDTO, MapTopicDTO, MembersTopicDTO, StatisticsTopicDTO} from '@shared/dto/topics.dto';
+import {
+  ClustersTopicDTO, DistributedObjectsTopicDTO, DistributedObjectType, MapTopicDTO, MembersTopicDTO,
+  StatisticsTopicDTO
+} from '@shared/dto/topics.dto';
 import {mergeAll} from 'rxjs/internal/operators';
 import {
-  ClustersProductDTO, MapProductDTO, MapsProductDTO, MembersProductDTO,
+  ClustersProductDTO, DistributedObjectsProduct, LocksProductDTO, MapProductDTO, MapsProductDTO, MembersProductDTO,
   StatisticsProductDTO
 } from '@shared/dto/topic-products.dto';
 
@@ -229,6 +232,21 @@ export class SharedHazelcastAgentService {
     return this.subTo(subRequest);
   }
 
+  public subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProduct<any>>> {
+    const subRequest: SubscribeRequestDTO = {
+      messageType: 'subscribe',
+      messageId: this.wsService.generateMessageId(),
+      frequency: 1,
+      topic: <DistributedObjectsTopicDTO>{
+        topicType: 'distributed_object',
+        instanceName: instanceName,
+        distributedObjectType: distributedObjectType
+      }
+    };
+
+    return this.subTo(subRequest);
+  }
+
   public subscribeToMembers(instanceName: string): Observable<SubscriptionNoticeResponseDTO<MembersProductDTO>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
@@ -244,17 +262,11 @@ export class SharedHazelcastAgentService {
   }
 
   public subscribeToMaps(instanceName: string): Observable<SubscriptionNoticeResponseDTO<MapsProductDTO>> {
-    const subRequest: SubscribeRequestDTO = {
-      messageType: 'subscribe',
-      messageId: this.wsService.generateMessageId(),
-      frequency: 1,
-      topic: <MapsTopicDTO>{
-        topicType: 'maps',
-        instanceName: instanceName
-      }
-    };
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.MAP);
+  }
 
-    return this.subTo(subRequest);
+  public subscribeToLocks(instanceName: string): Observable<SubscriptionNoticeResponseDTO<LocksProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.LOCK);
   }
 
   public subscribeToMap(instanceName: string, mapName: string): Observable<SubscriptionNoticeResponseDTO<MapProductDTO>> {

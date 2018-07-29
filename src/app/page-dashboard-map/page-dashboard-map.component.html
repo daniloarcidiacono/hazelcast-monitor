@@ -2,14 +2,36 @@
   <div mdcHeadline5 class="DashboardMap__Title">
     {{ mapName }}
   </div>
-  <shared-mdc-table [model]="tableModel">
-    <ng-template #cellTemplate let-node let-row="row" let-col="col">
-      <ng-container *ngIf="!node.complex">
-        {{ node.stringValue }}
-      </ng-container>
+  <shared-mdc-table [model]="data?.entries">
+    <ng-template #headerTemplate>
+      <tr class="mdc-data-table__row">
+        <th class="mdc-data-table__column">Key</th>
+        <th class="mdc-data-table__column">Value</th>
+      </tr>
+    </ng-template>
+    <ng-template #bodyTemplate let-entry>
+      <tr class="mdc-data-table__row">
+        <td class="mdc-data-table__cell mdc-data-table__cell--top">
+          <ng-container *ngTemplateOutlet="cellValue; context: { $implicit: { value: entry.key, stringValue: entry.keyString, locked: entry.locked } }"></ng-container>
+        </td>
+        <td class="mdc-data-table__cell  mdc-data-table__cell--top">
+          <ng-container *ngTemplateOutlet="cellValue; context: { $implicit: { value: entry.value, stringValue: entry.valueString, locked: false } }"></ng-container>
+        </td>
+      </tr>
+    </ng-template>
 
-      <ng-container *ngIf="node.complex">
+    <ng-template #cellValue let-node>
+      <ng-container *ngIf="!isComplex(node.value)">
+        <div style="display: flex; flex-direction: row; align-items: center; height: 100%">
+          <mdc-icon *ngIf="!!node.locked" style="color: red">lock</mdc-icon>
+          <div style="margin-left: 1em">
+            {{ node.stringValue }}
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="isComplex(node.value)">
         <div style="display: flex; flex-direction: row; align-items: center;">
+          <mdc-icon *ngIf="!!node.locked" style="color: red">lock</mdc-icon>
           <button mdcIconButton
                   #expandButton
                   iconOn="arrow_drop_up"

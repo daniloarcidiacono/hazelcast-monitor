@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
-import {SharedMdcTableModule} from "@shared/components/mdc-table/shared-mdc-table.module";
+import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
 import {PageDashboardMapsComponent} from './page-dashboard-maps.component';
-import {MdcTypographyModule} from "@angular-mdc/web";
+import {MdcTypographyModule} from '@angular-mdc/web';
 
 @NgModule({
   declarations: [
@@ -16,8 +16,8 @@ import {MdcTypographyModule} from "@angular-mdc/web";
     MdcTypographyModule,
 
     // Shared
-    SharedServicesModule,
-    SharedMdcTableModule
+    SharedMdcTableModule,
+    SharedServicesModule
   ],
   providers: [
   ]

@@ -12,6 +12,7 @@ import {PageDashboardMembersComponent} from '../page-dashboard-members/page-dash
 import {PageDashboardMapsComponent} from "../page-dashboard-maps/page-dashboard-maps.component";
 import {SharedTabsService} from "@shared/services/shared-tabs.service";
 import {TabData} from "@shared/components/dynamic-tabs/shared-dynamic-tabs.model";
+import {PageDashboardLocksComponent} from "../page-dashboard-locks/page-dashboard-locks.component";
 
 interface SeparatorItem {
   separator: boolean;
@@ -55,8 +56,7 @@ export class PageDashboardComponent implements OnDestroy {
       icon: '',
       caption: 'Atomic longs',
       count: () => {
-        // @TODO: AtomicLongs statistics
-        return undefined;
+        return !!this.currentStats ? this.currentStats.atomicLongCount : undefined;
       },
       tab: {
         label: 'AtomicLongs',
@@ -67,8 +67,7 @@ export class PageDashboardComponent implements OnDestroy {
       icon: '',
       caption: 'Atomic references',
       count: () => {
-        // @TODO: AtomicReferences statistics
-        return undefined;
+        return !!this.currentStats ? this.currentStats.atomicReferenceCount : undefined;
       },
       tab: {
         label: 'AtomicReferences',
@@ -79,8 +78,7 @@ export class PageDashboardComponent implements OnDestroy {
       icon: 'memory',
       caption: 'Caches',
       count: () => {
-        // @TODO: Caches statistics
-        return undefined;
+        return !!this.currentStats ? this.currentStats.cacheCount : undefined;
       },
       tab: {
         label: 'Caches',
@@ -91,8 +89,7 @@ export class PageDashboardComponent implements OnDestroy {
       icon: '',
       caption: 'Count-down latches',
       count: () => {
-        // @TODO: CountDonwLatches statistic
-        return undefined;
+        return !!this.currentStats ? this.currentStats.countDownLatchCount : undefined;
       },
       tab: {
         label: 'CountDownLatches',
@@ -118,7 +115,7 @@ export class PageDashboardComponent implements OnDestroy {
       },
       tab: {
         label: 'Locks',
-        componentClass: undefined
+        componentClass: PageDashboardLocksComponent
       }
     },
     {
@@ -158,8 +155,7 @@ export class PageDashboardComponent implements OnDestroy {
       icon: 'map',
       caption: 'Replicated maps',
       count: () => {
-        // @TODO: Replicated maps stats
-        return undefined;
+        return !!this.currentStats ? this.currentStats.replicatedMapCount : undefined;
       },
       tab: {
         label: 'ReplicatedMaps',
@@ -170,8 +166,7 @@ export class PageDashboardComponent implements OnDestroy {
       icon: '360',
       caption: 'Ringbuffers',
       count: () => {
-        // @TODO: Ringbuffer stats
-        return undefined;
+        return !!this.currentStats ? this.currentStats.ringbufferCount : undefined;
       },
       tab: {
         label: 'Ringbuffers',
@@ -182,8 +177,7 @@ export class PageDashboardComponent implements OnDestroy {
       icon: 'traffic',
       caption: 'Semaphores',
       count: () => {
-        // @TODO: Sempahores stats
-        return undefined;
+        return !!this.currentStats ? this.currentStats.semaphoreCount : undefined;
       },
       tab: {
         label: 'Semaphores',
