@@ -3,10 +3,7 @@ package it.xdnl.hazelcast.monitor.agent.producer;
 import com.hazelcast.core.*;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectsTopic;
-import it.xdnl.hazelcast.monitor.agent.product.DistributedObjectSummary;
-import it.xdnl.hazelcast.monitor.agent.product.DistributedObjectsProduct;
-import it.xdnl.hazelcast.monitor.agent.product.LockSummary;
-import it.xdnl.hazelcast.monitor.agent.product.MapSummary;
+import it.xdnl.hazelcast.monitor.agent.product.*;
 
 /**
  * Producer that iterates on Hazelcast's distributed objects picking only type of {@code distributedObjectType}.
@@ -14,7 +11,7 @@ import it.xdnl.hazelcast.monitor.agent.product.MapSummary;
 public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
     public static final String TOPIC_TYPE = DistributedObjectsTopic.TOPIC_TYPE;
     private DistributedObjectType distributedObjectType;
-    protected HazelcastInstance instance;
+    private HazelcastInstance instance;
 
     public DistributedObjectsTopicProducer(final String instanceName, final DistributedObjectType distributedObjectType) {
         super(TOPIC_TYPE);
@@ -45,8 +42,13 @@ public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
             }
 
             case LOCK: {
-                final ILock casted = (ILock) object;
+                final ILock casted = (ILock)object;
                 return new LockSummary(casted.getLockCount(), casted.getRemainingLeaseTime(), casted.isLocked());
+            }
+
+            case LIST: {
+                final IList casted = (IList)object;
+                return new ListSummary(casted.size());
             }
         }
 

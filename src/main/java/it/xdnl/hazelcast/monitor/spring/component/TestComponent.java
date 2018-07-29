@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class TestComponent {
@@ -105,6 +106,11 @@ public class TestComponent {
         myRingbuffer = hazelcastInstance.getRingbuffer("myRingbuffer");
         mySemaphore = hazelcastInstance.getSemaphore("mySemaphore");
 
+
+        myList.add("ciao");
+        myList.add(new ComplexKey("Test", 15));
+
+        myLock.lock(45, TimeUnit.SECONDS);
         myMap.put(new ComplexKey("Danilo1", 28), new ComplexValue(1, 2, 3));
         myMap.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
 

@@ -35,9 +35,9 @@ public class TopicProducerFactory {
             return wrapProducer(new DistributedObjectsTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType()), message);
         }
 
-        if (message.getTopic() instanceof MapTopic) {
-            final MapTopic topic = (MapTopic)message.getTopic();
-            return wrapProducer(new MapTopicProducer(topic.getInstanceName(), topic.getMapName()), message);
+        if (message.getTopic() instanceof DistributedObjectTopic) {
+            final DistributedObjectTopic topic = (DistributedObjectTopic)message.getTopic();
+            return wrapProducer(new DistributedObjectTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName()), message);
         }
 
         return null;

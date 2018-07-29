@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = ClustersTopic.class, name = ClustersTopic.TOPIC_TYPE),
     @JsonSubTypes.Type(value = MembersTopic.class, name = MembersTopic.TOPIC_TYPE),
     @JsonSubTypes.Type(value = DistributedObjectsTopic.class, name = DistributedObjectsTopic.TOPIC_TYPE),
-    @JsonSubTypes.Type(value = MapTopic.class, name = MapTopic.TOPIC_TYPE)
+    @JsonSubTypes.Type(value = DistributedObjectTopic.class, name = DistributedObjectTopic.TOPIC_TYPE)
 })
 public abstract class AbstractTopic {
     private String topicType;
