@@ -18,6 +18,10 @@ import {PageDashboardListsModule} from '../page-dashboard-lists/page-dashboard-l
 import {PageDashboardListsComponent} from '../page-dashboard-lists/page-dashboard-lists.component';
 import {PageDashboardListComponent} from '../page-dashboard-list/page-dashboard-list.component';
 import {PageDashboardListModule} from "../page-dashboard-list/page-dashboard-list.module";
+import {PageDashboardMultiMapsModule} from "../page-dashboard-multimaps/page-dashboard-multimaps.module";
+import {PageDashboardMultiMapsComponent} from "../page-dashboard-multimaps/page-dashboard-multimaps.component";
+import {PageDashboardMultiMapComponent} from "../page-dashboard-multimap/page-dashboard-multimap.component";
+import {PageDashboardMultiMapModule} from "../page-dashboard-multimap/page-dashboard-multimap.module";
 
 @NgModule({
   declarations: [
@@ -31,8 +35,10 @@ import {PageDashboardListModule} from "../page-dashboard-list/page-dashboard-lis
     PageDashboardMapsModule,
     PageDashboardListsModule,
     PageDashboardLocksModule,
+    PageDashboardMultiMapsModule,
     PageDashboardMapModule,
     PageDashboardListModule,
+    PageDashboardMultiMapModule,
 
     // Angular MDC Web
     MdcDrawerModule,
@@ -54,8 +60,10 @@ import {PageDashboardListModule} from "../page-dashboard-list/page-dashboard-lis
     PageDashboardLocksComponent,
     PageDashboardListsComponent,
     PageDashboardMapsComponent,
+    PageDashboardMultiMapsComponent,
     PageDashboardMapComponent,
-    PageDashboardListComponent
+    PageDashboardListComponent,
+    PageDashboardMultiMapComponent
   ]
 })
 export class PageDashboardModule { }

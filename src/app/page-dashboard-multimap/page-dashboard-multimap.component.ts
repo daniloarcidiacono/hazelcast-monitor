@@ -8,10 +8,10 @@ import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelc
 import {TabAwareComponent} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 
 @Component({
-  templateUrl: './page-dashboard-map.component.html',
-  styleUrls: [ './page-dashboard-map.component.scss' ]
+  templateUrl: './page-dashboard-multimap.component.html',
+  styleUrls: [ './page-dashboard-multimap.component.scss' ]
 })
-export class PageDashboardMapComponent implements TabAwareComponent, OnDestroy {
+export class PageDashboardMultiMapComponent implements TabAwareComponent, OnDestroy {
   @Input()
   public mapName: string;
   public data: MapProductDTO = undefined;
@@ -28,12 +28,12 @@ export class PageDashboardMapComponent implements TabAwareComponent, OnDestroy {
 
   public beforeShow(): void {
     if (!this.dataSub) {
-      this.dataSub = this.hazelcastService.subscribeToMap(this.clustersService.getCurrentCluster().instanceName, this.mapName).subscribe(
+      this.dataSub = this.hazelcastService.subscribeToMultiMap(this.clustersService.getCurrentCluster().instanceName, this.mapName).subscribe(
         (notice: SubscriptionNoticeResponseDTO<MapProductDTO>) => {
           this.data = notice.notice;
         },
         (error: ErrorMessageDTO) => {
-          this.snackbarService.show(`Could not fetch the map: ${error.errors}`);
+          this.snackbarService.show(`Could not fetch the multimap: ${error.errors}`);
         }
       );
     }

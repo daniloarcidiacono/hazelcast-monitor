@@ -18,7 +18,7 @@ import {mergeAll} from 'rxjs/internal/operators';
 import {
   ClustersProductDTO, DistributedObjectsProduct, ListProductDTO, ListsProductDTO, LocksProductDTO, MapProductDTO,
   MapsProductDTO,
-  MembersProductDTO, ProductDTO,
+  MembersProductDTO, MultiMapProductDTO, MultiMapsProductDTO, ProductDTO,
   StatisticsProductDTO
 } from '@shared/dto/topic-products.dto';
 
@@ -250,23 +250,6 @@ export class SharedHazelcastAgentService {
     return this.subTo(subRequest);
   }
 
-  public subscribeToDistributedObject(instanceName: string, distributedObjectType: DistributedObjectType, objectName: string): Observable<SubscriptionNoticeResponseDTO<any>> {
-    const subRequest: SubscribeRequestDTO = {
-      messageType: 'subscribe',
-      messageId: this.wsService.generateMessageId(),
-      frequency: 1,
-      topic: <DistributedObjectTopicDTO>{
-        topicType: 'distributed_object_details',
-        instanceName: instanceName,
-        distributedObjectType: distributedObjectType,
-        objectName: objectName
-      }
-    };
-
-    return this.subTo(subRequest);
-
-  }
-
   public subscribeToMembers(instanceName: string): Observable<SubscriptionNoticeResponseDTO<MembersProductDTO>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
@@ -293,11 +276,36 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.LOCK);
   }
 
+  public subscribeToMultiMaps(instanceName: string): Observable<SubscriptionNoticeResponseDTO<MultiMapsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.MULTIMAP);
+  }
+
+  public subscribeToDistributedObject(instanceName: string, distributedObjectType: DistributedObjectType, objectName: string): Observable<SubscriptionNoticeResponseDTO<any>> {
+    const subRequest: SubscribeRequestDTO = {
+      messageType: 'subscribe',
+      messageId: this.wsService.generateMessageId(),
+      frequency: 1,
+      topic: <DistributedObjectTopicDTO>{
+        topicType: 'distributed_object_details',
+        instanceName: instanceName,
+        distributedObjectType: distributedObjectType,
+        objectName: objectName
+      }
+    };
+
+    return this.subTo(subRequest);
+
+  }
+
   public subscribeToMap(instanceName: string, mapName: string): Observable<SubscriptionNoticeResponseDTO<MapProductDTO>> {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.MAP, mapName);
   }
 
   public subscribeToList(instanceName: string, listName: string): Observable<SubscriptionNoticeResponseDTO<ListProductDTO>> {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.LIST, listName);
+  }
+
+  public subscribeToMultiMap(instanceName: string, multiMapName: string): Observable<SubscriptionNoticeResponseDTO<MultiMapProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.MULTIMAP, multiMapName);
   }
 }

@@ -63,6 +63,13 @@ export interface ListSummaryDTO extends DistributedObjectSummary {
 }
 export type ListsProductDTO = DistributedObjectsProduct<ListSummaryDTO>;
 
+// Multi Maps
+export interface MultiMapSummaryDTO extends DistributedObjectSummary {
+  keyCount: number;
+  valueCount: number;
+}
+export type MultiMapsProductDTO = DistributedObjectsProduct<MultiMapSummaryDTO>;
+
 // Map
 export interface MapProductDTO extends ProductDTO {
   entries: MapProductEntryDTO[];
@@ -75,6 +82,11 @@ export interface MapProductEntryDTO {
   valueString: string;
   locked: boolean;
 }
+
+
+// Multi Map
+export type MultiMapProductDTO = MapProductDTO;
+export type MultiMapProductEntryDTO = MapProductEntryDTO;
 
 // List
 export interface ListProductDTO extends ProductDTO {

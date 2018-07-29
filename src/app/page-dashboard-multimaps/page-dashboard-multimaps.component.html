@@ -1,0 +1,21 @@
+<div class="DashboardMultiMaps" mdcTypography>
+  <div mdcHeadline5 class="DashboardMultiMaps__Title">MultiMaps of {{ clusterName }}</div>
+  <shared-mdc-table [model]="data?.objects">
+    <ng-template #headerTemplate>
+      <tr class="mdc-data-table__row">
+        <th class="mdc-data-table__column">Name</th>
+        <th class="mdc-data-table__column">Number of keys</th>
+        <th class="mdc-data-table__column">Number of values</th>
+        <th class="mdc-data-table__column">Partition key</th>
+      </tr>
+    </ng-template>
+    <ng-template let-map #bodyTemplate>
+      <tr class="mdc-data-table__row" (click)="navigateToMultiMapDetails(map)">
+        <td class="mdc-data-table__cell">{{ map.name }}</td>
+        <td class="mdc-data-table__cell">{{ map.keyCount }}</td>
+        <td class="mdc-data-table__cell">{{ map.valueCount }}</td>
+        <td class="mdc-data-table__cell">{{ map.partitionKey }}</td>
+      </tr>
+    </ng-template>
+  </shared-mdc-table>
+</div>
