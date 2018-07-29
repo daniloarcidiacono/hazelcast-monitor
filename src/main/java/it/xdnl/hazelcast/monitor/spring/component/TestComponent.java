@@ -107,6 +107,9 @@ public class TestComponent {
         mySemaphore = hazelcastInstance.getSemaphore("mySemaphore");
 
 
+        myMultiMap.put("Ciao", 1);
+        myMultiMap.put("Ciao", new ComplexKey("dada", 15));
+
         myList.add("ciao");
         myList.add(new ComplexKey("Test", 15));
 

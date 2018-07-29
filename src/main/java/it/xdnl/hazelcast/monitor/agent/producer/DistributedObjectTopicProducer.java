@@ -7,6 +7,7 @@ import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectsTopic;
 import it.xdnl.hazelcast.monitor.agent.product.*;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,6 +37,10 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
 
             case LIST: {
                 return produceList();
+            }
+
+            case MULTIMAP: {
+                return produceMultiMap();
             }
         }
 
@@ -69,6 +74,26 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
                 new ListProduct.Entry(
                     mapper.valueToTree(entry),
                     entry.toString()
+                )
+            );
+        }
+
+        return product;
+    }
+
+    private MapProduct produceMultiMap() {
+        final MapProduct product = new MapProduct();
+        final MultiMap map = instance.getMultiMap(objectName);
+        final Set<Object> keys = map.keySet();
+        for (Object key : keys) {
+            final Collection<Object> values = map.get(key);
+            product.add(
+                new MapProduct.Entry(
+                    mapper.valueToTree(key),
+                    mapper.valueToTree(values),
+                    key.toString(),
+                    "Collection",
+                    map.isLocked(key)
                 )
             );
         }

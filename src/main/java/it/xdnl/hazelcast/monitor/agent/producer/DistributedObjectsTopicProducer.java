@@ -5,6 +5,8 @@ import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectsTopic;
 import it.xdnl.hazelcast.monitor.agent.product.*;
 
+import java.awt.*;
+
 /**
  * Producer that iterates on Hazelcast's distributed objects picking only type of {@code distributedObjectType}.
  */
@@ -49,6 +51,11 @@ public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
             case LIST: {
                 final IList casted = (IList)object;
                 return new ListSummary(casted.size());
+            }
+
+            case MULTIMAP: {
+                final MultiMap casted = (MultiMap)object;
+                return new MultiMapSummary(casted.size(), casted.keySet().size());
             }
         }
 
