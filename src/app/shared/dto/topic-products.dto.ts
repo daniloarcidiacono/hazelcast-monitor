@@ -70,6 +70,24 @@ export interface MultiMapSummaryDTO extends DistributedObjectSummary {
 }
 export type MultiMapsProductDTO = DistributedObjectsProduct<MultiMapSummaryDTO>;
 
+// Queues
+export interface QueueSummaryDTO extends DistributedObjectSummary {
+  size: number;
+}
+export type QueuesProductDTO = DistributedObjectsProduct<QueueSummaryDTO>;
+
+// Sets
+export interface SetSummaryDTO extends DistributedObjectSummary {
+  size: number;
+}
+export type SetsProductDTO = DistributedObjectsProduct<SetSummaryDTO>;
+
+// Replicated maps
+export interface ReplicatedMapSummaryDTO extends DistributedObjectSummary {
+  size: number;
+}
+export type ReplicatedMapsProductDTO = DistributedObjectsProduct<ReplicatedMapSummaryDTO>;
+
 // Map
 export interface MapProductDTO extends ProductDTO {
   entries: MapProductEntryDTO[];
@@ -82,7 +100,6 @@ export interface MapProductEntryDTO {
   valueString: string;
   locked: boolean;
 }
-
 
 // Multi Map
 export type MultiMapProductDTO = MapProductDTO;
@@ -97,3 +114,15 @@ export interface ListProductEntryDTO {
   value: any;
   valueString: string;
 }
+
+// Queue
+export type QueueProductDTO = ListProductDTO;
+export type QueueProductEntryDTO = ListProductEntryDTO;
+
+// Set
+export type SetProductDTO = ListProductDTO;
+export type SetProductEntryDTO = ListProductEntryDTO;
+
+// Replicated Map
+export type ReplicatedMapProductDTO = MapProductDTO;
+export type ReplicatedMapProductEntryDTO = MapProductEntryDTO;

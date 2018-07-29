@@ -1,0 +1,19 @@
+<div class="DashboardQueues" mdcTypography>
+  <div mdcHeadline5 class="DashboardQueues__Title">Queues of {{ clusterName }}</div>
+  <shared-mdc-table [model]="data?.objects">
+    <ng-template #headerTemplate>
+      <tr class="mdc-data-table__row">
+        <th class="mdc-data-table__column">Name</th>
+        <th class="mdc-data-table__column">Number of keys</th>
+        <th class="mdc-data-table__column">Partition key</th>
+      </tr>
+    </ng-template>
+    <ng-template let-queue #bodyTemplate>
+      <tr class="mdc-data-table__row" (click)="navigateToQueueDetails(queue)">
+        <td class="mdc-data-table__cell">{{ queue.name }}</td>
+        <td class="mdc-data-table__cell">{{ queue.size }}</td>
+        <td class="mdc-data-table__cell">{{ queue.partitionKey }}</td>
+      </tr>
+    </ng-template>
+  </shared-mdc-table>
+</div>

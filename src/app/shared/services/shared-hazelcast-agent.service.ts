@@ -10,15 +10,27 @@ import {
 import {Observable, Observer, of, Subscription} from 'rxjs/index';
 import {SharedWebSocketService} from '@shared/services/shared-websocket.service';
 import {
-  ClustersTopicDTO, DistributedObjectsTopicDTO, DistributedObjectTopicDTO, DistributedObjectType,
+  ClustersTopicDTO,
+  DistributedObjectsTopicDTO,
+  DistributedObjectTopicDTO,
+  DistributedObjectType,
   MembersTopicDTO,
   StatisticsTopicDTO
 } from '@shared/dto/topics.dto';
 import {mergeAll} from 'rxjs/internal/operators';
 import {
-  ClustersProductDTO, DistributedObjectsProduct, ListProductDTO, ListsProductDTO, LocksProductDTO, MapProductDTO,
+  ClustersProductDTO,
+  DistributedObjectsProduct,
+  ListProductDTO,
+  ListsProductDTO,
+  LocksProductDTO,
+  MapProductDTO,
   MapsProductDTO,
-  MembersProductDTO, MultiMapProductDTO, MultiMapsProductDTO, ProductDTO,
+  MembersProductDTO,
+  MultiMapProductDTO,
+  MultiMapsProductDTO, QueueProductDTO, QueuesProductDTO,
+  ReplicatedMapProductDTO,
+  ReplicatedMapsProductDTO, SetProductDTO, SetsProductDTO,
   StatisticsProductDTO
 } from '@shared/dto/topic-products.dto';
 
@@ -280,6 +292,18 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.MULTIMAP);
   }
 
+  public subscribeToReplicatedMaps(instanceName: string): Observable<SubscriptionNoticeResponseDTO<ReplicatedMapsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.REPLICATEDMAP);
+  }
+
+  public subscribeToQueues(instanceName: string): Observable<SubscriptionNoticeResponseDTO<QueuesProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.QUEUE);
+  }
+
+  public subscribeToSets(instanceName: string): Observable<SubscriptionNoticeResponseDTO<SetsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SET);
+  }
+
   public subscribeToDistributedObject(instanceName: string, distributedObjectType: DistributedObjectType, objectName: string): Observable<SubscriptionNoticeResponseDTO<any>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
@@ -307,5 +331,17 @@ export class SharedHazelcastAgentService {
 
   public subscribeToMultiMap(instanceName: string, multiMapName: string): Observable<SubscriptionNoticeResponseDTO<MultiMapProductDTO>> {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.MULTIMAP, multiMapName);
+  }
+
+  public subscribeToReplicatedMap(instanceName: string, replicatedMapName: string): Observable<SubscriptionNoticeResponseDTO<ReplicatedMapProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.REPLICATEDMAP, replicatedMapName);
+  }
+
+  public subscribeToQueue(instanceName: string, queueName: string): Observable<SubscriptionNoticeResponseDTO<QueueProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.QUEUE, queueName);
+  }
+
+  public subscribeToSet(instanceName: string, setName: string): Observable<SubscriptionNoticeResponseDTO<SetProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.SET, setName);
   }
 }

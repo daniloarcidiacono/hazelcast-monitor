@@ -1,0 +1,21 @@
+<div class="DashboardSet" mdcTypography>
+  <div mdcHeadline5 class="DashboardSet__Title">
+    {{ setName }}
+  </div>
+  <shared-mdc-table [model]="data?.entries">
+    <ng-template #headerTemplate>
+      <tr class="mdc-data-table__row">
+        <th class="mdc-data-table__column">Value</th>
+      </tr>
+    </ng-template>
+    <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+      <tr class="mdc-data-table__row">
+        <td class="mdc-data-table__cell mdc-data-table__cell--top">
+          <shared-object-inspector [data]="entry.value"
+                                   [stringData]="entry.valueString">
+          </shared-object-inspector>
+        </td>
+      </tr>
+    </ng-template>
+  </shared-mdc-table>
+</div>

@@ -1,0 +1,19 @@
+<div class="DashboardReplicatedMaps" mdcTypography>
+  <div mdcHeadline5 class="DashboardReplicatedMaps__Title">Replicated maps of {{ clusterName }}</div>
+  <shared-mdc-table [model]="data?.objects">
+    <ng-template #headerTemplate>
+      <tr class="mdc-data-table__row">
+        <th class="mdc-data-table__column">Name</th>
+        <th class="mdc-data-table__column">Number of keys</th>
+        <th class="mdc-data-table__column">Partition key</th>
+      </tr>
+    </ng-template>
+    <ng-template let-map #bodyTemplate>
+      <tr class="mdc-data-table__row" (click)="navigateToReplicatedMapDetails(map)">
+        <td class="mdc-data-table__cell">{{ map.name }}</td>
+        <td class="mdc-data-table__cell">{{ map.size }}</td>
+        <td class="mdc-data-table__cell">{{ map.partitionKey }}</td>
+      </tr>
+    </ng-template>
+  </shared-mdc-table>
+</div>

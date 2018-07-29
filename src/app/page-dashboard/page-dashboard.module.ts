@@ -17,11 +17,23 @@ import {PageDashboardMapComponent} from '../page-dashboard-map/page-dashboard-ma
 import {PageDashboardListsModule} from '../page-dashboard-lists/page-dashboard-lists.module';
 import {PageDashboardListsComponent} from '../page-dashboard-lists/page-dashboard-lists.component';
 import {PageDashboardListComponent} from '../page-dashboard-list/page-dashboard-list.component';
-import {PageDashboardListModule} from "../page-dashboard-list/page-dashboard-list.module";
-import {PageDashboardMultiMapsModule} from "../page-dashboard-multimaps/page-dashboard-multimaps.module";
-import {PageDashboardMultiMapsComponent} from "../page-dashboard-multimaps/page-dashboard-multimaps.component";
-import {PageDashboardMultiMapComponent} from "../page-dashboard-multimap/page-dashboard-multimap.component";
-import {PageDashboardMultiMapModule} from "../page-dashboard-multimap/page-dashboard-multimap.module";
+import {PageDashboardListModule} from '../page-dashboard-list/page-dashboard-list.module';
+import {PageDashboardMultiMapsModule} from '../page-dashboard-multimaps/page-dashboard-multimaps.module';
+import {PageDashboardMultiMapsComponent} from '../page-dashboard-multimaps/page-dashboard-multimaps.component';
+import {PageDashboardMultiMapComponent} from '../page-dashboard-multimap/page-dashboard-multimap.component';
+import {PageDashboardMultiMapModule} from '../page-dashboard-multimap/page-dashboard-multimap.module';
+import {PageDashboardReplicatedMapsModule} from '../page-dashboard-replicatedmaps/page-dashboard-replicatedmaps.module';
+import {PageDashboardReplicatedMapModule} from '../page-dashboard-replicatedmap/page-dashboard-replicatedmap.module';
+import {PageDashboardReplicatedMapsComponent} from '../page-dashboard-replicatedmaps/page-dashboard-replicatedmaps.component';
+import {PageDashboardReplicatedMapComponent} from '../page-dashboard-replicatedmap/page-dashboard-replicatedmap.component';
+import {PageDashboardSetsModule} from "../page-dashboard-sets/page-dashboard-sets.module";
+import {PageDashboardSetModule} from "../page-dashboard-set/page-dashboard-set.module";
+import {PageDashboardSetsComponent} from "../page-dashboard-sets/page-dashboard-sets.component";
+import {PageDashboardSetComponent} from "../page-dashboard-set/page-dashboard-set.component";
+import {PageDashboardQueuesComponent} from "../page-dashboard-queues/page-dashboard-queues.component";
+import {PageDashboardQueueComponent} from "../page-dashboard-queue/page-dashboard-queue.component";
+import {PageDashboardQueuesModule} from "../page-dashboard-queues/page-dashboard-queues.module";
+import {PageDashboardQueueModule} from "../page-dashboard-queue/page-dashboard-queue.module";
 
 @NgModule({
   declarations: [
@@ -36,9 +48,15 @@ import {PageDashboardMultiMapModule} from "../page-dashboard-multimap/page-dashb
     PageDashboardListsModule,
     PageDashboardLocksModule,
     PageDashboardMultiMapsModule,
+    PageDashboardSetsModule,
+    PageDashboardReplicatedMapsModule,
+    PageDashboardQueuesModule,
     PageDashboardMapModule,
     PageDashboardListModule,
     PageDashboardMultiMapModule,
+    PageDashboardReplicatedMapModule,
+    PageDashboardSetModule,
+    PageDashboardQueueModule,
 
     // Angular MDC Web
     MdcDrawerModule,
@@ -61,9 +79,15 @@ import {PageDashboardMultiMapModule} from "../page-dashboard-multimap/page-dashb
     PageDashboardListsComponent,
     PageDashboardMapsComponent,
     PageDashboardMultiMapsComponent,
+    PageDashboardReplicatedMapsComponent,
+    PageDashboardSetsComponent,
+    PageDashboardQueuesComponent,
     PageDashboardMapComponent,
     PageDashboardListComponent,
-    PageDashboardMultiMapComponent
+    PageDashboardMultiMapComponent,
+    PageDashboardReplicatedMapComponent,
+    PageDashboardSetComponent,
+    PageDashboardQueueComponent
   ]
 })
 export class PageDashboardModule { }

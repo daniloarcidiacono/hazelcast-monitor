@@ -1,4 +1,4 @@
-import {Component, ContentChild, HostBinding, OnDestroy, ViewChild} from '@angular/core';
+import {Component, HostBinding, OnDestroy, ViewChild} from '@angular/core';
 import {ConnectionState, SharedWebSocketService} from '@shared/services/shared-websocket.service';
 import {Router} from '@angular/router';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
@@ -15,6 +15,9 @@ import {TabData} from "@shared/components/dynamic-tabs/shared-dynamic-tabs.model
 import {PageDashboardLocksComponent} from "../page-dashboard-locks/page-dashboard-locks.component";
 import {PageDashboardListsComponent} from "../page-dashboard-lists/page-dashboard-lists.component";
 import {PageDashboardMultiMapsComponent} from "../page-dashboard-multimaps/page-dashboard-multimaps.component";
+import {PageDashboardReplicatedMapsComponent} from "../page-dashboard-replicatedmaps/page-dashboard-replicatedmaps.component";
+import {PageDashboardSetsComponent} from "../page-dashboard-sets/page-dashboard-sets.component";
+import {PageDashboardQueuesComponent} from "../page-dashboard-queues/page-dashboard-queues.component";
 
 interface SeparatorItem {
   separator: boolean;
@@ -150,7 +153,7 @@ export class PageDashboardComponent implements OnDestroy {
       },
       tab: {
         label: 'Queues',
-        componentClass: undefined
+        componentClass: PageDashboardQueuesComponent
       }
     },
     {
@@ -161,7 +164,7 @@ export class PageDashboardComponent implements OnDestroy {
       },
       tab: {
         label: 'ReplicatedMaps',
-        componentClass: undefined
+        componentClass: PageDashboardReplicatedMapsComponent
       }
     },
     {
@@ -194,7 +197,7 @@ export class PageDashboardComponent implements OnDestroy {
       },
       tab: {
         label: 'Sets',
-        componentClass: undefined
+        componentClass: PageDashboardSetsComponent
       }
     },
     {
