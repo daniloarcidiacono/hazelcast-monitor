@@ -1,5 +1,5 @@
 export interface AbstractTopicDTO {
-  topicType: 'clusters' | 'stats' | 'members' | 'distributed_object' | 'map';
+  topicType: 'clusters' | 'stats' | 'members' | 'distributed_object' | 'distributed_object_details';
   instanceName: string;
 }
 
@@ -20,9 +20,10 @@ export interface DistributedObjectsTopicDTO extends AbstractTopicDTO {
   distributedObjectType: DistributedObjectType;
 }
 
-export interface MapTopicDTO extends AbstractTopicDTO {
-  topicType: 'map';
-  mapName: string;
+export interface DistributedObjectTopicDTO extends AbstractTopicDTO {
+  topicType: 'distributed_object_details';
+  distributedObjectType: DistributedObjectType;
+  objectName: string;
 }
 
 export enum DistributedObjectType {

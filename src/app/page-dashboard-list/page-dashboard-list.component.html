@@ -1,0 +1,25 @@
+<div class="DashboardList" mdcTypography>
+  <div mdcHeadline5 class="DashboardList__Title">
+    {{ listName }}
+  </div>
+  <shared-mdc-table [model]="data?.entries">
+    <ng-template #headerTemplate>
+      <tr class="mdc-data-table__row">
+        <th class="mdc-data-table__column">Index</th>
+        <th class="mdc-data-table__column">Value</th>
+      </tr>
+    </ng-template>
+    <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+      <tr class="mdc-data-table__row">
+        <td class="mdc-data-table__cell">
+          {{ rowIndex }}
+        </td>
+        <td class="mdc-data-table__cell mdc-data-table__cell--top">
+          <shared-object-inspector [data]="entry.value"
+                                   [stringData]="entry.valueString">
+          </shared-object-inspector>
+        </td>
+      </tr>
+    </ng-template>
+  </shared-mdc-table>
+</div>

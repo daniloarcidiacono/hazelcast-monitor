@@ -2,23 +2,31 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ObjectMdcTreeNodeModel, SharedMdcTreeNodeModel} from "@shared/components/mdc-tree/shared-mdc-tree.model";
 
 @Component({
-  selector: 'map-tree',
-  templateUrl: './page-dashboard-map-tree.component.html',
-  styleUrls: [ './page-dashboard-map-tree.component.scss' ]
+  selector: 'shared-object-inspector',
+  templateUrl: './shared-object-inspector.component.html',
+  styleUrls: [ './shared-object-inspector.component.scss' ]
 })
-export class PageDashboardMapTreeComponent implements OnChanges {
+export class SharedObjectInspectorComponent implements OnChanges {
   @Input()
   private data: any;
 
-  public model: ObjectMdcTreeNodeModel;
+  @Input()
+  private stringData: string;
+
+  @Input()
+  private locked: boolean;
+
+  public treeModel: ObjectMdcTreeNodeModel;
 
   public constructor() {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
     if ('data' in changes) {
-      if (changes['data']) {
-        this.model = new ObjectMdcTreeNodeModel(this.data, undefined, undefined);
+      if (this.isComplex()) {
+        this.treeModel = new ObjectMdcTreeNodeModel(this.data, undefined, undefined);
+      } else {
+        this.treeModel = undefined;
       }
     }
   }
@@ -42,5 +50,9 @@ export class PageDashboardMapTreeComponent implements OnChanges {
 
   public isArray(node: SharedMdcTreeNodeModel) {
     return Array.isArray(typeof (node as ObjectMdcTreeNodeModel).data);
+  }
+
+  public isComplex(): boolean {
+    return typeof this.data === 'object';
   }
 }

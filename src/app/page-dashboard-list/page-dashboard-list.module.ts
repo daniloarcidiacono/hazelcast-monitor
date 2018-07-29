@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
+import {PageDashboardListComponent} from './page-dashboard-list.component';
 import {BrowserModule} from '@angular/platform-browser';
-import {SharedServicesModule} from '@shared/services/shared-services.module';
-import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
-import {PageDashboardMapComponent} from './page-dashboard-map.component';
 import {MdcButtonModule, MdcIconButtonModule, MdcIconModule, MdcTypographyModule} from '@angular-mdc/web';
-import {SharedObjectInspectorModule} from "@shared/components/object-inspector/shared-object-inspector.module";
+import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
+import {SharedObjectInspectorModule} from '@shared/components/object-inspector/shared-object-inspector.module';
+import {SharedServicesModule} from '@shared/services/shared-services.module';
 
 @NgModule({
   declarations: [
-    PageDashboardMapComponent
+    PageDashboardListComponent
   ],
   imports: [
     BrowserModule,
@@ -27,5 +27,5 @@ import {SharedObjectInspectorModule} from "@shared/components/object-inspector/s
   providers: [
   ]
 })
-export class PageDashboardMapModule {
+export class PageDashboardListModule {
 }

@@ -13,6 +13,7 @@ import {PageDashboardMapsComponent} from "../page-dashboard-maps/page-dashboard-
 import {SharedTabsService} from "@shared/services/shared-tabs.service";
 import {TabData} from "@shared/components/dynamic-tabs/shared-dynamic-tabs.model";
 import {PageDashboardLocksComponent} from "../page-dashboard-locks/page-dashboard-locks.component";
+import {PageDashboardListsComponent} from "../page-dashboard-lists/page-dashboard-lists.component";
 
 interface SeparatorItem {
   separator: boolean;
@@ -104,7 +105,7 @@ export class PageDashboardComponent implements OnDestroy {
       },
       tab: {
         label: 'Lists',
-        componentClass: undefined
+        componentClass: PageDashboardListsComponent
       }
     },
     {

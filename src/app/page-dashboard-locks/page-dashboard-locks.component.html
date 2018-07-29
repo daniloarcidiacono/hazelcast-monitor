@@ -19,7 +19,14 @@
           </div>
         </td>
         <td class="mdc-data-table__cell">{{ lock.lockCount }}</td>
-        <td class="mdc-data-table__cell">{{ lock.remainingLeaseTime }}</td>
+        <td class="mdc-data-table__cell">
+          <span *ngIf="lock.remainingLeaseTime > 0">
+            {{ lock.remainingLeaseTime / 1000 }} seconds
+          </span>
+          <span *ngIf="lock.remainingLeaseTime <= 0">
+            <mdc-icon>all_inclusive</mdc-icon>
+          </span>
+        </td>
         <td class="mdc-data-table__cell">{{ lock.partitionKey }}</td>
       </tr>
     </ng-template>

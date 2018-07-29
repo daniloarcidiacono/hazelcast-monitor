@@ -3,18 +3,18 @@ import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-age
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {Subscription} from 'rxjs/index';
-import {MapProductDTO} from '@shared/dto/topic-products.dto';
+import {ListProductDTO} from '@shared/dto/topic-products.dto';
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
 import {TabAwareComponent} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 
 @Component({
-  templateUrl: './page-dashboard-map.component.html',
-  styleUrls: [ './page-dashboard-map.component.scss' ]
+  templateUrl: './page-dashboard-list.component.html',
+  styleUrls: [ './page-dashboard-list.component.scss' ]
 })
-export class PageDashboardMapComponent implements TabAwareComponent, OnDestroy {
+export class PageDashboardListComponent implements TabAwareComponent, OnDestroy {
   @Input()
-  public mapName: string;
-  public data: MapProductDTO = undefined;
+  public listName: string;
+  public data: ListProductDTO = undefined;
   private dataSub: Subscription;
 
   public constructor(private clustersService: SharedClustersService,
@@ -28,12 +28,12 @@ export class PageDashboardMapComponent implements TabAwareComponent, OnDestroy {
 
   public beforeShow(): void {
     if (!this.dataSub) {
-      this.dataSub = this.hazelcastService.subscribeToMap(this.clustersService.getCurrentCluster().instanceName, this.mapName).subscribe(
-        (notice: SubscriptionNoticeResponseDTO<MapProductDTO>) => {
+      this.dataSub = this.hazelcastService.subscribeToList(this.clustersService.getCurrentCluster().instanceName, this.listName).subscribe(
+        (notice: SubscriptionNoticeResponseDTO<ListProductDTO>) => {
           this.data = notice.notice;
         },
         (error: ErrorMessageDTO) => {
-          this.snackbarService.show(`Could not fetch the map: ${error.errors}`);
+          this.snackbarService.show(`Could not fetch the list: ${error.errors}`);
         }
       );
     }
@@ -44,9 +44,5 @@ export class PageDashboardMapComponent implements TabAwareComponent, OnDestroy {
       this.dataSub.unsubscribe();
       this.dataSub = undefined;
     }
-  }
-
-  public isComplex(object: any): boolean {
-    return typeof object === 'object';
   }
 }

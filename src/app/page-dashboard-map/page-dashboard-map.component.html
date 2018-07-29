@@ -12,41 +12,17 @@
     <ng-template #bodyTemplate let-entry>
       <tr class="mdc-data-table__row">
         <td class="mdc-data-table__cell mdc-data-table__cell--top">
-          <ng-container *ngTemplateOutlet="cellValue; context: { $implicit: { value: entry.key, stringValue: entry.keyString, locked: entry.locked } }"></ng-container>
+          <shared-object-inspector [data]="entry.key"
+                                   [locked]="entry.locked"
+                                   [stringData]="entry.keyString">
+          </shared-object-inspector>
         </td>
         <td class="mdc-data-table__cell  mdc-data-table__cell--top">
-          <ng-container *ngTemplateOutlet="cellValue; context: { $implicit: { value: entry.value, stringValue: entry.valueString, locked: false } }"></ng-container>
+          <shared-object-inspector [data]="entry.value"
+                                   [stringData]="entry.valueString">
+          </shared-object-inspector>
         </td>
       </tr>
-    </ng-template>
-
-    <ng-template #cellValue let-node>
-      <ng-container *ngIf="!isComplex(node.value)">
-        <div style="display: flex; flex-direction: row; align-items: center; height: 100%">
-          <mdc-icon *ngIf="!!node.locked" style="color: red">lock</mdc-icon>
-          <div style="margin-left: 1em">
-            {{ node.stringValue }}
-          </div>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="isComplex(node.value)">
-        <div style="display: flex; flex-direction: row; align-items: center;">
-          <mdc-icon *ngIf="!!node.locked" style="color: red">lock</mdc-icon>
-          <button mdcIconButton
-                  #expandButton
-                  iconOn="arrow_drop_up"
-                  iconOff="arrow_drop_down"
-                  labelOn="Inspect"
-                  labelOff="Close">
-          </button>
-          <div>
-            {{ node.stringValue }}
-          </div>
-        </div>
-        <div *ngIf="expandButton.on">
-          <map-tree [data]="node.value"></map-tree>
-        </div>
-      </ng-container>
     </ng-template>
   </shared-mdc-table>
 </div>

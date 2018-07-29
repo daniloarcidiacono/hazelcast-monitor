@@ -1,0 +1,19 @@
+<div class="DashboardLists" mdcTypography>
+  <div mdcHeadline5 class="DashboardLists__Title">Lists of {{ clusterName }}</div>
+  <shared-mdc-table [model]="data?.objects">
+    <ng-template #headerTemplate>
+      <tr class="mdc-data-table__row">
+        <th class="mdc-data-table__column">Name</th>
+        <th class="mdc-data-table__column">Number of keys</th>
+        <th class="mdc-data-table__column">Partition key</th>
+      </tr>
+    </ng-template>
+    <ng-template let-list #bodyTemplate>
+      <tr class="mdc-data-table__row" (click)="navigateToListDetails(list)">
+        <td class="mdc-data-table__cell">{{ list.name }}</td>
+        <td class="mdc-data-table__cell">{{ list.size }}</td>
+        <td class="mdc-data-table__cell">{{ list.partitionKey }}</td>
+      </tr>
+    </ng-template>
+  </shared-mdc-table>
+</div>
