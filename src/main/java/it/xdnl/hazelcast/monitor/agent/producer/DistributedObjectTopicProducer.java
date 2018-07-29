@@ -42,6 +42,18 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
             case MULTIMAP: {
                 return produceMultiMap();
             }
+
+            case QUEUE: {
+               return produceQueue();
+            }
+
+            case REPLICATEDMAP: {
+                return produceReplicatedMap();
+            }
+
+            case SET: {
+                return produceSet();
+            }
         }
 
         return null;
@@ -94,6 +106,55 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
                     key.toString(),
                     "Collection",
                     map.isLocked(key)
+                )
+            );
+        }
+
+        return product;
+    }
+
+    private ListProduct produceQueue() {
+        final ListProduct product = new ListProduct();
+        final IQueue queue = instance.getQueue(objectName);
+        for (Object entry : queue) {
+            product.add(
+                new ListProduct.Entry(
+                    mapper.valueToTree(entry),
+                    entry.toString()
+                )
+            );
+        }
+
+        return product;
+    }
+
+    private ListProduct produceSet() {
+        final ListProduct product = new ListProduct();
+        final ISet set = instance.getSet(objectName);
+        for (Object entry : set) {
+            product.add(
+                new ListProduct.Entry(
+                    mapper.valueToTree(entry),
+                    entry.toString()
+                )
+            );
+        }
+
+        return product;
+    }
+
+    private MapProduct produceReplicatedMap() {
+        final MapProduct product = new MapProduct();
+        final ReplicatedMap map = instance.getReplicatedMap(objectName);
+        final Set<Map.Entry> entries = map.entrySet();
+        for (Map.Entry entry : entries) {
+            product.add(
+                new MapProduct.Entry(
+                    mapper.valueToTree(entry.getKey()),
+                    mapper.valueToTree(entry.getValue()),
+                    entry.getKey().toString(),
+                    entry.getValue().toString(),
+                    false
                 )
             );
         }

@@ -107,6 +107,14 @@ public class TestComponent {
         mySemaphore = hazelcastInstance.getSemaphore("mySemaphore");
 
 
+        myReplicatedMap.put("ciao", new ComplexKey("sdsdfas", 111));
+
+        myQueue.add("ciao");
+        myQueue.add(new ComplexKey("zzzz", 1));
+
+        mySet.add("ciao2");
+        mySet.add(new ComplexKey("babfds", 180));
+
         myMultiMap.put("Ciao", 1);
         myMultiMap.put("Ciao", new ComplexKey("dada", 15));
 

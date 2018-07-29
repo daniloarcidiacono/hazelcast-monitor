@@ -57,6 +57,21 @@ public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
                 final MultiMap casted = (MultiMap)object;
                 return new MultiMapSummary(casted.size(), casted.keySet().size());
             }
+
+            case QUEUE: {
+                final IQueue casted = (IQueue)object;
+                return new QueueSummary(casted.size());
+            }
+
+            case REPLICATEDMAP: {
+                final ReplicatedMap casted = (ReplicatedMap) object;
+                return new ReplicatedMapSummary(casted.size());
+            }
+
+            case SET: {
+                final ISet casted = (ISet)object;
+                return new SetSummary(casted.size());
+            }
         }
 
         return null;
