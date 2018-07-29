@@ -32,7 +32,8 @@ public class MapTopicProducer extends AbstractTopicProducer {
                     mapper.valueToTree(entry.getKey()),
                     mapper.valueToTree(entry.getValue()),
                     entry.getKey().toString(),
-                    entry.getValue().toString()
+                    entry.getValue().toString(),
+                    map.isLocked(entry.getKey())
                 )
             );
         }

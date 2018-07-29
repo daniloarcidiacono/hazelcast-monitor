@@ -5,6 +5,7 @@ import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectsTopic;
 import it.xdnl.hazelcast.monitor.agent.product.DistributedObjectSummary;
 import it.xdnl.hazelcast.monitor.agent.product.DistributedObjectsProduct;
+import it.xdnl.hazelcast.monitor.agent.product.LockSummary;
 import it.xdnl.hazelcast.monitor.agent.product.MapSummary;
 
 /**
@@ -45,7 +46,7 @@ public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
 
             case LOCK: {
                 final ILock casted = (ILock) object;
-//                return casted.ge;
+                return new LockSummary(casted.getLockCount(), casted.getRemainingLeaseTime(), casted.isLocked());
             }
         }
 

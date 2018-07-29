@@ -72,6 +72,7 @@ public class TestComponent {
     private ITopic<Object> myTopic;
     private IQueue<Object> myQueue;
     private IMap<Object, Object> myMap;
+    private IMap<Object, Object> myMap2;
     private IAtomicLong myAtomicLong;
     private IAtomicReference<Object> myAtomicReference;
     private ICountDownLatch myCountDownLatch;
@@ -92,6 +93,7 @@ public class TestComponent {
         myTopic = hazelcastInstance.getTopic("myTopic");
         myQueue = hazelcastInstance.getQueue("myQueue");
         myMap = hazelcastInstance.getMap("myMap");
+        myMap2 = hazelcastInstance.getMap("myMap2");
         myAtomicLong = hazelcastInstance.getAtomicLong("myAtomicLong");
         myAtomicReference = hazelcastInstance.getAtomicReference("myAtomicReference");
         myCountDownLatch = hazelcastInstance.getCountDownLatch("myCountDownLatch");
@@ -105,6 +107,11 @@ public class TestComponent {
 
         myMap.put(new ComplexKey("Danilo1", 28), new ComplexValue(1, 2, 3));
         myMap.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
+
+
+        myMap2.put("ciao", new ComplexValue(1, 2, 3));
+        myMap2.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
+        myMap2.lock("ciao");
 
         /*
         this.myMap = hazelcastInstance.getMap("simple_map");

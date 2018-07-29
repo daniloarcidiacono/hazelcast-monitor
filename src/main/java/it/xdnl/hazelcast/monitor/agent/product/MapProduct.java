@@ -1,11 +1,9 @@
 package it.xdnl.hazelcast.monitor.agent.product;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MapProduct implements Product {
     public static class Entry {
@@ -13,12 +11,14 @@ public class MapProduct implements Product {
         private final JsonNode value;
         private final String keyString;
         private final String valueString;
+        private final boolean locked;
 
-        public Entry(final JsonNode key, final JsonNode value, final String keyString, final String valueString) {
+        public Entry(final JsonNode key, final JsonNode value, final String keyString, final String valueString, final boolean locked) {
             this.key = key;
             this.value = value;
             this.keyString = keyString;
             this.valueString = valueString;
+            this.locked = locked;
         }
 
         public JsonNode getKey() {
@@ -36,21 +36,26 @@ public class MapProduct implements Product {
         public String getValueString() {
             return valueString;
         }
+
+        public boolean isLocked() {
+            return locked;
+        }
     }
-    private List<Entry> data = new ArrayList<>();
+
+    private List<Entry> entries = new ArrayList<>();
 
     public MapProduct() {
     }
 
     public void add(final Entry entry)  {
-        data.add(entry);
+        entries.add(entry);
     }
 
-    public List<Entry> getData() {
-        return data;
+    public List<Entry> getEntries() {
+        return entries;
     }
 
-    public void setData(List<Entry> data) {
-        this.data = data;
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
     }
 }
