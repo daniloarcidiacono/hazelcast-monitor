@@ -8,7 +8,7 @@
                            (click)="navigateTo(section)">
               <mdc-icon mdcListItemGraphic>{{ section.icon }}</mdc-icon>
               {{ section.caption }}
-              <div mdcListItemMeta>
+              <div mdcListItemMeta *ngIf="!!section.count()">
                 {{ section.count() }}
               </div>
             </mdc-list-item>
