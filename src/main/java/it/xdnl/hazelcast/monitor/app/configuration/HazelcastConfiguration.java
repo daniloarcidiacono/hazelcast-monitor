@@ -1,4 +1,4 @@
-package it.xdnl.hazelcast.monitor.app;
+package it.xdnl.hazelcast.monitor.app.configuration;
 
 import com.hazelcast.config.*;
 import org.springframework.context.annotation.Bean;

@@ -18,7 +18,9 @@ public class ClustersTopicProducer extends AbstractTopicProducer {
     public ClustersProduct produce() {
         final ClustersProduct product = new ClustersProduct();
         for (HazelcastInstance hazelcastInstance : Hazelcast.getAllHazelcastInstances()) {
-            final String instanceName = hazelcastInstance.getConfig().getInstanceName();
+            // @TODO: Clarify getName vs getInstanceName
+//            final String instanceName = hazelcastInstance.getConfig().getInstanceName();
+            final String instanceName = hazelcastInstance.getName();
             product.add(instanceName);
         }
 

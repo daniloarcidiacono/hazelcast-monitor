@@ -1,4 +1,4 @@
-package it.xdnl.hazelcast.monitor.spring.component;
+package it.xdnl.hazelcast.monitor.app.component;
 
 import com.hazelcast.cache.ICache;
 import com.hazelcast.core.*;
@@ -109,7 +109,7 @@ public class TestComponent {
 
         myReplicatedMap.put("ciao", new ComplexKey("sdsdfas", 111));
 
-        myQueue.add("ciao");
+        myQueue.add("fdjasoijfasdofjsdoifodsjfoidjasiojdasoicuondnaosadno23j093214u231084u318yrhf9sdhcncdsaiocjsadoifujcsadoifuweqoiujoiru32ru342198yr43189yfhcuisdabcino");
         myQueue.add(new ComplexKey("zzzz", 1));
 
         mySet.add("ciao2");

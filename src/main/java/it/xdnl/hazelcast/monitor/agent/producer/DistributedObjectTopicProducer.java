@@ -1,11 +1,13 @@
 package it.xdnl.hazelcast.monitor.agent.producer;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hazelcast.core.*;
-import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectTopic;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
-import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectsTopic;
-import it.xdnl.hazelcast.monitor.agent.product.*;
+import it.xdnl.hazelcast.monitor.agent.product.ListProduct;
+import it.xdnl.hazelcast.monitor.agent.product.MapProduct;
+import it.xdnl.hazelcast.monitor.agent.product.Product;
 
 import java.util.Collection;
 import java.util.Map;
@@ -20,6 +22,10 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
     private DistributedObjectType distributedObjectType;
     private String objectName;
     private HazelcastInstance instance;
+
+    static {
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    }
 
     public DistributedObjectTopicProducer(final String instanceName, final DistributedObjectType distributedObjectType, final String objectName) {
         super(TOPIC_TYPE);
