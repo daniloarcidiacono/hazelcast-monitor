@@ -36,7 +36,14 @@ public class TopicProducerFactory {
         }
 
         if (message.getTopic() instanceof DistributedObjectTopic) {
-            final DistributedObjectTopic topic = (DistributedObjectTopic)message.getTopic();
+            final DistributedObjectTopic topic = (DistributedObjectTopic) message.getTopic();
+
+            // Topics have a dedicated producer, because they only emit messages when a
+            // message is received; so they are not wrapped by ScheduledTopicProducer
+            if (topic.getDistributedObjectType().equals(DistributedObjectType.TOPIC)) {
+                return new TopicTopicProducer(topic.getInstanceName(), topic.getObjectName());
+            }
+
             return wrapProducer(new DistributedObjectTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName()), message);
         }
 

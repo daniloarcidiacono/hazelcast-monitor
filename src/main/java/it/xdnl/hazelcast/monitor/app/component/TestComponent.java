@@ -148,6 +148,9 @@ public class TestComponent {
             o2.getStats().set(0, t);
             myList.set(2, o2);
 
+
+            myTopic.publish(new ComplexKey("A new message has arrived", t));
+
             t = (t + 1) % 100;
         }, 0, 1, TimeUnit.SECONDS);
 

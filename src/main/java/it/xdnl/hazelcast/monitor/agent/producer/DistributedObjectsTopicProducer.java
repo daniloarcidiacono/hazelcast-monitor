@@ -72,6 +72,11 @@ public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
                 final ISet casted = (ISet)object;
                 return new SetSummary(casted.size());
             }
+
+            case TOPIC: {
+                final ITopic casted = (ITopic)object;
+                return new TopicSummary();
+            }
         }
 
         return null;
