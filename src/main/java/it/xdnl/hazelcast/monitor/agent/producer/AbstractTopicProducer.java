@@ -36,9 +36,9 @@ public abstract class AbstractTopicProducer {
 
     public abstract Product produce();
 
-    public void notice(final Object object) {
+    public void notice(final Product product) {
         for (TopicListener listener : listeners) {
-            listener.notice(this, object);
+            listener.notice(this, product);
         }
     }
 

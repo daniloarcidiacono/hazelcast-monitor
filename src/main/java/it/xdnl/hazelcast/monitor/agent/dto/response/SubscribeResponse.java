@@ -1,8 +1,10 @@
 package it.xdnl.hazelcast.monitor.agent.dto.response;
 
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 import it.xdnl.hazelcast.monitor.agent.dto.AbstractMessage;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.AbstractTopic;
 
+@TypescriptDTO
 public class SubscribeResponse extends AbstractMessage {
     public static final String MESSAGE_TYPE = "subscribe";
     private long subscriptionId;

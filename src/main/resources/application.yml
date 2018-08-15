@@ -11,9 +11,6 @@ logging:
   level:
     it.xdnl.hazelcast.monitor: DEBUG
 
-dto:
-  generate: false
-
 monitor:
   threads:
     threadPoolSize: 2

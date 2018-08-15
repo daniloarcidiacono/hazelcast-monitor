@@ -19,7 +19,7 @@ public class HazelcastConfiguration {
         config.setManagementCenterConfig(
             new ManagementCenterConfig()
                 .setUrl("http://localhost:8080/mancenter")
-                .setEnabled(true)
+                .setEnabled(false)
         );
 
         config.setNetworkConfig(

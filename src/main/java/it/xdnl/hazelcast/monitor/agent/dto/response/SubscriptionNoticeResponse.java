@@ -1,12 +1,15 @@
 package it.xdnl.hazelcast.monitor.agent.dto.response;
 
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 import it.xdnl.hazelcast.monitor.agent.dto.AbstractMessage;
+import it.xdnl.hazelcast.monitor.agent.product.Product;
 
-public class SubscriptionNoticeResponse extends AbstractMessage {
+@TypescriptDTO
+public class SubscriptionNoticeResponse<T extends Product> extends AbstractMessage {
     public static final String MESSAGE_TYPE = "notice";
     private String topicType;
     private Long subscriptionId;
-    private Object notice;
+    private T notice;
 
     public SubscriptionNoticeResponse() {
         super(MESSAGE_TYPE);
@@ -32,7 +35,7 @@ public class SubscriptionNoticeResponse extends AbstractMessage {
         return notice;
     }
 
-    public void setNotice(Object notice) {
+    public void setNotice(T notice) {
         this.notice = notice;
     }
 }

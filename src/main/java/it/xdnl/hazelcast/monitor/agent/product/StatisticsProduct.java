@@ -1,5 +1,8 @@
 package it.xdnl.hazelcast.monitor.agent.product;
 
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+
+@TypescriptDTO
 public class StatisticsProduct implements Product {
     private int membersCount;
     private int atomicLongCount;

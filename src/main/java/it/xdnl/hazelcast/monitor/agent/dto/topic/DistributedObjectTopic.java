@@ -2,11 +2,13 @@ package it.xdnl.hazelcast.monitor.agent.dto.topic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 import it.xdnl.hazelcast.monitor.agent.producer.DistributedObjectTopicProducer;
 
 /**
  * Topic for a specific distributed object
  */
+@TypescriptDTO
 public class DistributedObjectTopic extends AbstractTopic {
     public static final String TOPIC_TYPE = DistributedObjectTopicProducer.TOPIC_TYPE;
     private DistributedObjectType distributedObjectType;

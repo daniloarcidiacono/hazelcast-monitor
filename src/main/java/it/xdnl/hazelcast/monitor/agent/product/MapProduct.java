@@ -1,13 +1,20 @@
 package it.xdnl.hazelcast.monitor.agent.product;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptField;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@TypescriptDTO
 public class MapProduct implements Product {
+    @TypescriptDTO
     public static class Entry {
+        @TypescriptField(type = Object.class)
         private final JsonNode key;
+
+        @TypescriptField(type = Object.class)
         private final JsonNode value;
         private final String keyString;
         private final String valueString;

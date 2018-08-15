@@ -3,6 +3,7 @@ package it.xdnl.hazelcast.monitor.agent.helper;
 import it.xdnl.hazelcast.monitor.agent.ClientConnection;
 import it.xdnl.hazelcast.monitor.agent.ClientConnectionListener;
 import it.xdnl.hazelcast.monitor.agent.dto.response.SubscriptionNoticeResponse;
+import it.xdnl.hazelcast.monitor.agent.product.Product;
 import it.xdnl.hazelcast.monitor.agent.utils.ClientConnectionUtils;
 import it.xdnl.hazelcast.monitor.agent.producer.AbstractTopicProducer;
 import it.xdnl.hazelcast.monitor.agent.producer.TopicListener;
@@ -157,10 +158,10 @@ public class ConnectionSubscriptionsRegistry implements TopicListener, ClientCon
     }
 
     @Override
-    public synchronized void notice(final AbstractTopicProducer topic, final Object object) {
+    public synchronized void notice(final AbstractTopicProducer topic, final Product product) {
         final SubscriptionNoticeResponse notice = new SubscriptionNoticeResponse();
         notice.setTopicType(topic.getTopicType());
-        notice.setNotice(object);
+        notice.setNotice(product);
 
         for (Map.Entry<Long, Subscription> entry : subscriptions.entrySet()) {
             if (entry.getValue().getProducer().equals(topic)) {

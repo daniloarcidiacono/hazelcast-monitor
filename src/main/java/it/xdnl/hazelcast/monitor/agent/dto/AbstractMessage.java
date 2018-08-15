@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import it.xdnl.chat.typescript.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptField;
 import it.xdnl.hazelcast.monitor.agent.dto.request.SubscribeRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.request.UnsubscribeRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.response.SubscriptionNoticeResponse;
@@ -23,6 +24,8 @@ import it.xdnl.hazelcast.monitor.agent.dto.response.SubscriptionNoticeResponse;
 @TypescriptDTO
 public abstract class AbstractMessage {
     private String messageType;
+    
+    @TypescriptField(required = false)
     private Long messageId;
 
     @JsonCreator

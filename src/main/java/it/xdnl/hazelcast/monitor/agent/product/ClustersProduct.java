@@ -1,8 +1,11 @@
 package it.xdnl.hazelcast.monitor.agent.product;
 
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@TypescriptDTO
 public class ClustersProduct implements Product {
     private List<String> clusters = new ArrayList<>();
 

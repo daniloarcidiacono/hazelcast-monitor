@@ -10,6 +10,9 @@ import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -85,6 +88,9 @@ public class TestComponent {
     private Ringbuffer<Object> myRingbuffer;
     private ISemaphore mySemaphore;
 
+    private ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
+    private int t = 0;
+
     @PostConstruct
     public void init() {
         hazelcastInstance.getExecutorService("myExecutor");
@@ -120,6 +126,7 @@ public class TestComponent {
 
         myList.add("ciao");
         myList.add(new ComplexKey("Test", 15));
+        myList.add(new ComplexValue(0, 1, 2));
 
         myLock.lock(45, TimeUnit.SECONDS);
         myMap.put(new ComplexKey("Danilo1", 28), new ComplexValue(1, 2, 3));
@@ -129,6 +136,20 @@ public class TestComponent {
         myMap2.put("ciao", new ComplexValue(1, 2, 3));
         myMap2.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
         myMap2.lock("ciao");
+
+        final ScheduledFuture<?> scheduledFuture = threadPool.scheduleWithFixedDelay(() -> {
+            myList.set(0, "ciao" + t);
+
+            final ComplexKey o = (ComplexKey)myList.get(1);
+            o.age = t;
+            myList.set(1, o);
+
+            final ComplexValue o2 = (ComplexValue)myList.get(2);
+            o2.getStats().set(0, t);
+            myList.set(2, o2);
+
+            t = (t + 1) % 100;
+        }, 0, 1, TimeUnit.SECONDS);
 
         /*
         this.myMap = hazelcastInstance.getMap("simple_map");

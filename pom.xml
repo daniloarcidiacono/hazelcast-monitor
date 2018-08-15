@@ -27,8 +27,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>it.xdnl.chat</groupId>
-			<artifactId>chat-typescript</artifactId>
+			<groupId>io.github.daniloarcidiacono</groupId>
+			<artifactId>typescript-mapper</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -95,6 +95,31 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
+				<groupId>io.github.daniloarcidiacono</groupId>
+				<artifactId>typescript-mapper-maven-plugin</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<configuration>
+					<packages>
+						<param>it.xdnl.hazelcast.monitor.agent.dto</param>
+						<param>it.xdnl.hazelcast.monitor.agent.product</param>
+					</packages>
+					<mappings>
+						<it.xdnl.hazelcast.monitor.agent.dto>hazelcast-monitor.dto.ts</it.xdnl.hazelcast.monitor.agent.dto>
+						<it.xdnl.hazelcast.monitor.agent.dto.topic>topics.dto.ts</it.xdnl.hazelcast.monitor.agent.dto.topic>
+						<it.xdnl.hazelcast.monitor.agent.dto.request>hazelcast-monitor.dto.ts</it.xdnl.hazelcast.monitor.agent.dto.request>
+						<it.xdnl.hazelcast.monitor.agent.dto.response>hazelcast-monitor.dto.ts</it.xdnl.hazelcast.monitor.agent.dto.response>
+						<it.xdnl.hazelcast.monitor.agent.product>topic-products.dto.ts</it.xdnl.hazelcast.monitor.agent.product>
+					</mappings>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>map</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -104,5 +129,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

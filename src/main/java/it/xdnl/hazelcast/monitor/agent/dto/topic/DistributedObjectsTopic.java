@@ -1,8 +1,9 @@
 package it.xdnl.hazelcast.monitor.agent.dto.topic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import it.xdnl.hazelcast.monitor.agent.producer.ClustersTopicProducer;
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 
+@TypescriptDTO
 public class DistributedObjectsTopic extends AbstractTopic {
     public static final String TOPIC_TYPE = "distributed_object";
 

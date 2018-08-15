@@ -3,7 +3,9 @@ package it.xdnl.hazelcast.monitor.agent.dto.topic;
 import com.hazelcast.cache.ICache;
 import com.hazelcast.core.*;
 import com.hazelcast.ringbuffer.Ringbuffer;
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 
+@TypescriptDTO
 public enum DistributedObjectType {
     ATOMICLONG(IAtomicLong.class),
     ATOMICREFERENCE(IAtomicReference.class),
