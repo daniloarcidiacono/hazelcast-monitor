@@ -267,7 +267,13 @@ export class PageDashboardComponent implements OnDestroy {
 
   public navigateTo(section: SectionItem): void {
     if (section.tab.componentClass !== undefined) {
-      this.tabService.addTab(section.tab);
+      // Note: we need to clone the tab descriptor, otherwise opening the same section multiple times
+      // won't work. Also notice that object spread is a shallow copy, but for our purposes it is sufficient.
+      this.tabService.addTab(
+        {
+          ...section.tab
+        }
+      );
     }
   }
 }
