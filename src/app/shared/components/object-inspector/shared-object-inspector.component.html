@@ -1,45 +1,16 @@
-<ng-container *ngIf="!isComplex()">
-  <div style="display: flex; flex-direction: row; align-items: center; height: 100%">
-    <mdc-icon *ngIf="locked" style="color: red">lock</mdc-icon>
-    <div style="margin-left: 1em">
-      {{ stringData }}
+<shared-mdc-tree [model]="data">
+  <ng-template let-node>
+    <div class="MdcTreeNode MdcTreeNode__Content" [ngClass]="depthClass(node)" style="margin-right: 3em">
+      <div class="MdcTreeNode__Expander" *ngIf="node.childCount > 0">
+        <mdc-icon *ngIf="node.other.collapsed">chevron_right</mdc-icon>
+        <mdc-icon *ngIf="!node.other.collapsed">expand_more</mdc-icon>
+      </div>
+      <div class="MdcTreeNode__Icon" *ngIf="locked && node.parent === undefined">
+        <mdc-icon style="color: red">lock</mdc-icon>
+      </div>
+      <div class="MdcTreeNode__Label">
+        {{ nodeCaption(node) }}
+      </div>
     </div>
-  </div>
-</ng-container>
-<ng-container *ngIf="isComplex()">
-  <div style="display: flex; flex-direction: row; align-items: center;">
-    <mdc-icon *ngIf="locked" style="color: red">lock</mdc-icon>
-    <button mdcIconButton
-            #expandButton
-            iconOn="arrow_drop_up"
-            iconOff="arrow_drop_down"
-            labelOn="Inspect"
-            labelOff="Close">
-    </button>
-    <div>
-      {{ stringData }}
-    </div>
-  </div>
-  <div *ngIf="expandButton.on">
-    <shared-mdc-tree [model]="treeModel">
-      <ng-template let-node>
-        <div class="MdcTreeNode MdcTreeNode__Content" [ngClass]="depthClass(node)" style="margin-right: 3em">
-          <div class="MdcTreeNode__Expander">
-            <ng-container *ngIf="node.children().length > 0">
-              <mdc-icon *ngIf="node.collapsed()">chevron_right</mdc-icon>
-              <mdc-icon *ngIf="!node.collapsed()">expand_more</mdc-icon>
-            </ng-container>
-          </div>
-          <div class="MdcTreeNode__Icon" *ngIf="isArray(node)">
-            {{ node.parentPropertyName }}
-          </div>
-          <div class="MdcTreeNode__Label">
-            <div class="MdcTreeNode__LabelKey" *ngIf="!isArray(node)">
-              {{ node.parentPropertyName }}: {{ node.data | json }}
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </shared-mdc-tree>
-  </div>
-</ng-container>
+  </ng-template>
+</shared-mdc-tree>

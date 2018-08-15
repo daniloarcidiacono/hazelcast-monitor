@@ -1,8 +1,5 @@
-import {Component, ContentChild, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
-import {
-  ObjectMdcTreeNodeModel, SharedMdcTreeNodeModel,
-  TreePreorderIterator
-} from '@shared/components/mdc-tree/shared-mdc-tree.model';
+import {Component, ContentChild, Input, OnChanges, SimpleChanges, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {ObjectPreorderIterator, ObjectTreeNode} from "./object-preorder-iterator";
 
 @Component({
   selector: 'shared-mdc-tree',
@@ -10,23 +7,48 @@ import {
   styleUrls: [ './shared-mdc-tree.component.scss' ],
   encapsulation: ViewEncapsulation.None
 })
-export class SharedMdcTreeComponent implements OnInit {
+export class SharedMdcTreeComponent implements OnChanges {
   @Input()
-  private model: SharedMdcTreeNodeModel;
+  private model: any;
 
   @ContentChild(TemplateRef)
   private template: TemplateRef<any>;
 
-  private tree: TreePreorderIterator;
+  private tree: ObjectPreorderIterator;
+
+  private internalModel: any = {
+  };
 
   public constructor() {
   }
 
-  public ngOnInit(): void {
-    this.tree = new TreePreorderIterator(this.model);
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('model' in changes) {
+      this.tree = new ObjectPreorderIterator(this.model, this.injectModel.bind(this));
+    }
   }
 
-  public toggleCollapse(node: SharedMdcTreeNodeModel) {
-    node.collapse(!node.collapsed());
+  private injectModel(path: string): any {
+    if (!(path in this.internalModel)) {
+      this.internalModel[path] = {
+        collapsed: true
+      };
+    }
+
+    return this.internalModel[path];
+  }
+
+  public toggleCollapse(node: ObjectTreeNode) {
+    if (!(node.path in this.internalModel)) {
+      this.internalModel[node.path] = {
+        collapsed: true
+      };
+    }
+
+    this.internalModel[node.path].collapsed = !this.internalModel[node.path].collapsed;
+  }
+
+  public trackFunc(index: number, data: ObjectTreeNode): any {
+    return data.path;
   }
 }

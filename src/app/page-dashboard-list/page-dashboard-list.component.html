@@ -5,13 +5,13 @@
   <shared-mdc-table [model]="data?.entries">
     <ng-template #headerTemplate>
       <tr class="mdc-data-table__row">
-        <th class="mdc-data-table__column">Index</th>
+        <th class="mdc-data-table__column mdc-data-table__column--centered">Index</th>
         <th class="mdc-data-table__column">Value</th>
       </tr>
     </ng-template>
     <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
       <tr class="mdc-data-table__row">
-        <td class="mdc-data-table__cell">
+        <td class="mdc-data-table__cell mdc-data-table__cell--centered">
           {{ rowIndex }}
         </td>
         <td class="mdc-data-table__cell mdc-data-table__cell--top">

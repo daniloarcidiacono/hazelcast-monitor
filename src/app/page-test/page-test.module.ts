@@ -5,7 +5,7 @@ import {SharedMdcTreeModule} from '@shared/components/mdc-tree/shared-mdc-tree.m
 import {MdcIconModule} from '@angular-mdc/web';
 import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
 import {SharedMdcPaginatorModule} from '@shared/components/mdc-paginator/shared-mdc-paginator.module';
-import {SharedMdcTreeTableModule} from '@shared/components/mdc-treetable/shared-mdc-treetable.module';
+import {SharedObjectInspectorModule} from '@shared/components/object-inspector/shared-object-inspector.module';
 
 @NgModule({
   declarations: [
@@ -19,9 +19,10 @@ import {SharedMdcTreeTableModule} from '@shared/components/mdc-treetable/shared-
 
     // Shared modules
     SharedMdcTreeModule,
+    SharedObjectInspectorModule,
     SharedMdcTableModule,
-    SharedMdcPaginatorModule,
-    SharedMdcTreeTableModule
+    SharedMdcPaginatorModule
+    // SharedMdcTreeTableModule
   ],
   providers: [
   ]

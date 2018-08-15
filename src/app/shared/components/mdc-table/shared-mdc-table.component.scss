@@ -52,7 +52,7 @@
 
   &__cell, &__column {
     position: relative;
-    height: 48px;
+    height: 39px;
     padding: 0 56px 0 0;
     box-sizing: border-box;
 
@@ -163,7 +163,7 @@
   // row in table body
   tbody .mdc-data-table__row {
     position: relative;
-    height: 48px;
+    height: 39px;
     overflow: hidden;
     transition: background-color .15s linear;
     border-bottom: 1px solid;

@@ -41,6 +41,7 @@
     flex-grow: 0;
     flex-shrink: 0;
     width: 24px;
+    height: 24px;
     overflow: hidden;
     color: black;
   }
@@ -61,17 +62,5 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    &Key {
-      //@extend .mdc-typography--overline;
-    }
-
-    &Value {
-      margin-left: 0.5em;
-    }
   }
 }
