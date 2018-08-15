@@ -5,7 +5,7 @@ import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {Subscription} from 'rxjs/index';
 import {MapProductDTO} from '@shared/dto/topic-products.dto';
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
-import {TabAwareComponent} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
+import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 
 @Component({
   templateUrl: './page-dashboard-multimap.component.html',
@@ -44,5 +44,8 @@ export class PageDashboardMultiMapComponent implements TabAwareComponent, OnDest
       this.dataSub.unsubscribe();
       this.dataSub = undefined;
     }
+  }
+
+  public tabCreated(tab: TabData): void {
   }
 }

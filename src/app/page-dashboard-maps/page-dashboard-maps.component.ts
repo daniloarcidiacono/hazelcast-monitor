@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {MapsProductDTO, MapSummaryDTO} from '@shared/dto/topic-products.dto';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
-import {TabAwareComponent} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
+import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {SharedTabsService} from '@shared/services/shared-tabs.service';
 import {PageDashboardMapComponent} from '../page-dashboard-map/page-dashboard-map.component';
 import {Subscription} from 'rxjs/index';
@@ -62,5 +62,8 @@ export class PageDashboardMapsComponent implements TabAwareComponent, OnDestroy 
 
   public get clusterName(): string {
     return this.clustersService.getCurrentCluster().instanceName;
+  }
+
+  public tabCreated(tab: TabData): void {
   }
 }

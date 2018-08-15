@@ -31,7 +31,7 @@ import {
   MultiMapsProductDTO, QueueProductDTO, QueuesProductDTO,
   ReplicatedMapProductDTO,
   ReplicatedMapsProductDTO, SetProductDTO, SetsProductDTO,
-  StatisticsProductDTO
+  StatisticsProductDTO, TopicProductDTO, TopicsProductDTO
 } from '@shared/dto/topic-products.dto';
 
 @Injectable()
@@ -304,6 +304,10 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SET);
   }
 
+  public subscribeToTopics(instanceName: string): Observable<SubscriptionNoticeResponseDTO<TopicsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.TOPIC);
+  }
+
   public subscribeToDistributedObject(instanceName: string, distributedObjectType: DistributedObjectType, objectName: string): Observable<SubscriptionNoticeResponseDTO<any>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
@@ -343,5 +347,9 @@ export class SharedHazelcastAgentService {
 
   public subscribeToSet(instanceName: string, setName: string): Observable<SubscriptionNoticeResponseDTO<SetProductDTO>> {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.SET, setName);
+  }
+
+  public subscribeToTopic(instanceName: string, topicName: string): Observable<SubscriptionNoticeResponseDTO<TopicProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.TOPIC, topicName);
   }
 }

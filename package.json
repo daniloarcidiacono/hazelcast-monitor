@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "^6.1.2",
     "@angular/router": "^6.1.2",
     "core-js": "^2.5.4",
+    "moment": "^2.22.2",
+    "ngx-moment": "^3.1.0",
     "ngx-webstorage-service": "^3.1.1",
     "rxjs": "^6.0.0",
     "sockjs-client": "^1.1.5",

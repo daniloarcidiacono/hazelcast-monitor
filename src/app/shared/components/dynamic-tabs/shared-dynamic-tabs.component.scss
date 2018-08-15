@@ -7,6 +7,11 @@
     align-items: center;
   }
 
+  &__RecordIcon {
+    color: red;
+    animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+  }
+
   &__Close {
     margin-right: 1em;
   }
@@ -14,4 +19,9 @@
   &__Close:hover {
     color: $mdc-theme-accent;
   }
+}
+
+@keyframes blinker {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }

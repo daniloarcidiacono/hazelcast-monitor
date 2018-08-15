@@ -34,6 +34,10 @@ import {PageDashboardQueuesComponent} from "../page-dashboard-queues/page-dashbo
 import {PageDashboardQueueComponent} from "../page-dashboard-queue/page-dashboard-queue.component";
 import {PageDashboardQueuesModule} from "../page-dashboard-queues/page-dashboard-queues.module";
 import {PageDashboardQueueModule} from "../page-dashboard-queue/page-dashboard-queue.module";
+import {PageDashboardTopicsModule} from "../page-dashboard-topics/page-dashboard-topics.module";
+import {PageDashboardTopicsComponent} from "../page-dashboard-topics/page-dashboard-topics.component";
+import {PageDashboardTopicComponent} from "../page-dashboard-topic/page-dashboard-topic.component";
+import {PageDashboardTopicModule} from "../page-dashboard-topic/page-dashboard-topic.module";
 
 @NgModule({
   declarations: [
@@ -51,12 +55,14 @@ import {PageDashboardQueueModule} from "../page-dashboard-queue/page-dashboard-q
     PageDashboardSetsModule,
     PageDashboardReplicatedMapsModule,
     PageDashboardQueuesModule,
+    PageDashboardTopicsModule,
     PageDashboardMapModule,
     PageDashboardListModule,
     PageDashboardMultiMapModule,
     PageDashboardReplicatedMapModule,
     PageDashboardSetModule,
     PageDashboardQueueModule,
+    PageDashboardTopicModule,
 
     // Angular MDC Web
     MdcDrawerModule,
@@ -80,6 +86,7 @@ import {PageDashboardQueueModule} from "../page-dashboard-queue/page-dashboard-q
     PageDashboardMapsComponent,
     PageDashboardMultiMapsComponent,
     PageDashboardReplicatedMapsComponent,
+    PageDashboardTopicsComponent,
     PageDashboardSetsComponent,
     PageDashboardQueuesComponent,
     PageDashboardMapComponent,
@@ -87,7 +94,8 @@ import {PageDashboardQueueModule} from "../page-dashboard-queue/page-dashboard-q
     PageDashboardMultiMapComponent,
     PageDashboardReplicatedMapComponent,
     PageDashboardSetComponent,
-    PageDashboardQueueComponent
+    PageDashboardQueueComponent,
+    PageDashboardTopicComponent
   ]
 })
 export class PageDashboardModule { }

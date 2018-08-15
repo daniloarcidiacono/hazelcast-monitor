@@ -1,9 +1,13 @@
 import {
-  Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, ViewChild,
+  Component,
+  ComponentFactory,
+  ComponentFactoryResolver,
+  ComponentRef,
+  ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {MdcTab, MdcTabBar} from '@angular-mdc/web';
-import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
+import {MdcTabBar} from '@angular-mdc/web';
+import {TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {TabHostDirective} from '@shared/components/dynamic-tabs/tab-host.directive';
 
 @Component({
@@ -36,6 +40,11 @@ export class SharedDynamicTabsComponent {
 
     data.componentRef = componentRef;
     this.tabs.push(data);
+
+    // Inject the tab data into the component
+    if (!!data.componentRef.instance['tabCreated']) {
+      data.componentRef.instance.tabCreated(data);
+    }
     this.selectTab(this.tabs.length - 1);
   }
 

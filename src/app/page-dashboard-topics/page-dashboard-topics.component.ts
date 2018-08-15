@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {QueuesProductDTO, QueueSummaryDTO} from '@shared/dto/topic-products.dto';
+import {TopicsProductDTO, TopicSummaryDTO} from '@shared/dto/topic-products.dto';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {SharedTabsService} from '@shared/services/shared-tabs.service';
@@ -7,15 +7,15 @@ import {Subscription} from 'rxjs/index';
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
-import {PageDashboardQueueComponent} from '../page-dashboard-queue/page-dashboard-queue.component';
+import {PageDashboardTopicComponent} from '../page-dashboard-topic/page-dashboard-topic.component';
 
 @Component({
-  templateUrl: './page-dashboard-queues.component.html',
-  styleUrls: [ './page-dashboard-queues.component.scss' ]
+  templateUrl: './page-dashboard-topics.component.html',
+  styleUrls: [ './page-dashboard-topics.component.scss' ]
 })
-export class PageDashboardQueuesComponent implements TabAwareComponent, OnDestroy {
+export class PageDashboardTopicsComponent implements TabAwareComponent, OnDestroy {
   private dataSub: Subscription;
-  private data: QueuesProductDTO = undefined;
+  private data: TopicsProductDTO = undefined;
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
@@ -28,26 +28,26 @@ export class PageDashboardQueuesComponent implements TabAwareComponent, OnDestro
     this.beforeHide();
   }
 
-  public navigateToQueueDetails(row: QueueSummaryDTO): void {
-    const queueName: string = row.name;
+  public navigateToTopicDetails(row: TopicSummaryDTO): void {
+    const topicName: string = row.name;
 
     this.tabsService.addTab({
-      label: `${queueName} queue`,
-      componentClass: PageDashboardQueueComponent,
+      label: `${topicName} topic`,
+      componentClass: PageDashboardTopicComponent,
       componentInputs: {
-        queueName: queueName
+        topicName: topicName
       }
     });
   }
 
   public beforeShow(): void {
     if (!this.dataSub) {
-      this.dataSub = this.hazelcastService.subscribeToQueues(this.clustersService.getCurrentCluster().instanceName).subscribe(
-        (notice: SubscriptionNoticeResponseDTO<QueuesProductDTO>) => {
+      this.dataSub = this.hazelcastService.subscribeToTopics(this.clustersService.getCurrentCluster().instanceName).subscribe(
+        (notice: SubscriptionNoticeResponseDTO<TopicsProductDTO>) => {
           this.data = notice.notice;
         },
         (error: ErrorMessageDTO) => {
-          this.snackbarService.show(`Could not fetch the queues: ${error.errors}`);
+          this.snackbarService.show(`Could not fetch the topics: ${error.errors}`);
         }
       );
     }

@@ -1,0 +1,24 @@
+.DashboardTopic {
+  margin: 0;
+  padding: 1em;
+
+  &__ActionBar {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1em;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    &--left {
+    }
+
+    &--right {
+      margin-right: 1em;
+    }
+  }
+
+  &__Title {
+    margin-bottom: 2em;
+  }
+}

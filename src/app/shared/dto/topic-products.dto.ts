@@ -88,6 +88,11 @@ export interface ReplicatedMapSummaryDTO extends DistributedObjectSummary {
 }
 export type ReplicatedMapsProductDTO = DistributedObjectsProduct<ReplicatedMapSummaryDTO>;
 
+// Topics
+export interface TopicSummaryDTO extends DistributedObjectSummary {
+}
+export type TopicsProductDTO = DistributedObjectsProduct<TopicSummaryDTO>;
+
 // Map
 export interface MapProductDTO extends ProductDTO {
   entries: MapProductEntryDTO[];
@@ -126,3 +131,12 @@ export type SetProductEntryDTO = ListProductEntryDTO;
 // Replicated Map
 export type ReplicatedMapProductDTO = MapProductDTO;
 export type ReplicatedMapProductEntryDTO = MapProductEntryDTO;
+
+// Topic
+export interface TopicProductDTO extends ProductDTO {
+  publisher: MemberSummaryDTO;
+  message: any;
+  messageString: string;
+  publishTime: number;
+}
+

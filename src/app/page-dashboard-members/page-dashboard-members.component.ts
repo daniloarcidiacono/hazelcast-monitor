@@ -5,7 +5,7 @@ import {MembersProductDTO} from '@shared/dto/topic-products.dto';
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
 import {Subscription} from 'rxjs/index';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
-import {TabAwareComponent} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
+import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 
 @Component({
   templateUrl: './page-dashboard-members.component.html',
@@ -47,5 +47,8 @@ export class PageDashboardMembersComponent implements TabAwareComponent, OnDestr
 
   public get clusterName(): string {
     return this.clustersService.getCurrentCluster().instanceName;
+  }
+
+  public tabCreated(tab: TabData): void {
   }
 }

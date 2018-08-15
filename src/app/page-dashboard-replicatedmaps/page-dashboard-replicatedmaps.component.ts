@@ -4,7 +4,7 @@ import {
   ReplicatedMapSummaryDTO
 } from '@shared/dto/topic-products.dto';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
-import {TabAwareComponent} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
+import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {SharedTabsService} from '@shared/services/shared-tabs.service';
 import {PageDashboardReplicatedMapComponent} from '../page-dashboard-replicatedmap/page-dashboard-replicatedmap.component';
 import {Subscription} from 'rxjs/index';
@@ -65,5 +65,8 @@ export class PageDashboardReplicatedMapsComponent implements TabAwareComponent, 
 
   public get clusterName(): string {
     return this.clustersService.getCurrentCluster().instanceName;
+  }
+
+  public tabCreated(tab: TabData): void {
   }
 }

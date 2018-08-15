@@ -18,6 +18,7 @@ import {PageDashboardMultiMapsComponent} from "../page-dashboard-multimaps/page-
 import {PageDashboardReplicatedMapsComponent} from "../page-dashboard-replicatedmaps/page-dashboard-replicatedmaps.component";
 import {PageDashboardSetsComponent} from "../page-dashboard-sets/page-dashboard-sets.component";
 import {PageDashboardQueuesComponent} from "../page-dashboard-queues/page-dashboard-queues.component";
+import {PageDashboardTopicsComponent} from "../page-dashboard-topics/page-dashboard-topics.component";
 
 interface SeparatorItem {
   separator: boolean;
@@ -208,7 +209,7 @@ export class PageDashboardComponent implements OnDestroy {
       },
       tab: {
         label: 'Topics',
-        componentClass: undefined
+        componentClass: PageDashboardTopicsComponent
       }
     },
     {
