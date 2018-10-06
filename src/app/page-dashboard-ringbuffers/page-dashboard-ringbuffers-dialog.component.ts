@@ -1,26 +1,27 @@
-import {Component} from '@angular/core';
-import {MdcDialogRef} from '@angular-mdc/web';
+import {Component, Inject} from '@angular/core';
+import {MDC_DIALOG_DATA, MdcDialogRef} from '@angular-mdc/web';
 
 @Component({
   template: `
   <mdc-dialog>
-    <mdc-dialog-surface>
-      <mdc-dialog-header>
-        <mdc-dialog-header-title>
+    <mdc-dialog-container>
+      <mdc-dialog-surface>
+        <mdc-dialog-title>
           Notice
-        </mdc-dialog-header-title>
-      </mdc-dialog-header>
-      <mdc-dialog-body>
-        <p>Can't inspect {{ dialogRef.data.ringbufferName}}: ringbuffer inspection is not supported.</p>
-      </mdc-dialog-body>
-      <mdc-dialog-footer>
-        <button mdc-dialog-button [accept]="true">Ok</button>
-      </mdc-dialog-footer>
-    </mdc-dialog-surface>
+        </mdc-dialog-title>
+        <mdc-dialog-content>
+          <p>Can't inspect {{ data.ringbufferName }}: ringbuffer inspection is not supported.</p>
+        </mdc-dialog-content>
+        <mdc-dialog-actions>
+          <button mdcDialogButton mdcDialogAction="accept">Ok</button>
+        </mdc-dialog-actions>
+      </mdc-dialog-surface>
+    </mdc-dialog-container>
   </mdc-dialog>
   `,
 })
 export class PageDashboardRingbuffersDialogComponent {
-  public constructor(public dialogRef: MdcDialogRef<PageDashboardRingbuffersDialogComponent>) {
+  public constructor(public dialogRef: MdcDialogRef<PageDashboardRingbuffersDialogComponent>,
+                     @Inject(MDC_DIALOG_DATA) public data: any) {
   }
 }

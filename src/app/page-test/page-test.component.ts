@@ -57,8 +57,7 @@ export class PageTestComponent {
         // ringbufferName: ringbufferName
       },
       escapeToClose: false,
-      clickOutsideToClose: false,
-      backdrop: true
+      clickOutsideToClose: false
     });
   }
 

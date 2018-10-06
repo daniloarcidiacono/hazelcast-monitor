@@ -38,8 +38,7 @@ export class PageDashboardRingbuffersComponent implements TabAwareComponent, OnD
         ringbufferName: ringbufferName
       },
       escapeToClose: true,
-      clickOutsideToClose: true,
-      backdrop: true
+      clickOutsideToClose: true
     });
   }
 

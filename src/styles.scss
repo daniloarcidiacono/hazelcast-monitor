@@ -20,7 +20,7 @@ app-root {
 }
 
 .MdcButton__Icon--rounded {
-  @include mdc-button-corner-radius(24px);
+  //@include mdc-button-corner-radius(24px);
   min-width: 0px;
   width: 48px;
   height: 48px;

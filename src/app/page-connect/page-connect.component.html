@@ -1,16 +1,16 @@
 <div class="Page__Main" mdcTypography>
   <div class="ConnectCard" [mdcElevation]="4">
     <div class="ConnectCard__Progress">
-      <mdc-linear-progress [closed]="!isProgressVisible()">
+      <mdc-linear-progress [open]="isProgressVisible()">
       </mdc-linear-progress>
     </div>
     <div class="ConnectCard__Logo"></div>
     <h1 mdcHeadline6>Connect</h1>
     <form [formGroup]="bindings.form" class="ConnectCard__Form">
-      <div>
+      <div class="ConnectCard__TopBar">
+        <!-- Protocol -->
         <mdc-select formControlName="protocol"
-                    [box]="false"
-                    [outlined]="false"
+                    [outlined]="true"
                     placeholder="Protocol"
                     [floatingLabel]="true"
                     class="ConnectCard__ProtocolSelector">
@@ -21,12 +21,12 @@
         <!-- Host -->
         <mdc-text-field formControlName="host"
                         type="text"
-                        [box]="false"
-                        [outline]="false"
-                        [dense]="true"
+                        [outlined]="true"
+                        [dense]="false"
                         label="Host"
                         [helperText]="hostHelper"
-                        [required]="true">
+                        [required]="true"
+                        class="ConnectCard__HostSelector">
         </mdc-text-field>
         <mdc-text-field-helper-text #hostHelper [validation]="true" [persistent]="false">
           <span *ngIf="bindings.form.controls['host'].errors?.required">Host is required</span>
@@ -36,12 +36,12 @@
       <!-- Port -->
       <mdc-text-field formControlName="port"
                       type="number"
-                      [box]="false"
-                      [outline]="false"
-                      [dense]="true"
+                      [outlined]="true"
+                      [dense]="false"
                       label="Port"
                       [helperText]="portHelper"
-                      [required]="true">
+                      [required]="true"
+                      class="ConnectCard__PortSelector">
       </mdc-text-field>
       <mdc-text-field-helper-text #portHelper [validation]="true" [persistent]="false">
         <span *ngIf="bindings.form.controls['port'].errors?.required">Port is required</span>
@@ -50,10 +50,10 @@
       <!-- Path -->
       <mdc-text-field formControlName="path"
                       type="text"
-                      [box]="false"
-                      [outline]="false"
-                      [dense]="true"
-                      label="Path">
+                      [outlined]="true"
+                      [dense]="false"
+                      label="Path"
+                      class="ConnectCard__PathSelector">
       </mdc-text-field>
       <!--<mdc-text-field-helper-text #pathHelper [validation]="true" [persistent]="false">-->
         <!--<span *ngIf="bindings.form.controls['path'].errors?.required">Path is required</span>-->

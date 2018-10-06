@@ -6,9 +6,9 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {MdcTabBar} from '@angular-mdc/web';
 import {TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {TabHostDirective} from '@shared/components/dynamic-tabs/tab-host.directive';
+import {MdcTabBar} from '@angular-mdc/web';
 
 @Component({
   selector: 'shared-dynamic-tabs',
@@ -18,6 +18,8 @@ import {TabHostDirective} from '@shared/components/dynamic-tabs/tab-host.directi
 export class SharedDynamicTabsComponent {
   public tabs: TabData[] = [
   ];
+
+  public activeTabIndex: number = -1;
 
   @ViewChild(TabHostDirective)
   private tabHost: TabHostDirective;
@@ -45,43 +47,61 @@ export class SharedDynamicTabsComponent {
     if (!!data.componentRef.instance['tabCreated']) {
       data.componentRef.instance.tabCreated(data);
     }
+
     this.selectTab(this.tabs.length - 1);
   }
 
   private selectTab(tabIndex: number): void {
-    const currentTab: number = this.tabBarComponent.getActiveTabIndex();
-    if (currentTab !== tabIndex) {
-      if (currentTab >= 0 && currentTab < this.tabs.length) {
-        if (!!this.tabs[currentTab].componentRef.instance['beforeHide']) {
-          this.tabs[currentTab].componentRef.instance.beforeHide();
-        }
-
-        this.tabs[currentTab].componentRef.location.nativeElement.hidden = true;
-        this.tabs[currentTab].active = false;
-      }
-
-      if (tabIndex >= 0 && tabIndex < this.tabs.length) {
-        if (!!this.tabs[tabIndex].componentRef.instance['beforeShow']) {
-          this.tabs[tabIndex].componentRef.instance.beforeShow();
-        }
-        this.tabs[tabIndex].componentRef.location.nativeElement.hidden = false;
-        this.tabs[tabIndex].active = true;
-      }
+    if (this.activeTabIndex !== tabIndex) {
+      this.deactivateTab(this.activeTabIndex);
+      this.activateTab(tabIndex);
+      this.activeTabIndex = tabIndex;
     }
   }
 
   public closeTab(tabIndex: number): void {
-    if (tabIndex + 1 < this.tabs.length) {
-      this.selectTab(tabIndex + 1);
-    } else if (tabIndex - 1 >= 0) {
-      this.selectTab(tabIndex - 1);
-    } else {
-      this.selectTab(-1);
-    }
+    // Deactivate the tab
+    this.deactivateTab(tabIndex);
 
+    // Remove the tab
     this.tabs[tabIndex].componentRef.destroy();
     this.tabs[tabIndex].componentRef = undefined;
     this.tabs[tabIndex].active = false;
     this.tabs.splice(tabIndex, 1);
+
+    // If we have removed a tab preceding the active tab
+    if (tabIndex <= this.activeTabIndex) {
+      // Just shift to the precedent tab (or none if there are no more tabs)
+      this.activeTabIndex--;
+
+      // If we have more tabs, select the first
+      if (this.activeTabIndex === -1 && this.tabs.length > 0) {
+        this.activeTabIndex = 0;
+      }
+
+      this.activateTab(this.activeTabIndex);
+    }
+  }
+
+  private deactivateTab(tabIndex: number): void {
+    if (tabIndex >= 0 && tabIndex < this.tabs.length) {
+      if (!!this.tabs[tabIndex].componentRef.instance['beforeHide']) {
+        this.tabs[tabIndex].componentRef.instance.beforeHide();
+      }
+
+      this.tabs[tabIndex].componentRef.location.nativeElement.hidden = true;
+      this.tabs[tabIndex].active = false;
+    }
+  }
+
+  private activateTab(tabIndex: number): void {
+    if (tabIndex >= 0 && tabIndex < this.tabs.length) {
+      if (!!this.tabs[tabIndex].componentRef.instance['beforeShow']) {
+        this.tabs[tabIndex].componentRef.instance.beforeShow();
+      }
+
+      this.tabs[tabIndex].componentRef.location.nativeElement.hidden = false;
+      this.tabs[tabIndex].active = true;
+    }
   }
 }
