@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {ConnectionState, SharedWebSocketService} from "@shared/services/shared-websocket.service";
-import {SharedClustersService} from "@shared/services/shared-clusters.service";
-import {MdcMenuItem} from "@angular-mdc/web";
-import {Router} from "@angular/router";
+import {ConnectionState, SharedWebSocketService} from '@shared/services/shared-websocket.service';
+import {SharedClustersService} from '@shared/services/shared-clusters.service';
+import {MdcListItem} from '@angular-mdc/web';
+import {Router} from '@angular/router';
 
 enum PulseState {
   NONE,
@@ -33,7 +33,7 @@ export class SharedConnectionIndicatorComponent {
     );
   }
 
-  public handleMenuSelect(event: { index: number, item: MdcMenuItem }): void {
+  public handleMenuSelect(event: { index: number, item: MdcListItem }): void {
     if (event.index === 0) {
       this.router.navigateByUrl('/clusters');
     }

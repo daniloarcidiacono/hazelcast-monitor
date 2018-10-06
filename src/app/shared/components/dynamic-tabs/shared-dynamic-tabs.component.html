@@ -1,6 +1,6 @@
 <div class="DynamicTabs__TopBar">
   <button mdc-icon-button (click)="scroller.incrementScroll(-65)" iconOn="navigate_before" iconOff="navigate_before"></button>
-  <mdc-tab-bar (activated)="logTab($event.index)" [activeTabIndex]="activeTabIndex">
+  <mdc-tab-bar (activated)="logTab($event.index)">
     <mdc-tab-scroller #scroller>
       <mdc-tab *ngFor="let tab of tabs; let tabIndex = index">
         <mdc-tab-label>

@@ -1,16 +1,16 @@
 <div class="Page">
   <div class="Page__Top">
-    <mdc-app-bar [fixed]="true" [fixedAdjustElement]="bottom">
-      <mdc-app-bar-row>
-        <mdc-app-bar-section align="start" title="Hazelcast Monitor">
+    <mdc-top-app-bar [fixed]="true" [fixedAdjustElement]="bottom">
+      <mdc-top-app-bar-row>
+        <mdc-top-app-bar-section align="start" title="Hazelcast Monitor">
           <!--<mdc-icon mdcTopAppBarNavIcon>menu</mdc-icon>-->
-          <img mdcAppBarNavIcon src="assets/logos/HazelcastLogo-Orange_Light_Icon.svg">
-        </mdc-app-bar-section>
-        <mdc-app-bar-section align="end">
+          <img mdcTopAppBarNavIcon src="assets/logos/HazelcastLogo-Orange_Light_Icon.svg">
+        </mdc-top-app-bar-section>
+        <mdc-top-app-bar-section align="end">
           <shared-connection-indicator></shared-connection-indicator>
-        </mdc-app-bar-section>
-      </mdc-app-bar-row>
-    </mdc-app-bar>
+        </mdc-top-app-bar-section>
+      </mdc-top-app-bar-row>
+    </mdc-top-app-bar>
   </div>
   <div class="Page__Bottom" #bottom>
     <router-outlet></router-outlet>
