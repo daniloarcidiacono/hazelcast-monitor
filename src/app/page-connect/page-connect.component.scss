@@ -32,6 +32,10 @@
     width: 400px;
   }
 
+  &__TopBar {
+    margin-top: 1em;
+  }
+
   &__ProtocolSelector {
     width: 8rem;
     margin-right: 1em;
@@ -39,6 +43,14 @@
 
   &__HostSelector {
     width: calc(100% - 8rem - 1em);
+  }
+
+  &__PortSelector {
+    margin-top: 1em;
+  }
+
+  &__PathSelector {
+    margin-top: 1em;
   }
 
   &__ConnectButton {

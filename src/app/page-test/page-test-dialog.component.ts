@@ -1,24 +1,24 @@
 import {AfterContentInit, AfterViewInit, Component} from '@angular/core';
 import {MdcDialogRef} from '@angular-mdc/web';
-import {NgxMonacoEditorConfig} from "ngx-monaco-editor";
+import {NgxMonacoEditorConfig} from 'ngx-monaco-editor';
 import ICodeEditor = monaco.editor.ICodeEditor;
 
 @Component({
   template: `
   <mdc-dialog>
-    <mdc-dialog-surface>
-      <mdc-dialog-header>
-        <mdc-dialog-header-title>
+    <mdc-dialog-container>
+      <mdc-dialog-surface>
+        <mdc-dialog-title>
           Filter
-        </mdc-dialog-header-title>
-      </mdc-dialog-header>
-      <mdc-dialog-body>
-        <ngx-monaco-editor class="my-code-editor" [options]="editorOptions" [(ngModel)]="code" (onInit)="onEditorInitialized($event)"></ngx-monaco-editor>
-      </mdc-dialog-body>
-      <mdc-dialog-footer>
-        <button mdc-dialog-button [accept]="true">Ok</button>
-      </mdc-dialog-footer>
-    </mdc-dialog-surface>
+        </mdc-dialog-title>
+        <mdc-dialog-content>
+          <ngx-monaco-editor class="my-code-editor" [options]="editorOptions" [(ngModel)]="code" (onInit)="onEditorInitialized($event)"></ngx-monaco-editor>
+        </mdc-dialog-content>
+        <mdc-dialog-actions>
+          <button mdcDialogButton mdcDialogAction="accept">Ok</button>
+        </mdc-dialog-actions>
+      </mdc-dialog-surface>
+    </mdc-dialog-container>
   </mdc-dialog>
   `,
   styles: [

@@ -1,31 +1,23 @@
 <div class="DynamicTabs__TopBar">
-  <button mdc-icon-button (click)="scroller.incrementScroll(-65)" iconOn="navigate_before" iconOff="navigate_before"></button>
-  <mdc-tab-bar (activated)="logTab($event.index)">
+  <button mdcIconButton (click)="scroller.incrementScroll(-65)" icon="navigate_before"></button>
+  <mdc-tab-bar [activeTabIndex]="activeTabIndex"
+               align="start"
+               [fixed]="true">
     <mdc-tab-scroller #scroller>
-      <mdc-tab *ngFor="let tab of tabs; let tabIndex = index">
+      <mdc-tab *ngFor="let tab of tabs; let tabIndex = index"
+               (click)="selectTab(tabIndex)">
         <mdc-tab-label>
           <div class="Tab__Content">
-            <mdc-icon class="Tab__Close" (click)="closeTab(tabIndex)">close</mdc-icon>
+            <button mdcIconButton (click)="closeTab(tabIndex)" icon="close"></button>
+            <!--<mdc-icon class="Tab__Close" (click)="closeTab(tabIndex)">close</mdc-icon>-->
             <div>{{ tab.label }}</div>
             <mdc-icon *ngIf="tab.recording" class="Tab__RecordIcon">fiber_manual_record</mdc-icon>
           </div>
         </mdc-tab-label>
       </mdc-tab>
-
-      <!--<mdc-tab *ngFor="let tab of tabs; let tabIndex = index"-->
-                 <!--&lt;!&ndash;[active]="tab.active"&ndash;&gt;-->
-                 <!--&lt;!&ndash;(selected)="selectTab(tabIndex)"&ndash;&gt;>-->
-        <!--<mdc-tab-label>-->
-          <!--<div class="Tab__Content">-->
-            <!--<mdc-icon class="Tab__Close" (click)="closeTab(tabIndex)">close</mdc-icon>-->
-            <!--<div>{{ tab.label }}</div>-->
-            <!--<mdc-icon *ngIf="tab.recording" class="Tab__RecordIcon">fiber_manual_record</mdc-icon>-->
-          <!--</div>-->
-        <!--</mdc-tab-label>-->
-      <!--</mdc-tab>-->
     </mdc-tab-scroller>
   </mdc-tab-bar>
-  <button mdc-icon-button (click)="scroller.incrementScroll(65)" iconOn="navigate_next" iconOff="navigate_next"></button>
+  <button mdcIconButton (click)="scroller.incrementScroll(65)" icon="navigate_next"></button>
 </div>
 <ng-template tab-host>
 </ng-template>

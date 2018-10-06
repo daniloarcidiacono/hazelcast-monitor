@@ -58,9 +58,11 @@ export class PageClustersComponent implements OnDestroy {
       (notice: SubscriptionNoticeResponseDTO<ClustersProductDTO>) => {
         const newData: Cluster[] = notice.notice.clusters.map(name => new Cluster(name));
         this.clustersService.setClusters(newData);
-        this.form.patchValue({
-          cluster: this.clustersService.getClusters()[0]
-        });
+        if (this.form.pristine) {
+          this.form.patchValue({
+            cluster: '0'
+          });
+        }
       },
       (error: ErrorMessageDTO) => {
         this.form.disable();
@@ -73,6 +75,7 @@ export class PageClustersComponent implements OnDestroy {
     this.clusterSub.unsubscribe();
     this.wsStateSub.unsubscribe();
   }
+
 
   private initForm(): void {
     this.form = this.fb.group({
@@ -89,7 +92,8 @@ export class PageClustersComponent implements OnDestroy {
   }
 
   public next(): void {
-    this.clustersService.setCurrentCluster(this.form.value.cluster);
+    const selectedCluster: Cluster = this.clustersService.getClusters()[parseInt(this.form.value.cluster)];
+    this.clustersService.setCurrentCluster(selectedCluster);
     this.router.navigateByUrl('/dashboard');
   }
 }

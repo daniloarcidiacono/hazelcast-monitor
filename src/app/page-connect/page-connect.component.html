@@ -1,13 +1,13 @@
 <div class="Page__Main" mdcTypography>
   <div class="ConnectCard" [mdcElevation]="4">
     <div class="ConnectCard__Progress">
-      <mdc-linear-progress [closed]="!isProgressVisible()">
+      <mdc-linear-progress [open]="isProgressVisible()">
       </mdc-linear-progress>
     </div>
     <div class="ConnectCard__Logo"></div>
     <h1 mdcHeadline6>Connect</h1>
     <form [formGroup]="bindings.form" class="ConnectCard__Form">
-      <div>
+      <div class="ConnectCard__TopBar">
         <!-- Protocol -->
         <mdc-select formControlName="protocol"
                     [outlined]="true"
@@ -40,7 +40,8 @@
                       [dense]="false"
                       label="Port"
                       [helperText]="portHelper"
-                      [required]="true">
+                      [required]="true"
+                      class="ConnectCard__PortSelector">
       </mdc-text-field>
       <mdc-text-field-helper-text #portHelper [validation]="true" [persistent]="false">
         <span *ngIf="bindings.form.controls['port'].errors?.required">Port is required</span>
@@ -51,7 +52,8 @@
                       type="text"
                       [outlined]="true"
                       [dense]="false"
-                      label="Path">
+                      label="Path"
+                      class="ConnectCard__PathSelector">
       </mdc-text-field>
       <!--<mdc-text-field-helper-text #pathHelper [validation]="true" [persistent]="false">-->
         <!--<span *ngIf="bindings.form.controls['path'].errors?.required">Path is required</span>-->

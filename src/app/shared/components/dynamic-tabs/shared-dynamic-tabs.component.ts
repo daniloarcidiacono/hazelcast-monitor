@@ -51,46 +51,57 @@ export class SharedDynamicTabsComponent {
     this.selectTab(this.tabs.length - 1);
   }
 
-  public logTab(tabIndex: number): void {
-    console.log(tabIndex);
-  }
-
   private selectTab(tabIndex: number): void {
-    const currentTab: number = this.tabBarComponent.getActiveTabIndex();
-    if (currentTab !== tabIndex) {
-      if (currentTab >= 0 && currentTab < this.tabs.length) {
-        if (!!this.tabs[currentTab].componentRef.instance['beforeHide']) {
-          this.tabs[currentTab].componentRef.instance.beforeHide();
-        }
-
-        this.tabs[currentTab].componentRef.location.nativeElement.hidden = true;
-        this.tabs[currentTab].active = false;
-      }
-
-      if (tabIndex >= 0 && tabIndex < this.tabs.length) {
-        if (!!this.tabs[tabIndex].componentRef.instance['beforeShow']) {
-          this.tabs[tabIndex].componentRef.instance.beforeShow();
-        }
-        this.tabs[tabIndex].componentRef.location.nativeElement.hidden = false;
-        this.tabs[tabIndex].active = true;
-      }
+    if (this.activeTabIndex !== tabIndex) {
+      this.deactivateTab(this.activeTabIndex);
+      this.activateTab(tabIndex);
+      this.activeTabIndex = tabIndex;
     }
-
-    this.activeTabIndex = tabIndex;
   }
 
   public closeTab(tabIndex: number): void {
-    if (tabIndex + 1 < this.tabs.length) {
-      this.selectTab(tabIndex + 1);
-    } else if (tabIndex - 1 >= 0) {
-      this.selectTab(tabIndex - 1);
-    } else {
-      this.selectTab(-1);
-    }
+    // Deactivate the tab
+    this.deactivateTab(tabIndex);
 
+    // Remove the tab
     this.tabs[tabIndex].componentRef.destroy();
     this.tabs[tabIndex].componentRef = undefined;
     this.tabs[tabIndex].active = false;
     this.tabs.splice(tabIndex, 1);
+
+    // If we have removed a tab preceding the active tab
+    if (tabIndex <= this.activeTabIndex) {
+      // Just shift to the precedent tab (or none if there are no more tabs)
+      this.activeTabIndex--;
+
+      // If we have more tabs, select the first
+      if (this.activeTabIndex === -1 && this.tabs.length > 0) {
+        this.activeTabIndex = 0;
+      }
+
+      this.activateTab(this.activeTabIndex);
+    }
+  }
+
+  private deactivateTab(tabIndex: number): void {
+    if (tabIndex >= 0 && tabIndex < this.tabs.length) {
+      if (!!this.tabs[tabIndex].componentRef.instance['beforeHide']) {
+        this.tabs[tabIndex].componentRef.instance.beforeHide();
+      }
+
+      this.tabs[tabIndex].componentRef.location.nativeElement.hidden = true;
+      this.tabs[tabIndex].active = false;
+    }
+  }
+
+  private activateTab(tabIndex: number): void {
+    if (tabIndex >= 0 && tabIndex < this.tabs.length) {
+      if (!!this.tabs[tabIndex].componentRef.instance['beforeShow']) {
+        this.tabs[tabIndex].componentRef.instance.beforeShow();
+      }
+
+      this.tabs[tabIndex].componentRef.location.nativeElement.hidden = false;
+      this.tabs[tabIndex].active = true;
+    }
   }
 }

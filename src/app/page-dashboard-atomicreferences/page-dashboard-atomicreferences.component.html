@@ -10,8 +10,8 @@
     </ng-template>
     <ng-template let-atomicreference #bodyTemplate>
       <tr class="mdc-data-table__row">
-        <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ atomicreference.name }}</td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--top">
+        <td class="mdc-data-table__cell">{{ atomicreference.name }}</td>
+        <td class="mdc-data-table__cell">
           <shared-object-inspector [data]="atomicreference.value"
                                    [stringData]="atomicreference.valueString">
           </shared-object-inspector>

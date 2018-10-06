@@ -1,14 +1,12 @@
 <div class="MdcPaginator">
-  <mdc-select [box]="false"
-              [outlined]="false"
+  <mdc-select [outlined]="false"
               placeholder="Page"
               [floatingLabel]="true"
               class="MdcPaginator__PageSelector">
     <option [value]="page + 1" *ngFor="let page of total | times"> {{ page + 1 }}</option>
   </mdc-select>
 
-  <mdc-select [box]="false"
-              [outlined]="false"
+  <mdc-select [outlined]="false"
               placeholder="Items per page"
               [floatingLabel]="true"
               class="MdcPaginator__ItemsPerPageSelector">

@@ -1,12 +1,13 @@
 <div mdcTypography class="ConnectionIndicator">
   <div mdcMenuSurfaceAnchor #anchor>
-    <div class="ConnectionIndicator__Caption" (click)="menu.open()">
+    <div class="ConnectionIndicator__Caption" (click)="menu.open = !menu.open">
       {{ connectionUrl }}
     </div>
     <mdc-menu #menu
               (selected)="handleMenuSelect($event)"
               [anchor]="anchor"
-              anchorCorner="bottom-start">
+              [anchorMargin]="{ bottom: 8 }"
+              anchorCorner="bottomStart">
       <mdc-list>
         <mdc-list-item>Change instance</mdc-list-item>
         <mdc-list-item>Disconnect</mdc-list-item>
