@@ -3,10 +3,10 @@ package it.xdnl.hazelcast.monitor.agent.helper;
 import it.xdnl.hazelcast.monitor.agent.ClientConnection;
 import it.xdnl.hazelcast.monitor.agent.ClientConnectionListener;
 import it.xdnl.hazelcast.monitor.agent.dto.response.SubscriptionNoticeResponse;
-import it.xdnl.hazelcast.monitor.agent.product.Product;
-import it.xdnl.hazelcast.monitor.agent.utils.ClientConnectionUtils;
 import it.xdnl.hazelcast.monitor.agent.producer.AbstractTopicProducer;
 import it.xdnl.hazelcast.monitor.agent.producer.TopicListener;
+import it.xdnl.hazelcast.monitor.agent.product.Product;
+import it.xdnl.hazelcast.monitor.agent.utils.ClientConnectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,5 +178,25 @@ public class ConnectionSubscriptionsRegistry implements TopicListener, ClientCon
     @Override
     public synchronized void closed(final ClientConnection connection) {
         unsubscribeAll(connection);
+    }
+
+    public AbstractTopicProducer getTopicProducer(final long subscriptionId) {
+        if (subscriptions.containsKey(subscriptionId)) {
+            return subscriptions.get(subscriptionId).getProducer();
+        }
+
+        return null;
+    }
+
+    public SubscriptionRegistryStatistics getLocalStatistics() {
+        final SubscriptionRegistryStatistics statistics = new SubscriptionRegistryStatistics();
+        for (Map.Entry<Long, Subscription> entry : subscriptions.entrySet()) {
+            statistics.getSubscriptions().add(new SubscriptionRegistryStatistics.ActiveSubscription(
+                entry.getKey(),
+                entry.getValue().getProducer().getTopicType()
+            ));
+        }
+
+        return statistics;
     }
 }

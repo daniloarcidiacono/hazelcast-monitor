@@ -128,6 +128,10 @@ public class TestComponent {
         myList.add(new ComplexKey("Test", 15));
         myList.add(new ComplexValue(0, 1, 2));
 
+        for (int i = 0; i < 100; i++) {
+            myList.add("entry" + i);
+        }
+
         myLock.lock(45, TimeUnit.SECONDS);
         myMap.put(new ComplexKey("Danilo1", 28), new ComplexValue(1, 2, 3));
         myMap.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));

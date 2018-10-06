@@ -1,5 +1,6 @@
 package it.xdnl.hazelcast.monitor.agent.producer;
 
+import it.xdnl.hazelcast.monitor.agent.exception.UpdateParameterException;
 import it.xdnl.hazelcast.monitor.agent.product.Product;
 
 import java.util.Collection;
@@ -32,6 +33,23 @@ public abstract class AbstractTopicProducer {
     }
 
     public void stop() {
+    }
+
+    /**
+     * Updates a parameter of this producer.
+     * Subclasses may override this method to implement custom update logic.
+     * Default implementation always throws an exception.
+     *
+     * @param parameter
+     * @param value
+     * @throws UpdateParameterException
+     */
+    public void updateParameter(final String parameter, final String value) throws UpdateParameterException {
+        final UpdateParameterException updateParameterException = new UpdateParameterException("Unsupported parameter " + parameter);
+        updateParameterException.setParameterName(parameter);
+        updateParameterException.setActualValue(null);
+
+        throw updateParameterException;
     }
 
     public abstract Product produce();

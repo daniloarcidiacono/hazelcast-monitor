@@ -1,6 +1,8 @@
 package it.xdnl.hazelcast.monitor.agent.producer;
 
+import com.hazelcast.cache.ICache;
 import com.hazelcast.core.*;
+import com.hazelcast.ringbuffer.Ringbuffer;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectsTopic;
 import it.xdnl.hazelcast.monitor.agent.product.*;
@@ -76,6 +78,37 @@ public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
             case TOPIC: {
                 final ITopic casted = (ITopic)object;
                 return new TopicSummary();
+            }
+
+            case ATOMICLONG: {
+                final IAtomicLong casted = (IAtomicLong)object;
+                return new AtomicLongSummary(casted.get());
+            }
+
+            case ATOMICREFERENCE: {
+                final IAtomicReference casted = (IAtomicReference)object;
+                final Object reference = casted.get();
+                return new AtomicReferenceSummary(reference, reference != null ? reference.toString() : "(null)");
+            }
+
+            case COUNTDOWNLATCH: {
+                final ICountDownLatch casted = (ICountDownLatch)object;
+                return new CountDownLatchSummary(casted.getCount());
+            }
+
+            case RINGBUFFER: {
+                final Ringbuffer casted = (Ringbuffer)object;
+                return new RingbufferSummary(casted.size(), casted.capacity(), casted.remainingCapacity(), casted.headSequence(), casted.tailSequence());
+            }
+
+            case SEMAPHORE: {
+                final ISemaphore casted = (ISemaphore)object;
+                return new SemaphoreSummary(casted.availablePermits());
+            }
+
+            case CACHE: {
+                final ICache casted = (ICache)object;
+                return new CacheSummary(casted.size(), casted.isDestroyed());
             }
         }
 

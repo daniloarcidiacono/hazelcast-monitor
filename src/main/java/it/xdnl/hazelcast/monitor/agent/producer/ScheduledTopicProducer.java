@@ -1,5 +1,6 @@
 package it.xdnl.hazelcast.monitor.agent.producer;
 
+import it.xdnl.hazelcast.monitor.agent.exception.UpdateParameterException;
 import it.xdnl.hazelcast.monitor.agent.product.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,22 @@ public class ScheduledTopicProducer extends AbstractTopicProducer implements Run
     @Override
     public void stop() {
         scheduledFuture.cancel(false);
+    }
+
+    @Override
+    public void updateParameter(String parameter, String value) throws UpdateParameterException {
+        if (parameter.equals("frequency")) {
+            // Parse
+            delay = Long.parseLong(value);
+
+            // Clip
+            if (delay <= 0) {
+                delay = 1L;
+            }
+        } else {
+            // Delegate
+            producer.updateParameter(parameter, value);
+        }
     }
 
     @Override

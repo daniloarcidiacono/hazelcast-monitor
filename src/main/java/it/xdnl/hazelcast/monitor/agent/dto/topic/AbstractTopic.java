@@ -14,9 +14,11 @@ import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = StatisticsTopic.class, name = StatisticsTopic.TOPIC_TYPE),
     @JsonSubTypes.Type(value = ClustersTopic.class, name = ClustersTopic.TOPIC_TYPE),
+    @JsonSubTypes.Type(value = InternalsTopic.class, name = InternalsTopic.TOPIC_TYPE),
     @JsonSubTypes.Type(value = MembersTopic.class, name = MembersTopic.TOPIC_TYPE),
     @JsonSubTypes.Type(value = DistributedObjectsTopic.class, name = DistributedObjectsTopic.TOPIC_TYPE),
-    @JsonSubTypes.Type(value = DistributedObjectTopic.class, name = DistributedObjectTopic.TOPIC_TYPE)
+    @JsonSubTypes.Type(value = DistributedObjectTopic.class, name = DistributedObjectTopic.TOPIC_TYPE),
+    @JsonSubTypes.Type(value = FiltersTopic.class, name = FiltersTopic.TOPIC_TYPE)
 })
 @TypescriptDTO
 public abstract class AbstractTopic {
