@@ -26,18 +26,36 @@ import {PageDashboardReplicatedMapsModule} from '../page-dashboard-replicatedmap
 import {PageDashboardReplicatedMapModule} from '../page-dashboard-replicatedmap/page-dashboard-replicatedmap.module';
 import {PageDashboardReplicatedMapsComponent} from '../page-dashboard-replicatedmaps/page-dashboard-replicatedmaps.component';
 import {PageDashboardReplicatedMapComponent} from '../page-dashboard-replicatedmap/page-dashboard-replicatedmap.component';
-import {PageDashboardSetsModule} from "../page-dashboard-sets/page-dashboard-sets.module";
-import {PageDashboardSetModule} from "../page-dashboard-set/page-dashboard-set.module";
-import {PageDashboardSetsComponent} from "../page-dashboard-sets/page-dashboard-sets.component";
-import {PageDashboardSetComponent} from "../page-dashboard-set/page-dashboard-set.component";
-import {PageDashboardQueuesComponent} from "../page-dashboard-queues/page-dashboard-queues.component";
-import {PageDashboardQueueComponent} from "../page-dashboard-queue/page-dashboard-queue.component";
-import {PageDashboardQueuesModule} from "../page-dashboard-queues/page-dashboard-queues.module";
-import {PageDashboardQueueModule} from "../page-dashboard-queue/page-dashboard-queue.module";
-import {PageDashboardTopicsModule} from "../page-dashboard-topics/page-dashboard-topics.module";
-import {PageDashboardTopicsComponent} from "../page-dashboard-topics/page-dashboard-topics.component";
-import {PageDashboardTopicComponent} from "../page-dashboard-topic/page-dashboard-topic.component";
-import {PageDashboardTopicModule} from "../page-dashboard-topic/page-dashboard-topic.module";
+import {PageDashboardSetsModule} from '../page-dashboard-sets/page-dashboard-sets.module';
+import {PageDashboardSetModule} from '../page-dashboard-set/page-dashboard-set.module';
+import {PageDashboardSetsComponent} from '../page-dashboard-sets/page-dashboard-sets.component';
+import {PageDashboardSetComponent} from '../page-dashboard-set/page-dashboard-set.component';
+import {PageDashboardQueuesComponent} from '../page-dashboard-queues/page-dashboard-queues.component';
+import {PageDashboardQueueComponent} from '../page-dashboard-queue/page-dashboard-queue.component';
+import {PageDashboardQueuesModule} from '../page-dashboard-queues/page-dashboard-queues.module';
+import {PageDashboardQueueModule} from '../page-dashboard-queue/page-dashboard-queue.module';
+import {PageDashboardTopicsModule} from '../page-dashboard-topics/page-dashboard-topics.module';
+import {PageDashboardTopicsComponent} from '../page-dashboard-topics/page-dashboard-topics.component';
+import {PageDashboardTopicComponent} from '../page-dashboard-topic/page-dashboard-topic.component';
+import {PageDashboardTopicModule} from '../page-dashboard-topic/page-dashboard-topic.module';
+import {PageDashboardAtomicLongsModule} from '../page-dashboard-atomiclongs/page-dashboard-atomiclongs.module';
+import {PageDashboardAtomicLongsComponent} from '../page-dashboard-atomiclongs/page-dashboard-atomiclongs.component';
+import {PageDashboardAtomicReferencesModule} from '../page-dashboard-atomicreferences/page-dashboard-atomicreferences.module';
+import {PageDashboardAtomicReferencesComponent} from '../page-dashboard-atomicreferences/page-dashboard-atomicreferences.component';
+import {PageDashboardCountdownLatchesModule} from '../page-dashboard-countdownlatches/page-dashboard-countdownlatches.module';
+import {PageDashboardCountdownLatchesComponent} from '../page-dashboard-countdownlatches/page-dashboard-countdownlatches.component';
+import {PageDashboardSemaphoresModule} from '../page-dashboard-semaphores/page-dashboard-semaphores.module';
+import {PageDashboardSemaphoresComponent} from '../page-dashboard-semaphores/page-dashboard-semaphores.component';
+import {PageDashboardCachesComponent} from '../page-dashboard-caches/page-dashboard-caches.component';
+import {PageDashboardCacheComponent} from '../page-dashboard-cache/page-dashboard-cache.component';
+import {PageDashboardCachesModule} from '../page-dashboard-caches/page-dashboard-caches.module';
+import {PageDashboardCacheModule} from '../page-dashboard-cache/page-dashboard-cache.module';
+import {PageDashboardRingbuffersModule} from '../page-dashboard-ringbuffers/page-dashboard-ringbuffers.module';
+import {PageDashboardRingbuffersComponent} from '../page-dashboard-ringbuffers/page-dashboard-ringbuffers.component';
+import {PageDashboardInternalsComponent} from '../page-dashboard-internals/page-dashboard-internals.component';
+import {PageDashboardInternalsModule} from '../page-dashboard-internals/page-dashboard-internals.module';
+import {PageDashboardFiltersModule} from '../page-dashboard-filters/page-dashboard-filters.module';
+import {PageDashboardFiltersComponent} from '../page-dashboard-filters/page-dashboard-filters.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +66,7 @@ import {PageDashboardTopicModule} from "../page-dashboard-topic/page-dashboard-t
 
     // Sub-sections
     PageDashboardMembersModule,
+    PageDashboardFiltersModule,
     PageDashboardMapsModule,
     PageDashboardListsModule,
     PageDashboardLocksModule,
@@ -56,6 +75,13 @@ import {PageDashboardTopicModule} from "../page-dashboard-topic/page-dashboard-t
     PageDashboardReplicatedMapsModule,
     PageDashboardQueuesModule,
     PageDashboardTopicsModule,
+    PageDashboardAtomicLongsModule,
+    PageDashboardAtomicReferencesModule,
+    PageDashboardCountdownLatchesModule,
+    PageDashboardSemaphoresModule,
+    PageDashboardRingbuffersModule,
+    PageDashboardCachesModule,
+    PageDashboardInternalsModule,
     PageDashboardMapModule,
     PageDashboardListModule,
     PageDashboardMultiMapModule,
@@ -63,6 +89,7 @@ import {PageDashboardTopicModule} from "../page-dashboard-topic/page-dashboard-t
     PageDashboardSetModule,
     PageDashboardQueueModule,
     PageDashboardTopicModule,
+    PageDashboardCacheModule,
 
     // Angular MDC Web
     MdcDrawerModule,
@@ -81,6 +108,7 @@ import {PageDashboardTopicModule} from "../page-dashboard-topic/page-dashboard-t
   ],
   entryComponents: [
     PageDashboardMembersComponent,
+    PageDashboardFiltersComponent,
     PageDashboardLocksComponent,
     PageDashboardListsComponent,
     PageDashboardMapsComponent,
@@ -89,13 +117,21 @@ import {PageDashboardTopicModule} from "../page-dashboard-topic/page-dashboard-t
     PageDashboardTopicsComponent,
     PageDashboardSetsComponent,
     PageDashboardQueuesComponent,
+    PageDashboardAtomicLongsComponent,
+    PageDashboardAtomicReferencesComponent,
+    PageDashboardCountdownLatchesComponent,
+    PageDashboardSemaphoresComponent,
+    PageDashboardRingbuffersComponent,
+    PageDashboardCachesComponent,
+    PageDashboardInternalsComponent,
     PageDashboardMapComponent,
     PageDashboardListComponent,
     PageDashboardMultiMapComponent,
     PageDashboardReplicatedMapComponent,
     PageDashboardSetComponent,
     PageDashboardQueueComponent,
-    PageDashboardTopicComponent
+    PageDashboardTopicComponent,
+    PageDashboardCacheComponent
   ]
 })
 export class PageDashboardModule { }

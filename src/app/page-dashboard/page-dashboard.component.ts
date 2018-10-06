@@ -9,22 +9,32 @@ import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelc
 import {StatisticsProductDTO} from '@shared/dto/topic-products.dto';
 import {SharedDynamicTabsComponent} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.component';
 import {PageDashboardMembersComponent} from '../page-dashboard-members/page-dashboard-members.component';
-import {PageDashboardMapsComponent} from "../page-dashboard-maps/page-dashboard-maps.component";
-import {SharedTabsService} from "@shared/services/shared-tabs.service";
-import {TabData} from "@shared/components/dynamic-tabs/shared-dynamic-tabs.model";
-import {PageDashboardLocksComponent} from "../page-dashboard-locks/page-dashboard-locks.component";
-import {PageDashboardListsComponent} from "../page-dashboard-lists/page-dashboard-lists.component";
-import {PageDashboardMultiMapsComponent} from "../page-dashboard-multimaps/page-dashboard-multimaps.component";
-import {PageDashboardReplicatedMapsComponent} from "../page-dashboard-replicatedmaps/page-dashboard-replicatedmaps.component";
-import {PageDashboardSetsComponent} from "../page-dashboard-sets/page-dashboard-sets.component";
-import {PageDashboardQueuesComponent} from "../page-dashboard-queues/page-dashboard-queues.component";
-import {PageDashboardTopicsComponent} from "../page-dashboard-topics/page-dashboard-topics.component";
+import {PageDashboardMapsComponent} from '../page-dashboard-maps/page-dashboard-maps.component';
+import {SharedTabsService} from '@shared/services/shared-tabs.service';
+import {TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
+import {PageDashboardLocksComponent} from '../page-dashboard-locks/page-dashboard-locks.component';
+import {PageDashboardListsComponent} from '../page-dashboard-lists/page-dashboard-lists.component';
+import {PageDashboardMultiMapsComponent} from '../page-dashboard-multimaps/page-dashboard-multimaps.component';
+import {PageDashboardReplicatedMapsComponent} from '../page-dashboard-replicatedmaps/page-dashboard-replicatedmaps.component';
+import {PageDashboardSetsComponent} from '../page-dashboard-sets/page-dashboard-sets.component';
+import {PageDashboardQueuesComponent} from '../page-dashboard-queues/page-dashboard-queues.component';
+import {PageDashboardTopicsComponent} from '../page-dashboard-topics/page-dashboard-topics.component';
+import {PageDashboardAtomicLongsComponent} from '../page-dashboard-atomiclongs/page-dashboard-atomiclongs.component';
+import {PageDashboardAtomicReferencesComponent} from '../page-dashboard-atomicreferences/page-dashboard-atomicreferences.component';
+import {PageDashboardCountdownLatchesComponent} from '../page-dashboard-countdownlatches/page-dashboard-countdownlatches.component';
+import {PageDashboardSemaphoresComponent} from '../page-dashboard-semaphores/page-dashboard-semaphores.component';
+import {PageDashboardCachesComponent} from '../page-dashboard-caches/page-dashboard-caches.component';
+import {PageDashboardRingbuffersComponent} from '../page-dashboard-ringbuffers/page-dashboard-ringbuffers.component';
+import {PageDashboardInternalsComponent} from '../page-dashboard-internals/page-dashboard-internals.component';
+import {PageDashboardFiltersComponent} from "../page-dashboard-filters/page-dashboard-filters.component";
 
 interface SeparatorItem {
   separator: boolean;
 }
+
 interface SectionItem {
-  icon: string;
+  fontSet: string;
+  fontIcon: string;
   caption: string;
   count: () => number;
   tab: TabData;
@@ -45,7 +55,8 @@ export class PageDashboardComponent implements OnDestroy {
 
   public sections: DashboardSection[] = [
     {
-      icon: 'group',
+      fontSet: 'material-icons',
+      fontIcon: 'group',
       caption: 'Members',
       count: () => {
         return !!this.currentStats ? this.currentStats.membersCount : undefined;
@@ -56,54 +67,71 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
+      fontSet: 'material-icons',
+      fontIcon: 'filter_list',
+      caption: 'Filters',
+      count: () => {
+        return undefined;
+      },
+      tab: {
+        label: 'Filters',
+        componentClass: PageDashboardFiltersComponent
+      }
+    },
+    {
       separator: true
     },
     {
-      icon: '',
+      fontSet: 'hzfont',
+      fontIcon: 'icon-atomic',
       caption: 'Atomic longs',
       count: () => {
         return !!this.currentStats ? this.currentStats.atomicLongCount : undefined;
       },
       tab: {
         label: 'AtomicLongs',
-        componentClass: undefined
+        componentClass: PageDashboardAtomicLongsComponent
       }
     },
     {
-      icon: '',
+      fontSet: 'hzfont',
+      fontIcon: 'atomic',
       caption: 'Atomic references',
       count: () => {
         return !!this.currentStats ? this.currentStats.atomicReferenceCount : undefined;
       },
       tab: {
         label: 'AtomicReferences',
-        componentClass: undefined
+        componentClass: PageDashboardAtomicReferencesComponent
       }
     },
     {
-      icon: 'memory',
+      fontSet: 'material-icons',
+      fontIcon: 'memory',
       caption: 'Caches',
       count: () => {
         return !!this.currentStats ? this.currentStats.cacheCount : undefined;
       },
       tab: {
         label: 'Caches',
-        componentClass: undefined
+        componentClass: PageDashboardCachesComponent
       }
     },
     {
-      icon: '',
+      fontSet: 'hzfont',
+      fontIcon: 'icon-countdown',
       caption: 'Count-down latches',
       count: () => {
         return !!this.currentStats ? this.currentStats.countDownLatchCount : undefined;
       },
       tab: {
         label: 'CountDownLatches',
-        componentClass: undefined
+        componentClass: PageDashboardCountdownLatchesComponent
       }
     },
     {
-      icon: 'format_list_numbered',
+      fontSet: 'material-icons',
+      fontIcon: 'format_list_numbered',
       caption: 'Lists',
       count: () => {
         return !!this.currentStats ? this.currentStats.listCount : undefined;
@@ -114,7 +142,8 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      icon: 'lock',
+      fontSet: 'material-icons',
+      fontIcon: 'lock',
       caption: 'Locks',
       count: () => {
         return !!this.currentStats ? this.currentStats.lockCount : undefined;
@@ -125,7 +154,8 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      icon: 'map',
+      fontSet: 'material-icons',
+      fontIcon: 'map',
       caption: 'Maps',
       count: () => {
         return !!this.currentStats ? this.currentStats.mapCount : undefined;
@@ -136,7 +166,8 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      icon: 'map',
+      fontSet: 'material-icons',
+      fontIcon: 'map',
       caption: 'Multi-maps',
       count: () => {
         return !!this.currentStats ? this.currentStats.multiMapCount : undefined;
@@ -147,7 +178,8 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      icon: 'list',
+      fontSet: 'material-icons',
+      fontIcon: 'list',
       caption: 'Queues',
       count: () => {
         return !!this.currentStats ? this.currentStats.queueCount : undefined;
@@ -158,7 +190,8 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      icon: 'map',
+      fontSet: 'material-icons',
+      fontIcon: 'map',
       caption: 'Replicated maps',
       count: () => {
         return !!this.currentStats ? this.currentStats.replicatedMapCount : undefined;
@@ -169,29 +202,32 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      icon: '360',
+      fontSet: 'material-icons',
+      fontIcon: '360',
       caption: 'Ringbuffers',
       count: () => {
         return !!this.currentStats ? this.currentStats.ringbufferCount : undefined;
       },
       tab: {
         label: 'Ringbuffers',
-        componentClass: undefined
+        componentClass: PageDashboardRingbuffersComponent
       }
     },
     {
-      icon: 'traffic',
+      fontSet: 'material-icons',
+      fontIcon: 'traffic',
       caption: 'Semaphores',
       count: () => {
         return !!this.currentStats ? this.currentStats.semaphoreCount : undefined;
       },
       tab: {
         label: 'Semaphores',
-        componentClass: undefined
+        componentClass: PageDashboardSemaphoresComponent
       }
     },
     {
-      icon: '',
+      fontSet: 'hzfont',
+      fontIcon: 'icon-set',
       caption: 'Sets',
       count: () => {
         return !!this.currentStats ? this.currentStats.setCount : undefined;
@@ -202,7 +238,8 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      icon: 'question_answer',
+      fontSet: 'material-icons',
+      fontIcon: 'question_answer',
       caption: 'Topics',
       count: () => {
         return !!this.currentStats ? this.currentStats.topicCount : undefined;
@@ -216,14 +253,15 @@ export class PageDashboardComponent implements OnDestroy {
       separator: true
     },
     {
-      icon: 'bug_report',
+      fontSet: 'material-icons',
+      fontIcon: 'bug_report',
       caption: 'Monitor internals',
       count: () => {
         return undefined;
       },
       tab: {
         label: 'Monitor internals',
-        componentClass: undefined
+        componentClass: PageDashboardInternalsComponent
       }
     }
   ];

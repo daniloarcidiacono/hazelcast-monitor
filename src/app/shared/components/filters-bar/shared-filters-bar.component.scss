@@ -1,0 +1,15 @@
+.FiltersBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  &__Select {
+    flex-grow: 1;
+  }
+
+  &__Button {
+    margin-left: 1em;
+    flex-grow: 0;
+  }
+}

@@ -1,0 +1,28 @@
+<div mdcTypography class="FiltersBar">
+  <form [formGroup]="bindings.form" class="FiltersBar__Select">
+    <mdc-select formControlName="filter"
+                [box]="false"
+                [outlined]="false"
+                [autosize]="false"
+                placeholder="Filter"
+                [floatingLabel]="true">
+
+      <option [ngValue]="undefined" selected>(none)</option>
+      <option *ngFor="let filter of bindings.filters" [ngValue]="filter">
+        {{ filter }}
+      </option>
+    </mdc-select>
+  </form>
+  <button mdc-button
+          [icon]="true"
+          [disabled]="!isApplyButtonEnabled()"
+          (click)="apply()"
+          class="FiltersBar__Button">
+    <mdc-icon>check</mdc-icon>
+    Apply
+  </button>
+</div>
+
+<div>
+  {{ bindings.form.value | json }}
+</div>

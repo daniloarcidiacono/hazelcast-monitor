@@ -1,8 +1,19 @@
+import {EnvironmentVariableDTO, SubscriptionRegistryStatisticsDTO} from "@shared/dto/internals.dto";
+
 export interface ProductDTO {
 }
 
 export interface ClustersProductDTO extends ProductDTO {
   clusters: string[];
+}
+
+export interface InternalsProductDTO extends ProductDTO {
+  subscriptionStats: SubscriptionRegistryStatisticsDTO;
+  envVariables: EnvironmentVariableDTO[];
+}
+
+export interface FiltersProductDTO extends ProductDTO {
+  filters: string[];
 }
 
 export interface StatisticsProductDTO extends ProductDTO {
@@ -93,6 +104,56 @@ export interface TopicSummaryDTO extends DistributedObjectSummary {
 }
 export type TopicsProductDTO = DistributedObjectsProduct<TopicSummaryDTO>;
 
+// Atomic longs
+export interface AtomicLongSummaryDTO extends DistributedObjectSummary {
+  value: number;
+}
+export type AtomicLongsProductDTO = DistributedObjectsProduct<AtomicLongSummaryDTO>;
+
+// Atomic references
+export interface AtomicReferenceSummaryDTO extends DistributedObjectSummary {
+  value: any;
+  valueString: string;
+}
+export type AtomicReferencesProductDTO = DistributedObjectsProduct<AtomicReferenceSummaryDTO>;
+
+// Caches
+export interface CacheSummaryDTO extends DistributedObjectSummary {
+  size: number;
+  destroyed: boolean;
+}
+export type CachesProductDTO = DistributedObjectsProduct<CacheSummaryDTO>;
+
+// Count down latches
+export interface CountDownLatchSummaryDTO extends DistributedObjectSummary {
+  count: number;
+}
+export type CountDownLatchesProductDTO = DistributedObjectsProduct<CountDownLatchSummaryDTO>;
+
+// Ring buffers
+export interface RingbufferSummaryDTO extends DistributedObjectSummary {
+  size: number;
+  capacity: number;
+  remainingCapacity: number;
+  headSequence: number;
+  tailSequence: number;
+}
+export type RingbuffersProductDTO = DistributedObjectsProduct<RingbufferSummaryDTO>;
+
+// Semaphores
+export interface SemaphoreSummaryDTO extends DistributedObjectSummary {
+  permits: number;
+}
+export type SemaphoresProductDTO = DistributedObjectsProduct<SemaphoreSummaryDTO>;
+
+// Topic
+export interface TopicProductDTO extends ProductDTO {
+  publisher: MemberSummaryDTO;
+  message: any;
+  messageString: string;
+  publishTime: number;
+}
+
 // Map
 export interface MapProductDTO extends ProductDTO {
   entries: MapProductEntryDTO[];
@@ -109,6 +170,10 @@ export interface MapProductEntryDTO {
 // Multi Map
 export type MultiMapProductDTO = MapProductDTO;
 export type MultiMapProductEntryDTO = MapProductEntryDTO;
+
+// Cache
+export type CacheProductDTO = MapProductDTO;
+export type CacheProductEntryDTO = MapProductEntryDTO;
 
 // List
 export interface ListProductDTO extends ProductDTO {
@@ -131,12 +196,3 @@ export type SetProductEntryDTO = ListProductEntryDTO;
 // Replicated Map
 export type ReplicatedMapProductDTO = MapProductDTO;
 export type ReplicatedMapProductEntryDTO = MapProductEntryDTO;
-
-// Topic
-export interface TopicProductDTO extends ProductDTO {
-  publisher: MemberSummaryDTO;
-  message: any;
-  messageString: string;
-  publishTime: number;
-}
-

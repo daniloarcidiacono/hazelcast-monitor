@@ -5,9 +5,18 @@
 
   <div class="DashboardTopic__ActionBar">
     <div class="DashboardTopic__ActionBar--left">
-      <button mdc-button [icon]='icon3' (click)="clear()"><mdc-icon #icon3>delete_forever</mdc-icon>Clear</button>
-      <button mdc-button [icon]='icon1' [disabled]="isRecording()" (click)="record()"><mdc-icon #icon1>fiber_manual_record</mdc-icon>Record</button>
-      <button mdc-button [icon]='icon2' [disabled]="!isRecording()" (click)="stop()"><mdc-icon #icon2>stop</mdc-icon>Stop</button>
+      <button mdc-button [icon]="true" (click)="clear()">
+        <mdc-icon>delete_forever</mdc-icon>
+        Clear
+      </button>
+      <button mdc-button [icon]="true" [disabled]="isRecording()" (click)="record()">
+        <mdc-icon>fiber_manual_record</mdc-icon>
+        Record
+      </button>
+      <button mdc-button [icon]="true" [disabled]="!isRecording()" (click)="stop()">
+        <mdc-icon>stop</mdc-icon>
+        Stop
+      </button>
     </div>
     <div class="DashboardTopic__ActionBar--right">
       <mdc-select [box]="false"

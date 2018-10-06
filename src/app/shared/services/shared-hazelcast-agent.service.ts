@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {
-  AbstractMessageDTO,
+  AbstractMessageDTO, CompileFiltersRequestDTO, CompileFiltersResponseDTO,
   ErrorMessageDTO,
   SubscribeRequestDTO,
   SubscribeResponseDTO,
   SubscriptionNoticeResponseDTO,
-  UnsubscribeRequestDTO
+  UnsubscribeRequestDTO, UpdateSubscriptionRequestDTO, UpdateSubscriptionResponseDTO
 } from '@shared/dto/hazelcast-monitor.dto';
 import {Observable, Observer, of, Subscription} from 'rxjs/index';
 import {SharedWebSocketService} from '@shared/services/shared-websocket.service';
@@ -13,14 +13,15 @@ import {
   ClustersTopicDTO,
   DistributedObjectsTopicDTO,
   DistributedObjectTopicDTO,
-  DistributedObjectType,
+  DistributedObjectType, FiltersTopicDTO, InternalsTopicDTO,
   MembersTopicDTO,
   StatisticsTopicDTO
 } from '@shared/dto/topics.dto';
 import {mergeAll} from 'rxjs/internal/operators';
 import {
-  ClustersProductDTO,
-  DistributedObjectsProduct,
+  AtomicLongsProductDTO, AtomicReferencesProductDTO, CacheProductDTO, CachesProductDTO,
+  ClustersProductDTO, CountDownLatchesProductDTO,
+  DistributedObjectsProduct, FiltersProductDTO, InternalsProductDTO,
   ListProductDTO,
   ListsProductDTO,
   LocksProductDTO,
@@ -30,7 +31,7 @@ import {
   MultiMapProductDTO,
   MultiMapsProductDTO, QueueProductDTO, QueuesProductDTO,
   ReplicatedMapProductDTO,
-  ReplicatedMapsProductDTO, SetProductDTO, SetsProductDTO,
+  ReplicatedMapsProductDTO, RingbuffersProductDTO, SemaphoresProductDTO, SetProductDTO, SetsProductDTO,
   StatisticsProductDTO, TopicProductDTO, TopicsProductDTO
 } from '@shared/dto/topic-products.dto';
 
@@ -126,7 +127,7 @@ export class SharedHazelcastAgentService {
     return new Observable<SubscribeResponseDTO>((observer: Observer<SubscribeResponseDTO>) => {
       const sub: Subscription = stream.subscribe(
         (message: AbstractMessageDTO) => {
-          if (message.messageType === 'subscribe') {
+          if (message.messageType === 'subscribe_response') {
             const subResponse: SubscribeResponseDTO = message as SubscribeResponseDTO;
             observer.next(subResponse);
             observer.complete();
@@ -220,6 +221,60 @@ export class SharedHazelcastAgentService {
     });
   }
 
+  public sendUpdateSubscription(request: UpdateSubscriptionRequestDTO): Promise<UpdateSubscriptionResponseDTO> {
+    // Send the request
+    this.wsService.sendMessage(JSON.stringify(request));
+
+    // Create an observable listening for UpdateSubscriptionResponseDTO
+    return new Observable<UpdateSubscriptionResponseDTO>((observer: Observer<UpdateSubscriptionResponseDTO>) => {
+      const sub: Subscription = this.parsedMessages.subscribe(
+        (message: AbstractMessageDTO) => {
+          if (message.messageType === 'update_subscription_response') {
+            observer.next(message as UpdateSubscriptionResponseDTO);
+            observer.complete();
+          }
+        },
+        (error: ErrorMessageDTO) => {
+          observer.error(error);
+        },
+        () => {
+          observer.complete();
+        }
+      );
+
+      return () => {
+        sub.unsubscribe();
+      };
+    }).toPromise();
+  }
+
+  public sendCompile(request: CompileFiltersRequestDTO): Promise<CompileFiltersResponseDTO> {
+    // Send the request
+    this.wsService.sendMessage(JSON.stringify(request));
+
+    // Create an observable listening for CompileFiltersResponseDTO
+    return new Observable<CompileFiltersResponseDTO>((observer: Observer<CompileFiltersResponseDTO>) => {
+      const sub: Subscription = this.parsedMessages.subscribe(
+        (message: AbstractMessageDTO) => {
+          if (message.messageType === 'compile_filters_response') {
+            observer.next(message as CompileFiltersResponseDTO);
+            observer.complete();
+          }
+        },
+        (error: ErrorMessageDTO) => {
+          observer.error(error);
+        },
+        () => {
+          observer.complete();
+        }
+      );
+
+      return () => {
+        sub.unsubscribe();
+      };
+    }).toPromise();
+  }
+
   public subscribeToClusters(): Observable<SubscriptionNoticeResponseDTO<ClustersProductDTO>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
@@ -227,6 +282,32 @@ export class SharedHazelcastAgentService {
       frequency: 5,
       topic: <ClustersTopicDTO>{
         topicType: 'clusters'
+      }
+    };
+
+    return this.subTo(subRequest);
+  }
+
+  public subscribeToInternals(): Observable<SubscriptionNoticeResponseDTO<InternalsProductDTO>> {
+    const subRequest: SubscribeRequestDTO = {
+      messageType: 'subscribe',
+      messageId: this.wsService.generateMessageId(),
+      frequency: 5,
+      topic: <InternalsTopicDTO>{
+        topicType: 'internals'
+      }
+    };
+
+    return this.subTo(subRequest);
+  }
+
+  public subscribeToFilters(): Observable<SubscriptionNoticeResponseDTO<FiltersProductDTO>> {
+    const subRequest: SubscribeRequestDTO = {
+      messageType: 'subscribe',
+      messageId: this.wsService.generateMessageId(),
+      frequency: 5,
+      topic: <FiltersTopicDTO>{
+        topicType: 'filters'
       }
     };
 
@@ -308,6 +389,30 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.TOPIC);
   }
 
+  public subscribeToAtomicLongs(instanceName: string): Observable<SubscriptionNoticeResponseDTO<AtomicLongsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.ATOMICLONG);
+  }
+
+  public subscribeToAtomicReferences(instanceName: string): Observable<SubscriptionNoticeResponseDTO<AtomicReferencesProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.ATOMICREFERENCE);
+  }
+
+  public subscribeToCountdownLatches(instanceName: string): Observable<SubscriptionNoticeResponseDTO<CountDownLatchesProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.COUNTDOWNLATCH);
+  }
+
+  public subscribeToSemaphores(instanceName: string): Observable<SubscriptionNoticeResponseDTO<SemaphoresProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SEMAPHORE);
+  }
+
+  public subscribeToCaches(instanceName: string): Observable<SubscriptionNoticeResponseDTO<CachesProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.CACHE);
+  }
+
+  public subscribeToRingbuffers(instanceName: string): Observable<SubscriptionNoticeResponseDTO<RingbuffersProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.RINGBUFFER);
+  }
+
   public subscribeToDistributedObject(instanceName: string, distributedObjectType: DistributedObjectType, objectName: string): Observable<SubscriptionNoticeResponseDTO<any>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
@@ -351,5 +456,9 @@ export class SharedHazelcastAgentService {
 
   public subscribeToTopic(instanceName: string, topicName: string): Observable<SubscriptionNoticeResponseDTO<TopicProductDTO>> {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.TOPIC, topicName);
+  }
+
+  public subscribeToCache(instanceName: string, cacheName: string): Observable<SubscriptionNoticeResponseDTO<CacheProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.CACHE, cacheName);
   }
 }

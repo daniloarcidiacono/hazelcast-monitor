@@ -24,6 +24,7 @@
     "core-js": "^2.5.4",
     "moment": "^2.22.2",
     "ngx-moment": "^3.1.0",
+    "ngx-monaco-editor": "^6.0.0",
     "ngx-webstorage-service": "^3.1.1",
     "rxjs": "^6.0.0",
     "sockjs-client": "^1.1.5",

@@ -6,7 +6,7 @@
           <ng-container *ngFor="let section of sections">
             <mdc-list-item *ngIf="!section.separator"
                            (click)="navigateTo(section)">
-              <mdc-icon mdcListItemGraphic>{{ section.icon }}</mdc-icon>
+              <mdc-icon mdcListItemGraphic fontSize="24" [fontSet]="section.fontSet">{{ section.fontIcon }}</mdc-icon>
               {{ section.caption }}
               <div mdcListItemMeta *ngIf="!!section.count()">
                 {{ section.count() }}

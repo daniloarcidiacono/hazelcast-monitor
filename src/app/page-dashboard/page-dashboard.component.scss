@@ -1,6 +1,7 @@
 .Page {
   &__Side > mdc-drawer {
     height: 100%;
+    overflow-y: auto;
   }
 }
 

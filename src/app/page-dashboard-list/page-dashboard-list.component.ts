@@ -16,6 +16,7 @@ export class PageDashboardListComponent implements TabAwareComponent, OnDestroy 
   public listName: string;
   public data: ListProductDTO = undefined;
   private dataSub: Subscription;
+  public subscriptionId: number;
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
@@ -31,6 +32,7 @@ export class PageDashboardListComponent implements TabAwareComponent, OnDestroy 
       this.dataSub = this.hazelcastService.subscribeToList(this.clustersService.getCurrentCluster().instanceName, this.listName).subscribe(
         (notice: SubscriptionNoticeResponseDTO<ListProductDTO>) => {
           this.data = notice.notice;
+          this.subscriptionId = notice.subscriptionId;
         },
         (error: ErrorMessageDTO) => {
           this.snackbarService.show(`Could not fetch the list: ${error.errors}`);
@@ -43,6 +45,7 @@ export class PageDashboardListComponent implements TabAwareComponent, OnDestroy 
     if (!!this.dataSub) {
       this.dataSub.unsubscribe();
       this.dataSub = undefined;
+      this.subscriptionId = undefined;
     }
   }
 

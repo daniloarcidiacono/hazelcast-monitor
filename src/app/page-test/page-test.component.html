@@ -1,31 +1,37 @@
 <div class="Page__Main">
-  <shared-mdc-table [model]="tableModel">
-    <ng-template #headerTemplate>
-      <tr class="mdc-data-table__row mdc-data-table__row--centered">
-        <th rowspan="3" class="mdc-data-table__column">Brand</th>
-        <th colspan="4" class="mdc-data-table__column">Sale Rate</th>
-      </tr>
-      <tr class="mdc-data-table__row mdc-data-table__row--centered">
-        <th colspan="2" class="mdc-data-table__column">Sales</th>
-        <th colspan="2" class="mdc-data-table__column">Profits</th>
-      </tr>
-      <tr class="mdc-data-table__row mdc-data-table__row--centered">
-        <th class="mdc-data-table__column">Last Year</th>
-        <th class="mdc-data-table__column">This Year</th>
-        <th class="mdc-data-table__column">Last Year</th>
-        <th class="mdc-data-table__column">This Year</th>
-      </tr>
-    </ng-template>
-    <ng-template let-sale #bodyTemplate>
-      <tr class="mdc-data-table__row mdc-data-table__row--centered">
-        <td class="mdc-data-table__cell" style="font-weight: bold">{{sale.brand}}</td>
-        <td class="mdc-data-table__cell">{{sale.lastYearSale}}</td>
-        <td class="mdc-data-table__cell">{{sale.thisYearSale}}</td>
-        <td class="mdc-data-table__cell">{{sale.lastYearProfit}}</td>
-        <td class="mdc-data-table__cell">{{sale.thisYearProfit}}</td>
-      </tr>
-    </ng-template>
-  </shared-mdc-table>
+  <button mdc-button [icon]="true" (click)="openFilter()">
+    <mdc-icon>filter_list</mdc-icon>
+    Open the doors
+  </button>
+  <!--<ngx-monaco-editor class="my-code-editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>-->
+
+  <!--<shared-mdc-table [model]="tableModel">-->
+    <!--<ng-template #headerTemplate>-->
+      <!--<tr class="mdc-data-table__row mdc-data-table__row&#45;&#45;centered">-->
+        <!--<th rowspan="3" class="mdc-data-table__column">Brand</th>-->
+        <!--<th colspan="4" class="mdc-data-table__column">Sale Rate</th>-->
+      <!--</tr>-->
+      <!--<tr class="mdc-data-table__row mdc-data-table__row&#45;&#45;centered">-->
+        <!--<th colspan="2" class="mdc-data-table__column">Sales</th>-->
+        <!--<th colspan="2" class="mdc-data-table__column">Profits</th>-->
+      <!--</tr>-->
+      <!--<tr class="mdc-data-table__row mdc-data-table__row&#45;&#45;centered">-->
+        <!--<th class="mdc-data-table__column">Last Year</th>-->
+        <!--<th class="mdc-data-table__column">This Year</th>-->
+        <!--<th class="mdc-data-table__column">Last Year</th>-->
+        <!--<th class="mdc-data-table__column">This Year</th>-->
+      <!--</tr>-->
+    <!--</ng-template>-->
+    <!--<ng-template let-sale #bodyTemplate>-->
+      <!--<tr class="mdc-data-table__row mdc-data-table__row&#45;&#45;centered">-->
+        <!--<td class="mdc-data-table__cell" style="font-weight: bold">{{sale.brand}}</td>-->
+        <!--<td class="mdc-data-table__cell">{{sale.lastYearSale}}</td>-->
+        <!--<td class="mdc-data-table__cell">{{sale.thisYearSale}}</td>-->
+        <!--<td class="mdc-data-table__cell">{{sale.lastYearProfit}}</td>-->
+        <!--<td class="mdc-data-table__cell">{{sale.thisYearProfit}}</td>-->
+      <!--</tr>-->
+    <!--</ng-template>-->
+  <!--</shared-mdc-table>-->
 
   <!--<shared-mdc-treetable [model]="treeTableModel">-->
     <!--<ng-template let-node>-->

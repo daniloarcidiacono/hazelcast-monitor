@@ -57,7 +57,10 @@ export class PageClustersComponent implements OnDestroy {
     this.clusterSub = this.hazelcastService.subscribeToClusters().subscribe(
       (notice: SubscriptionNoticeResponseDTO<ClustersProductDTO>) => {
         const newData: Cluster[] = notice.notice.clusters.map(name => new Cluster(name));
-        this.clustersService.mergeClusters(newData);
+        this.clustersService.setClusters(newData);
+        this.form.patchValue({
+          cluster: this.clustersService.getClusters()[0]
+        });
       },
       (error: ErrorMessageDTO) => {
         this.form.disable();

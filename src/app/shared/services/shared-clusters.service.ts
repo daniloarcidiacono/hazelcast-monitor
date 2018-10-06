@@ -15,8 +15,9 @@ export class SharedClustersService {
     this.currentCluster = undefined;
   }
 
-  public mergeClusters(clusters: Cluster[]): void {
-    this.clusters.push(...clusters);
+  public setClusters(clusters: Cluster[]): void {
+    this.clusters = clusters;
+    // this.clusters.push(...clusters);
   }
 
   public getCurrentCluster(): Cluster {
