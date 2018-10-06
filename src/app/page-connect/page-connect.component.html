@@ -8,9 +8,9 @@
     <h1 mdcHeadline6>Connect</h1>
     <form [formGroup]="bindings.form" class="ConnectCard__Form">
       <div>
+        <!-- Protocol -->
         <mdc-select formControlName="protocol"
-                    [box]="false"
-                    [outlined]="false"
+                    [outlined]="true"
                     placeholder="Protocol"
                     [floatingLabel]="true"
                     class="ConnectCard__ProtocolSelector">
@@ -21,12 +21,12 @@
         <!-- Host -->
         <mdc-text-field formControlName="host"
                         type="text"
-                        [box]="false"
-                        [outline]="false"
-                        [dense]="true"
+                        [outline]="true"
+                        [dense]="false"
                         label="Host"
                         [helperText]="hostHelper"
-                        [required]="true">
+                        [required]="true"
+                        class="ConnectCard__HostSelector">
         </mdc-text-field>
         <mdc-text-field-helper-text #hostHelper [validation]="true" [persistent]="false">
           <span *ngIf="bindings.form.controls['host'].errors?.required">Host is required</span>
@@ -36,9 +36,8 @@
       <!-- Port -->
       <mdc-text-field formControlName="port"
                       type="number"
-                      [box]="false"
-                      [outline]="false"
-                      [dense]="true"
+                      [outline]="true"
+                      [dense]="false"
                       label="Port"
                       [helperText]="portHelper"
                       [required]="true">
@@ -50,9 +49,8 @@
       <!-- Path -->
       <mdc-text-field formControlName="path"
                       type="text"
-                      [box]="false"
-                      [outline]="false"
-                      [dense]="true"
+                      [outline]="true"
+                      [dense]="false"
                       label="Path">
       </mdc-text-field>
       <!--<mdc-text-field-helper-text #pathHelper [validation]="true" [persistent]="false">-->

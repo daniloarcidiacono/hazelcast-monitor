@@ -33,10 +33,12 @@
   }
 
   &__ProtocolSelector {
-    width: 70px;
+    width: 8rem;
     margin-right: 1em;
-    position:relative;
-    top: -1px;
+  }
+
+  &__HostSelector {
+    width: calc(100% - 8rem - 1em);
   }
 
   &__ConnectButton {

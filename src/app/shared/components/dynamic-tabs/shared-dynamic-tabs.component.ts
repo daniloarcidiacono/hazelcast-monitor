@@ -6,9 +6,9 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {MdcTabBar} from '@angular-mdc/web';
 import {TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {TabHostDirective} from '@shared/components/dynamic-tabs/tab-host.directive';
+import {MdcTabBar} from '@angular-mdc/web';
 
 @Component({
   selector: 'shared-dynamic-tabs',
@@ -18,6 +18,8 @@ import {TabHostDirective} from '@shared/components/dynamic-tabs/tab-host.directi
 export class SharedDynamicTabsComponent {
   public tabs: TabData[] = [
   ];
+
+  public activeTabIndex: number = -1;
 
   @ViewChild(TabHostDirective)
   private tabHost: TabHostDirective;
@@ -45,7 +47,12 @@ export class SharedDynamicTabsComponent {
     if (!!data.componentRef.instance['tabCreated']) {
       data.componentRef.instance.tabCreated(data);
     }
+
     this.selectTab(this.tabs.length - 1);
+  }
+
+  public logTab(tabIndex: number): void {
+    console.log(tabIndex);
   }
 
   private selectTab(tabIndex: number): void {
@@ -68,6 +75,8 @@ export class SharedDynamicTabsComponent {
         this.tabs[tabIndex].active = true;
       }
     }
+
+    this.activeTabIndex = tabIndex;
   }
 
   public closeTab(tabIndex: number): void {

@@ -1,23 +1,31 @@
-<mdc-tab-bar-scroller>
-  <mdc-tab-bar-scroll-back>
-    <mdc-icon>navigate_before</mdc-icon>
-  </mdc-tab-bar-scroll-back>
-  <mdc-tab-bar-scroll-frame>
-    <mdc-tab-bar [primary]="true">
-      <mdc-tab *ngFor="let tab of tabs; let tabIndex = index"
-               [active]="tab.active"
-               (selected)="selectTab(tabIndex)">
-        <div class="Tab__Content">
-          <mdc-icon class="Tab__Close" (click)="closeTab(tabIndex)">close</mdc-icon>
-          <div>{{ tab.label }}</div>
-          <mdc-icon *ngIf="tab.recording" class="Tab__RecordIcon">fiber_manual_record</mdc-icon>
-        </div>
+<div class="DynamicTabs__TopBar">
+  <button mdc-icon-button (click)="scroller.incrementScroll(-65)" iconOn="navigate_before" iconOff="navigate_before"></button>
+  <mdc-tab-bar (activated)="logTab($event.index)" [activeTabIndex]="activeTabIndex">
+    <mdc-tab-scroller #scroller>
+      <mdc-tab *ngFor="let tab of tabs; let tabIndex = index">
+        <mdc-tab-label>
+          <div class="Tab__Content">
+            <mdc-icon class="Tab__Close" (click)="closeTab(tabIndex)">close</mdc-icon>
+            <div>{{ tab.label }}</div>
+            <mdc-icon *ngIf="tab.recording" class="Tab__RecordIcon">fiber_manual_record</mdc-icon>
+          </div>
+        </mdc-tab-label>
       </mdc-tab>
-    </mdc-tab-bar>
-  </mdc-tab-bar-scroll-frame>
-  <mdc-tab-bar-scroll-forward>
-    <mdc-icon>navigate_next</mdc-icon>
-  </mdc-tab-bar-scroll-forward>
-</mdc-tab-bar-scroller>
+
+      <!--<mdc-tab *ngFor="let tab of tabs; let tabIndex = index"-->
+                 <!--&lt;!&ndash;[active]="tab.active"&ndash;&gt;-->
+                 <!--&lt;!&ndash;(selected)="selectTab(tabIndex)"&ndash;&gt;>-->
+        <!--<mdc-tab-label>-->
+          <!--<div class="Tab__Content">-->
+            <!--<mdc-icon class="Tab__Close" (click)="closeTab(tabIndex)">close</mdc-icon>-->
+            <!--<div>{{ tab.label }}</div>-->
+            <!--<mdc-icon *ngIf="tab.recording" class="Tab__RecordIcon">fiber_manual_record</mdc-icon>-->
+          <!--</div>-->
+        <!--</mdc-tab-label>-->
+      <!--</mdc-tab>-->
+    </mdc-tab-scroller>
+  </mdc-tab-bar>
+  <button mdc-icon-button (click)="scroller.incrementScroll(65)" iconOn="navigate_next" iconOff="navigate_next"></button>
+</div>
 <ng-template tab-host>
 </ng-template>

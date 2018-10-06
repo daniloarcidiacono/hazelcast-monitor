@@ -1,5 +1,13 @@
 @import "~@angular-mdc/theme/scss/theme/_variables.scss";
 
+.DynamicTabs {
+  &__TopBar {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+}
+
 .Tab {
   &__Content {
     display: flex;
@@ -19,6 +27,10 @@
   &__Close:hover {
     color: $mdc-theme-accent;
   }
+}
+
+mdc-tab-bar {
+  overflow-x: hidden;
 }
 
 @keyframes blinker {
