@@ -8,6 +8,15 @@
     flex-grow: 0;
   }
 
+  &__TopTitle {
+    padding: 0;
+  }
+
+  &__TopImage {
+    height: 42px;
+    vertical-align: middle;
+  }
+
   &__Bottom {
     flex-grow: 1;
     display: flex;

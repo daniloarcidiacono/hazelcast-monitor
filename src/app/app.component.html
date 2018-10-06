@@ -2,9 +2,10 @@
   <div class="Page__Top">
     <mdc-top-app-bar [fixed]="true" [fixedAdjustElement]="bottom">
       <mdc-top-app-bar-row>
-        <mdc-top-app-bar-section align="start" title="Hazelcast Monitor">
-          <!--<mdc-icon mdcTopAppBarNavIcon>menu</mdc-icon>-->
-          <img mdcTopAppBarNavIcon src="assets/logos/HazelcastLogo-Orange_Light_Icon.svg">
+        <mdc-top-app-bar-section align="start">
+          <mdc-top-app-bar-title class="Page__TopTitle">
+            <img class="Page__TopImage" src="assets/logos/HazelcastLogo-Orange_Light.svg">
+          </mdc-top-app-bar-title>
         </mdc-top-app-bar-section>
         <mdc-top-app-bar-section align="end">
           <shared-connection-indicator></shared-connection-indicator>
