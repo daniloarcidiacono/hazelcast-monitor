@@ -1,6 +1,6 @@
-@import "~@angular-mdc/theme/material-components-web/typography/mdc-typography";
-@import "~@angular-mdc/theme/material-components-web/theme/_variables.scss";
-@import "~@angular-mdc/theme/material-components-web/ripple/mdc-ripple.scss";
+@import "~@angular-mdc/theme/scss/typography/mdc-typography";
+@import "~@angular-mdc/theme/scss/theme/_variables.scss";
+@import "~@angular-mdc/theme/scss/ripple/mdc-ripple.scss";
 
 .MdcTreeNode {
   user-select: none;

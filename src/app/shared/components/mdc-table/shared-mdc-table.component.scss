@@ -1,8 +1,8 @@
 // Code based on: https://github.com/iFaxity/mdc-data-table
-@import '~@angular-mdc/theme/material-components-web/theme/mixins';
-@import '~@angular-mdc/theme/material-components-web/theme/variables';
-@import '~@angular-mdc/theme/material-components-web/typography/mixins';
-@import '~@angular-mdc/theme/material-components-web/typography/variables';
+@import '~@angular-mdc/theme/scss/theme/mixins';
+@import '~@angular-mdc/theme/scss/theme/variables';
+@import '~@angular-mdc/theme/scss/typography/mixins';
+@import '~@angular-mdc/theme/scss/typography/variables';
 
 @mixin mdc-theme-prop-alpha($property, $style, $alpha) {
   $tone: mdc-theme-contrast-tone($style);
