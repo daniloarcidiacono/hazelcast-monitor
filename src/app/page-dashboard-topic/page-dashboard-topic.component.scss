@@ -1,24 +1,18 @@
+@import "../shared/styles/layouts/section";
+
 .DashboardTopic {
-  margin: 0;
-  padding: 1em;
+  @include LayoutSection("Content", (actionBar: true));
 
   &__ActionBar {
     display: flex;
-    width: 100%;
-    margin-bottom: 1em;
     flex-direction: row;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: space-between;
-
-    &--left {
-    }
-
-    &--right {
-      margin-right: 1em;
-    }
   }
 
-  &__Title {
-    margin-bottom: 2em;
+  &__ActionBarRight {
+    /* https://stackoverflow.com/questions/35269947/css-align-one-item-right-with-flexbox */
+    margin-left: auto;
   }
 }
+

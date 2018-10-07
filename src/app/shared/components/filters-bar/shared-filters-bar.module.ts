@@ -1,5 +1,8 @@
 import {
-  MdcButtonModule, MdcIconButtonModule, MdcIconModule, MdcSelectModule,
+  MdcButtonModule,
+  MdcIconButtonModule,
+  MdcIconModule,
+  MdcSelectModule,
   MdcTypographyModule
 } from '@angular-mdc/web';
 import {BrowserModule} from '@angular/platform-browser';
@@ -7,6 +10,7 @@ import {NgModule} from '@angular/core';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SharedFiltersBarComponent} from '@shared/components/filters-bar/shared-filters-bar.component';
+import {SharedFiltersEditorModule} from '@shared/components/filters-editor/shared-filters-editor.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import {SharedFiltersBarComponent} from '@shared/components/filters-bar/shared-f
     MdcIconButtonModule,
     MdcIconModule,
     MdcButtonModule,
-    MdcSelectModule
+    MdcIconButtonModule,
+    MdcSelectModule,
+
+    // Shared
+    SharedFiltersEditorModule
   ],
   exports: [
     SharedFiltersBarComponent

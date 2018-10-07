@@ -18,6 +18,10 @@ export class SharedFiltersBarComponent implements OnDestroy {
   @Input()
   private subscriptionId: number;
 
+  @Input()
+  private showEditor: boolean;
+
+  private editorOpened: boolean = false;
   private filters: string[];
   private dataSub: Subscription;
   private form: FormGroup;
@@ -25,6 +29,14 @@ export class SharedFiltersBarComponent implements OnDestroy {
   // View bindings
   public bindings: any = {
     ctrl: this,
+
+    get editorOpened(): boolean {
+      return this.ctrl.editorOpened;
+    },
+
+    get showEditor(): boolean {
+      return this.ctrl.showEditor;
+    },
 
     get form(): FormGroup {
       return this.ctrl.form;
@@ -44,6 +56,10 @@ export class SharedFiltersBarComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.unsubscribe();
+  }
+
+  public toggleEditor(): void {
+    this.editorOpened = !this.editorOpened;
   }
 
   public apply(): void {

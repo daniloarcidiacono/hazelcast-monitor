@@ -8,6 +8,7 @@ import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelc
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
 import {PageDashboardTopicComponent} from '../page-dashboard-topic/page-dashboard-topic.component';
+import {SharedPageIconsConstants} from "@shared/constants/shared-page-icons.constants";
 
 @Component({
   templateUrl: './page-dashboard-topics.component.html',
@@ -32,7 +33,8 @@ export class PageDashboardTopicsComponent implements TabAwareComponent, OnDestro
     const topicName: string = row.name;
 
     this.tabsService.addTab({
-      label: `${topicName} topic`,
+      label: topicName,
+      icon: SharedPageIconsConstants.TOPICS_ICON,
       componentClass: PageDashboardTopicComponent,
       componentInputs: {
         topicName: topicName

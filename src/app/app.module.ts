@@ -1,7 +1,10 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {MdcButtonModule, MdcIconModule, MdcSnackbarModule, MdcTopAppBarModule} from '@angular-mdc/web';
+import {
+  MdcButtonModule, MdcIconModule, MdcSnackbarModule, MdcTopAppBarModule,
+  MdcTypographyModule
+} from '@angular-mdc/web';
 import {RouterModule} from '@angular/router';
 import {PageClustersModule} from './page-clusters/page-clusters.module';
 import {PageDashboardModule} from './page-dashboard/page-dashboard.module';
@@ -20,6 +23,7 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
     BrowserModule,
 
     // Angular MDC Web
+    MdcTypographyModule,
     MdcTopAppBarModule,
     MdcButtonModule,
     MdcIconModule,

@@ -1,17 +1,19 @@
-<div class="DashboardTopics" mdcTypography>
+<div class="DashboardTopics">
   <div mdcHeadline5 class="DashboardTopics__Title">Topics of {{ clusterName }}</div>
-  <shared-mdc-table [model]="data?.objects">
-    <ng-template #headerTemplate>
-      <tr class="mdc-data-table__row">
-        <th class="mdc-data-table__column">Name</th>
-        <th class="mdc-data-table__column">Partition key</th>
-      </tr>
-    </ng-template>
-    <ng-template let-topic #bodyTemplate>
-      <tr class="mdc-data-table__row" (click)="navigateToTopicDetails(topic)">
-        <td class="mdc-data-table__cell">{{ topic.name }}</td>
-        <td class="mdc-data-table__cell">{{ topic.partitionKey }}</td>
-      </tr>
-    </ng-template>
-  </shared-mdc-table>
+  <div class="DashboardTopics__Content">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-topic #bodyTemplate>
+        <tr class="mdc-data-table__row" (click)="navigateToTopicDetails(topic)">
+          <td class="mdc-data-table__cell">{{ topic.name }}</td>
+          <td class="mdc-data-table__cell">{{ topic.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
 </div>

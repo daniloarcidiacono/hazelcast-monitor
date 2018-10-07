@@ -1,28 +1,30 @@
-<div class="DashboardReplicatedMap" mdcTypography>
+<div class="DashboardReplicatedMap">
   <div mdcHeadline5 class="DashboardReplicatedMap__Title">
     {{ mapName }}
   </div>
-  <shared-mdc-table [model]="data?.entries">
-    <ng-template #headerTemplate>
-      <tr class="mdc-data-table__row">
-        <th class="mdc-data-table__column">Key</th>
-        <th class="mdc-data-table__column">Value</th>
-      </tr>
-    </ng-template>
-    <ng-template #bodyTemplate let-entry>
-      <tr class="mdc-data-table__row">
-        <td class="mdc-data-table__cell mdc-data-table__cell--top">
-          <shared-object-inspector [data]="entry.key"
-                                   [locked]="entry.locked"
-                                   [stringData]="entry.keyString">
-          </shared-object-inspector>
-        </td>
-        <td class="mdc-data-table__cell  mdc-data-table__cell--top">
-          <shared-object-inspector [data]="entry.value"
-                                   [stringData]="entry.valueString">
-          </shared-object-inspector>
-        </td>
-      </tr>
-    </ng-template>
-  </shared-mdc-table>
+  <div class="DashboardReplicatedMap__Content">
+    <shared-mdc-table [model]="data?.entries">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Key</th>
+          <th class="mdc-data-table__column">Value</th>
+        </tr>
+      </ng-template>
+      <ng-template #bodyTemplate let-entry>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">
+            <shared-object-inspector [data]="entry.key"
+                                     [locked]="entry.locked"
+                                     [stringData]="entry.keyString">
+            </shared-object-inspector>
+          </td>
+          <td class="mdc-data-table__cell  mdc-data-table__cell--top">
+            <shared-object-inspector [data]="entry.value"
+                                     [stringData]="entry.valueString">
+            </shared-object-inspector>
+          </td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
 </div>

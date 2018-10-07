@@ -8,6 +8,7 @@ import {Subscription} from 'rxjs/index';
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
+import {SharedPageIconsConstants} from "@shared/constants/shared-page-icons.constants";
 
 @Component({
   templateUrl: './page-dashboard-caches.component.html',
@@ -32,7 +33,8 @@ export class PageDashboardCachesComponent implements TabAwareComponent, OnDestro
     const cacheName: string = row.name;
 
     this.tabsService.addTab({
-      label: `${cacheName} cache`,
+      label: cacheName,
+      icon: SharedPageIconsConstants.CACHES_ICON,
       componentClass: PageDashboardCacheComponent,
       componentInputs: {
         cacheName: cacheName

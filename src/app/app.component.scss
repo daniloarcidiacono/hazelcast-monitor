@@ -1,40 +1,47 @@
+// Override the position: fixed of mdc-top-app-bar (messes with our layout)
+mdc-top-app-bar {
+  position: static !important;
+}
+
 .Page {
-  width: inherit;
-  height: inherit;
+  // Fill up available space
+  height: 100%;
+
+  // Layout children in a column
   display: flex;
   flex-direction: column;
 
+  // The Page cannot overflow!
+  overflow: hidden;
+
+  // Top bar section
   &__Top {
+    // Don't expand in height unnecessarily
     flex-grow: 0;
+
+    &Title {
+      padding: 0;
+    }
+
+    &Logo {
+      height: 42px;
+      vertical-align: middle;
+    }
   }
 
-  &__TopTitle {
-    padding: 0;
-  }
-
-  &__TopImage {
-    height: 42px;
-    vertical-align: middle;
-  }
-
-  &__Bottom {
+  // Actual page content
+  &__Content {
+    // Fill up the remaining part of the Page
     flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
 
-  &__Side {
-    flex-grow: 0;
-  }
+    // Specifying an height indication in the parent container is mandatory if you want to use height: 100% in children!
+    // (https://stackoverflow.com/questions/33636796/chrome-safari-not-filling-100-height-of-flex-parent)
+    //
+    // Also please note this is NOT equivalent to height: 100%, because the latter would take the whole Page height.
+    // In other words, the Top section would not be excluded causing the Page container to overflow!
+    flex-basis: 100%;
 
-  &__Main {
-    flex-grow: 1;
-    overflow-x: hidden;
-    overflow-y: auto;
+    // This container can eventually overflow
+    overflow: auto;
   }
 }
-
-//.Page__Side + .Page__Main {
-  //margin-left: 1em;
-//}

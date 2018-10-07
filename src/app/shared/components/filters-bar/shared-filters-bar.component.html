@@ -1,27 +1,28 @@
-<div mdcTypography class="FiltersBar">
-  <form [formGroup]="bindings.form" class="FiltersBar__Select">
-    <mdc-select formControlName="filter"
-                [outlined]="false"
-                [autosize]="false"
-                placeholder="Filter"
-                [floatingLabel]="true">
+<div class="FiltersBar">
+  <div class="FiltersBar__Top">
+    <!--<button mdcIconButton (click)="toggleEditor()">-->
+      <!--<mdc-icon fontSet="fa" fontIcon="fa-star" mdcIconOn></mdc-icon>-->
+      <!--<mdc-icon fontSet="fa" fontIcon="fa-star-o"></mdc-icon>-->
+    <!--</button>-->
 
-      <option [ngValue]="undefined" selected>(none)</option>
-      <option *ngFor="let filter of bindings.filters" [ngValue]="filter">
-        {{ filter }}
-      </option>
-    </mdc-select>
-  </form>
-  <button mdc-button
-          [icon]="true"
-          [disabled]="!isApplyButtonEnabled()"
-          (click)="apply()"
-          class="FiltersBar__Button">
-    <mdc-icon>check</mdc-icon>
-    Apply
-  </button>
-</div>
+    <form [formGroup]="bindings.form">
+      <mdc-select class="FiltersBar__Selector"
+                  formControlName="filter"
+                  [outlined]="true"
+                  [autosize]="false"
+                  placeholder="Filter"
+                  [floatingLabel]="true">
 
-<div>
-  {{ bindings.form.value | json }}
+        <option [value]="undefined" selected>(none)</option>
+        <option *ngFor="let filter of bindings.filters" [value]="filter">
+          {{ filter }}
+        </option>
+      </mdc-select>
+    </form>
+    <button mdcIconButton icon="edit" (click)="toggleEditor()"></button>
+    <button mdcIconButton icon="done" (click)="apply()"></button>
+  </div>
+  <div class="FiltersBar__Editor" *ngIf="bindings.showEditor" [hidden]="!bindings.editorOpened">
+    <shared-filters-editor></shared-filters-editor>
+  </div>
 </div>

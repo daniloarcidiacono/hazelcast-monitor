@@ -1,0 +1,36 @@
+@mixin LayoutSection($contentElementName: "Content", $options: (actionBar: false)) {
+  /* Layout children in column */
+  display: flex;
+  flex-direction: column;
+
+  /* We do not use min-height because the section cannot overflow its container */
+  height: 100%;
+
+  /* Include some padding */
+  padding: 1em;
+
+  /* This is needed to not include the padding when the children overflow */
+  box-sizing: border-box;
+
+  &__Title {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-bottom: 1em;
+  }
+
+  @if map-get($options, "actionBar") {
+    &__ActionBar {
+      flex-grow: 0;
+      flex-shrink: 0;
+      border: 1px solid gainsboro;
+      overflow: hidden;
+      margin-bottom: 1em;
+    }
+  }
+
+  &__#{$contentElementName} {
+    flex-basis: 100%;
+    flex-grow: 1;
+    overflow: auto;
+  }
+}

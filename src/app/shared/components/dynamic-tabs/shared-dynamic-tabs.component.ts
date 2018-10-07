@@ -2,7 +2,7 @@ import {
   Component,
   ComponentFactory,
   ComponentFactoryResolver,
-  ComponentRef,
+  ComponentRef, ContentChild, TemplateRef,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -27,7 +27,14 @@ export class SharedDynamicTabsComponent {
   @ViewChild(MdcTabBar)
   private tabBarComponent: MdcTabBar;
 
+  @ContentChild('defaultContentTemplate')
+  private defaultContentTemplate: TemplateRef<any>;
+
   public constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+  }
+
+  public hasActiveTab(): boolean {
+    return this.activeTabIndex !== -1;
   }
 
   public addTab(data: TabData): void {
@@ -89,6 +96,7 @@ export class SharedDynamicTabsComponent {
         this.tabs[tabIndex].componentRef.instance.beforeHide();
       }
 
+      console.log(this.tabs[tabIndex].componentRef.location.nativeElement);
       this.tabs[tabIndex].componentRef.location.nativeElement.hidden = true;
       this.tabs[tabIndex].active = false;
     }

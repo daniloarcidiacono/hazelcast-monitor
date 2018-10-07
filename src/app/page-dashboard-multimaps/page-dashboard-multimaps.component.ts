@@ -9,6 +9,7 @@ import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelc
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
 import {PageDashboardMultiMapComponent} from "../page-dashboard-multimap/page-dashboard-multimap.component";
+import {SharedPageIconsConstants} from "@shared/constants/shared-page-icons.constants";
 
 @Component({
   templateUrl: './page-dashboard-multimaps.component.html',
@@ -33,7 +34,8 @@ export class PageDashboardMultiMapsComponent implements TabAwareComponent, OnDes
     const mapName: string = row.name;
 
     this.tabsService.addTab({
-      label: `${mapName} multimap`,
+      label: mapName,
+      icon: SharedPageIconsConstants.MULTIMAPS_ICON,
       componentClass: PageDashboardMultiMapComponent,
       componentInputs: {
         mapName: mapName

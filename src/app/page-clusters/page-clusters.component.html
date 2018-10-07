@@ -1,8 +1,8 @@
-<div class="Page__Main" mdcTypography>
-  <div class="ClustersCard" [mdcElevation]="4">
-    <div class="ClustersCard__Logo"></div>
+<div class="PageClusters">
+  <div class="PageClusters__Card" [mdcElevation]="4">
+    <div class="PageClusters__Card__Logo"></div>
     <h1 mdcHeadline6>Choose an instance to monitor</h1>
-    <form [formGroup]="bindings.form" class="ClustersCard__Form">
+    <form [formGroup]="bindings.form" class="PageClusters__Card__Form">
       <mdc-select formControlName="cluster"
                   placeholder="Instance"
                   [disabled]="!hasClusters()"
@@ -23,7 +23,7 @@
               [raised]="true"
               [disabled]="!isNextButtonEnabled()"
               (click)="next()"
-              class="ClustersCard__NextButton">
+              class="PageClusters__Card__NextButton">
         Go to Dashboard
       </button>
     </form>

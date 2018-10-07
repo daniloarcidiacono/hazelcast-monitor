@@ -11,6 +11,7 @@ import {Subscription} from 'rxjs/index';
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
+import {SharedPageIconsConstants} from "@shared/constants/shared-page-icons.constants";
 
 @Component({
   templateUrl: './page-dashboard-replicatedmaps.component.html',
@@ -35,7 +36,8 @@ export class PageDashboardReplicatedMapsComponent implements TabAwareComponent, 
     const mapName: string = row.name;
 
     this.tabsService.addTab({
-      label: `${mapName} map`,
+      label: mapName,
+      icon: SharedPageIconsConstants.REPLICATEDMAPS_ICON,
       componentClass: PageDashboardReplicatedMapComponent,
       componentInputs: {
         mapName: mapName

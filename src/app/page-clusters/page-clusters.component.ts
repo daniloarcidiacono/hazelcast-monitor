@@ -15,9 +15,6 @@ import {ClustersProductDTO} from '@shared/dto/topic-products.dto';
   styleUrls: ['./page-clusters.component.scss']
 })
 export class PageClustersComponent implements OnDestroy {
-  @HostBinding('class')
-  private classes: string = 'Page__Bottom';
-
   private form: FormGroup;
   private wsStateSub: Subscription;
   private clusterSub: Subscription;

@@ -1,10 +1,10 @@
-<div class="Page">
+<div class="Page" mdcTypography>
   <div class="Page__Top">
-    <mdc-top-app-bar [fixed]="true" [fixedAdjustElement]="bottom">
+    <mdc-top-app-bar [fixed]="false">
       <mdc-top-app-bar-row>
         <mdc-top-app-bar-section align="start">
           <mdc-top-app-bar-title class="Page__TopTitle">
-            <img class="Page__TopImage" src="assets/logos/HazelcastLogo-Orange_Light.svg">
+            <img class="Page__TopLogo" src="assets/logos/HazelcastLogo-Orange_Light.svg">
           </mdc-top-app-bar-title>
         </mdc-top-app-bar-section>
         <mdc-top-app-bar-section align="end">
@@ -13,7 +13,7 @@
       </mdc-top-app-bar-row>
     </mdc-top-app-bar>
   </div>
-  <div class="Page__Bottom" #bottom>
+  <div class="Page__Content">
     <router-outlet></router-outlet>
   </div>
 </div>

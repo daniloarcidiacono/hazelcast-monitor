@@ -1,6 +1,8 @@
 import {ComponentRef, Type} from '@angular/core';
+import {FontIcon} from "@shared/constants/shared-page-icons.constants";
 
 export interface TabData {
+  icon?: FontIcon;
   label: string;
   active?: boolean;
   recording?: boolean;

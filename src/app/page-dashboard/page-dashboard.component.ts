@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {ConnectionState, SharedWebSocketService} from '@shared/services/shared-websocket.service';
 import {Router} from '@angular/router';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
@@ -26,18 +26,19 @@ import {PageDashboardSemaphoresComponent} from '../page-dashboard-semaphores/pag
 import {PageDashboardCachesComponent} from '../page-dashboard-caches/page-dashboard-caches.component';
 import {PageDashboardRingbuffersComponent} from '../page-dashboard-ringbuffers/page-dashboard-ringbuffers.component';
 import {PageDashboardInternalsComponent} from '../page-dashboard-internals/page-dashboard-internals.component';
-import {PageDashboardFiltersComponent} from "../page-dashboard-filters/page-dashboard-filters.component";
+import {PageDashboardFiltersComponent} from '../page-dashboard-filters/page-dashboard-filters.component';
+import {FontIcon, SharedPageIconsConstants} from '@shared/constants/shared-page-icons.constants';
 
 interface SeparatorItem {
   separator: boolean;
 }
 
 interface SectionItem {
-  fontSet: string;
-  fontIcon: string;
+  icon: FontIcon;
   caption: string;
   count: () => number;
   tab: TabData;
+  subHeader?: string;
 }
 
 type DashboardSection = SeparatorItem | SectionItem;
@@ -47,16 +48,12 @@ type DashboardSection = SeparatorItem | SectionItem;
   styleUrls: ['./page-dashboard.component.scss']
 })
 export class PageDashboardComponent implements OnDestroy {
-  @HostBinding('class')
-  private classes: string = 'Page__Bottom';
-
   @ViewChild(SharedDynamicTabsComponent)
   private tabsComponent: SharedDynamicTabsComponent;
 
   public sections: DashboardSection[] = [
     {
-      fontSet: 'material-icons',
-      fontIcon: 'group',
+      icon: SharedPageIconsConstants.MEMBERS_ICON,
       caption: 'Members',
       count: () => {
         return !!this.currentStats ? this.currentStats.membersCount : undefined;
@@ -64,11 +61,11 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Members',
         componentClass: PageDashboardMembersComponent
-      }
+      },
+      subHeader: 'General'
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'filter_list',
+      icon: SharedPageIconsConstants.FILTERS_ICON,
       caption: 'Filters',
       count: () => {
         return undefined;
@@ -82,8 +79,7 @@ export class PageDashboardComponent implements OnDestroy {
       separator: true
     },
     {
-      fontSet: 'hzfont',
-      fontIcon: 'icon-atomic',
+      icon: SharedPageIconsConstants.ATOMICLONGS_ICON,
       caption: 'Atomic longs',
       count: () => {
         return !!this.currentStats ? this.currentStats.atomicLongCount : undefined;
@@ -91,11 +87,11 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'AtomicLongs',
         componentClass: PageDashboardAtomicLongsComponent
-      }
+      },
+      subHeader: 'Resources'
     },
     {
-      fontSet: 'hzfont',
-      fontIcon: 'atomic',
+      icon: SharedPageIconsConstants.ATOMICREFERENCES_ICON,
       caption: 'Atomic references',
       count: () => {
         return !!this.currentStats ? this.currentStats.atomicReferenceCount : undefined;
@@ -106,8 +102,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'memory',
+      icon: SharedPageIconsConstants.CACHES_ICON,
       caption: 'Caches',
       count: () => {
         return !!this.currentStats ? this.currentStats.cacheCount : undefined;
@@ -118,8 +113,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'hzfont',
-      fontIcon: 'icon-countdown',
+      icon: SharedPageIconsConstants.COUNTDOWNLATCHES_ICON,
       caption: 'Count-down latches',
       count: () => {
         return !!this.currentStats ? this.currentStats.countDownLatchCount : undefined;
@@ -130,8 +124,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'format_list_numbered',
+      icon: SharedPageIconsConstants.LISTS_ICON,
       caption: 'Lists',
       count: () => {
         return !!this.currentStats ? this.currentStats.listCount : undefined;
@@ -142,8 +135,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'lock',
+      icon: SharedPageIconsConstants.LOCKS_ICON,
       caption: 'Locks',
       count: () => {
         return !!this.currentStats ? this.currentStats.lockCount : undefined;
@@ -154,8 +146,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'map',
+      icon: SharedPageIconsConstants.MAPS_ICON,
       caption: 'Maps',
       count: () => {
         return !!this.currentStats ? this.currentStats.mapCount : undefined;
@@ -166,8 +157,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'map',
+      icon: SharedPageIconsConstants.MULTIMAPS_ICON,
       caption: 'Multi-maps',
       count: () => {
         return !!this.currentStats ? this.currentStats.multiMapCount : undefined;
@@ -178,8 +168,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'list',
+      icon: SharedPageIconsConstants.QUEUES_ICON,
       caption: 'Queues',
       count: () => {
         return !!this.currentStats ? this.currentStats.queueCount : undefined;
@@ -190,8 +179,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'map',
+      icon: SharedPageIconsConstants.REPLICATEDMAPS_ICON,
       caption: 'Replicated maps',
       count: () => {
         return !!this.currentStats ? this.currentStats.replicatedMapCount : undefined;
@@ -202,8 +190,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: '360',
+      icon: SharedPageIconsConstants.RINGBUFFERS_ICON,
       caption: 'Ringbuffers',
       count: () => {
         return !!this.currentStats ? this.currentStats.ringbufferCount : undefined;
@@ -214,8 +201,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'traffic',
+      icon: SharedPageIconsConstants.SEMAPHORES_ICON,
       caption: 'Semaphores',
       count: () => {
         return !!this.currentStats ? this.currentStats.semaphoreCount : undefined;
@@ -226,8 +212,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'hzfont',
-      fontIcon: 'icon-set',
+      icon: SharedPageIconsConstants.SETS_ICON,
       caption: 'Sets',
       count: () => {
         return !!this.currentStats ? this.currentStats.setCount : undefined;
@@ -238,8 +223,7 @@ export class PageDashboardComponent implements OnDestroy {
       }
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'question_answer',
+      icon: SharedPageIconsConstants.TOPICS_ICON,
       caption: 'Topics',
       count: () => {
         return !!this.currentStats ? this.currentStats.topicCount : undefined;
@@ -253,8 +237,7 @@ export class PageDashboardComponent implements OnDestroy {
       separator: true
     },
     {
-      fontSet: 'material-icons',
-      fontIcon: 'bug_report',
+      icon: SharedPageIconsConstants.MONITORINTERNALS_ICON,
       caption: 'Monitor internals',
       count: () => {
         return undefined;
@@ -277,6 +260,14 @@ export class PageDashboardComponent implements OnDestroy {
                      private hazelcastService: SharedHazelcastAgentService,
                      private tabService: SharedTabsService,
                      private router: Router) {
+
+    // Use the drawer icons in the tabs
+    for (const section of this.sections) {
+      if (!!(section as SectionItem).tab) {
+        (section as SectionItem).tab.icon = (section as SectionItem).icon;
+      }
+    }
+
     this.wsStateSub = this.wsService.onConnectivityChanged.subscribe((value: ConnectionState) => {
       if (value !== ConnectionState.CONNECTED) {
         this.snackbarService.show(`Connection lost with ${this.wsService.getAddress()}`);

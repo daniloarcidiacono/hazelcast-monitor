@@ -8,6 +8,7 @@ import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelc
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
 import {PageDashboardSetComponent} from "../page-dashboard-set/page-dashboard-set.component";
+import {SharedPageIconsConstants} from "@shared/constants/shared-page-icons.constants";
 
 @Component({
   templateUrl: './page-dashboard-sets.component.html',
@@ -32,7 +33,8 @@ export class PageDashboardSetsComponent implements TabAwareComponent, OnDestroy 
     const setName: string = row.name;
 
     this.tabsService.addTab({
-      label: `${setName} set`,
+      label: setName,
+      icon: SharedPageIconsConstants.SETS_ICON,
       componentClass: PageDashboardSetComponent,
       componentInputs: {
         setName: setName

@@ -1,21 +1,23 @@
-<div class="DashboardCaches" mdcTypography>
+<div class="DashboardCaches">
   <div mdcHeadline5 class="DashboardCaches__Title">Caches of {{ clusterName }}</div>
-  <shared-mdc-table [model]="data?.objects">
-    <ng-template #headerTemplate>
-      <tr class="mdc-data-table__row">
-        <th class="mdc-data-table__column">Name</th>
-        <th class="mdc-data-table__column">Size</th>
-        <th class="mdc-data-table__column">Destroyed</th>
-        <th class="mdc-data-table__column">Partition key</th>
-      </tr>
-    </ng-template>
-    <ng-template let-cache #bodyTemplate>
-      <tr class="mdc-data-table__row" (click)="navigateToCacheDetails(cache)">
-        <td class="mdc-data-table__cell">{{ cache.name }}</td>
-        <td class="mdc-data-table__cell">{{ cache.size }}</td>
-        <td class="mdc-data-table__cell">{{ cache.destroyed }}</td>
-        <td class="mdc-data-table__cell">{{ cache.partitionKey }}</td>
-      </tr>
-    </ng-template>
-  </shared-mdc-table>
+  <div class="DashboardCaches__Content">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Size</th>
+          <th class="mdc-data-table__column">Destroyed</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-cache #bodyTemplate>
+        <tr class="mdc-data-table__row" (click)="navigateToCacheDetails(cache)">
+          <td class="mdc-data-table__cell">{{ cache.name }}</td>
+          <td class="mdc-data-table__cell">{{ cache.size }}</td>
+          <td class="mdc-data-table__cell">{{ cache.destroyed }}</td>
+          <td class="mdc-data-table__cell">{{ cache.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
 </div>

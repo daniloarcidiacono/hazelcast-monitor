@@ -1,23 +1,32 @@
-<div class="DynamicTabs__TopBar">
-  <button mdcIconButton (click)="scroller.incrementScroll(-65)" icon="navigate_before"></button>
-  <mdc-tab-bar [activeTabIndex]="activeTabIndex"
-               align="start"
-               [fixed]="true">
-    <mdc-tab-scroller #scroller>
-      <mdc-tab *ngFor="let tab of tabs; let tabIndex = index"
-               (click)="selectTab(tabIndex)">
-        <mdc-tab-label>
-          <div class="Tab__Content">
-            <button mdcIconButton (click)="closeTab(tabIndex)" icon="close"></button>
-            <!--<mdc-icon class="Tab__Close" (click)="closeTab(tabIndex)">close</mdc-icon>-->
-            <div>{{ tab.label }}</div>
-            <mdc-icon *ngIf="tab.recording" class="Tab__RecordIcon">fiber_manual_record</mdc-icon>
-          </div>
-        </mdc-tab-label>
-      </mdc-tab>
-    </mdc-tab-scroller>
-  </mdc-tab-bar>
-  <button mdcIconButton (click)="scroller.incrementScroll(65)" icon="navigate_next"></button>
+<div class="DynamicTabs">
+  <div class="DynamicTabs__TopBar">
+    <button mdcIconButton *ngIf="hasActiveTab()" (click)="scroller.incrementScroll(-65)" icon="navigate_before"></button>
+    <mdc-tab-bar [activeTabIndex]="activeTabIndex"
+                 align="start"
+                 [fixed]="true">
+      <mdc-tab-scroller #scroller>
+        <mdc-tab *ngFor="let tab of tabs; let tabIndex = index"
+                 (click)="selectTab(tabIndex)">
+          <mdc-icon mdcTabIcon *ngIf="!!tab.icon" [fontSet]="tab.icon.fontSet">{{ tab.icon.fontIcon }}</mdc-icon>
+          <mdc-tab-label>
+            <div class="Tab__Content">
+              <div>{{ tab.label }}</div>
+              <mdc-icon *ngIf="tab.recording" class="Tab__RecordIcon">fiber_manual_record</mdc-icon>
+              <button mdcIconButton (click)="closeTab(tabIndex)" icon="close"></button>
+            </div>
+          </mdc-tab-label>
+        </mdc-tab>
+      </mdc-tab-scroller>
+    </mdc-tab-bar>
+    <button mdcIconButton *ngIf="hasActiveTab()" (click)="scroller.incrementScroll(65)" icon="navigate_next"></button>
+  </div>
+
+  <div class="DynamicTabs__Content">
+    <ng-template tab-host>
+    </ng-template>
+
+    <ng-container *ngIf="!hasActiveTab() && !!defaultContentTemplate">
+      <ng-container *ngTemplateOutlet="defaultContentTemplate"></ng-container>
+    </ng-container>
+  </div>
 </div>
-<ng-template tab-host>
-</ng-template>

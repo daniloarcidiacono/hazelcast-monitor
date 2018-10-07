@@ -1,8 +1,5 @@
-.DashboardQueues {
-  margin: 0;
-  padding: 1em;
+@import "../shared/styles/layouts/section";
 
-  &__Title {
-    margin-bottom: 1em;
-  }
+.DashboardQueues {
+  @include LayoutSection();
 }

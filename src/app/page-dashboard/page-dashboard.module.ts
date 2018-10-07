@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {PageDashboardComponent} from './page-dashboard.component';
-import {MdcDrawerModule, MdcIconModule, MdcListModule} from '@angular-mdc/web';
+import {MdcDrawerModule, MdcIconModule, MdcListModule, MdcTypographyModule} from '@angular-mdc/web';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {PageDashboardMembersModule} from '../page-dashboard-members/page-dashboard-members.module';
 // import {PageDashboardRoutingModule} from './page-dashboard-routing.module';
@@ -92,6 +92,7 @@ import {PageDashboardFiltersComponent} from '../page-dashboard-filters/page-dash
     PageDashboardCacheModule,
 
     // Angular MDC Web
+    MdcTypographyModule,
     MdcDrawerModule,
     MdcListModule,
     MdcIconModule,

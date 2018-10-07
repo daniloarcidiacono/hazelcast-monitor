@@ -1,55 +1,54 @@
-<div class="DashboardTopic" mdcTypography>
+<div class="DashboardTopic">
   <div mdcHeadline5 class="DashboardTopic__Title">
     {{ topicName }}
   </div>
 
   <div class="DashboardTopic__ActionBar">
-    <div class="DashboardTopic__ActionBar--left">
-      <button mdc-button [icon]="true" (click)="clear()">
-        <mdc-icon>delete_forever</mdc-icon>
-        Clear
-      </button>
-      <button mdc-button [icon]="true" [disabled]="isRecording()" (click)="record()">
-        <mdc-icon>fiber_manual_record</mdc-icon>
-        Record
-      </button>
-      <button mdc-button [icon]="true" [disabled]="!isRecording()" (click)="stop()">
-        <mdc-icon>stop</mdc-icon>
-        Stop
-      </button>
-    </div>
-    <div class="DashboardTopic__ActionBar--right">
-      <mdc-select [outlined]="false"
-                  placeholder="Cap"
-                  [(ngModel)]="cap"
-                  [floatingLabel]="true">
-        <option [value]="items" *ngFor="let items of [5, 10, 15, 25, 50, 75, 100]">{{ items }}</option>
-      </mdc-select>
-    </div>
+    <button mdc-button [icon]="true" (click)="clear()">
+      <mdc-icon>delete_forever</mdc-icon>
+      Clear
+    </button>
+    <button mdc-button [icon]="true" [disabled]="isRecording()" (click)="record()">
+      <mdc-icon>fiber_manual_record</mdc-icon>
+      Record
+    </button>
+    <button mdc-button [icon]="true" [disabled]="!isRecording()" (click)="stop()">
+      <mdc-icon>stop</mdc-icon>
+      Stop
+    </button>
+    <mdc-select class="DashboardTopic__ActionBarRight"
+                placeholder="Cap"
+                [outlined]="true"
+                [(ngModel)]="cap"
+                [floatingLabel]="true">
+      <option [value]="items" *ngFor="let items of [5, 10, 15, 25, 50, 75, 100]">{{ items }}</option>
+    </mdc-select>
   </div>
 
-  <shared-mdc-table [model]="data">
-    <ng-template #headerTemplate>
-      <tr class="mdc-data-table__row">
-        <th class="mdc-data-table__column">Time</th>
-        <th class="mdc-data-table__column">Message</th>
-        <th class="mdc-data-table__column">Publisher address</th>
-        <th class="mdc-data-table__column">Publisher UUID</th>
-        <th class="mdc-data-table__column">Publisher version</th>
-      </tr>
-    </ng-template>
-    <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
-      <tr class="mdc-data-table__row">
-        <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ entry.publishTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss' }}</td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--top">
-          <shared-object-inspector [data]="entry.message"
-                                   [stringData]="entry.messageString">
-          </shared-object-inspector>
-        </td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ entry.publisher.address }}:{{ entry.publisher.port }}</td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ entry.publisher.uuid }}</td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ entry.publisher.version }}</td>
-      </tr>
-    </ng-template>
-  </shared-mdc-table>
+  <div class="DashboardTopic__Content">
+    <shared-mdc-table [model]="data">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Time</th>
+          <th class="mdc-data-table__column">Message</th>
+          <th class="mdc-data-table__column">Publisher address</th>
+          <th class="mdc-data-table__column">Publisher UUID</th>
+          <th class="mdc-data-table__column">Publisher version</th>
+        </tr>
+      </ng-template>
+      <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ entry.publishTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss' }}</td>
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">
+            <shared-object-inspector [data]="entry.message"
+                                     [stringData]="entry.messageString">
+            </shared-object-inspector>
+          </td>
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ entry.publisher.address }}:{{ entry.publisher.port }}</td>
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ entry.publisher.uuid }}</td>
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ entry.publisher.version }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
 </div>

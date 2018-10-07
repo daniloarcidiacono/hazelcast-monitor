@@ -5,23 +5,50 @@ $mdc-theme-secondary: #388e3c;
 $mdc-theme-background: #fff;
 @import "~@angular-mdc/theme/material";
 
+// This is a SPA application
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 
   font-family: Roboto, sans-serif;
 }
 
+// Make the bootstrap component take the full page
 app-root {
   display: block;
-  height: inherit;
+  height: 100%;
 }
 
-.MdcButton__Icon--rounded {
-  //@include mdc-button-corner-radius(24px);
-  min-width: 0px;
-  width: 48px;
-  height: 48px;
+// http://www.talkingdotnet.com/dont-use-hidden-attribute-angularjs-2/
+[hidden] {
+  display: none !important;
 }
+
+// Style scrollbars
+*::-webkit-scrollbar-track  {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 4px;
+  background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #2e56bd;
+}
+
+//.MdcButton__Icon--rounded {
+//  //@include mdc-button-corner-radius(24px);
+//  min-width: 0px;
+//  width: 48px;
+//  height: 48px;
+//}

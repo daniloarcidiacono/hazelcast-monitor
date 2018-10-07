@@ -1,24 +1,40 @@
-<div class="Page__Side">
-  <mdc-drawer drawer="permanent">
-    <mdc-drawer-content>
-      <mdc-list-group>
-        <mdc-list>
-          <ng-container *ngFor="let section of sections">
-            <mdc-list-item *ngIf="!section.separator"
-                           (click)="navigateTo(section)">
-              <mdc-icon mdcListItemGraphic fontSize="24" [fontSet]="section.fontSet">{{ section.fontIcon }}</mdc-icon>
-              {{ section.caption }}
-              <div mdcListItemMeta *ngIf="!!section.count()">
-                {{ section.count() }}
-              </div>
-            </mdc-list-item>
-            <mdc-list-divider *ngIf="!!section.separator"></mdc-list-divider>
-          </ng-container>
-        </mdc-list>
-      </mdc-list-group>
-    </mdc-drawer-content>
-  </mdc-drawer>
-</div>
-<div class="Page__Main">
-  <shared-dynamic-tabs></shared-dynamic-tabs>
+<div class="PageDashboard">
+  <div class="PageDashboard__Side">
+    <mdc-drawer drawer="permanent">
+      <mdc-drawer-header>
+        <h3 mdcDrawerTitle>Monitor</h3>
+        <!--<h6 mdcDrawerSubtitle>Subtitle</h6>-->
+      </mdc-drawer-header>
+      <mdc-drawer-content>
+        <mdc-list-group>
+          <mdc-list>
+            <ng-container *ngFor="let section of sections">
+              <h6 mdcListGroupSubheader *ngIf="!!section.subHeader">{{section.subHeader}}</h6>
+              <mdc-list-item *ngIf="!section.separator"
+                             (click)="navigateTo(section)">
+                <mdc-icon mdcListItemGraphic fontSize="24" [fontSet]="section.icon.fontSet">{{ section.icon.fontIcon }}</mdc-icon>
+                {{ section.caption }}
+                <div mdcListItemMeta *ngIf="!!section.count()">
+                  {{ section.count() }}
+                </div>
+              </mdc-list-item>
+              <mdc-list-divider *ngIf="!!section.separator"></mdc-list-divider>
+            </ng-container>
+          </mdc-list>
+        </mdc-list-group>
+      </mdc-drawer-content>
+    </mdc-drawer>
+  </div>
+  <div class="PageDashboard__Main">
+    <shared-dynamic-tabs>
+      <ng-template #defaultContentTemplate>
+        <div class="Default">
+          <div class="Default__Content">
+            <img class="Default__Logo" src="assets/logos/pie_chart.svg">
+            <h1 class="Default__Caption" mdcHeadline3>Select an element from the drawer</h1>
+          </div>
+        </div>
+      </ng-template>
+    </shared-dynamic-tabs>
+  </div>
 </div>

@@ -8,9 +8,6 @@ import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {PageConnectComponent} from './page-connect/page-connect.component';
 import {SharedDashboardGuard} from '@shared/guards/shared-dashboard-guard';
 import {PageTestComponent} from './page-test/page-test.component';
-import {PageDashboardMembersComponent} from './page-dashboard-members/page-dashboard-members.component';
-import {PageDashboardMapsComponent} from './page-dashboard-maps/page-dashboard-maps.component';
-import {PageDashboardMapComponent} from "./page-dashboard-map/page-dashboard-map.component";
 
 @NgModule({
   imports: [

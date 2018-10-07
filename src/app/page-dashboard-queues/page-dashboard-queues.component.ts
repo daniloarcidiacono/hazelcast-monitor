@@ -8,6 +8,7 @@ import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelc
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
 import {PageDashboardQueueComponent} from '../page-dashboard-queue/page-dashboard-queue.component';
+import {SharedPageIconsConstants} from "@shared/constants/shared-page-icons.constants";
 
 @Component({
   templateUrl: './page-dashboard-queues.component.html',
@@ -32,7 +33,8 @@ export class PageDashboardQueuesComponent implements TabAwareComponent, OnDestro
     const queueName: string = row.name;
 
     this.tabsService.addTab({
-      label: `${queueName} queue`,
+      label: queueName,
+      icon: SharedPageIconsConstants.QUEUES_ICON,
       componentClass: PageDashboardQueueComponent,
       componentInputs: {
         queueName: queueName

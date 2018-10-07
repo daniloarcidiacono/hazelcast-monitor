@@ -1,10 +1,43 @@
-.Page {
-  &__Side > mdc-drawer {
-    height: 100%;
+.PageDashboard {
+  /** Full height */
+  height: 100%;
+
+  /* Layout the children horizontally */
+  display: flex;
+  flex-direction: row;
+
+  /* The dashboard itself cannot scroll */
+  overflow: hidden;
+
+  &__Side {
+    flex-shrink: 0;
+    overflow-x: hidden;
     overflow-y: auto;
+  }
+
+  &__Main {
+    flex-grow: 1;
+    overflow: auto;
   }
 }
 
-:host /deep/ .mdc-tab-bar-scroller__scroll-frame {
-  flex: unset !important;
+.Default {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__Content {
+    text-align: center;
+
+    // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
+    margin: auto;
+  }
+
+  &__Logo {
+    height: 400px;
+  }
+
+  &__Caption {
+    margin-top: 1em;
+  }
 }

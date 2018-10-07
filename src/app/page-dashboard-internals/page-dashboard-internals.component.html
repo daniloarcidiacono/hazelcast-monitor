@@ -1,37 +1,39 @@
-<div class="DashboardInternals" mdcTypography>
+<div class="DashboardInternals">
   <div mdcHeadline5 class="DashboardInternals__Title">
     Active subscriptions
   </div>
-  <shared-mdc-table [model]="data?.subscriptionStats.subscriptions">
-    <ng-template #headerTemplate>
-      <tr class="mdc-data-table__row">
-        <th class="mdc-data-table__column">Subscription ID</th>
-        <th class="mdc-data-table__column">Topic type</th>
-      </tr>
-    </ng-template>
-    <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
-      <tr class="mdc-data-table__row">
-        <td class="mdc-data-table__cell">{{ entry.id }}</td>
-        <td class="mdc-data-table__cell">{{ entry.topic }}</td>
-      </tr>
-    </ng-template>
-  </shared-mdc-table>
+  <div class="DashboardInternals__Content">
+    <shared-mdc-table [model]="data?.subscriptionStats.subscriptions">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Subscription ID</th>
+          <th class="mdc-data-table__column">Topic type</th>
+        </tr>
+      </ng-template>
+      <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ entry.id }}</td>
+          <td class="mdc-data-table__cell">{{ entry.topic }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
 
-  <div mdcHeadline5 class="DashboardInternals__Title">
-    Environment variables
+    <div mdcHeadline5 class="DashboardInternals__Title">
+      Environment variables
+    </div>
+    <shared-mdc-table [model]="data?.envVariables">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Value</th>
+        </tr>
+      </ng-template>
+      <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ entry.name }}</td>
+          <td class="mdc-data-table__cell">{{ entry.value }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
   </div>
-  <shared-mdc-table [model]="data?.envVariables">
-    <ng-template #headerTemplate>
-      <tr class="mdc-data-table__row">
-        <th class="mdc-data-table__column">Name</th>
-        <th class="mdc-data-table__column">Value</th>
-      </tr>
-    </ng-template>
-    <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
-      <tr class="mdc-data-table__row">
-        <td class="mdc-data-table__cell">{{ entry.name }}</td>
-        <td class="mdc-data-table__cell">{{ entry.value }}</td>
-      </tr>
-    </ng-template>
-  </shared-mdc-table>
 </div>

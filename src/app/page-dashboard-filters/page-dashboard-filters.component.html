@@ -1,78 +1,9 @@
-<div class="DashboardFilters" mdcTypography>
+<div class="DashboardFilters">
   <div mdcHeadline5 class="DashboardFilters__Title">
     Filters
   </div>
 
-  <!--<div class="FilterEditor">-->
-    <!--<div class="FilterEditor__ActionBar">-->
-      <!--<button mdc-button [icon]="true">-->
-        <!--<mdc-icon>note_add</mdc-icon>-->
-        <!--Add-->
-      <!--</button>-->
-      <!--<button mdc-button [icon]="true">-->
-        <!--<mdc-icon>cloud_download</mdc-icon>-->
-        <!--Import-->
-      <!--</button>-->
-      <!--<button mdc-button [icon]="true">-->
-        <!--<mdc-icon>cloud_download</mdc-icon>-->
-        <!--Export-->
-      <!--</button>-->
-      <!--<button mdc-button [icon]="true">-->
-        <!--<mdc-icon>cloud_download</mdc-icon>-->
-        <!--Pull-->
-      <!--</button>-->
-      <!--<button mdc-button [icon]="true">-->
-        <!--<mdc-icon>cloud_upload</mdc-icon>-->
-        <!--Push-->
-      <!--</button>-->
-      <!--<button mdc-button [icon]="true">-->
-        <!--<mdc-icon>delete</mdc-icon>-->
-        <!--Delete-->
-      <!--</button>-->
-    <!--</div>-->
-    <!--<div class="FilterEditor__Content">-->
-      <!--<div class="FilterEditor__Filters">-->
-        <!--<mdc-list [dense]="false" [border]="true" twoLine>-->
-          <!--<mdc-list-item>-->
-            <!--<mdc-list-item-text secondaryText="Secondary text">NoneFilter</mdc-list-item-text>-->
-            <!--<mdc-checkbox mdcListItemMeta></mdc-checkbox>-->
-            <!--&lt;!&ndash;<mdc-icon mdcListItemMeta>info</mdc-icon>&ndash;&gt;-->
-          <!--</mdc-list-item>-->
-          <!--<mdc-list-item>-->
-            <!--<mdc-list-item-text>PassFilter</mdc-list-item-text>-->
-            <!--<mdc-checkbox mdcListItemMeta></mdc-checkbox>-->
-            <!--&lt;!&ndash;<mdc-icon mdcListItemMeta>info</mdc-icon>&ndash;&gt;-->
-          <!--</mdc-list-item>-->
-          <!--<mdc-list-item>-->
-            <!--<mdc-list-item-text>MyFilter</mdc-list-item-text>-->
-            <!--<mdc-checkbox mdcListItemMeta></mdc-checkbox>-->
-            <!--&lt;!&ndash;<mdc-icon mdcListItemMeta>info</mdc-icon>&ndash;&gt;-->
-          <!--</mdc-list-item>-->
-        <!--</mdc-list>-->
-      <!--</div>-->
-      <!--<div class="FilterEditor__Editor">-->
-        <!--<ngx-monaco-editor [options]="editorOptions"-->
-                           <!--[(ngModel)]="code"-->
-                           <!--(onInit)="onEditorInitialized($event)">-->
-        <!--</ngx-monaco-editor>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-
-  <div class="DashboardFilters__ActionBar">
-    <div class="DashboardFilters__ActionBar--left">
-      <button mdc-button [icon]="true" (click)="compile()">
-        <mdc-icon>filter_list</mdc-icon>
-        Compile
-      </button>
-    </div>
-    <div class="DashboardFilters__ActionBar--right">
-    </div>
+  <div class="DashboardFilters__Content">
+    <shared-filters-editor></shared-filters-editor>
   </div>
-
-  <ngx-monaco-editor class="DashboardFilters__CodeEditor"
-                     [options]="editorOptions"
-                     [(ngModel)]="code"
-                     (onInit)="onEditorInitialized($event)">
-  </ngx-monaco-editor>
 </div>

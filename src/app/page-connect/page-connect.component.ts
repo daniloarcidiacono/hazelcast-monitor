@@ -11,14 +11,12 @@ import {Subscription} from 'rxjs/index';
   styleUrls: ['./page-connect.component.scss']
 })
 export class PageConnectComponent implements OnDestroy {
-  @HostBinding('class')
-  private classes: string = 'Page__Bottom';
-
-  @ViewChild(MdcLinearProgress)
-  private progressBar: MdcLinearProgress;
   private wsStateSub: Subscription;
   private wsStateErrorSub: Subscription;
   private form: FormGroup;
+
+  @ViewChild(MdcLinearProgress)
+  private progressBar: MdcLinearProgress;
 
   // View bindings
   public bindings: any = {

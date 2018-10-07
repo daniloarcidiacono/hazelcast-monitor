@@ -1,8 +1,5 @@
-.DashboardMap {
-  margin: 0;
-  padding: 1em;
+@import "../shared/styles/layouts/section";
 
-  &__Title {
-    margin-bottom: 2em;
-  }
+.DashboardMap {
+  @include LayoutSection();
 }
