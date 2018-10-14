@@ -26,7 +26,6 @@ import {PageDashboardSemaphoresComponent} from '../page-dashboard-semaphores/pag
 import {PageDashboardCachesComponent} from '../page-dashboard-caches/page-dashboard-caches.component';
 import {PageDashboardRingbuffersComponent} from '../page-dashboard-ringbuffers/page-dashboard-ringbuffers.component';
 import {PageDashboardInternalsComponent} from '../page-dashboard-internals/page-dashboard-internals.component';
-import {PageDashboardFiltersComponent} from '../page-dashboard-filters/page-dashboard-filters.component';
 import {FontIcon, SharedPageIconsConstants} from '@shared/constants/shared-page-icons.constants';
 
 interface SeparatorItem {
@@ -63,17 +62,6 @@ export class PageDashboardComponent implements OnDestroy {
         componentClass: PageDashboardMembersComponent
       },
       subHeader: 'General'
-    },
-    {
-      icon: SharedPageIconsConstants.FILTERS_ICON,
-      caption: 'Filters',
-      count: () => {
-        return undefined;
-      },
-      tab: {
-        label: 'Filters',
-        componentClass: PageDashboardFiltersComponent
-      }
     },
     {
       separator: true

@@ -12,10 +12,6 @@ export interface InternalsProductDTO extends ProductDTO {
   envVariables: EnvironmentVariableDTO[];
 }
 
-export interface FiltersProductDTO extends ProductDTO {
-  filters: string[];
-}
-
 export interface StatisticsProductDTO extends ProductDTO {
   membersCount: number;
   atomicLongCount: number;

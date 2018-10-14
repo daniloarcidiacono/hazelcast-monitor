@@ -6,14 +6,11 @@ import {MdcButtonModule, MdcDialogModule, MdcIconModule} from '@angular-mdc/web'
 import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
 import {SharedMdcPaginatorModule} from '@shared/components/mdc-paginator/shared-mdc-paginator.module';
 import {SharedObjectInspectorModule} from '@shared/components/object-inspector/shared-object-inspector.module';
-import {MonacoEditorModule} from "ngx-monaco-editor";
-import {FormsModule} from "@angular/forms";
-import {PageTestDialogComponent} from "./page-test-dialog.component";
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
-    PageTestComponent,
-    PageTestDialogComponent
+    PageTestComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +20,6 @@ import {PageTestDialogComponent} from "./page-test-dialog.component";
     MdcIconModule,
     MdcButtonModule,
     MdcDialogModule,
-    MonacoEditorModule,
 
     // Shared modules
     SharedMdcTreeModule,
@@ -33,9 +29,6 @@ import {PageTestDialogComponent} from "./page-test-dialog.component";
     // SharedMdcTreeTableModule
   ],
   providers: [
-  ],
-  entryComponents: [
-    PageTestDialogComponent
   ]
 })
 export class PageTestModule { }

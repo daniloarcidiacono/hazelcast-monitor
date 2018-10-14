@@ -7,8 +7,7 @@
 // import {SharedMdcTreeTableModel} from "@shared/components/mdc-treetable/shared-mdc-treetable.model";
 
 import {Component, HostBinding} from '@angular/core';
-import {MdcDialog, MdcDialogRef} from "@angular-mdc/web";
-import {PageTestDialogComponent} from "./page-test-dialog.component";
+import {MdcDialog} from '@angular-mdc/web';
 
 @Component({
   templateUrl: './page-test.component.html',
@@ -19,22 +18,6 @@ export class PageTestComponent {
   private classes: string = 'Page__Bottom';
 
   private tableModel: any[];
-
-  public editorOptions: any = {
-    theme: 'vs',
-    language: 'java',
-    minimap: {
-      enabled: false
-    }
-  };
-
-  public code: string = `
-    public class App {
-      public static void main(String[] args) {
-        System.out.println("Hello, world!");
-      }
-    }
-  `;
 
   public constructor(private dialog: MdcDialog) {
     this.tableModel = [
@@ -49,16 +32,6 @@ export class PageTestComponent {
       { brand: 'HTC', lastYearSale: '90%', thisYearSale: '56%', lastYearProfit: '$765,442', thisYearProfit: '$296,232' },
       { brand: 'Toshiba', lastYearSale: '75%', thisYearSale: '54%', lastYearProfit: '$21,212', thisYearProfit: '$12,533' }
     ];
-  }
-
-  public openFilter(): void {
-    this.dialog.open<PageTestDialogComponent>(PageTestDialogComponent, {
-      data: {
-        // ringbufferName: ringbufferName
-      },
-      escapeToClose: false,
-      clickOutsideToClose: false
-    });
   }
 
   // public data: any = {

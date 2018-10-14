@@ -1,65 +1,85 @@
-import {Component, Input, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {
-  ErrorMessageDTO, SubscriptionNoticeResponseDTO,
-  UpdateSubscriptionRequestDTO, UpdateSubscriptionResponseDTO
+  ErrorMessageDTO,
+  UpdateSubscriptionRequestDTO,
+  UpdateSubscriptionResponseDTO
 } from '@shared/dto/hazelcast-monitor.dto';
-import {Subscription} from 'rxjs/index';
-import {FiltersProductDTO} from '@shared/dto/topic-products.dto';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AceEditorComponent} from "ng2-ace-editor";
+import {MdcDialog} from "@angular-mdc/web";
+import {SharedFiltersBarHelpDialog} from "@shared/components/filters-bar/shared-filters-bar-help.dialog";
 
 @Component({
   selector: 'shared-filters-bar',
   templateUrl: './shared-filters-bar.component.html',
   styleUrls: [ './shared-filters-bar.component.scss' ]
 })
-export class SharedFiltersBarComponent implements OnDestroy {
+export class SharedFiltersBarComponent implements AfterViewInit {
   @Input()
   private subscriptionId: number;
 
-  @Input()
-  private showEditor: boolean;
+  @ViewChild(AceEditorComponent)
+  private editor: AceEditorComponent;
 
-  private editorOpened: boolean = false;
-  private filters: string[];
-  private dataSub: Subscription;
-  private form: FormGroup;
+  /////////////
+  // Bindings
+  /////////////
+  public filter: string = '';
 
-  // View bindings
-  public bindings: any = {
-    ctrl: this,
-
-    get editorOpened(): boolean {
-      return this.ctrl.editorOpened;
-    },
-
-    get showEditor(): boolean {
-      return this.ctrl.showEditor;
-    },
-
-    get form(): FormGroup {
-      return this.ctrl.form;
-    },
-
-    get filters(): string[] {
-      return this.ctrl.filters;
-    }
+  /*
+      "animatedScroll": false,
+      "showInvisibles": false,
+      "showPrintMargin": true,
+      "printMarginColumn": 80,
+      "printMargin": undefined,
+      "showGutter": true,
+      "fadeFoldWidgets": false,
+      "showFoldWidgets": true,
+      "showLineNumbers": true,
+      "displayIndentGuides": true,
+      "highlightGutterLine": false,
+      "hScrollBarAlwaysVisible": false,
+      "vScrollBarAlwaysVisible": false,
+      "fontSize": 12,
+      "fontFamily": undefined,
+      "maxLines": undefined,
+      "minLines": undefined,
+      "maxPixelHeight": 0,
+      "scrollPastEnd": 0,
+      "fixedWidthGutter": undefined,
+      "theme": "./theme/textmate"
+   */
+  public options: any = {
+    maxLines: 1000,
+    fontSize: 22,
+    theme: 'ace/theme/chrome',
+    maxPixelHeight: 400,
+    printMargin: false
   };
 
   public constructor(private snackbarService: SharedSnackbarService,
                      private hazelcastService: SharedHazelcastAgentService,
-                     private fb: FormBuilder) {
-    this.initForm();
-    this.subscribe();
+                     private dialog: MdcDialog) {
   }
 
-  public ngOnDestroy(): void {
-    this.unsubscribe();
+  public ngAfterViewInit(): void {
+    this.editor.getEditor().commands.addCommand({
+      name: 'apply',
+      bindKey: 'Ctrl-Enter',
+      exec: (editor) => {
+        this.apply();
+      }
+    });
   }
 
-  public toggleEditor(): void {
-    this.editorOpened = !this.editorOpened;
+  public showHelp(): void {
+    this.dialog.open(SharedFiltersBarHelpDialog, {
+      data: {
+      },
+      escapeToClose: true,
+      clickOutsideToClose: true
+    });
   }
 
   public apply(): void {
@@ -67,7 +87,7 @@ export class SharedFiltersBarComponent implements OnDestroy {
       messageType: 'update_subscription',
       subscriptionId: this.subscriptionId,
       parameter: 'filter',
-      value: this.form.value.filter
+      value: this.filter
     };
 
     this.hazelcastService.sendUpdateSubscription(request).then((response: UpdateSubscriptionResponseDTO) => {
@@ -83,32 +103,5 @@ export class SharedFiltersBarComponent implements OnDestroy {
 
   public isApplyButtonEnabled(): boolean {
     return this.subscriptionId !== undefined;
-  }
-
-  private initForm(): void {
-    this.form = this.fb.group({
-      filter: [ undefined, Validators.required ]
-    });
-  }
-
-  private subscribe(): void {
-    if (!this.dataSub) {
-      this.dataSub = this.hazelcastService.subscribeToFilters().subscribe(
-        (notice: SubscriptionNoticeResponseDTO<FiltersProductDTO>) => {
-          console.log(notice);
-          this.filters = notice.notice.filters;
-        },
-        (error: ErrorMessageDTO) => {
-          this.snackbarService.show(`Could not fetch the filters: ${error.errors}`);
-        }
-      );
-    }
-  }
-
-  private unsubscribe(): void {
-    if (!!this.dataSub) {
-      this.dataSub.unsubscribe();
-      this.dataSub = undefined;
-    }
   }
 }

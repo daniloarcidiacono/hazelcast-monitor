@@ -9,11 +9,6 @@ export abstract class SharedPageIconsConstants {
       fontIcon: 'group'
     };
 
-    public static FILTERS_ICON: FontIcon = {
-      fontSet: 'material-icons',
-      fontIcon: 'filter_list'
-    };
-
     public static ATOMICLONGS_ICON: FontIcon = {
       fontSet: 'hzfont',
       fontIcon: 'icon-atomic'

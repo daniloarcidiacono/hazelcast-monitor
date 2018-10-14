@@ -54,8 +54,6 @@ import {PageDashboardRingbuffersModule} from '../page-dashboard-ringbuffers/page
 import {PageDashboardRingbuffersComponent} from '../page-dashboard-ringbuffers/page-dashboard-ringbuffers.component';
 import {PageDashboardInternalsComponent} from '../page-dashboard-internals/page-dashboard-internals.component';
 import {PageDashboardInternalsModule} from '../page-dashboard-internals/page-dashboard-internals.module';
-import {PageDashboardFiltersModule} from '../page-dashboard-filters/page-dashboard-filters.module';
-import {PageDashboardFiltersComponent} from '../page-dashboard-filters/page-dashboard-filters.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +64,6 @@ import {PageDashboardFiltersComponent} from '../page-dashboard-filters/page-dash
 
     // Sub-sections
     PageDashboardMembersModule,
-    PageDashboardFiltersModule,
     PageDashboardMapsModule,
     PageDashboardListsModule,
     PageDashboardLocksModule,
@@ -109,7 +106,6 @@ import {PageDashboardFiltersComponent} from '../page-dashboard-filters/page-dash
   ],
   entryComponents: [
     PageDashboardMembersComponent,
-    PageDashboardFiltersComponent,
     PageDashboardLocksComponent,
     PageDashboardListsComponent,
     PageDashboardMapsComponent,

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
-  AbstractMessageDTO, CompileFiltersRequestDTO, CompileFiltersResponseDTO,
+  AbstractMessageDTO,
   ErrorMessageDTO,
   SubscribeRequestDTO,
   SubscribeResponseDTO,
@@ -13,7 +13,7 @@ import {
   ClustersTopicDTO,
   DistributedObjectsTopicDTO,
   DistributedObjectTopicDTO,
-  DistributedObjectType, FiltersTopicDTO, InternalsTopicDTO,
+  DistributedObjectType, InternalsTopicDTO,
   MembersTopicDTO,
   StatisticsTopicDTO
 } from '@shared/dto/topics.dto';
@@ -21,7 +21,7 @@ import {mergeAll} from 'rxjs/internal/operators';
 import {
   AtomicLongsProductDTO, AtomicReferencesProductDTO, CacheProductDTO, CachesProductDTO,
   ClustersProductDTO, CountDownLatchesProductDTO,
-  DistributedObjectsProduct, FiltersProductDTO, InternalsProductDTO,
+  DistributedObjectsProduct, InternalsProductDTO,
   ListProductDTO,
   ListsProductDTO,
   LocksProductDTO,
@@ -248,33 +248,6 @@ export class SharedHazelcastAgentService {
     }).toPromise();
   }
 
-  public sendCompile(request: CompileFiltersRequestDTO): Promise<CompileFiltersResponseDTO> {
-    // Send the request
-    this.wsService.sendMessage(JSON.stringify(request));
-
-    // Create an observable listening for CompileFiltersResponseDTO
-    return new Observable<CompileFiltersResponseDTO>((observer: Observer<CompileFiltersResponseDTO>) => {
-      const sub: Subscription = this.parsedMessages.subscribe(
-        (message: AbstractMessageDTO) => {
-          if (message.messageType === 'compile_filters_response') {
-            observer.next(message as CompileFiltersResponseDTO);
-            observer.complete();
-          }
-        },
-        (error: ErrorMessageDTO) => {
-          observer.error(error);
-        },
-        () => {
-          observer.complete();
-        }
-      );
-
-      return () => {
-        sub.unsubscribe();
-      };
-    }).toPromise();
-  }
-
   public subscribeToClusters(): Observable<SubscriptionNoticeResponseDTO<ClustersProductDTO>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
@@ -295,19 +268,6 @@ export class SharedHazelcastAgentService {
       frequency: 5,
       topic: <InternalsTopicDTO>{
         topicType: 'internals'
-      }
-    };
-
-    return this.subTo(subRequest);
-  }
-
-  public subscribeToFilters(): Observable<SubscriptionNoticeResponseDTO<FiltersProductDTO>> {
-    const subRequest: SubscribeRequestDTO = {
-      messageType: 'subscribe',
-      messageId: this.wsService.generateMessageId(),
-      frequency: 5,
-      topic: <FiltersTopicDTO>{
-        topicType: 'filters'
       }
     };
 

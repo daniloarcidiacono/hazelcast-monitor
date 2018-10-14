@@ -1,41 +1,48 @@
 import {
-  MdcButtonModule,
+  MdcButtonModule, MdcDialogModule,
   MdcIconButtonModule,
   MdcIconModule,
   MdcSelectModule,
+  MdcTextFieldModule,
   MdcTypographyModule
 } from '@angular-mdc/web';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
-import {ReactiveFormsModule} from '@angular/forms';
 import {SharedFiltersBarComponent} from '@shared/components/filters-bar/shared-filters-bar.component';
-import {SharedFiltersEditorModule} from '@shared/components/filters-editor/shared-filters-editor.module';
+import {AceEditorModule} from 'ng2-ace-editor';
+import {FormsModule} from '@angular/forms';
+import {SharedFiltersBarHelpDialog} from "@shared/components/filters-bar/shared-filters-bar-help.dialog";
 
 @NgModule({
   declarations: [
-    SharedFiltersBarComponent
+    SharedFiltersBarComponent,
+    SharedFiltersBarHelpDialog
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
+    FormsModule,
+
+    AceEditorModule,
 
     // Angular MDC Web
     MdcTypographyModule,
     MdcIconButtonModule,
     MdcIconModule,
     MdcButtonModule,
+    MdcTextFieldModule,
     MdcIconButtonModule,
     MdcSelectModule,
-
-    // Shared
-    SharedFiltersEditorModule
+    MdcDialogModule
   ],
   exports: [
     SharedFiltersBarComponent
   ],
   providers: [
     SharedServicesModule
+  ],
+  entryComponents: [
+    SharedFiltersBarHelpDialog
   ]
 })
 export class SharedFiltersBarModule { }

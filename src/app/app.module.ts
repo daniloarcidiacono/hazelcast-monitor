@@ -13,7 +13,6 @@ import {PageConnectModule} from './page-connect/page-connect.module';
 import {AppRoutingModule} from './app-routing.module';
 import {SharedConnectionIndicatorModule} from '@shared/components/connection-indicator/shared-connection-indicator.module';
 import {PageTestModule} from './page-test/page-test.module';
-import {MonacoEditorModule} from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [
@@ -35,9 +34,6 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
     PageDashboardModule,
     PageNotFoundModule,
     PageTestModule,
-
-    // use forRoot() in main app module only.
-    MonacoEditorModule.forRoot(),
 
     // Shared
     SharedConnectionIndicatorModule,

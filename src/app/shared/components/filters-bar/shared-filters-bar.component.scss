@@ -9,11 +9,24 @@
     align-items: center;
   }
 
-  &__Selector {
-    width: 16rem;
+  &__EditorWrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__EditorWrapperTitle {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+  }
+
+  &__HelpIcon {
+    cursor: pointer;
+    margin-right: 0.25em;
   }
 
   &__Editor {
-    margin-top: 1em;
+    min-height: 1em;
   }
 }

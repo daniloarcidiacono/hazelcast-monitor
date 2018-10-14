@@ -4,25 +4,20 @@
       <!--<mdc-icon fontSet="fa" fontIcon="fa-star" mdcIconOn></mdc-icon>-->
       <!--<mdc-icon fontSet="fa" fontIcon="fa-star-o"></mdc-icon>-->
     <!--</button>-->
+    <div class="FiltersBar__EditorWrapper">
+      <div class="FiltersBar__EditorWrapperTitle">
+        <mdc-icon class="FiltersBar__HelpIcon" (click)="showHelp()">
+          help_outline
+        </mdc-icon>
+        JavaScript filter
+      </div>
+      <ace-editor class="FiltersBar__Editor"
+                  mode="javascript"
+                  [options]="options"
+                  [(text)]="filter">
+      </ace-editor>
+    </div>
 
-    <form [formGroup]="bindings.form">
-      <mdc-select class="FiltersBar__Selector"
-                  formControlName="filter"
-                  [outlined]="true"
-                  [autosize]="false"
-                  placeholder="Filter"
-                  [floatingLabel]="true">
-
-        <option [value]="undefined" selected>(none)</option>
-        <option *ngFor="let filter of bindings.filters" [value]="filter">
-          {{ filter }}
-        </option>
-      </mdc-select>
-    </form>
-    <button mdcIconButton icon="edit" (click)="toggleEditor()"></button>
-    <button mdcIconButton icon="done" (click)="apply()"></button>
-  </div>
-  <div class="FiltersBar__Editor" *ngIf="bindings.showEditor" [hidden]="!bindings.editorOpened">
-    <shared-filters-editor></shared-filters-editor>
+    <!--<button mdcIconButton icon="done" (click)="apply()"></button>-->
   </div>
 </div>

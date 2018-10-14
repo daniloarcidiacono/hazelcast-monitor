@@ -2,7 +2,7 @@ import {AbstractTopicDTO} from './topics.dto';
 import {ProductDTO} from '@shared/dto/topic-products.dto';
 
 export interface AbstractMessageDTO {
-  messageType: 'subscribe' | 'update_subscription' | 'unsubscribe' | 'compile_filters' | 'subscribe_response' | 'update_subscription_response' | 'notice' | 'compile_filters_response' | 'error';
+  messageType: 'subscribe' | 'update_subscription' | 'unsubscribe' | 'subscribe_response' | 'update_subscription_response' | 'notice' | 'error';
   messageId?: number;
 }
 
@@ -33,17 +33,6 @@ export interface SubscriptionNoticeResponseDTO<T extends ProductDTO> extends Abs
   subscriptionId: number;
   topicType: string;
   notice: T;
-}
-
-export interface CompileFiltersRequestDTO extends AbstractMessageDTO {
-  messageType: 'compile_filters';
-  source: string;
-}
-
-export interface CompileFiltersResponseDTO extends AbstractMessageDTO {
-  messageType: 'compile_filters_response';
-  ok: boolean;
-  errors?: string;
 }
 
 export interface UpdateSubscriptionRequestDTO extends AbstractMessageDTO {

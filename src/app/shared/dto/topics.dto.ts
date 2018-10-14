@@ -1,5 +1,5 @@
 export interface AbstractTopicDTO {
-  topicType: 'clusters' | 'stats' | 'members' | 'distributed_object' | 'distributed_object_details' | 'internals' | 'filters';
+  topicType: 'stats' | 'clusters' | 'internals' | 'members' | 'distributed_object' | 'distributed_object_details';
   instanceName: string;
 }
 
@@ -9,10 +9,6 @@ export interface ClustersTopicDTO extends AbstractTopicDTO {
 
 export interface InternalsTopicDTO extends AbstractTopicDTO {
   topicType: 'internals';
-}
-
-export interface FiltersTopicDTO extends AbstractTopicDTO {
-  topicType: 'filters';
 }
 
 export interface StatisticsTopicDTO extends AbstractTopicDTO {
