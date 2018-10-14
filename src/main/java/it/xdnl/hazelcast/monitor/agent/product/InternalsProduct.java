@@ -4,10 +4,7 @@ import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 import it.xdnl.hazelcast.monitor.agent.helper.EnvironmentVariable;
 import it.xdnl.hazelcast.monitor.agent.helper.SubscriptionRegistryStatistics;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @TypescriptDTO
 public class InternalsProduct implements Product {

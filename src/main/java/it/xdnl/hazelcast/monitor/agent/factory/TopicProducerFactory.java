@@ -3,8 +3,8 @@ package it.xdnl.hazelcast.monitor.agent.factory;
 import it.xdnl.hazelcast.monitor.agent.dto.request.SubscribeRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.*;
 import it.xdnl.hazelcast.monitor.agent.helper.ConnectionSubscriptionsRegistry;
-import it.xdnl.hazelcast.monitor.agent.helper.FilterRegistry;
 import it.xdnl.hazelcast.monitor.agent.producer.*;
+import it.xdnl.hazelcast.monitor.agent.query.PredicateQueryEngine;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -13,11 +13,10 @@ import java.util.concurrent.TimeUnit;
 public class TopicProducerFactory {
     private ScheduledExecutorService threadPool;
     private ConnectionSubscriptionsRegistry connectionSubscriptionsRegistry;
-    private FilterRegistry filterRegistry;
+    private PredicateQueryEngine predicateQueryEngine;
 
     public TopicProducerFactory(final int corePoolSize) {
         threadPool = Executors.newScheduledThreadPool(corePoolSize);
-        filterRegistry = new FilterRegistry();
     }
 
     public AbstractTopicProducer instanceTopicProducer(final SubscribeRequest message) {
@@ -27,10 +26,6 @@ public class TopicProducerFactory {
 
         if (message.getTopic() instanceof InternalsTopic) {
             return wrapProducer(new InternalsTopicProducer(connectionSubscriptionsRegistry), message);
-        }
-
-        if (message.getTopic() instanceof FiltersTopic) {
-            return wrapProducer(new FiltersTopicProducer(filterRegistry), message);
         }
 
         if (message.getTopic() instanceof StatisticsTopic) {
@@ -54,10 +49,10 @@ public class TopicProducerFactory {
             // Topics have a dedicated producer, because they only emit messages when a
             // message is received; so they are not wrapped by ScheduledTopicProducer
             if (topic.getDistributedObjectType().equals(DistributedObjectType.TOPIC)) {
-                return new TopicTopicProducer(topic.getInstanceName(), topic.getObjectName());
+                return new TopicTopicProducer(topic.getInstanceName(), topic.getObjectName(), predicateQueryEngine);
             }
 
-            return wrapProducer(new DistributedObjectTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName(), filterRegistry), message);
+            return wrapProducer(new DistributedObjectTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName(), predicateQueryEngine), message);
         }
 
         return null;
@@ -76,11 +71,15 @@ public class TopicProducerFactory {
         return connectionSubscriptionsRegistry;
     }
 
-    public FilterRegistry getFilterRegistry() {
-        return filterRegistry;
-    }
-
     public void setConnectionSubscriptionsRegistry(ConnectionSubscriptionsRegistry connectionSubscriptionsRegistry) {
         this.connectionSubscriptionsRegistry = connectionSubscriptionsRegistry;
+    }
+
+    public PredicateQueryEngine getPredicateQueryEngine() {
+        return predicateQueryEngine;
+    }
+
+    public void setPredicateQueryEngine(PredicateQueryEngine predicateQueryEngine) {
+        this.predicateQueryEngine = predicateQueryEngine;
     }
 }

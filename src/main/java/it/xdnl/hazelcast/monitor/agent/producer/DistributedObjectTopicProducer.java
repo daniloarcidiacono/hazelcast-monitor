@@ -4,23 +4,17 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hazelcast.cache.ICache;
-import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.*;
-import com.hazelcast.ringbuffer.Ringbuffer;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.exception.UpdateParameterException;
-import it.xdnl.hazelcast.monitor.agent.filter.ICollectionFilter;
-import it.xdnl.hazelcast.monitor.agent.filter.IFilter;
-import it.xdnl.hazelcast.monitor.agent.helper.FilterRegistry;
 import it.xdnl.hazelcast.monitor.agent.product.ListProduct;
 import it.xdnl.hazelcast.monitor.agent.product.MapProduct;
 import it.xdnl.hazelcast.monitor.agent.product.Product;
+import it.xdnl.hazelcast.monitor.agent.query.*;
 
 import javax.cache.Cache;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Producer that iterates on Hazelcast's distributed objects picking only type of {@code distributedObjectType}.
@@ -31,8 +25,10 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
     private DistributedObjectType distributedObjectType;
     private String objectName;
     private HazelcastInstance instance;
-    private FilterRegistry filterRegistry;
-    private String filterName;
+
+    // Query
+    private PredicateQueryEngine predicateQueryEngine;
+    private Predicate predicate = TruePredicate.INSTANCE;
 
     static {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
@@ -41,19 +37,24 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
     public DistributedObjectTopicProducer(final String instanceName,
                                           final DistributedObjectType distributedObjectType,
                                           final String objectName,
-                                          final FilterRegistry filterRegistry) {
+                                          final PredicateQueryEngine predicateQueryEngine) {
         super(TOPIC_TYPE);
 
         this.distributedObjectType = distributedObjectType;
         this.objectName = objectName;
-        this.filterRegistry = filterRegistry;
+        this.predicateQueryEngine = predicateQueryEngine;
         instance = Hazelcast.getHazelcastInstanceByName(instanceName);
     }
 
     @Override
     public void updateParameter(final String parameter, final String value) throws UpdateParameterException {
         if (parameter.equals("filter")) {
-            filterName = value;
+            try {
+                predicate = new ScriptPredicate(value);
+            } catch (Exception e) {
+                predicate = FalsePredicate.INSTANCE;
+                throw new UpdateParameterException("Error while updating the filter", e);
+            }
         } else {
             super.updateParameter(parameter, value);
         }
@@ -120,23 +121,20 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
 
     private ListProduct produceList() {
         final ListProduct product = new ListProduct();
-        final IList list = instance.getList(objectName);
-        final IFilter filter = filterName != null ? filterRegistry.getFilterByName(filterName) : null;
+        try {
+            final IList<Object> list = instance.getList(objectName);
+            final List<Object> filtered = predicateQueryEngine.queryList(list, predicate);
 
-        for (Object entry : list) {
-            // Filtering
-            if (filter instanceof ICollectionFilter) {
-                if (!((ICollectionFilter)filter).matches(entry)) {
-                    continue;
-                }
+            for (Object entry : filtered) {
+                product.add(
+                    new ListProduct.Entry(
+                        mapper.valueToTree(entry),
+                        entry.toString()
+                    )
+                );
             }
-
-            product.add(
-                new ListProduct.Entry(
-                    mapper.valueToTree(entry),
-                    entry.toString()
-                )
-            );
+        } catch (PredicateQueryEngineException e) {
+            predicate = FalsePredicate.INSTANCE;
         }
 
         return product;

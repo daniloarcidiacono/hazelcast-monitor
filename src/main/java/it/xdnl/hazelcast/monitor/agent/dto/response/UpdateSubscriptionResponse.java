@@ -3,7 +3,6 @@ package it.xdnl.hazelcast.monitor.agent.dto.response;
 import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptField;
 import it.xdnl.hazelcast.monitor.agent.dto.AbstractMessage;
-import it.xdnl.hazelcast.monitor.agent.product.Product;
 
 @TypescriptDTO
 public class UpdateSubscriptionResponse extends AbstractMessage {

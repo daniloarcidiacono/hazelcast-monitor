@@ -5,6 +5,7 @@ import it.xdnl.hazelcast.monitor.agent.dto.request.SubscribeRequest;
 import it.xdnl.hazelcast.monitor.agent.factory.TopicProducerFactory;
 import it.xdnl.hazelcast.monitor.agent.product.MembersProduct;
 import it.xdnl.hazelcast.monitor.agent.product.TopicProduct;
+import it.xdnl.hazelcast.monitor.agent.query.PredicateQueryEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,12 +22,14 @@ public class TopicTopicProducer extends AbstractTopicProducer implements Message
     private static final Logger logger = LoggerFactory.getLogger(TopicTopicProducer.class);
     private HazelcastInstance instance;
     private ITopic topic;
+    private PredicateQueryEngine predicateQueryEngine;
     private String registrationId;
 
-    public TopicTopicProducer(final String instanceName, final String topicName) {
+    public TopicTopicProducer(final String instanceName, final String topicName, final PredicateQueryEngine predicateQueryEngine) {
         super(TOPIC_TYPE);
         instance = Hazelcast.getHazelcastInstanceByName(instanceName);
         topic = instance.getTopic(topicName);
+        this.predicateQueryEngine = predicateQueryEngine;
     }
 
     @Override

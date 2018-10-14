@@ -46,5 +46,4 @@ public class HazelcastConfiguration {
 
         return config;
     }
-
 }

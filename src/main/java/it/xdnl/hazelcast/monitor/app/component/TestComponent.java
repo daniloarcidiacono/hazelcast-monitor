@@ -128,7 +128,7 @@ public class TestComponent {
         myList.add(new ComplexKey("Test", 15));
         myList.add(new ComplexValue(0, 1, 2));
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             myList.add("entry" + i);
         }
 

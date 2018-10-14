@@ -26,15 +26,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>janino</artifactId>
-			<version>3.0.10</version>
-		</dependency>
-
-		<dependency>
 			<groupId>io.github.daniloarcidiacono</groupId>
 			<artifactId>typescript-mapper</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mozilla</groupId>
+			<artifactId>rhino</artifactId>
+			<version>1.7.10</version>
 		</dependency>
 
 		<dependency>

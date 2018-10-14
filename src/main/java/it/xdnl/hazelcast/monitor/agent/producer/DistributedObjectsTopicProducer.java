@@ -7,8 +7,6 @@ import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectsTopic;
 import it.xdnl.hazelcast.monitor.agent.product.*;
 
-import java.awt.*;
-
 /**
  * Producer that iterates on Hazelcast's distributed objects picking only type of {@code distributedObjectType}.
  */

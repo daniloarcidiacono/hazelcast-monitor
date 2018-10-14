@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.xdnl.hazelcast.monitor.agent.ClientConnection;
 import it.xdnl.hazelcast.monitor.agent.dto.AbstractMessage;
-import it.xdnl.hazelcast.monitor.agent.dto.topic.AbstractTopic;
 
 public abstract class ClientConnectionUtils {
     private static final ObjectMapper mapper = new ObjectMapper();

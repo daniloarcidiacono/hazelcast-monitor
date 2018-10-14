@@ -1,8 +1,8 @@
 package it.xdnl.hazelcast.monitor.agent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.xdnl.hazelcast.monitor.agent.dto.ErrorMessage;
 import it.xdnl.hazelcast.monitor.agent.dto.AbstractMessage;
+import it.xdnl.hazelcast.monitor.agent.dto.ErrorMessage;
 import it.xdnl.hazelcast.monitor.agent.handler.MessageHandler;
 import it.xdnl.hazelcast.monitor.agent.utils.ClientConnectionUtils;
 import org.slf4j.Logger;
