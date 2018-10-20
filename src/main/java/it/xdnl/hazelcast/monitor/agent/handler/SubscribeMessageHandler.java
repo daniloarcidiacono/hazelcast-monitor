@@ -3,6 +3,7 @@ package it.xdnl.hazelcast.monitor.agent.handler;
 import it.xdnl.hazelcast.monitor.agent.ClientConnection;
 import it.xdnl.hazelcast.monitor.agent.dto.AbstractMessage;
 import it.xdnl.hazelcast.monitor.agent.dto.ErrorMessage;
+import it.xdnl.hazelcast.monitor.agent.dto.request.PullSubscriptionRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.request.SubscribeRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.request.UnsubscribeRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.request.UpdateSubscriptionRequest;
@@ -12,7 +13,9 @@ import it.xdnl.hazelcast.monitor.agent.exception.UpdateParameterException;
 import it.xdnl.hazelcast.monitor.agent.factory.TopicProducerFactory;
 import it.xdnl.hazelcast.monitor.agent.helper.ConnectionSubscriptionsRegistry;
 import it.xdnl.hazelcast.monitor.agent.producer.AbstractTopicProducer;
+import it.xdnl.hazelcast.monitor.agent.producer.ScheduledTopicProducer;
 import it.xdnl.hazelcast.monitor.agent.utils.ClientConnectionUtils;
+import org.springframework.scheduling.annotation.Scheduled;
 
 public class SubscribeMessageHandler implements MessageHandler {
     private ConnectionSubscriptionsRegistry subscriptionsRegistry;
@@ -33,6 +36,10 @@ public class SubscribeMessageHandler implements MessageHandler {
 
         if (genericMessage instanceof UnsubscribeRequest) {
             onUnsubscribeMessage(connection, (UnsubscribeRequest)genericMessage);
+        }
+
+        if (genericMessage instanceof PullSubscriptionRequest) {
+            onPullSubscriptionRequest(connection, (PullSubscriptionRequest)genericMessage);
         }
     }
 
@@ -87,11 +94,25 @@ public class SubscribeMessageHandler implements MessageHandler {
         }
     }
 
+    private void onPullSubscriptionRequest(final ClientConnection connection, final PullSubscriptionRequest request) {
+        final AbstractTopicProducer topic = subscriptionsRegistry.getTopicProducer(request.getSubscriptionId());
+        if (topic != null) {
+            if (topic instanceof ScheduledTopicProducer) {
+                ((ScheduledTopicProducer) topic).run();
+            } else {
+                ClientConnectionUtils.convertAndReply(connection, request, new ErrorMessage("Subscription type is not scheduled"));
+            }
+        } else {
+            ClientConnectionUtils.convertAndReply(connection, request, new ErrorMessage("Subscription not found"));
+        }
+    }
+
     @Override
     public boolean supports(final AbstractMessage message) {
         return (message instanceof SubscribeRequest) ||
                (message instanceof UnsubscribeRequest) ||
-               (message instanceof UpdateSubscriptionRequest);
+               (message instanceof UpdateSubscriptionRequest) ||
+               (message instanceof PullSubscriptionRequest);
     }
 
     public ConnectionSubscriptionsRegistry getSubscriptionsRegistry() {

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptField;
+import it.xdnl.hazelcast.monitor.agent.dto.request.PullSubscriptionRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.request.SubscribeRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.request.UnsubscribeRequest;
 import it.xdnl.hazelcast.monitor.agent.dto.request.UpdateSubscriptionRequest;
@@ -22,6 +23,7 @@ import it.xdnl.hazelcast.monitor.agent.dto.response.UpdateSubscriptionResponse;
     @JsonSubTypes.Type(value = SubscribeRequest.class, name = SubscribeRequest.MESSAGE_TYPE),
     @JsonSubTypes.Type(value = UpdateSubscriptionRequest.class, name = UpdateSubscriptionRequest.MESSAGE_TYPE),
     @JsonSubTypes.Type(value = UnsubscribeRequest.class, name = UnsubscribeRequest.MESSAGE_TYPE),
+    @JsonSubTypes.Type(value = PullSubscriptionRequest.class, name = PullSubscriptionRequest.MESSAGE_TYPE),
 
     @JsonSubTypes.Type(value = SubscribeResponse.class, name = SubscribeResponse.MESSAGE_TYPE),
     @JsonSubTypes.Type(value = UpdateSubscriptionResponse.class, name = UpdateSubscriptionResponse.MESSAGE_TYPE),
