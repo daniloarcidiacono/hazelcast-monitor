@@ -11,7 +11,7 @@ public class UpdateSubscriptionRequest extends AbstractMessage {
     public static final String MESSAGE_TYPE = "update_subscription";
     private long subscriptionId;
 
-    @TypescriptField(required = false)
+    @TypescriptField
     private Map<String, String> parameters;
 
     public UpdateSubscriptionRequest() {

@@ -86,29 +86,27 @@ public class SubscribeMessageHandler implements MessageHandler {
     private void onUpdateSubscription(final ClientConnection connection, final UpdateSubscriptionRequest request) {
         final AbstractTopicProducer topic = subscriptionsRegistry.getTopicProducer(request.getSubscriptionId());
         if (topic != null) {
-            if (request.getParameters() != null) {
-                final Map<String, String> actualParameters = new HashMap<>();
-                final List<String> failedParameters = new ArrayList<>();
-                for (Map.Entry<String, String> entry : request.getParameters().entrySet()) {
-                    try {
-                        topic.updateParameter(entry.getKey(), entry.getValue());
-                        actualParameters.put(entry.getKey(), entry.getValue());
-                    } catch (UpdateParameterException e) {
-                        // Just ignore
-                        actualParameters.put(e.getParameterName(), e.getActualValue());
-                        failedParameters.add(e.getParameterName());
-                    }
+            final Map<String, String> actualParameters = new HashMap<>();
+            final List<String> failedParameters = new ArrayList<>();
+            for (Map.Entry<String, String> entry : request.getParameters().entrySet()) {
+                try {
+                    topic.updateParameter(entry.getKey(), entry.getValue());
+                    actualParameters.put(entry.getKey(), entry.getValue());
+                } catch (UpdateParameterException e) {
+                    // Just ignore
+                    actualParameters.put(e.getParameterName(), e.getActualValue());
+                    failedParameters.add(e.getParameterName());
                 }
-
-                // Reply
-                final UpdateSubscriptionResponse response = new UpdateSubscriptionResponse();
-                response.setParameters(actualParameters);
-                if (!failedParameters.isEmpty()) {
-                    response.setError("Could not set parameters " + String.join(",", failedParameters));
-                }
-
-                ClientConnectionUtils.convertAndReply(connection, request, response);
             }
+
+            // Reply
+            final UpdateSubscriptionResponse response = new UpdateSubscriptionResponse();
+            response.setParameters(actualParameters);
+            if (!failedParameters.isEmpty()) {
+                response.setError("Could not set parameters " + String.join(", ", failedParameters));
+            }
+
+            ClientConnectionUtils.convertAndReply(connection, request, response);
         } else {
             ClientConnectionUtils.convertAndReply(connection, request, new ErrorMessage("Subscription not found"));
         }

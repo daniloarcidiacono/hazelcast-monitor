@@ -38,6 +38,7 @@ public abstract class AbstractTopicProducer {
     /**
      * Updates a parameter of this producer.
      * Subclasses may override this method to implement custom update logic.
+     * Implementations should check if the new value is the same as the current one, and do nothing in that case.
      * Default implementation always throws an exception.
      *
      * @param parameter

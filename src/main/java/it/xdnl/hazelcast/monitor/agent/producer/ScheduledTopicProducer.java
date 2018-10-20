@@ -46,17 +46,22 @@ public class ScheduledTopicProducer extends AbstractTopicProducer implements Run
     @Override
     public void updateParameter(String parameter, String value) throws UpdateParameterException {
         if (parameter.equals("frequency")) {
-            // Parse
-            delay = Long.parseLong(value);
+            final long newDelay = Long.parseLong(value);
 
-            // Clip
-            if (delay < 0) {
-                delay = 0L;
+            // Don't update if the new value is the same as the old one
+            if (newDelay != delay) {
+                // Parse
+                delay = Long.parseLong(value);
+
+                // Clip
+                if (delay < 0) {
+                    delay = 0L;
+                }
+
+                // Stop & Restart
+                stop();
+                start();
             }
-
-            // Stop & Restart
-            stop();
-            start();
         } else {
             // Delegate
             producer.updateParameter(parameter, value);
