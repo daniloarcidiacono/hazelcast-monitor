@@ -66,7 +66,15 @@ public class SubscribeMessageHandler implements MessageHandler {
         if (topic != null) {
             try {
                 topic.updateParameter(request.getParameter(), request.getValue());
+
+                // Success reply
+                final UpdateSubscriptionResponse response = new UpdateSubscriptionResponse();
+                response.setParameter(request.getParameter());
+                response.setValue(request.getValue());
+
+                ClientConnectionUtils.convertAndReply(connection, request, response);
             } catch (UpdateParameterException ex) {
+                // Error reply
                 final UpdateSubscriptionResponse response = new UpdateSubscriptionResponse();
                 response.setError(ex.getMessage());
                 response.setParameter(ex.getParameterName());

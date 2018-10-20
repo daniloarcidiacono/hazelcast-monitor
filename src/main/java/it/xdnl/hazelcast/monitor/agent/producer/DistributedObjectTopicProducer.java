@@ -2,9 +2,11 @@ package it.xdnl.hazelcast.monitor.agent.producer;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hazelcast.cache.ICache;
 import com.hazelcast.core.*;
+import com.jayway.jsonpath.JsonPath;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.exception.UpdateParameterException;
 import it.xdnl.hazelcast.monitor.agent.product.ListProduct;
@@ -29,6 +31,7 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
     // Query
     private PredicateQueryEngine predicateQueryEngine;
     private Predicate predicate = TruePredicate.INSTANCE;
+    private JsonPath jsonPath = null;
 
     static {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
@@ -54,6 +57,18 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
             } catch (Exception e) {
                 predicate = FalsePredicate.INSTANCE;
                 throw new UpdateParameterException("Error while updating the filter", e);
+            }
+        } else if (parameter.equals("jsonPath")) {
+            final String trimmed = value.trim();
+            if ("$".equals(trimmed) || "$.*".equals(trimmed) || "$..*".equals(trimmed)) {
+                jsonPath = null;
+            } else {
+                try {
+                    jsonPath = JsonPath.compile(trimmed);
+                } catch (Exception e) {
+                    jsonPath = null;
+                    throw new UpdateParameterException("Error while updating the slice", e);
+                }
             }
         } else {
             super.updateParameter(parameter, value);
@@ -126,12 +141,30 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
             final List<Object> filtered = predicateQueryEngine.queryList(list, predicate);
 
             for (Object entry : filtered) {
-                product.add(
-                    new ListProduct.Entry(
-                        mapper.valueToTree(entry),
-                        entry.toString()
-                    )
-                );
+                if (jsonPath != null) {
+                    try {
+                        final Map<String, Object> json = mapper.convertValue(entry, Map.class);
+                        final Object sliced = jsonPath.read(json);
+                        product.add(
+                            new ListProduct.Entry(
+                                mapper.valueToTree(sliced),
+                                sliced.toString()
+                            )
+                        );
+                    } catch (Exception e) {
+                        // Just skip the element:
+                        //  - entry is a base type so convertValue() fails
+                        //  - the JsonPath does not match the element (JsonPathException)
+                    }
+                } else {
+                    final JsonNode jsonNode = mapper.valueToTree(entry);
+                    product.add(
+                        new ListProduct.Entry(
+                            jsonNode,
+                            entry.toString()
+                        )
+                    );
+                }
             }
         } catch (PredicateQueryEngineException e) {
             predicate = FalsePredicate.INSTANCE;

@@ -45,8 +45,16 @@ public class ScheduledTopicProducer extends AbstractTopicProducer implements Run
             delay = Long.parseLong(value);
 
             // Clip
-            if (delay <= 0) {
-                delay = 1L;
+            if (delay < 0) {
+                delay = 0L;
+            }
+
+            // Stop & Restart
+            stop();
+
+            // A delay of 0 equals manual pull from client
+            if (delay > 0) {
+                start();
             }
         } else {
             // Delegate
