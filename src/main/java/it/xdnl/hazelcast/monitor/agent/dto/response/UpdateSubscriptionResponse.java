@@ -4,12 +4,15 @@ import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptField;
 import it.xdnl.hazelcast.monitor.agent.dto.AbstractMessage;
 
+import java.util.Map;
+
 @TypescriptDTO
 public class UpdateSubscriptionResponse extends AbstractMessage {
     public static final String MESSAGE_TYPE = "update_subscription_response";
     private Long subscriptionId;
-    private String parameter;
-    private String value;
+
+    @TypescriptField(required = false)
+    private Map<String, String> parameters;
 
     @TypescriptField(required = false)
     private String error;
@@ -17,7 +20,6 @@ public class UpdateSubscriptionResponse extends AbstractMessage {
     public UpdateSubscriptionResponse() {
         super(MESSAGE_TYPE);
     }
-
 
     public Long getSubscriptionId() {
         return subscriptionId;
@@ -27,20 +29,12 @@ public class UpdateSubscriptionResponse extends AbstractMessage {
         this.subscriptionId = subscriptionId;
     }
 
-    public String getParameter() {
-        return parameter;
+    public Map<String, String> getParameters() {
+        return parameters;
     }
 
-    public void setParameter(String parameter) {
-        this.parameter = parameter;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
     }
 
     public String getError() {

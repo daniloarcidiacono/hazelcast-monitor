@@ -15,8 +15,10 @@ import it.xdnl.hazelcast.monitor.agent.helper.ConnectionSubscriptionsRegistry;
 import it.xdnl.hazelcast.monitor.agent.producer.AbstractTopicProducer;
 import it.xdnl.hazelcast.monitor.agent.producer.ScheduledTopicProducer;
 import it.xdnl.hazelcast.monitor.agent.utils.ClientConnectionUtils;
-import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SubscribeMessageHandler implements MessageHandler {
@@ -84,21 +86,26 @@ public class SubscribeMessageHandler implements MessageHandler {
     private void onUpdateSubscription(final ClientConnection connection, final UpdateSubscriptionRequest request) {
         final AbstractTopicProducer topic = subscriptionsRegistry.getTopicProducer(request.getSubscriptionId());
         if (topic != null) {
-            try {
-                topic.updateParameter(request.getParameter(), request.getValue());
+            if (request.getParameters() != null) {
+                final Map<String, String> actualParameters = new HashMap<>();
+                final List<String> failedParameters = new ArrayList<>();
+                for (Map.Entry<String, String> entry : request.getParameters().entrySet()) {
+                    try {
+                        topic.updateParameter(entry.getKey(), entry.getValue());
+                        actualParameters.put(entry.getKey(), entry.getValue());
+                    } catch (UpdateParameterException e) {
+                        // Just ignore
+                        actualParameters.put(e.getParameterName(), e.getActualValue());
+                        failedParameters.add(e.getParameterName());
+                    }
+                }
 
-                // Success reply
+                // Reply
                 final UpdateSubscriptionResponse response = new UpdateSubscriptionResponse();
-                response.setParameter(request.getParameter());
-                response.setValue(request.getValue());
-
-                ClientConnectionUtils.convertAndReply(connection, request, response);
-            } catch (UpdateParameterException ex) {
-                // Error reply
-                final UpdateSubscriptionResponse response = new UpdateSubscriptionResponse();
-                response.setError(ex.getMessage());
-                response.setParameter(ex.getParameterName());
-                response.setValue(ex.getActualValue());
+                response.setParameters(actualParameters);
+                if (!failedParameters.isEmpty()) {
+                    response.setError("Could not set parameters " + String.join(",", failedParameters));
+                }
 
                 ClientConnectionUtils.convertAndReply(connection, request, response);
             }
