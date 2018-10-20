@@ -17,6 +17,8 @@ import it.xdnl.hazelcast.monitor.agent.producer.ScheduledTopicProducer;
 import it.xdnl.hazelcast.monitor.agent.utils.ClientConnectionUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.Map;
+
 public class SubscribeMessageHandler implements MessageHandler {
     private ConnectionSubscriptionsRegistry subscriptionsRegistry;
     private TopicProducerFactory topicProducerFactory;
@@ -52,6 +54,17 @@ public class SubscribeMessageHandler implements MessageHandler {
         if (topic != null) {
             // Subscribe
             final long subscriptionId = subscriptionsRegistry.subscribe(connection, topic);
+
+            // Inject the parameters
+            if (request.getParameters() != null) {
+                for (Map.Entry<String, String> entry : request.getParameters().entrySet()) {
+                    try {
+                        topic.updateParameter(entry.getKey(), entry.getValue());
+                    } catch (UpdateParameterException e) {
+                        // Just ignore
+                    }
+                }
+            }
 
             // Notify the user
             ClientConnectionUtils.convertAndReply(connection, request, new SubscribeResponse(

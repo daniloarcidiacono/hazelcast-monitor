@@ -6,7 +6,7 @@ import it.xdnl.hazelcast.monitor.agent.dto.topic.AbstractTopic;
 
 @TypescriptDTO
 public class SubscribeResponse extends AbstractMessage {
-    public static final String MESSAGE_TYPE = "subscribe_response";
+    public static transient final String MESSAGE_TYPE = "subscribe_response";
     private long subscriptionId;
     private AbstractTopic topic;
 

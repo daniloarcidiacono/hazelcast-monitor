@@ -30,12 +30,17 @@ public class ScheduledTopicProducer extends AbstractTopicProducer implements Run
 
     @Override
     public void start() {
-        scheduledFuture = threadPool.scheduleWithFixedDelay(this, 0, delay, timeUnit);
+        if (scheduledFuture == null && delay > 0) {
+            scheduledFuture = threadPool.scheduleWithFixedDelay(this, 0, delay, timeUnit);
+        }
     }
 
     @Override
     public void stop() {
-        scheduledFuture.cancel(false);
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(false);
+            scheduledFuture = null;
+        }
     }
 
     @Override
@@ -51,11 +56,7 @@ public class ScheduledTopicProducer extends AbstractTopicProducer implements Run
 
             // Stop & Restart
             stop();
-
-            // A delay of 0 equals manual pull from client
-            if (delay > 0) {
-                start();
-            }
+            start();
         } else {
             // Delegate
             producer.updateParameter(parameter, value);
