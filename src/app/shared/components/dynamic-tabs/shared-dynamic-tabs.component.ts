@@ -96,7 +96,6 @@ export class SharedDynamicTabsComponent {
         this.tabs[tabIndex].componentRef.instance.beforeHide();
       }
 
-      console.log(this.tabs[tabIndex].componentRef.location.nativeElement);
       this.tabs[tabIndex].componentRef.location.nativeElement.hidden = true;
       this.tabs[tabIndex].active = false;
     }

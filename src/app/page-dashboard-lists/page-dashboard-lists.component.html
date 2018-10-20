@@ -1,5 +1,12 @@
 <div class="DashboardLists">
-  <div mdcHeadline5 class="DashboardLists__Title">Lists of {{ clusterName }}</div>
+  <div class="DashboardLists__Header">
+    <div class="DashboardLists__HeaderLeft">
+      <div mdcHeadline5>
+        Lists of {{ clusterName }}
+      </div>
+    </div>
+  </div>
+
   <div class="DashboardLists__Content">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>

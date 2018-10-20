@@ -1,27 +1,23 @@
-@import "~@angular-mdc/theme/material";
+@import "~@angular-mdc/theme/scss/theme/mdc-theme";
 
 .MdcPaginator {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  overflow-x: auto;
 
   &__PageSelector {
     margin-left: 1em;
+    width: 4em;
   }
 
-  &__ItemsPerPageSelector {
-    margin-left: 2em;
+  &__PageSizeSelector {
+    margin-left: 1em;
   }
 
   &__Caption {
     @include mdc-theme-prop(color, text-secondary-on-background);
-    font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0;
-    font-size: 12px;
     margin-left: 3em;
   }
 

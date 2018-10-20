@@ -1,4 +1,4 @@
-@mixin LayoutSection($contentElementName: "Content", $options: (actionBar: false)) {
+@mixin LayoutSection($contentElementName: "Content", $options: (header: false, footer: false)) {
   /* Layout children in column */
   display: flex;
   flex-direction: column;
@@ -12,19 +12,44 @@
   /* This is needed to not include the padding when the children overflow */
   box-sizing: border-box;
 
-  &__Title {
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin-bottom: 1em;
-  }
-
-  @if map-get($options, "actionBar") {
-    &__ActionBar {
+  @if map-get($options, "header") {
+    &__Header {
       flex-grow: 0;
       flex-shrink: 0;
       border: 1px solid gainsboro;
       overflow: hidden;
       margin-bottom: 1em;
+
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em;
+    }
+
+    &__HeaderLeft {
+      flex-grow: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-right: 1em;
+
+      & *:not(:first-child) {
+        margin-left: 1em;
+      }
+    }
+
+    &__HeaderRight {
+      flex-grow: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+
+      & *:not(:first-child) {
+        margin-left: 1em;
+      }
     }
   }
 
@@ -32,5 +57,46 @@
     flex-basis: 100%;
     flex-grow: 1;
     overflow: auto;
+  }
+
+  @if map-get($options, "footer") {
+    &__Footer {
+      flex-grow: 0;
+      flex-shrink: 0;
+      border: 1px solid gainsboro;
+      overflow: hidden;
+      margin-top: 1em;
+
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em;
+    }
+
+    &__FooterLeft {
+      flex-grow: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-right: 1em;
+
+      & *:not(:first-child) {
+        margin-left: 1em;
+      }
+    }
+
+    &__FooterRight {
+      flex-grow: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+
+      & *:not(:first-child) {
+        margin-left: 1em;
+      }
+    }
   }
 }

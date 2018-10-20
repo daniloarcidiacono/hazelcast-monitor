@@ -1,0 +1,43 @@
+<div mdcMenuSurfaceAnchor #anchor>
+  <button mdc-button [icon]="true" [outlined]="true" (click)="menu.open = !menu.open">
+    <mdc-icon>filter_list</mdc-icon>
+    Scripting
+  </button>
+  <mdc-menu #menu
+            class="ScriptingButton__Menu"
+            [anchor]="anchor"
+            [fixed]="true"
+            anchorCorner="bottomStart">
+
+    <div class="ScriptEditor">
+      <div class="ScriptEditor__EditorWrapper">
+        <div class="ScriptEditor__EditorWrapperTitle">
+          <mdc-icon class="ScriptEditor__HelpIcon" (click)="showHelp(filterHelpDialogData)">
+            help_outline
+          </mdc-icon>
+          Filter (JavaScript)
+        </div>
+        <ace-editor class="ScriptEditor__Editor"
+                    mode="javascript"
+                    [options]="options"
+                    [text]="filterScript"
+                    (textChange)="updateFilterScript($event)">
+        </ace-editor>
+      </div>
+      <div class="ScriptEditor__EditorWrapper">
+        <div class="ScriptEditor__EditorWrapperTitle">
+          <mdc-icon class="ScriptEditor__HelpIcon" (click)="showHelp(slicerHelpDialogData)">
+            help_outline
+          </mdc-icon>
+          Slice (JsonPath)
+        </div>
+        <ace-editor class="ScriptEditor__Editor"
+                    mode="json"
+                    [options]="options"
+                    [text]="sliceScript"
+                    (textChange)="updateSliceScript($event)">
+        </ace-editor>
+      </div>
+    </div>
+  </mdc-menu>
+</div>

@@ -1,10 +1,24 @@
 <div class="DashboardList">
-  <div mdcHeadline5 class="DashboardList__Title">
-    {{ listName }}
-  </div>
-
-  <div class="DashboardList__ActionBar">
-    <shared-filters-bar [subscriptionId]="subscriptionId"></shared-filters-bar>
+  <div class="DashboardList__Header">
+    <div class="DashboardList__HeaderLeft">
+      <button mdcIconButton
+              [disabled]="!isManual()"
+              (click)="pull()"
+              icon="refresh">
+      </button>
+      <div mdcHeadline5>
+        {{ listName }}
+      </div>
+    </div>
+    <div class="DashboardList__HeaderRight">
+      <shared-frequency-button [frequency]="updateFrequency"
+                               (frequencyChange)="trackUpdateFrequencyChange($event)">
+      </shared-frequency-button>
+      <shared-scripting-button [(filterScript)]="filterScript"
+                               [(sliceScript)]="sliceScript"
+                               (apply)="updateSubscription()">
+      </shared-scripting-button>
+    </div>
   </div>
 
   <div class="DashboardList__Content">
@@ -28,5 +42,18 @@
         </tr>
       </ng-template>
     </shared-mdc-table>
+  </div>
+
+  <div class="DashboardList__Footer" style="display: flex; justify-content: space-between">
+    <div class="DashboardList__FooterLeft">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardList__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
   </div>
 </div>

@@ -2,10 +2,13 @@ import {Injectable} from '@angular/core';
 import {
   AbstractMessageDTO,
   ErrorMessageDTO,
+  PullSubscriptionRequestDTO,
   SubscribeRequestDTO,
   SubscribeResponseDTO,
   SubscriptionNoticeResponseDTO,
-  UnsubscribeRequestDTO, UpdateSubscriptionRequestDTO, UpdateSubscriptionResponseDTO
+  UnsubscribeRequestDTO,
+  UpdateSubscriptionRequestDTO,
+  UpdateSubscriptionResponseDTO
 } from '@shared/dto/hazelcast-monitor.dto';
 import {Observable, Observer, of, Subscription} from 'rxjs/index';
 import {SharedWebSocketService} from '@shared/services/shared-websocket.service';
@@ -13,15 +16,21 @@ import {
   ClustersTopicDTO,
   DistributedObjectsTopicDTO,
   DistributedObjectTopicDTO,
-  DistributedObjectType, InternalsTopicDTO,
+  DistributedObjectType,
+  InternalsTopicDTO,
   MembersTopicDTO,
   StatisticsTopicDTO
 } from '@shared/dto/topics.dto';
 import {mergeAll} from 'rxjs/internal/operators';
 import {
-  AtomicLongsProductDTO, AtomicReferencesProductDTO, CacheProductDTO, CachesProductDTO,
-  ClustersProductDTO, CountDownLatchesProductDTO,
-  DistributedObjectsProduct, InternalsProductDTO,
+  AtomicLongsProductDTO,
+  AtomicReferencesProductDTO,
+  CacheProductDTO,
+  CachesProductDTO,
+  ClustersProductDTO,
+  CountDownLatchesProductDTO,
+  DistributedObjectsProduct,
+  InternalsProductDTO,
   ListProductDTO,
   ListsProductDTO,
   LocksProductDTO,
@@ -29,10 +38,18 @@ import {
   MapsProductDTO,
   MembersProductDTO,
   MultiMapProductDTO,
-  MultiMapsProductDTO, QueueProductDTO, QueuesProductDTO,
+  MultiMapsProductDTO,
+  QueueProductDTO,
+  QueuesProductDTO,
   ReplicatedMapProductDTO,
-  ReplicatedMapsProductDTO, RingbuffersProductDTO, SemaphoresProductDTO, SetProductDTO, SetsProductDTO,
-  StatisticsProductDTO, TopicProductDTO, TopicsProductDTO
+  ReplicatedMapsProductDTO,
+  RingbuffersProductDTO,
+  SemaphoresProductDTO,
+  SetProductDTO,
+  SetsProductDTO,
+  StatisticsProductDTO,
+  TopicProductDTO,
+  TopicsProductDTO
 } from '@shared/dto/topic-products.dto';
 
 @Injectable()
@@ -188,12 +205,18 @@ export class SharedHazelcastAgentService {
           mergeAll()
         );
 
+        // Inject the subscription response in the subscriber
+        observer['subscribeResponse'] = subscriptionResponse;
+
+        // Keep track of the subscription response for teardown logic
         subResponse = subscriptionResponse;
+
+        // Subcribe to notices
         noticeSub = noticesObs.subscribe(
           (notice: SubscriptionNoticeResponseDTO<T>) => {
             observer.next(notice);
           },
-    (error: ErrorMessageDTO) => {
+          (error: ErrorMessageDTO) => {
             observer.error(error);
           },
           () => {
@@ -219,6 +242,17 @@ export class SharedHazelcastAgentService {
         }
       };
     });
+  }
+
+  public sendPullSubscription(subscriptionId: number): void {
+    const request: PullSubscriptionRequestDTO = {
+      messageId: this.wsService.generateMessageId(),
+      messageType: 'pull_subscription',
+      subscriptionId: subscriptionId
+    };
+
+    // Send the request
+    this.wsService.sendMessage(JSON.stringify(request));
   }
 
   public sendUpdateSubscription(request: UpdateSubscriptionRequestDTO): Promise<UpdateSubscriptionResponseDTO> {
@@ -288,7 +322,7 @@ export class SharedHazelcastAgentService {
     return this.subTo(subRequest);
   }
 
-  public subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProduct<any>>> {
+  private subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProduct<any>>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
       messageId: this.wsService.generateMessageId(),
@@ -373,7 +407,7 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.RINGBUFFER);
   }
 
-  public subscribeToDistributedObject(instanceName: string, distributedObjectType: DistributedObjectType, objectName: string): Observable<SubscriptionNoticeResponseDTO<any>> {
+  private subscribeToDistributedObject(instanceName: string, distributedObjectType: DistributedObjectType, objectName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<any>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
       messageId: this.wsService.generateMessageId(),
@@ -383,19 +417,19 @@ export class SharedHazelcastAgentService {
         instanceName: instanceName,
         distributedObjectType: distributedObjectType,
         objectName: objectName
-      }
+      },
+      parameters: parameters
     };
 
     return this.subTo(subRequest);
-
   }
 
   public subscribeToMap(instanceName: string, mapName: string): Observable<SubscriptionNoticeResponseDTO<MapProductDTO>> {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.MAP, mapName);
   }
 
-  public subscribeToList(instanceName: string, listName: string): Observable<SubscriptionNoticeResponseDTO<ListProductDTO>> {
-    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.LIST, listName);
+  public subscribeToList(instanceName: string, listName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<ListProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.LIST, listName, parameters);
   }
 
   public subscribeToMultiMap(instanceName: string, multiMapName: string): Observable<SubscriptionNoticeResponseDTO<MultiMapProductDTO>> {

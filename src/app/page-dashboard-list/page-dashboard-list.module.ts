@@ -1,11 +1,13 @@
 import {NgModule} from '@angular/core';
 import {PageDashboardListComponent} from './page-dashboard-list.component';
 import {BrowserModule} from '@angular/platform-browser';
-import {MdcButtonModule, MdcDialogModule, MdcIconModule, MdcTypographyModule} from '@angular-mdc/web';
+import {MdcButtonModule, MdcIconButtonModule, MdcIconModule, MdcTypographyModule} from '@angular-mdc/web';
 import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
 import {SharedObjectInspectorModule} from '@shared/components/object-inspector/shared-object-inspector.module';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
-import {SharedFiltersBarModule} from "@shared/components/filters-bar/shared-filters-bar.module";
+import {SharedMdcPaginatorModule} from '@shared/components/mdc-paginator/shared-mdc-paginator.module';
+import {SharedFrequencyButtonModule} from '@shared/components/frequency-button/shared-frequency-button.module';
+import {SharedScriptingButtonModule} from '@shared/components/scripting-button/shared-scripting-button.module';
 
 @NgModule({
   declarations: [
@@ -18,12 +20,14 @@ import {SharedFiltersBarModule} from "@shared/components/filters-bar/shared-filt
     MdcTypographyModule,
     MdcButtonModule,
     MdcIconModule,
-    MdcDialogModule,
+    MdcIconButtonModule,
 
     // Shared
     SharedMdcTableModule,
     SharedObjectInspectorModule,
-    SharedFiltersBarModule,
+    SharedMdcPaginatorModule,
+    SharedFrequencyButtonModule,
+    SharedScriptingButtonModule,
     SharedServicesModule
   ],
   providers: [

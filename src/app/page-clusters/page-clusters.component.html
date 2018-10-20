@@ -4,7 +4,6 @@
     <h1 mdcHeadline6>Choose an instance to monitor</h1>
     <form [formGroup]="bindings.form" class="PageClusters__Card__Form">
       <mdc-select formControlName="cluster"
-                  placeholder="Instance"
                   [disabled]="!hasClusters()"
                   [outlined]="true"
                   [autosize]="false"

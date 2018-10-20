@@ -1,6 +1,7 @@
 import {EnvironmentVariableDTO, SubscriptionRegistryStatisticsDTO} from "@shared/dto/internals.dto";
 
 export interface ProductDTO {
+  produceTime?: number;
 }
 
 export interface ClustersProductDTO extends ProductDTO {

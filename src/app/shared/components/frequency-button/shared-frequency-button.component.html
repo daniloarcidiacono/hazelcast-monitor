@@ -1,0 +1,19 @@
+<div mdcMenuSurfaceAnchor #anchor>
+  <button mdc-button [icon]="true" [outlined]="true" (click)="menu.open = !menu.open">
+    <mdc-icon>update</mdc-icon>
+    {{ caption }}
+  </button>
+  <mdc-menu #menu
+            [anchor]="anchor"
+            [fixed]="true"
+            anchorCorner="bottomStart">
+    <mdc-list>
+      <mdc-list-item *ngFor="let option of options"
+                     [disabled]="frequency === option.frequency"
+                     (click)="setFrequency(option)">
+        {{ option.caption }}
+        <mdc-icon *ngIf="frequency === option.frequency" mdcListItemMeta>check</mdc-icon>
+      </mdc-list-item>
+    </mdc-list>
+  </mdc-menu>
+</div>

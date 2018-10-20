@@ -1,18 +1,20 @@
-.FiltersBar {
+.ScriptingButton {
+  &__Menu {
+    width: 75%;
+  }
+}
+
+.ScriptEditor {
   display: flex;
   flex-direction: column;
-
-  &__Top {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-  }
+  justify-content: flex-start;
+  align-items: center;
 
   &__EditorWrapper {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    width: 100%;
   }
 
   &__EditorWrapperTitle {
