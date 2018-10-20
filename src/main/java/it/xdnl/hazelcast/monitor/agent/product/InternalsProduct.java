@@ -7,7 +7,7 @@ import it.xdnl.hazelcast.monitor.agent.helper.SubscriptionRegistryStatistics;
 import java.util.List;
 
 @TypescriptDTO
-public class InternalsProduct implements Product {
+public class InternalsProduct extends Product {
     private SubscriptionRegistryStatistics subscriptionStats;
     private List<EnvironmentVariable> envVariables;
 

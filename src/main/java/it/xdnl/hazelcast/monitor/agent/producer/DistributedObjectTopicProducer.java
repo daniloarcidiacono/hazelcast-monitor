@@ -28,6 +28,10 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
     private String objectName;
     private HazelcastInstance instance;
 
+    // Pagination
+    private int page = 1;
+    private int pageSize = 5;
+
     // Query
     private PredicateQueryEngine predicateQueryEngine;
     private Predicate predicate = TruePredicate.INSTANCE;
@@ -51,27 +55,70 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
 
     @Override
     public void updateParameter(final String parameter, final String value) throws UpdateParameterException {
-        if (parameter.equals("filter")) {
-            try {
-                predicate = new ScriptPredicate(value);
-            } catch (Exception e) {
-                predicate = FalsePredicate.INSTANCE;
-                throw new UpdateParameterException("Error while updating the filter", e);
-            }
-        } else if (parameter.equals("jsonPath")) {
-            final String trimmed = value.trim();
-            if ("$".equals(trimmed) || "$.*".equals(trimmed) || "$..*".equals(trimmed)) {
-                jsonPath = null;
-            } else {
+        switch (parameter) {
+            case "filter":
                 try {
-                    jsonPath = JsonPath.compile(trimmed);
+                    predicate = new ScriptPredicate(value);
                 } catch (Exception e) {
-                    jsonPath = null;
-                    throw new UpdateParameterException("Error while updating the slice", e);
+                    predicate = FalsePredicate.INSTANCE;
+                    throw new UpdateParameterException("Error while updating the filter", e);
                 }
-            }
-        } else {
-            super.updateParameter(parameter, value);
+
+                break;
+
+            case "jsonPath":
+                final String trimmed = value.trim();
+                if ("$".equals(trimmed) || "$.*".equals(trimmed) || "$..*".equals(trimmed)) {
+                    jsonPath = null;
+                } else {
+                    try {
+                        jsonPath = JsonPath.compile(trimmed);
+                    } catch (Exception e) {
+                        jsonPath = null;
+                        throw new UpdateParameterException("Error while updating the slice", e);
+                    }
+                }
+
+                break;
+
+            case "page":
+                try {
+                    final int newPage = Integer.parseInt(value);
+                    page = newPage;
+                    if (page < 1) {
+                        page = 1;
+                    }
+                } catch (NumberFormatException e) {
+                    final UpdateParameterException updateParameterException = new UpdateParameterException("Invalid page value: " + value);
+                    updateParameterException.setParameterName(parameter);
+                    updateParameterException.setActualValue(String.valueOf(page));
+
+                    throw updateParameterException;
+                }
+
+                break;
+
+            case "pageSize":
+                final int newPageSize = Integer.parseInt(value);
+                try {
+                    pageSize = newPageSize;
+                    if (pageSize < 1) {
+                        pageSize = 1;
+                    }
+
+                } catch (NumberFormatException e) {
+                    final UpdateParameterException updateParameterException = new UpdateParameterException("Invalid page size value: " + value);
+                    updateParameterException.setParameterName(parameter);
+                    updateParameterException.setActualValue(String.valueOf(pageSize));
+
+                    throw updateParameterException;
+                }
+
+                break;
+
+            default:
+                super.updateParameter(parameter, value);
+                break;
         }
     }
 
@@ -140,7 +187,12 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
             final IList<Object> list = instance.getList(objectName);
             final List<Object> filtered = predicateQueryEngine.queryList(list, predicate);
 
-            for (Object entry : filtered) {
+            final int start = pageSize * (page - 1);
+            final int end = start + pageSize - 1;
+
+            int current = start;
+            while (current <= end && current < filtered.size()) {
+                final Object entry = filtered.get(current);
                 if (jsonPath != null) {
                     try {
                         final Map<String, Object> json = mapper.convertValue(entry, Map.class);
@@ -165,6 +217,8 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
                         )
                     );
                 }
+
+                current++;
             }
         } catch (PredicateQueryEngineException e) {
             predicate = FalsePredicate.INSTANCE;

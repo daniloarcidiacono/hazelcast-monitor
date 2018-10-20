@@ -80,6 +80,10 @@ public class ScheduledTopicProducer extends AbstractTopicProducer implements Run
 
     @Override
     public Product produce() {
-        return producer.produce();
+        final long start = System.nanoTime();
+        final Product product = producer.produce();
+        final long end = System.nanoTime();
+        product.setProduceTime((end - start) / 1000000);
+        return product;
     }
 }

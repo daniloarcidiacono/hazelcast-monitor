@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TypescriptDTO
-public class ListProduct implements Product {
+public class ListProduct extends Product {
     @TypescriptDTO
     public static class Entry {
         @TypescriptField(type = Object.class)

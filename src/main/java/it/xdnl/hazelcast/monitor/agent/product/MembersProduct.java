@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TypescriptDTO
-public class MembersProduct implements Product {
+public class MembersProduct extends Product {
     @TypescriptDTO(identifier = "MemberSummaryDTO")
     public static class MemberSummary {
         private String address;

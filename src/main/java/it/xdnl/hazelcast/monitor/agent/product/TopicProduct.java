@@ -3,7 +3,7 @@ package it.xdnl.hazelcast.monitor.agent.product;
 import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 
 @TypescriptDTO
-public class TopicProduct implements Product {
+public class TopicProduct extends Product {
     private MembersProduct.MemberSummary publisher;
     private Object message;
     private String messageString;

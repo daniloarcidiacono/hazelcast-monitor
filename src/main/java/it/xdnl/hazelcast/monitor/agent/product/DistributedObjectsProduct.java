@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TypescriptDTO
-public class DistributedObjectsProduct<T extends DistributedObjectSummary> implements Product {
+public class DistributedObjectsProduct<T extends DistributedObjectSummary> extends Product {
     private List<T> objects = new ArrayList<>();
 
     public DistributedObjectsProduct() {

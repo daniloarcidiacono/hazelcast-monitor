@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TypescriptDTO
-public class ClustersProduct implements Product {
+public class ClustersProduct extends Product {
     private List<String> clusters = new ArrayList<>();
 
     public void add(final String instanceName) {
