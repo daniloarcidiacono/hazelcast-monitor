@@ -1,4 +1,7 @@
-import {MdcButtonModule, MdcIconModule, MdcListModule, MdcMenuModule, MdcTypographyModule} from '@angular-mdc/web';
+import {
+  MdcButtonModule, MdcIconButtonModule, MdcIconModule, MdcListModule, MdcMenuModule,
+  MdcTypographyModule
+} from '@angular-mdc/web';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
@@ -16,6 +19,7 @@ import {SharedFrequencyButtonComponent} from '@shared/components/frequency-butto
     // Angular MDC Web
     MdcTypographyModule,
     MdcIconModule,
+    MdcIconButtonModule,
     MdcButtonModule,
     MdcListModule,
     MdcMenuModule,

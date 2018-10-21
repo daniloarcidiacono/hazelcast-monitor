@@ -1,6 +1,10 @@
 <div class="DashboardCaches">
-  <div mdcHeadline5 class="DashboardCaches__Title">Caches of {{ clusterName }}</div>
-  <div class="DashboardCaches__Content">
+  <div class="DashboardCaches__Header">
+    <div class="DashboardCaches__HeaderLeft" mdcHeadline4>
+      Caches of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardCaches__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

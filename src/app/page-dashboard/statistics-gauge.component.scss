@@ -1,0 +1,15 @@
+.Chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__Graph {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+
+  &__Label {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}

@@ -58,7 +58,6 @@ export class SharedScriptingButtonComponent implements AfterViewInit {
   public options: any = {
     maxLines: 1000,
     fontSize: 22,
-    theme: 'ace/theme/chrome',
     maxPixelHeight: 400,
     printMargin: false
   };

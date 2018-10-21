@@ -1,6 +1,10 @@
 <div class="DashboardMultiMaps">
-  <div mdcHeadline5 class="DashboardMultiMaps__Title">MultiMaps of {{ clusterName }}</div>
-  <div class="DashboardMultiMaps__Content">
+  <div class="DashboardMultiMaps__Header">
+    <div class="DashboardMultiMaps__HeaderLeft" mdcHeadline4>
+      MultiMaps of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardMultiMaps__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

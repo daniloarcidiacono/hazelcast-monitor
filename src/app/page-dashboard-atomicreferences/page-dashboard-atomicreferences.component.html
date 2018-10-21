@@ -1,6 +1,10 @@
 <div class="DashboardAtomicReferences" mdcTypography>
-  <div mdcHeadline5 class="DashboardAtomicReferences__Title">Atomic references of {{ clusterName }}</div>
-  <div class="DashboardAtomicReferences__Content">
+  <div class="DashboardAtomicReferences__Header">
+    <div class="DashboardAtomicReferences__HeaderLeft" mdcHeadline4>
+      Atomic references of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardAtomicReferences__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

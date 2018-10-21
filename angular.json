@@ -31,7 +31,9 @@
             ],
             "scripts": [
               "node_modules/ace-builds/src-noconflict/ace.js",
-              "node_modules/ace-builds/webpack-resolver.js"
+              "node_modules/ace-builds/src-noconflict/mode-json.js",
+              "node_modules/ace-builds/src-noconflict/mode-xml.js",
+              "node_modules/ace-builds/src-noconflict/theme-chrome.js"
             ]
           },
           "configurations": {

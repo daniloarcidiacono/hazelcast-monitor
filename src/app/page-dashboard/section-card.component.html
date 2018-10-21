@@ -1,0 +1,10 @@
+<mdc-ripple [attachTo]="card"></mdc-ripple>
+<div class="SectionCard" [mdcElevation]="4" #card>
+  <div class="SectionCard__Icon" [ngStyle]="{ 'background-color': color }">
+    <mdc-icon [fontSet]="fontSet">{{ fontIcon }}</mdc-icon>
+  </div>
+  <div class="SectionCard__Right">
+    <div class="SectionCard__Count" mdcHeadline4>{{ counter }}</div>
+    <div class="SectionCard__Label" mdcHeadline6>{{ title }}</div>
+  </div>
+</div>

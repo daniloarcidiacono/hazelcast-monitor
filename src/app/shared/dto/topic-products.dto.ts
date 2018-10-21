@@ -11,6 +11,7 @@ export interface ClustersProductDTO extends ProductDTO {
 export interface InternalsProductDTO extends ProductDTO {
   subscriptionStats: SubscriptionRegistryStatisticsDTO;
   envVariables: EnvironmentVariableDTO[];
+  memberConfig: string;
 }
 
 export interface StatisticsProductDTO extends ProductDTO {
@@ -29,6 +30,14 @@ export interface StatisticsProductDTO extends ProductDTO {
   semaphoreCount: number;
   setCount: number;
   topicCount: number;
+  systemCpuLoad: number;
+  processCpuLoad: number;
+  totalPhysicalMemory: number;
+  freePhysicalMemory: number;
+  maxHeapMemory: number;
+  usedHeapMemory: number;
+  maxNativeMemory: number;
+  freeNativeMemory: number;
 }
 
 export interface MembersProductDTO extends ProductDTO {

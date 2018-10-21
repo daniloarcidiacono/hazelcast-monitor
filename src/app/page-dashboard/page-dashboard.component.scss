@@ -1,3 +1,5 @@
+@import "../shared/styles/layouts/section";
+
 .PageDashboard {
   /** Full height */
   height: 100%;
@@ -22,22 +24,19 @@
 }
 
 .Default {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  @include LayoutSection();
 
-  &__Content {
-    text-align: center;
+  &__SectionContent {
+    &--resources {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      grid-gap: 32px;
+    }
 
-    // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
-    margin: auto;
-  }
-
-  &__Logo {
-    height: 400px;
-  }
-
-  &__Caption {
-    margin-top: 1em;
+    &--health {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-gap: 32px;
+    }
   }
 }

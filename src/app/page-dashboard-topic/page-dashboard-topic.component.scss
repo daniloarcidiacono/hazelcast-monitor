@@ -1,7 +1,7 @@
 @import "../shared/styles/layouts/section";
 
 .DashboardTopic {
-  @include LayoutSection("Content", (actionBar: true));
+  @include LayoutSection(); //"Content", (actionBar: true));
 
   &__ActionBar {
     display: flex;

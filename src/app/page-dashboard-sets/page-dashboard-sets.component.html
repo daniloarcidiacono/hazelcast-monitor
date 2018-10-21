@@ -1,6 +1,10 @@
 <div class="DashboardSets">
-  <div mdcHeadline5 class="DashboardSets__Title">Sets of {{ clusterName }}</div>
-  <div class="DashboardSets__Content">
+  <div class="DashboardSets__Header">
+    <div class="DashboardSets__HeaderLeft" mdcHeadline4>
+      Sets of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardSets__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

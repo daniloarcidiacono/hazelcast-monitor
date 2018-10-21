@@ -1,6 +1,10 @@
 <div class="DashboardQueues">
-  <div mdcHeadline5 class="DashboardQueues__Title">Queues of {{ clusterName }}</div>
-  <div class="DashboardQueues__Content">
+  <div class="DashboardQueues__Header">
+    <div class="DashboardQueues__HeaderLeft" mdcHeadline4>
+      Queues of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardQueues__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

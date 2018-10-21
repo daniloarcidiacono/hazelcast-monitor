@@ -14,13 +14,15 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    width: 100%;
+    width: calc(100% - 2em);
+    margin: 1em 0;
   }
 
   &__EditorWrapperTitle {
     display: flex;
     align-items: center;
     padding: 1em;
+    outline: 1px solid gainsboro;
   }
 
   &__HelpIcon {
@@ -30,5 +32,6 @@
 
   &__Editor {
     min-height: 1em;
+    outline: 1px solid gainsboro;
   }
 }

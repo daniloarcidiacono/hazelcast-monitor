@@ -38,6 +38,7 @@ interface SectionItem {
   count: () => number;
   tab: TabData;
   subHeader?: string;
+  color: string;
 }
 
 type DashboardSection = SeparatorItem | SectionItem;
@@ -50,6 +51,26 @@ export class PageDashboardComponent implements OnDestroy {
   @ViewChild(SharedDynamicTabsComponent)
   private tabsComponent: SharedDynamicTabsComponent;
 
+  // Tile colors
+  private colors: string[] = [
+    'blueviolet',
+    'brown',
+    'cadetblue',
+    'chocolate',
+    'coral',
+    'cornflowerblue',
+    'crimson',
+    'midnightblue',
+    'darkgoldenrod',
+    'darkgreen',
+    'darkmagenta',
+    'teal',
+    'sienna',
+    'seagreen',
+    'darkorange',
+    'lightseagreen'
+  ];
+
   public sections: DashboardSection[] = [
     {
       icon: SharedPageIconsConstants.MEMBERS_ICON,
@@ -61,7 +82,20 @@ export class PageDashboardComponent implements OnDestroy {
         label: 'Members',
         componentClass: PageDashboardMembersComponent
       },
-      subHeader: 'General'
+      subHeader: 'General',
+      color: 'red'
+    },
+    {
+      icon: SharedPageIconsConstants.MONITORINTERNALS_ICON,
+      caption: 'Monitor internals',
+      count: () => {
+        return undefined;
+      },
+      tab: {
+        label: 'Monitor internals',
+        componentClass: PageDashboardInternalsComponent
+      },
+      color: 'red'
     },
     {
       separator: true
@@ -76,7 +110,8 @@ export class PageDashboardComponent implements OnDestroy {
         label: 'AtomicLongs',
         componentClass: PageDashboardAtomicLongsComponent
       },
-      subHeader: 'Resources'
+      subHeader: 'Resources',
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.ATOMICREFERENCES_ICON,
@@ -87,7 +122,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'AtomicReferences',
         componentClass: PageDashboardAtomicReferencesComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.CACHES_ICON,
@@ -98,7 +134,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Caches',
         componentClass: PageDashboardCachesComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.COUNTDOWNLATCHES_ICON,
@@ -109,7 +146,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'CountDownLatches',
         componentClass: PageDashboardCountdownLatchesComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.LISTS_ICON,
@@ -120,7 +158,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Lists',
         componentClass: PageDashboardListsComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.LOCKS_ICON,
@@ -131,7 +170,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Locks',
         componentClass: PageDashboardLocksComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.MAPS_ICON,
@@ -142,7 +182,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Maps',
         componentClass: PageDashboardMapsComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.MULTIMAPS_ICON,
@@ -153,7 +194,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'MultiMaps',
         componentClass: PageDashboardMultiMapsComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.QUEUES_ICON,
@@ -164,7 +206,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Queues',
         componentClass: PageDashboardQueuesComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.REPLICATEDMAPS_ICON,
@@ -175,7 +218,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'ReplicatedMaps',
         componentClass: PageDashboardReplicatedMapsComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.RINGBUFFERS_ICON,
@@ -186,7 +230,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Ringbuffers',
         componentClass: PageDashboardRingbuffersComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.SEMAPHORES_ICON,
@@ -197,7 +242,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Semaphores',
         componentClass: PageDashboardSemaphoresComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.SETS_ICON,
@@ -208,7 +254,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Sets',
         componentClass: PageDashboardSetsComponent
-      }
+      },
+      color: 'red'
     },
     {
       icon: SharedPageIconsConstants.TOPICS_ICON,
@@ -219,21 +266,8 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'Topics',
         componentClass: PageDashboardTopicsComponent
-      }
-    },
-    {
-      separator: true
-    },
-    {
-      icon: SharedPageIconsConstants.MONITORINTERNALS_ICON,
-      caption: 'Monitor internals',
-      count: () => {
-        return undefined;
       },
-      tab: {
-        label: 'Monitor internals',
-        componentClass: PageDashboardInternalsComponent
-      }
+      color: 'red'
     }
   ];
 
@@ -249,10 +283,16 @@ export class PageDashboardComponent implements OnDestroy {
                      private tabService: SharedTabsService,
                      private router: Router) {
 
-    // Use the drawer icons in the tabs
+
+    let colorIdx = 0;
     for (const section of this.sections) {
       if (!!(section as SectionItem).tab) {
+        // Use the drawer icons in the tabs
         (section as SectionItem).tab.icon = (section as SectionItem).icon;
+
+        // Init the colors
+        (section as SectionItem).color = this.colors[colorIdx];
+        colorIdx = (colorIdx + 1) % this.colors.length;
       }
     }
 

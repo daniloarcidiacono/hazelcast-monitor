@@ -1,28 +1,27 @@
 <div class="DashboardLists">
   <div class="DashboardLists__Header">
-    <div class="DashboardLists__HeaderLeft">
-      <div mdcHeadline5>
-        Lists of {{ clusterName }}
-      </div>
+    <div class="DashboardLists__HeaderLeft" mdcHeadline4>
+      Lists of {{ clusterName }}
     </div>
   </div>
-
-  <div class="DashboardLists__Content">
-    <shared-mdc-table [model]="data?.objects">
-      <ng-template #headerTemplate>
-        <tr class="mdc-data-table__row">
-          <th class="mdc-data-table__column">Name</th>
-          <th class="mdc-data-table__column">Number of keys</th>
-          <th class="mdc-data-table__column">Partition key</th>
-        </tr>
-      </ng-template>
-      <ng-template let-list #bodyTemplate>
-        <tr class="mdc-data-table__row" (click)="navigateToListDetails(list)">
-          <td class="mdc-data-table__cell">{{ list.name }}</td>
-          <td class="mdc-data-table__cell">{{ list.size }}</td>
-          <td class="mdc-data-table__cell">{{ list.partitionKey }}</td>
-        </tr>
-      </ng-template>
-    </shared-mdc-table>
+  <div class="DashboardLists__Scroller">
+    <div class="DashboardLists__SectionContent">
+      <shared-mdc-table [model]="data?.objects">
+        <ng-template #headerTemplate>
+          <tr class="mdc-data-table__row">
+            <th class="mdc-data-table__column">Name</th>
+            <th class="mdc-data-table__column">Number of keys</th>
+            <th class="mdc-data-table__column">Partition key</th>
+          </tr>
+        </ng-template>
+        <ng-template let-list #bodyTemplate>
+          <tr class="mdc-data-table__row" (click)="navigateToListDetails(list)">
+            <td class="mdc-data-table__cell">{{ list.name }}</td>
+            <td class="mdc-data-table__cell">{{ list.size }}</td>
+            <td class="mdc-data-table__cell">{{ list.partitionKey }}</td>
+          </tr>
+        </ng-template>
+      </shared-mdc-table>
+    </div>
   </div>
 </div>

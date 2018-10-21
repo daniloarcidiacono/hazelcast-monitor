@@ -295,13 +295,14 @@ export class SharedHazelcastAgentService {
     return this.subTo(subRequest);
   }
 
-  public subscribeToInternals(): Observable<SubscriptionNoticeResponseDTO<InternalsProductDTO>> {
+  public subscribeToInternals(instanceName: string): Observable<SubscriptionNoticeResponseDTO<InternalsProductDTO>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
       messageId: this.wsService.generateMessageId(),
       frequency: 5,
       topic: <InternalsTopicDTO>{
-        topicType: 'internals'
+        topicType: 'internals',
+        instanceName: instanceName
       }
     };
 

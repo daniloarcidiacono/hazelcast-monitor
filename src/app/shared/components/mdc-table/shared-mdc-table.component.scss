@@ -40,14 +40,16 @@
   }
 
   &__content {
-    width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
   }
 
   &__cell {
     font-weight: 400;
     border-collapse: separate;
     border-spacing: 0px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
   }
 
   &__cell, &__column {

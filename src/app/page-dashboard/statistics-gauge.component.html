@@ -1,0 +1,17 @@
+<div class="Chart">
+  <div class="Chart__Graph">
+    <ngx-charts-gauge [scheme]="colorScheme"
+                      [results]="multi"
+                      [min]="min"
+                      [max]="max"
+                      [units]="units"
+                      [showAxis]="false"
+                      [valueFormatting]="valueFormattingFn"
+                      [startAngle]="0"
+                      [angleSpan]="360">
+    </ngx-charts-gauge>
+  </div>
+  <div class="Chart__Label" [ngStyle]="{ 'color': color }" mdcSubtitle1>
+    {{ label }}
+  </div>
+</div>

@@ -1,7 +1,5 @@
 <div mdcMenuSurfaceAnchor #anchor>
-  <button mdc-button [icon]="true" [outlined]="true" (click)="menu.open = !menu.open">
-    <mdc-icon>filter_list</mdc-icon>
-    Scripting
+  <button mdcIconButton icon="filter_list" (click)="menu.open = !menu.open" title="Scripting">
   </button>
   <mdc-menu #menu
             class="ScriptingButton__Menu"
@@ -19,6 +17,7 @@
         </div>
         <ace-editor class="ScriptEditor__Editor"
                     mode="javascript"
+                    theme="chrome"
                     [options]="options"
                     [text]="filterScript"
                     (textChange)="updateFilterScript($event)">
@@ -33,6 +32,7 @@
         </div>
         <ace-editor class="ScriptEditor__Editor"
                     mode="json"
+                    theme="chrome"
                     [options]="options"
                     [text]="sliceScript"
                     (textChange)="updateSliceScript($event)">

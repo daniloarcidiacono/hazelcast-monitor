@@ -1,6 +1,10 @@
 <div class="DashboardRingbuffers">
-  <div mdcHeadline5 class="DashboardRingbuffers__Title">Ringbuffers of {{ clusterName }}</div>
-  <div class="DashboardRingbuffers__Content">
+  <div class="DashboardRingbuffers__Header">
+    <div class="DashboardRingbuffers__HeaderLeft" mdcHeadline4>
+      Ringbuffers of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardRingbuffers__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

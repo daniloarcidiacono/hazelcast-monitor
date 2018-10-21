@@ -1,8 +1,10 @@
 <div class="DashboardAtomicLongs">
-  <div mdcHeadline5 class="DashboardAtomicLongs__Title">
-    Atomic longs of {{ clusterName }}
+  <div class="DashboardAtomicLongs__Header">
+    <div class="DashboardAtomicLongs__HeaderLeft" mdcHeadline4>
+      Atomic longs of {{ clusterName }}
+    </div>
   </div>
-  <div class="DashboardAtomicLongs__Content">
+  <div class="DashboardAtomicLongs__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

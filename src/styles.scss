@@ -82,3 +82,8 @@ mdc-text-field.mdc-text-field--outlined.mdc-text-field--dense {
     display: none;
   }
 }
+
+// Disables the ripple ink on hovering
+.mdc-ripple-surface:hover::before {
+  opacity: 0 !important;
+}

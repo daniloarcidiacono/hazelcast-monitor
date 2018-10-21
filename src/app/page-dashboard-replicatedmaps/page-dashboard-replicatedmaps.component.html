@@ -1,6 +1,10 @@
 <div class="DashboardReplicatedMaps">
-  <div mdcHeadline5 class="DashboardReplicatedMaps__Title">Replicated maps of {{ clusterName }}</div>
-  <div class="DashboardReplicatedMaps__Content">
+  <div class="DashboardReplicatedMaps__Header">
+    <div class="DashboardReplicatedMaps__HeaderLeft" mdcHeadline4>
+      Replicated maps of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardReplicatedMaps__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

@@ -13,6 +13,7 @@ import {PageConnectModule} from './page-connect/page-connect.module';
 import {AppRoutingModule} from './app-routing.module';
 import {SharedConnectionIndicatorModule} from '@shared/components/connection-indicator/shared-connection-indicator.module';
 import {PageTestModule} from './page-test/page-test.module';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {PageTestModule} from './page-test/page-test.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
 
     // Angular MDC Web
     MdcTypographyModule,

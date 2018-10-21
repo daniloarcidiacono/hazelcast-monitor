@@ -1,7 +1,14 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {PageDashboardComponent} from './page-dashboard.component';
-import {MdcDrawerModule, MdcIconModule, MdcListModule, MdcTypographyModule} from '@angular-mdc/web';
+import {
+  MdcDrawerModule,
+  MdcElevationModule,
+  MdcIconModule,
+  MdcListModule,
+  MdcRippleModule,
+  MdcTypographyModule
+} from '@angular-mdc/web';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {PageDashboardMembersModule} from '../page-dashboard-members/page-dashboard-members.module';
 // import {PageDashboardRoutingModule} from './page-dashboard-routing.module';
@@ -54,10 +61,13 @@ import {PageDashboardRingbuffersModule} from '../page-dashboard-ringbuffers/page
 import {PageDashboardRingbuffersComponent} from '../page-dashboard-ringbuffers/page-dashboard-ringbuffers.component';
 import {PageDashboardInternalsComponent} from '../page-dashboard-internals/page-dashboard-internals.component';
 import {PageDashboardInternalsModule} from '../page-dashboard-internals/page-dashboard-internals.module';
+import {SectionCardComponent} from './section-card.component';
+import {StatisticsGaugeModule} from './statistics-gauge.module';
 
 @NgModule({
   declarations: [
-    PageDashboardComponent
+    PageDashboardComponent,
+    SectionCardComponent
   ],
   imports: [
     BrowserModule,
@@ -88,11 +98,16 @@ import {PageDashboardInternalsModule} from '../page-dashboard-internals/page-das
     PageDashboardTopicModule,
     PageDashboardCacheModule,
 
+    // Local modules
+    StatisticsGaugeModule,
+
     // Angular MDC Web
     MdcTypographyModule,
     MdcDrawerModule,
     MdcListModule,
     MdcIconModule,
+    MdcElevationModule,
+    MdcRippleModule,
 
     // Shared
     SharedServicesModule,

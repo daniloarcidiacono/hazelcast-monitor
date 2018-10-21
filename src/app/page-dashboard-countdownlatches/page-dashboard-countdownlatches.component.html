@@ -1,6 +1,10 @@
 <div class="DashboardCountdownLatches">
-  <div mdcHeadline5 class="DashboardCountdownLatches__Title">Countdown latches of {{ clusterName }}</div>
-  <div class="DashboardCountdownLatches__Content">
+  <div class="DashboardCountdownLatches__Header">
+    <div class="DashboardCountdownLatches__HeaderLeft" mdcHeadline4>
+    Countdown latches of {{ clusterName }}
+  </div>
+  </div>
+  <div class="DashboardCountdownLatches__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">

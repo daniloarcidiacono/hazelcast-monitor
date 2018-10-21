@@ -1,6 +1,6 @@
 import {
   MdcButtonModule,
-  MdcDialogModule,
+  MdcDialogModule, MdcIconButtonModule,
   MdcIconModule,
   MdcListModule,
   MdcMenuModule,
@@ -29,6 +29,7 @@ import {SharedPipesModule} from '@shared/pipes/shared-pipes.module';
     MdcTypographyModule,
     MdcIconModule,
     MdcButtonModule,
+    MdcIconButtonModule,
     MdcListModule,
     MdcMenuModule,
     MdcDialogModule,

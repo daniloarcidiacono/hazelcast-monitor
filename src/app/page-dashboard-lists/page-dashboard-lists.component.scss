@@ -1,5 +1,5 @@
 @import "../shared/styles/layouts/section";
 
 .DashboardLists {
-  @include LayoutSection("Content", (header: true, footer: false));
+  @include LayoutSection();
 }

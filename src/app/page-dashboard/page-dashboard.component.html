@@ -29,9 +29,71 @@
     <shared-dynamic-tabs>
       <ng-template #defaultContentTemplate>
         <div class="Default">
-          <div class="Default__Content">
-            <img class="Default__Logo" src="assets/logos/pie_chart.svg">
-            <h1 class="Default__Caption" mdcHeadline3>Select an element from the drawer</h1>
+          <div class="Default__Header">
+            <div class="Default__HeaderLeft" mdcHeadline4>
+              Dashboard
+            </div>
+          </div>
+          <div class="Default__Scroller">
+            <div class="Default__Section">
+              <div class="Default__SectionTitle" mdcButton>
+                System health
+              </div>
+              <div class="Default__SectionContent Default__SectionContent--health">
+                <statistics-gauge label="System CPU load"
+                                  units="Used"
+                                  color="#5AA454"
+                                  [min]="0"
+                                  [max]="1"
+                                  [percentage]="true"
+                                  [value]="currentStats?.systemCpuLoad">
+                </statistics-gauge>
+
+                <statistics-gauge label="Process CPU load"
+                                  units="Used"
+                                  color="#A10A28"
+                                  [min]="0"
+                                  [max]="1"
+                                  [percentage]="true"
+                                  [value]="currentStats?.processCpuLoad">
+                </statistics-gauge>
+
+                <statistics-gauge label="Physical memory"
+                                  units="Used"
+                                  color="#AAAAAA"
+                                  [min]="0"
+                                  [max]="currentStats?.totalPhysicalMemory"
+                                  [bytes]="true"
+                                  [value]="currentStats?.totalPhysicalMemory - currentStats?.freePhysicalMemory">
+                </statistics-gauge>
+
+                <statistics-gauge label="Heap memory"
+                                  units="Used"
+                                  color="#C7B42C"
+                                  [min]="0"
+                                  [max]="currentStats?.maxHeapMemory"
+                                  [bytes]="true"
+                                  [value]="currentStats?.maxHeapMemory - currentStats?.usedHeapMemory">
+                </statistics-gauge>
+              </div>
+            </div>
+            <div class="Default__Section">
+              <div class="Default__SectionTitle" mdcButton>
+                Quicklinks
+              </div>
+              <div class="Default__SectionContent Default__SectionContent--resources">
+                <ng-container *ngFor="let section of sections">
+                  <section-card *ngIf="!section.separator"
+                                [fontIcon]="section.icon.fontIcon"
+                                [fontSet]="section.icon.fontSet"
+                                [title]="section.caption"
+                                [counter]="section.count()"
+                                [color]="section.color"
+                                (click)="navigateTo(section)">
+                  </section-card>
+                </ng-container>
+              </div>
+            </div>
           </div>
         </div>
       </ng-template>

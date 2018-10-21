@@ -1,7 +1,5 @@
 <div mdcMenuSurfaceAnchor #anchor>
-  <button mdc-button [icon]="true" [outlined]="true" (click)="menu.open = !menu.open">
-    <mdc-icon>update</mdc-icon>
-    {{ caption }}
+  <button mdcIconButton icon="update" (click)="menu.open = !menu.open" title="Update frequency">
   </button>
   <mdc-menu #menu
             [anchor]="anchor"
