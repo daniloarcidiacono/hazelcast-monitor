@@ -425,8 +425,8 @@ export class SharedHazelcastAgentService {
     return this.subTo(subRequest);
   }
 
-  public subscribeToMap(instanceName: string, mapName: string): Observable<SubscriptionNoticeResponseDTO<MapProductDTO>> {
-    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.MAP, mapName);
+  public subscribeToMap(instanceName: string, mapName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<MapProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.MAP, mapName, parameters);
   }
 
   public subscribeToList(instanceName: string, listName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<ListProductDTO>> {

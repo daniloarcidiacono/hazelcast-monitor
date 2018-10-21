@@ -37,8 +37,11 @@ export class SharedScriptingButtonComponent implements AfterViewInit {
         <li>ES6 syntax is supported.</li>
         <li>Press CTRL+Enter to apply the filter.</li>
         <li>Use <pre style="display: inline">element</pre> to refer to the current element.</li>
+        <li>Use <pre style="display: inline">element.key</pre> and <pre style="display: inline">element.value</pre> with maps.</li>
         <li><strong>Don't use</strong> the <pre style="display: inline">return</pre> keyword, just write the condition.</li>
         <li>Compare strings with <pre style="display: inline">==</pre> instead of <pre style="display: inline">===</pre>.</li>
+        <li>Use <pre style="display: inline">element.vector.get(index)</pre> to access Java  <pre style="display: inline">List</pre>s.</li>
+        <li>You can invoke Java methods from the scripts, like normal methods.</li>
         <li>If your script throws an error for an element, it is considered as returning <pre style="display: inline">false</pre>.</li>
         <li>If your script does not compile, an empty set is returned.</li>
       </ul>
@@ -51,6 +54,7 @@ export class SharedScriptingButtonComponent implements AfterViewInit {
       <ul>
         <li>Language is JsonPath.</li>
         <li>Press CTRL+Enter to apply the slice.</li>
+        <li>When used with maps, slicing is applied only to values.</li>
       </ul>
     `
   };
