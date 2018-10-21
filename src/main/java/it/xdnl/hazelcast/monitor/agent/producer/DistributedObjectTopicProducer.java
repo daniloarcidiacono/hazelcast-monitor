@@ -2,7 +2,6 @@ package it.xdnl.hazelcast.monitor.agent.producer;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hazelcast.cache.ICache;
 import com.hazelcast.core.*;
@@ -159,18 +158,39 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
 
     private MapProduct produceMap() {
         final MapProduct product = new MapProduct();
-        final IMap map = instance.getMap(objectName);
-        final Set<Map.Entry> entries = map.entrySet();
-        for (Map.Entry entry : entries) {
-            product.add(
-                new MapProduct.Entry(
-                    mapper.valueToTree(entry.getKey()),
-                    mapper.valueToTree(entry.getValue()),
-                    entry.getKey().toString(),
-                    entry.getValue().toString(),
-                    map.isLocked(entry.getKey())
-                )
-            );
+        try {
+            final IMap map = instance.getMap(objectName);
+
+            // Filter
+            List<Map.Entry> filtered = predicateQueryEngine.queryMap(map, predicate);
+
+            // Paginate
+            final int start = pageSize * (page - 1);
+            final int end = start + pageSize - 1;
+            int current = start;
+            while (current <= end && current < filtered.size()) {
+                final Map.Entry entry = filtered.get(current);
+
+                // Slice
+                final Object sliced = JsonPathUtils.slice(entry.getValue(), jsonPath);
+
+                // If we have applied the slice with success
+                if (sliced != null) {
+                    product.add(
+                        new MapProduct.Entry(
+                            mapper.valueToTree(entry.getKey()),
+                            mapper.valueToTree(sliced),
+                            entry.getKey().toString(),
+                            sliced.toString(),
+                            map.isLocked(entry.getKey())
+                        )
+                    );
+                }
+
+                current++;
+            }
+        } catch (PredicateQueryEngineException e) {
+            predicate = FalsePredicate.INSTANCE;
         }
 
         return product;
@@ -180,6 +200,7 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
         final ListProduct product = new ListProduct();
         try {
             final IList<Object> list = instance.getList(objectName);
+
             // Filter
             final List<Object> filtered = predicateQueryEngine.queryList(list, predicate);
 
