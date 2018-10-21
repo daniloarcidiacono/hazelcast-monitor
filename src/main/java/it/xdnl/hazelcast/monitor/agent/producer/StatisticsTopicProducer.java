@@ -2,11 +2,19 @@ package it.xdnl.hazelcast.monitor.agent.producer;
 
 import com.hazelcast.cache.ICache;
 import com.hazelcast.core.*;
+import com.hazelcast.memory.DefaultMemoryStats;
+import com.hazelcast.monitor.LocalMemoryStats;
+import com.hazelcast.monitor.impl.LocalMemoryStatsImpl;
 import com.hazelcast.ringbuffer.Ringbuffer;
 import it.xdnl.hazelcast.monitor.agent.product.StatisticsProduct;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+
 public class StatisticsTopicProducer extends AbstractTopicProducer {
     public static final String TOPIC_TYPE = "stats";
+    private final LocalMemoryStats stats = new LocalMemoryStatsImpl(new DefaultMemoryStats());
+    private final OperatingSystemMXBean mxBean = ManagementFactory.getOperatingSystemMXBean();
     private HazelcastInstance instance;
 
     public StatisticsTopicProducer(final String instanceName) {
@@ -80,6 +88,25 @@ public class StatisticsTopicProducer extends AbstractTopicProducer {
         product.setSemaphoreCount(semaphoreCount);
         product.setSetCount(setCount);
         product.setTopicCount(topicCount);
+
+        // https://stackoverflow.com/questions/47177/how-do-i-monitor-the-computers-cpu-memory-and-disk-usage-in-java
+        if (mxBean instanceof com.sun.management.OperatingSystemMXBean) {
+            final com.sun.management.OperatingSystemMXBean sunMxBean = (com.sun.management.OperatingSystemMXBean)mxBean;
+            product.setSystemCpuLoad(sunMxBean.getSystemCpuLoad());
+            product.setProcessCpuLoad(sunMxBean.getProcessCpuLoad());
+            product.setTotalPhysicalMemory(sunMxBean.getTotalPhysicalMemorySize());
+            product.setFreePhysicalMemory(sunMxBean.getFreePhysicalMemorySize());
+        } else {
+            product.setSystemCpuLoad(-1);
+            product.setProcessCpuLoad(-1);
+            product.setTotalPhysicalMemory(stats.getTotalPhysical());
+            product.setFreePhysicalMemory(stats.getFreePhysical());
+        }
+
+        product.setMaxHeapMemory(stats.getMaxHeap());
+        product.setUsedHeapMemory(stats.getUsedHeap());
+        product.setMaxNativeMemory(stats.getMaxNative());
+        product.setFreeNativeMemory(stats.getFreeNative());
 
         return product;
     }

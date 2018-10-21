@@ -19,6 +19,14 @@ public class StatisticsProduct extends Product {
     private int semaphoreCount;
     private int setCount;
     private int topicCount;
+    private double systemCpuLoad;
+    private double processCpuLoad;
+    private long totalPhysicalMemory;
+    private long freePhysicalMemory;
+    private long maxHeapMemory;
+    private long usedHeapMemory;
+    private long maxNativeMemory;
+    private long freeNativeMemory;
 
     public StatisticsProduct() {
     }
@@ -141,5 +149,69 @@ public class StatisticsProduct extends Product {
 
     public void setTopicCount(int topicCount) {
         this.topicCount = topicCount;
+    }
+
+    public double getSystemCpuLoad() {
+        return systemCpuLoad;
+    }
+
+    public void setSystemCpuLoad(double systemCpuLoad) {
+        this.systemCpuLoad = systemCpuLoad;
+    }
+
+    public double getProcessCpuLoad() {
+        return processCpuLoad;
+    }
+
+    public void setProcessCpuLoad(double processCpuLoad) {
+        this.processCpuLoad = processCpuLoad;
+    }
+
+    public long getTotalPhysicalMemory() {
+        return totalPhysicalMemory;
+    }
+
+    public void setTotalPhysicalMemory(long totalPhysicalMemory) {
+        this.totalPhysicalMemory = totalPhysicalMemory;
+    }
+
+    public long getFreePhysicalMemory() {
+        return freePhysicalMemory;
+    }
+
+    public void setFreePhysicalMemory(long freePhysicalMemory) {
+        this.freePhysicalMemory = freePhysicalMemory;
+    }
+
+    public long getMaxHeapMemory() {
+        return maxHeapMemory;
+    }
+
+    public void setMaxHeapMemory(long maxHeapMemory) {
+        this.maxHeapMemory = maxHeapMemory;
+    }
+
+    public long getUsedHeapMemory() {
+        return usedHeapMemory;
+    }
+
+    public void setUsedHeapMemory(long usedHeapMemory) {
+        this.usedHeapMemory = usedHeapMemory;
+    }
+
+    public long getMaxNativeMemory() {
+        return maxNativeMemory;
+    }
+
+    public void setMaxNativeMemory(long maxNativeMemory) {
+        this.maxNativeMemory = maxNativeMemory;
+    }
+
+    public long getFreeNativeMemory() {
+        return freeNativeMemory;
+    }
+
+    public void setFreeNativeMemory(long freeNativeMemory) {
+        this.freeNativeMemory = freeNativeMemory;
     }
 }

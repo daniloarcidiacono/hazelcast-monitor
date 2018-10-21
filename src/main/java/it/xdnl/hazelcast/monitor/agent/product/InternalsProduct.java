@@ -10,6 +10,7 @@ import java.util.List;
 public class InternalsProduct extends Product {
     private SubscriptionRegistryStatistics subscriptionStats;
     private List<EnvironmentVariable> envVariables;
+    private String memberConfig;
 
     public InternalsProduct() {
     }
@@ -28,5 +29,13 @@ public class InternalsProduct extends Product {
 
     public void setEnvVariables(List<EnvironmentVariable> envVariables) {
         this.envVariables = envVariables;
+    }
+
+    public String getMemberConfig() {
+        return memberConfig;
+    }
+
+    public void setMemberConfig(String memberConfig) {
+        this.memberConfig = memberConfig;
     }
 }

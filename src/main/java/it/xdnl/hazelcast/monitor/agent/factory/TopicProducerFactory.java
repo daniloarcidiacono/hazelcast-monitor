@@ -25,7 +25,8 @@ public class TopicProducerFactory {
         }
 
         if (message.getTopic() instanceof InternalsTopic) {
-            return wrapProducer(new InternalsTopicProducer(connectionSubscriptionsRegistry), message);
+            final InternalsTopic topic = (InternalsTopic)message.getTopic();
+            return wrapProducer(new InternalsTopicProducer(topic.getInstanceName(), connectionSubscriptionsRegistry), message);
         }
 
         if (message.getTopic() instanceof StatisticsTopic) {

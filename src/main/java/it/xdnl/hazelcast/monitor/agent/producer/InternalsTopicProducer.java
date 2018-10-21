@@ -1,5 +1,9 @@
 package it.xdnl.hazelcast.monitor.agent.producer;
 
+import com.hazelcast.config.Config;
+import com.hazelcast.config.ConfigXmlGenerator;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
 import it.xdnl.hazelcast.monitor.agent.helper.ConnectionSubscriptionsRegistry;
 import it.xdnl.hazelcast.monitor.agent.helper.EnvironmentVariable;
 import it.xdnl.hazelcast.monitor.agent.product.InternalsProduct;
@@ -15,10 +19,13 @@ public class InternalsTopicProducer extends AbstractTopicProducer {
     private static final Logger logger = LoggerFactory.getLogger(InternalsTopicProducer.class);
     private ConnectionSubscriptionsRegistry registry;
     private List<EnvironmentVariable> envVariables = new ArrayList<>();
+    private HazelcastInstance instance;
+    private final ConfigXmlGenerator configXmlGenerator = new ConfigXmlGenerator(true);
 
-    public InternalsTopicProducer(final ConnectionSubscriptionsRegistry registry) {
+    public InternalsTopicProducer(final String instanceName, final ConnectionSubscriptionsRegistry registry) {
         super(TOPIC_TYPE);
         this.registry = registry;
+        instance = Hazelcast.getHazelcastInstanceByName(instanceName);
         for (Map.Entry<String, String> variable : System.getenv().entrySet()) {
             envVariables.add(new EnvironmentVariable(variable.getKey(), variable.getValue()));
         }
@@ -29,6 +36,10 @@ public class InternalsTopicProducer extends AbstractTopicProducer {
         final InternalsProduct product = new InternalsProduct();
         product.setSubscriptionStats(registry.getLocalStatistics());
         product.setEnvVariables(envVariables);
+
+        final Config config = instance.getConfig();
+        final String configXmlString = configXmlGenerator.generate(config);
+        product.setMemberConfig(configXmlString);
 
         return product;
     }
