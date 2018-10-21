@@ -6,6 +6,7 @@ import com.hazelcast.core.IList;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.DataSerializable;
+import it.xdnl.hazelcast.monitor.agent.utils.PredicateUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,21 +41,8 @@ class ListQueryTask<T> implements Callable<List<T>>, DataSerializable, Hazelcast
         }
 
         return list.stream()
-            .filter(this::safePredicateApply)
+            .filter(element -> PredicateUtils.safePredicateApply(predicate, element))
             .collect(Collectors.toList());
-    }
-
-    /**
-     * Applies a predicate and swallows any exception that may be thrown.
-     * @param value
-     * @return
-     */
-    private boolean safePredicateApply(final T value) {
-        try {
-            return predicate.test(value);
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     @Override

@@ -13,6 +13,7 @@ import it.xdnl.hazelcast.monitor.agent.product.ListProduct;
 import it.xdnl.hazelcast.monitor.agent.product.MapProduct;
 import it.xdnl.hazelcast.monitor.agent.product.Product;
 import it.xdnl.hazelcast.monitor.agent.query.*;
+import it.xdnl.hazelcast.monitor.agent.utils.JsonPathUtils;
 
 import javax.cache.Cache;
 import java.util.*;
@@ -67,16 +68,10 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
                 break;
 
             case "jsonPath":
-                final String trimmed = value.trim();
-                if ("$".equals(trimmed) || "$.*".equals(trimmed) || "$..*".equals(trimmed)) {
-                    jsonPath = null;
-                } else {
-                    try {
-                        jsonPath = JsonPath.compile(trimmed);
-                    } catch (Exception e) {
-                        jsonPath = null;
-                        throw new UpdateParameterException("Error while updating the slice", e);
-                    }
+                try {
+                    jsonPath = JsonPathUtils.toJsonPath(value);
+                } catch (Exception e) {
+                    throw new UpdateParameterException("Error while updating the slice", e);
                 }
 
                 break;
@@ -185,35 +180,25 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
         final ListProduct product = new ListProduct();
         try {
             final IList<Object> list = instance.getList(objectName);
+            // Filter
             final List<Object> filtered = predicateQueryEngine.queryList(list, predicate);
 
+            // Paginate
             final int start = pageSize * (page - 1);
             final int end = start + pageSize - 1;
-
             int current = start;
             while (current <= end && current < filtered.size()) {
                 final Object entry = filtered.get(current);
-                if (jsonPath != null) {
-                    try {
-                        final Map<String, Object> json = mapper.convertValue(entry, Map.class);
-                        final Object sliced = jsonPath.read(json);
-                        product.add(
-                            new ListProduct.Entry(
-                                mapper.valueToTree(sliced),
-                                sliced.toString()
-                            )
-                        );
-                    } catch (Exception e) {
-                        // Just skip the element:
-                        //  - entry is a base type so convertValue() fails
-                        //  - the JsonPath does not match the element (JsonPathException)
-                    }
-                } else {
-                    final JsonNode jsonNode = mapper.valueToTree(entry);
+
+                // Slice
+                final Object sliced = JsonPathUtils.slice(entry, jsonPath);
+
+                // If we have applied the slice with success
+                if (sliced != null) {
                     product.add(
                         new ListProduct.Entry(
-                            jsonNode,
-                            entry.toString()
+                            mapper.valueToTree(sliced),
+                            sliced.toString()
                         )
                     );
                 }
