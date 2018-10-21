@@ -13,6 +13,7 @@ import {SharedObjectInspectorModule} from '@shared/components/object-inspector/s
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {MomentModule} from 'ngx-moment';
 import {FormsModule} from "@angular/forms";
+import {SharedScriptingButtonModule} from "@shared/components/scripting-button/shared-scripting-button.module";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {FormsModule} from "@angular/forms";
     // Shared
     SharedMdcTableModule,
     SharedObjectInspectorModule,
+    SharedScriptingButtonModule,
     SharedServicesModule
   ],
   providers: [

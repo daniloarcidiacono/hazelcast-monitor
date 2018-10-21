@@ -1,18 +1,6 @@
 @import "../shared/styles/layouts/section";
 
 .DashboardTopic {
-  @include LayoutSection(); //"Content", (actionBar: true));
-
-  &__ActionBar {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  &__ActionBarRight {
-    /* https://stackoverflow.com/questions/35269947/css-align-one-item-right-with-flexbox */
-    margin-left: auto;
-  }
+  @include LayoutSection();
 }
 

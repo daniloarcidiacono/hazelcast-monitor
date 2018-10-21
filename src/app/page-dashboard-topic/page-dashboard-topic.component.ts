@@ -4,7 +4,10 @@ import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {Subscription} from 'rxjs/index';
 import {TopicProductDTO} from '@shared/dto/topic-products.dto';
-import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
+import {
+  ErrorMessageDTO, SubscribeResponseDTO, SubscriptionNoticeResponseDTO,
+  UpdateSubscriptionRequestDTO, UpdateSubscriptionResponseDTO
+} from '@shared/dto/hazelcast-monitor.dto';
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 
 @Component({
@@ -12,12 +15,25 @@ import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared
   styleUrls: [ './page-dashboard-topic.component.scss' ]
 })
 export class PageDashboardTopicComponent implements TabAwareComponent, OnDestroy {
+  // Name of the topic
   @Input()
   public topicName: string;
-  public data: TopicProductDTO[] = [];
+
+  // Data subscription
   private dataSub: Subscription;
+
+  // Tab reference
   private tab: TabData;
+
+  // Current data
+  public data: TopicProductDTO[] = [];
+
+  // Pagination
   private cap: number = 15;
+
+  // Filtering and slicing
+  public filterScript: string = 'true';
+  public sliceScript: string = '$..*';
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
@@ -59,7 +75,12 @@ export class PageDashboardTopicComponent implements TabAwareComponent, OnDestroy
     this.tab.recording = true;
 
     if (!this.dataSub) {
-      this.dataSub = this.hazelcastService.subscribeToTopic(this.clustersService.getCurrentCluster().instanceName, this.topicName).subscribe(
+      const parameters: any = {
+        filter: this.filterScript,
+        jsonPath: this.sliceScript
+      };
+
+      this.dataSub = this.hazelcastService.subscribeToTopic(this.clustersService.getCurrentCluster().instanceName, this.topicName, parameters).subscribe(
         (notice: SubscriptionNoticeResponseDTO<TopicProductDTO>) => {
           this.data.push(notice.notice);
           while (this.data.length > this.cap) {
@@ -79,5 +100,34 @@ export class PageDashboardTopicComponent implements TabAwareComponent, OnDestroy
       this.dataSub.unsubscribe();
       this.dataSub = undefined;
     }
+  }
+
+  private updateSubscription(): void {
+    const request: UpdateSubscriptionRequestDTO = {
+      messageType: 'update_subscription',
+      subscriptionId: this.getSubscriptionId(),
+      parameters: {
+        filter: this.filterScript,
+        jsonPath: this.sliceScript
+      }
+    };
+
+    this.hazelcastService.sendUpdateSubscription(request).then((response: UpdateSubscriptionResponseDTO) => {
+      if (!!response.error) {
+        this.snackbarService.show(`Error while updating the subscription: ${response.error}`);
+      } else {
+        this.snackbarService.show('Subscription updated');
+      }
+    }).catch((error: ErrorMessageDTO) => {
+      this.snackbarService.show(`Error while updating the subscription: ${error.errors.join('\n')}`);
+    });
+  }
+
+  public getSubscriptionId(): number {
+    if (!!this.dataSub && !!this.dataSub['subscribeResponse']) {
+      return (this.dataSub['subscribeResponse'] as SubscribeResponseDTO).subscriptionId;
+    }
+
+    return undefined;
   }
 }

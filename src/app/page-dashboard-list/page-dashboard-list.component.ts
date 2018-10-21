@@ -33,7 +33,7 @@ export class PageDashboardListComponent implements TabAwareComponent, OnDestroy 
 
   // Pagination
   public page: number = 1;
-  public pageSize: number = 5;
+  public pageSize: number = 15;
 
   // Filtering and slicing
   public filterScript: string = 'true';
