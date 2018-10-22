@@ -1,9 +1,6 @@
 package it.xdnl.hazelcast.monitor.agent.query;
 
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.IExecutorService;
-import com.hazelcast.core.IList;
-import com.hazelcast.core.IMap;
+import com.hazelcast.core.*;
 import it.xdnl.hazelcast.monitor.agent.utils.PredicateUtils;
 
 import java.util.ArrayList;
@@ -27,6 +24,16 @@ public class PredicateQueryEngine {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {
             throw new PredicateQueryEngineException("Error while querying list " + list.getName(), e);
+        }
+    }
+
+    public <T> List<T> queryQueue(final IQueue<T> queue, final Predicate predicate) throws PredicateQueryEngineException {
+        try {
+            final QueueQueryTask<T> task = new QueueQueryTask(queue.getName(), predicate);
+            final Future<List<T>> future = executorService.submitToKeyOwner(task, queue.getPartitionKey());
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new PredicateQueryEngineException("Error while querying queue " + queue.getName(), e);
         }
     }
 
