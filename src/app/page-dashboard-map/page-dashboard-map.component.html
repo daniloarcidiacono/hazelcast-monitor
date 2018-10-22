@@ -47,10 +47,10 @@
   </div>
 
   <div class="DashboardMap__Footer">
-    <div class="DashboardList__FooterLeft" title="Server time consumed for querying data">
+    <div class="DashboardMap__FooterLeft" title="Server time consumed for querying data">
       Query time: {{ data?.produceTime }} ms
     </div>
-    <div class="DashboardList__FooterRight">
+    <div class="DashboardMap__FooterRight">
       <shared-mdc-paginator [page]="page"
                             [pageSize]="pageSize"
                             (pageChange)="trackPageChange($event)"

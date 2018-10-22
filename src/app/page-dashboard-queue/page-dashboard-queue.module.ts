@@ -5,6 +5,9 @@ import {MdcButtonModule, MdcIconButtonModule, MdcIconModule, MdcTypographyModule
 import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
 import {SharedObjectInspectorModule} from '@shared/components/object-inspector/shared-object-inspector.module';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
+import {SharedScriptingButtonModule} from '@shared/components/scripting-button/shared-scripting-button.module';
+import {SharedFrequencyButtonModule} from '@shared/components/frequency-button/shared-frequency-button.module';
+import {SharedMdcPaginatorModule} from '@shared/components/mdc-paginator/shared-mdc-paginator.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import {SharedServicesModule} from '@shared/services/shared-services.module';
     // Shared
     SharedMdcTableModule,
     SharedObjectInspectorModule,
+    SharedMdcPaginatorModule,
+    SharedFrequencyButtonModule,
+    SharedScriptingButtonModule,
     SharedServicesModule
   ],
   providers: [
