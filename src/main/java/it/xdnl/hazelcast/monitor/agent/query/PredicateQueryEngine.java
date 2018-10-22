@@ -37,6 +37,16 @@ public class PredicateQueryEngine {
         }
     }
 
+    public <T> List<T> querySet(final ISet<T> set, final Predicate predicate) throws PredicateQueryEngineException {
+        try {
+            final SetQueryTask<T> task = new SetQueryTask(set.getName(), predicate);
+            final Future<List<T>> future = executorService.submitToKeyOwner(task, set.getPartitionKey());
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new PredicateQueryEngineException("Error while querying set " + set.getName(), e);
+        }
+    }
+
     public <K, V> List<Map.Entry<K, V>> queryMap(final IMap<K, V> map, final Predicate predicate) {
         return new ArrayList<>(
             map.entrySet(new com.hazelcast.query.Predicate() {

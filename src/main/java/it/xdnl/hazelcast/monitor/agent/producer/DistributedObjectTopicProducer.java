@@ -292,14 +292,36 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
 
     private ListProduct produceSet() {
         final ListProduct product = new ListProduct();
-        final ISet set = instance.getSet(objectName);
-        for (Object entry : set) {
-            product.add(
-                new ListProduct.Entry(
-                    mapper.valueToTree(entry),
-                    entry.toString()
-                )
-            );
+        try {
+            final ISet set = instance.getSet(objectName);
+
+            // Filter
+            final List<Object> filtered = predicateQueryEngine.querySet(set, predicate);
+
+            // Paginate
+            final int start = pageSize * (page - 1);
+            final int end = start + pageSize - 1;
+            int current = start;
+            while (current <= end && current < filtered.size()) {
+                final Object entry = filtered.get(current);
+
+                // Slice
+                final Object sliced = JsonPathUtils.slice(entry, jsonPath);
+
+                // If we have applied the slice with success
+                if (sliced != null) {
+                    product.add(
+                        new ListProduct.Entry(
+                            mapper.valueToTree(sliced),
+                            sliced.toString()
+                        )
+                    );
+                }
+
+                current++;
+            }
+        } catch (PredicateQueryEngineException e) {
+            predicate = FalsePredicate.INSTANCE;
         }
 
         return product;
