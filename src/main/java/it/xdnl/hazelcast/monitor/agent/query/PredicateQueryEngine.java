@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class PredicateQueryEngine {
     private final IExecutorService executorService;
@@ -50,7 +51,6 @@ public class PredicateQueryEngine {
     }
 
     public <K, V> List<Cache.Entry<K, V>> queryCache(final ICache<K, V> cache, final Predicate predicate) {
-
         try {
             final CacheQueryTask<K, V> task = new CacheQueryTask(cache.getName(), predicate);
             final Future<List<Cache.Entry<K, V>>> future = executorService.submitToKeyOwner(task, cache.getPartitionKey());
@@ -71,5 +71,21 @@ public class PredicateQueryEngine {
                 return PredicateUtils.safePredicateApply(predicate, simpleEntry);
             })
         );
+    }
+
+    public <K, V> List<Map.Entry<K, V>> queryReplicatedMap(final ReplicatedMap<K, V> map, final Predicate predicate) {
+        if (predicate instanceof ScriptPredicate) {
+            ((ScriptPredicate)predicate).prepare();
+        }
+
+        final List<Map.Entry<K, V>> result = new ArrayList<>();
+        for (Map.Entry<K, V> mapEntry : map.entrySet()) {
+            final SimpleEntry simpleEntry = new SimpleEntry(mapEntry);
+            if (PredicateUtils.safePredicateApply(predicate, simpleEntry)) {
+                result.add(mapEntry);
+            }
+        }
+
+        return result;
     }
 }
