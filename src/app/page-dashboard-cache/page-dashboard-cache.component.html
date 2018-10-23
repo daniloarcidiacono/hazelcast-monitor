@@ -1,8 +1,25 @@
 <div class="DashboardCache">
-  <div mdcHeadline5 class="DashboardCache__Title">
-    {{ cacheName }}
+  <div class="DashboardCache__Header">
+    <div class="DashboardCache__HeaderLeft" mdcHeadline4>
+      {{ cacheName }}
+    </div>
+    <div class="DashboardCache__HeaderRight">
+      <button mdcIconButton
+              [disabled]="!isManual()"
+              (click)="pull()"
+              icon="refresh"
+              title="Pull data">
+      </button>
+      <shared-frequency-button [frequency]="updateFrequency"
+                               (frequencyChange)="trackUpdateFrequencyChange($event)">
+      </shared-frequency-button>
+      <shared-scripting-button [(filterScript)]="filterScript"
+                               [(sliceScript)]="sliceScript"
+                               (apply)="updateSubscription()">
+      </shared-scripting-button>
+    </div>
   </div>
-  <div class="DashboardCache__Content">
+  <div class="DashboardCache__Scroller">
     <shared-mdc-table [model]="data?.entries">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">
@@ -27,4 +44,17 @@
       </ng-template>
     </shared-mdc-table>
   </div>
+  <div class="DashboardCache__Footer">
+    <div class="DashboardCache__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardCache__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
+  </div>
+
 </div>

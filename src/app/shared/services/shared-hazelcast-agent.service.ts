@@ -453,7 +453,7 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.TOPIC, topicName, parameters);
   }
 
-  public subscribeToCache(instanceName: string, cacheName: string): Observable<SubscriptionNoticeResponseDTO<CacheProductDTO>> {
-    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.CACHE, cacheName);
+  public subscribeToCache(instanceName: string, cacheName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<CacheProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.CACHE, cacheName, parameters);
   }
 }
