@@ -348,19 +348,39 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
 
     private MapProduct produceCache() {
         final MapProduct product = new MapProduct();
-        final ICache cache = instance.getCacheManager().getCache(objectName);
-        final Iterator<Cache.Entry> iterator = cache.iterator();
-        while (iterator.hasNext()) {
-            final Cache.Entry entry = iterator.next();
-            product.add(
-                new MapProduct.Entry(
-                    mapper.valueToTree(entry.getKey()),
-                    mapper.valueToTree(entry.getValue()),
-                    entry.getKey().toString(),
-                    entry.getValue().toString(),
-                    false
-                )
-            );
+        try {
+            final ICache cache = instance.getCacheManager().getCache(objectName);
+
+            // Filter
+            final List<Cache.Entry> filtered = predicateQueryEngine.queryCache(cache, predicate);
+
+            // Paginate
+            final int start = pageSize * (page - 1);
+            final int end = start + pageSize - 1;
+            int current = start;
+            while (current <= end && current < filtered.size()) {
+                final Cache.Entry entry = filtered.get(current);
+
+                // Slice
+                final Object sliced = JsonPathUtils.slice(entry.getValue(), jsonPath);
+
+                // If we have applied the slice with success
+                if (sliced != null) {
+                    product.add(
+                        new MapProduct.Entry(
+                            mapper.valueToTree(entry.getKey()),
+                            mapper.valueToTree(sliced),
+                            entry.getKey().toString(),
+                            sliced.toString(),
+                            false
+                        )
+                    );
+                }
+
+                current++;
+            }
+        } catch (PredicateQueryEngineException e) {
+            predicate = FalsePredicate.INSTANCE;
         }
 
         return product;

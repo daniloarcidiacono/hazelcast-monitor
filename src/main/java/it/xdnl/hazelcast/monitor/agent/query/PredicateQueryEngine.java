@@ -1,8 +1,10 @@
 package it.xdnl.hazelcast.monitor.agent.query;
 
+import com.hazelcast.cache.ICache;
 import com.hazelcast.core.*;
 import it.xdnl.hazelcast.monitor.agent.utils.PredicateUtils;
 
+import javax.cache.Cache;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,28 +49,26 @@ public class PredicateQueryEngine {
         }
     }
 
+    public <K, V> List<Cache.Entry<K, V>> queryCache(final ICache<K, V> cache, final Predicate predicate) {
+
+        try {
+            final CacheQueryTask<K, V> task = new CacheQueryTask(cache.getName(), predicate);
+            final Future<List<Cache.Entry<K, V>>> future = executorService.submitToKeyOwner(task, cache.getPartitionKey());
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new PredicateQueryEngineException("Error while querying cache " + cache.getName(), e);
+        }
+    }
+
     public <K, V> List<Map.Entry<K, V>> queryMap(final IMap<K, V> map, final Predicate predicate) {
         return new ArrayList<>(
-            map.entrySet(new com.hazelcast.query.Predicate() {
-                class SimpleEntry {
-                    public Object key;
-                    public Object value;
-
-                    public SimpleEntry(Object key, Object value) {
-                        this.key = key;
-                        this.value = value;
-                    }
+            map.entrySet((com.hazelcast.query.Predicate) mapEntry -> {
+                if (predicate instanceof ScriptPredicate) {
+                    ((ScriptPredicate)predicate).prepare();
                 }
 
-                @Override
-                public boolean apply(Map.Entry mapEntry) {
-                    if (predicate instanceof ScriptPredicate) {
-                        ((ScriptPredicate)predicate).prepare();
-                    }
-
-                    final SimpleEntry simpleEntry = new SimpleEntry(mapEntry.getKey(), mapEntry.getValue());
-                    return PredicateUtils.safePredicateApply(predicate, simpleEntry);
-                }
+                final SimpleEntry simpleEntry = new SimpleEntry(mapEntry.getKey(), mapEntry.getValue());
+                return PredicateUtils.safePredicateApply(predicate, simpleEntry);
             })
         );
     }
