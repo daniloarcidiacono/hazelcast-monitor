@@ -437,8 +437,8 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.MULTIMAP, multiMapName);
   }
 
-  public subscribeToReplicatedMap(instanceName: string, replicatedMapName: string): Observable<SubscriptionNoticeResponseDTO<ReplicatedMapProductDTO>> {
-    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.REPLICATEDMAP, replicatedMapName);
+  public subscribeToReplicatedMap(instanceName: string, replicatedMapName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<ReplicatedMapProductDTO>> {
+    return this.subscribeToDistributedObject(instanceName, DistributedObjectType.REPLICATEDMAP, replicatedMapName, parameters);
   }
 
   public subscribeToQueue(instanceName: string, queueName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<QueueProductDTO>> {
