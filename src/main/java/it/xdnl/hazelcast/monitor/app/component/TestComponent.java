@@ -132,15 +132,20 @@ public class TestComponent {
             myList.add("entry" + i);
         }
 
-        myLock.lock(45, TimeUnit.SECONDS);
+        // We avoid deadlocks the running two instances!
+//        myLock.lock(45, TimeUnit.SECONDS);
         myMap.put(new ComplexKey("Danilo1", 28), new ComplexValue(1, 2, 3));
         myMap.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
 
 
-        myMap2.put("ciao", new ComplexValue(1, 2, 3));
-        myMap2.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
-        myMap2.lock("ciao");
+        // We avoid deadlocks the running two instances!
+        if (myMap2.tryLock("ciao")) {
+            myMap2.put("ciao", new ComplexValue(1, 2, 3));
+            myMap2.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
+//            myMap2.lock("ciao");
+        }
 
+        System.out.println("Running the scheduled future!");
         final ScheduledFuture<?> scheduledFuture = threadPool.scheduleWithFixedDelay(() -> {
             myList.set(0, "ciao" + t);
 
@@ -151,7 +156,6 @@ public class TestComponent {
             final ComplexValue o2 = (ComplexValue)myList.get(2);
             o2.getStats().set(0, t);
             myList.set(2, o2);
-
 
             myTopic.publish(new ComplexKey("A new message has arrived", t));
 

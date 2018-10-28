@@ -56,6 +56,11 @@ public class TopicProducerFactory {
             return wrapProducer(new DistributedObjectTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName(), predicateQueryEngine), message);
         }
 
+        if (message.getTopic() instanceof DistributedObjectStatsTopic) {
+            final DistributedObjectStatsTopic topic = (DistributedObjectStatsTopic) message.getTopic();
+            return wrapProducer(new DistributedObjectStatsTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName()), message);
+        }
+
         return null;
     }
 
