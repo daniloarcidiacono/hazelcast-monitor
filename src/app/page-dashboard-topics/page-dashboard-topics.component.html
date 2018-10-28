@@ -8,12 +8,17 @@
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Actions</th>
           <th class="mdc-data-table__column">Name</th>
           <th class="mdc-data-table__column">Partition key</th>
         </tr>
       </ng-template>
       <ng-template let-topic #bodyTemplate>
-        <tr class="mdc-data-table__row" (click)="navigateToTopicDetails(topic)">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">
+            <button mdcIconButton icon="search" (click)="navigateToTopicDetails(topic)" title="Inspect"></button>
+            <button mdcIconButton icon="bar_chart" (click)="navigateToTopicStats(topic)" title="Statistics"></button>
+          </td>
           <td class="mdc-data-table__cell">{{ topic.name }}</td>
           <td class="mdc-data-table__cell">{{ topic.partitionKey }}</td>
         </tr>

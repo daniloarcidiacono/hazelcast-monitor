@@ -83,7 +83,7 @@
               </div>
               <div class="Default__SectionContent Default__SectionContent--resources">
                 <ng-container *ngFor="let section of sections">
-                  <section-card *ngIf="!section.separator"
+                  <section-card *ngIf="!section.separator && section.count() > 0"
                                 [fontIcon]="section.icon.fontIcon"
                                 [fontSet]="section.icon.fontSet"
                                 [title]="section.caption"

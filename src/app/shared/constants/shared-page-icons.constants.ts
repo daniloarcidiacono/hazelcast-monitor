@@ -83,4 +83,9 @@ export abstract class SharedPageIconsConstants {
       fontSet: 'material-icons',
       fontIcon: 'bug_report'
     };
+
+    public static STATS_ICON: FontIcon = {
+      fontIcon: 'bar_chart',
+      fontSet: 'material-icons'
+    };
 }

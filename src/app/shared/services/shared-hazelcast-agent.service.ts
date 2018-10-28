@@ -13,7 +13,7 @@ import {
 import {Observable, Observer, of, Subscription} from 'rxjs/index';
 import {SharedWebSocketService} from '@shared/services/shared-websocket.service';
 import {
-  ClustersTopicDTO,
+  ClustersTopicDTO, DistributedObjectStatsTopicDTO,
   DistributedObjectsTopicDTO,
   DistributedObjectTopicDTO,
   DistributedObjectType,
@@ -49,7 +49,7 @@ import {
   SetsProductDTO,
   StatisticsProductDTO,
   TopicProductDTO,
-  TopicsProductDTO
+  TopicsProductDTO, TopicStatsProductDTO
 } from '@shared/dto/topic-products.dto';
 
 @Injectable()
@@ -455,5 +455,27 @@ export class SharedHazelcastAgentService {
 
   public subscribeToCache(instanceName: string, cacheName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<CacheProductDTO>> {
     return this.subscribeToDistributedObject(instanceName, DistributedObjectType.CACHE, cacheName, parameters);
+  }
+
+  // Statistics
+  private subscribeToDistributedObjectStats(instanceName: string, distributedObjectType: DistributedObjectType, objectName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<any>> {
+    const subRequest: SubscribeRequestDTO = {
+      messageType: 'subscribe',
+      messageId: this.wsService.generateMessageId(),
+      frequency: 1,
+      topic: <DistributedObjectStatsTopicDTO>{
+        topicType: 'distributed_object_stats',
+        instanceName: instanceName,
+        distributedObjectType: distributedObjectType,
+        objectName: objectName
+      },
+      parameters: parameters
+    };
+
+    return this.subTo(subRequest);
+  }
+
+  public subscribeToTopicStats(instanceName: string, topicName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<TopicStatsProductDTO>> {
+    return this.subscribeToDistributedObjectStats(instanceName, DistributedObjectType.TOPIC, topicName, parameters);
   }
 }

@@ -2,7 +2,7 @@
 
   <div class="DashboardTopic__Header">
     <div class="DashboardTopic__HeaderLeft" mdcHeadline4>
-      {{ topicName }}
+      Inspector - {{ topicName }}
     </div>
     <div class="DashboardTopic__HeaderRight">
       <button mdcIconButton icon="delete_forever" (click)="clear()" title="Clear"></button>
@@ -44,7 +44,7 @@
 
   <div class="DashboardTopic__Footer">
     <div class="DashboardTopic__FooterRight">
-      <label for="cap">Cap</label>
+      <label for="cap">Cap:</label>
       <mdc-select class="DashboardTopic__ActionBarRight mdc-select--dense"
                   id="cap"
                   [outlined]="true"

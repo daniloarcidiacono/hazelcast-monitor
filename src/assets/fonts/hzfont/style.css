@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'hzfont';
-  src:  url('fonts/hzfont.eot?f9krt9');
-  src:  url('fonts/hzfont.eot?f9krt9#iefix') format('embedded-opentype'),
-    url('fonts/hzfont.ttf?f9krt9') format('truetype'),
-    url('fonts/hzfont.woff?f9krt9') format('woff'),
-    url('fonts/hzfont.svg?f9krt9#hzfont') format('svg');
+  src:  url('fonts/hzfont.eot?4qhm03');
+  src:  url('fonts/hzfont.eot?4qhm03#iefix') format('embedded-opentype'),
+    url('fonts/hzfont.ttf?4qhm03') format('truetype'),
+    url('fonts/hzfont.woff?4qhm03') format('woff'),
+    url('fonts/hzfont.svg?4qhm03#hzfont') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -48,4 +48,8 @@
 }
 .icon-atomic:before {
   content: "\e90f";
+}
+.icon-github:before {
+  content: "\e904";
+  color: #fff;
 }

@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {isNumber} from "util";
 
 @Component({
   selector: 'shared-mdc-paginator',

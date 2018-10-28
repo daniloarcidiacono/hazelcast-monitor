@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
 import {PageDashboardTopicsComponent} from './page-dashboard-topics.component';
-import {MdcTypographyModule} from '@angular-mdc/web';
+import {MdcIconButtonModule, MdcTypographyModule} from '@angular-mdc/web';
 
 @NgModule({
   declarations: [
@@ -14,6 +14,7 @@ import {MdcTypographyModule} from '@angular-mdc/web';
 
     // Angular MDC Web
     MdcTypographyModule,
+    MdcIconButtonModule,
 
     // Shared
     SharedMdcTableModule,

@@ -1,0 +1,31 @@
+.MdcMultiSelect {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+  height: 32px;
+  line-height: 32px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  &--disabled {
+    color: gainsboro;
+  }
+
+  &__Caption {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__Icon {
+    padding-left: 1em;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    & mdc-icon {
+      vertical-align: middle;
+      color: #767676;
+    }
+  }
+}

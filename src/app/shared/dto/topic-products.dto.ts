@@ -202,3 +202,18 @@ export type SetProductEntryDTO = ListProductEntryDTO;
 // Replicated Map
 export type ReplicatedMapProductDTO = MapProductDTO;
 export type ReplicatedMapProductEntryDTO = MapProductEntryDTO;
+
+// Stats
+export interface StatsProductDTO<T> extends ProductDTO {
+  sampleTime: number;
+  members: { [ index: string ]: T };
+  aggregated: T;
+}
+
+// Topic Stats
+export interface TopicStatsDTO {
+  receiveOperationCount: number;
+  publishOperationCount: number;
+  creationTime: number;
+}
+export type TopicStatsProductDTO = StatsProductDTO<TopicStatsDTO>;

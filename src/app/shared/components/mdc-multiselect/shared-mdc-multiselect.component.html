@@ -1,0 +1,34 @@
+<div class="MdcMultiSelect"
+     [ngClass]="{ 'MdcMultiSelect--disabled': disabled }"
+     mdcMenuSurfaceAnchor
+     #anchor
+     (click)="menu.open = !disabled && !menu.open">
+  <div class="MdcMultiSelect__Caption">
+    <span *ngIf="!hasSelection()">
+      {{ placeholder }}
+    </span>
+    <span *ngIf="hasSelection()">
+      {{ getSelectionLabel() }}
+    </span>
+  </div>
+  <div class="MdcMultiSelect__Icon">
+    <mdc-icon>arrow_drop_down</mdc-icon>
+  </div>
+  <mdc-menu #menu
+            [fixed]="true"
+            [anchor]="anchor"
+            [anchorMargin]="{ bottom: 8 }"
+            anchorCorner="bottomStart">
+    <mdc-list-group [subheader]="placeholder">
+      <mdc-list>
+        <mdc-list-item *ngFor="let option of options">
+          {{ option.name }}
+          <mdc-checkbox mdcListItemMeta
+                        [checked]="isChecked(option)"
+                        (change)="trackCheck(option, $event)">
+          </mdc-checkbox>
+        </mdc-list-item>
+      </mdc-list>
+    </mdc-list-group>
+  </mdc-menu>
+</div>

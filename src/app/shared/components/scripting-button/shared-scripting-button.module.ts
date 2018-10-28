@@ -1,6 +1,6 @@
 import {
   MdcButtonModule,
-  MdcDialogModule, MdcIconButtonModule,
+  MdcIconButtonModule,
   MdcIconModule,
   MdcListModule,
   MdcMenuModule,
@@ -12,13 +12,11 @@ import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {FormsModule} from '@angular/forms';
 import {SharedScriptingButtonComponent} from '@shared/components/scripting-button/shared-scripting-button.component';
 import {AceEditorModule} from 'ng2-ace-editor';
-import {SharedScriptingButtonHelpDialog} from '@shared/components/scripting-button/shared-scripting-button-help.dialog';
-import {SharedPipesModule} from '@shared/pipes/shared-pipes.module';
+import {SharedHelpButtonModule} from '@shared/components/help-button/shared-help-button.module';
 
 @NgModule({
   declarations: [
-    SharedScriptingButtonComponent,
-    SharedScriptingButtonHelpDialog
+    SharedScriptingButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -32,19 +30,15 @@ import {SharedPipesModule} from '@shared/pipes/shared-pipes.module';
     MdcIconButtonModule,
     MdcListModule,
     MdcMenuModule,
-    MdcDialogModule,
 
     // Shared
-    SharedServicesModule,
-    SharedPipesModule
+    SharedHelpButtonModule,
+    SharedServicesModule
   ],
   exports: [
     SharedScriptingButtonComponent
   ],
   providers: [
-  ],
-  entryComponents: [
-    SharedScriptingButtonHelpDialog
   ]
 })
 export class SharedScriptingButtonModule { }

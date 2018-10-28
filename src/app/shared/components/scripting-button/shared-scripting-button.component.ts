@@ -1,9 +1,4 @@
 import {AfterViewInit, Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
-import {MdcDialog} from '@angular-mdc/web';
-import {
-  IScriptingButtonHelpDialogData,
-  SharedScriptingButtonHelpDialog
-} from '@shared/components/scripting-button/shared-scripting-button-help.dialog';
 import {AceEditorComponent} from 'ng2-ace-editor';
 
 @Component({
@@ -30,35 +25,6 @@ export class SharedScriptingButtonComponent implements AfterViewInit {
   @ViewChildren(AceEditorComponent)
   private editors: QueryList<AceEditorComponent>;
 
-  public filterHelpDialogData: IScriptingButtonHelpDialogData = {
-    title: 'Filter scripting',
-    htmlContent: `
-      <ul>
-        <li>ES6 syntax is supported.</li>
-        <li>Press CTRL+Enter to apply the filter.</li>
-        <li>Use <pre style="display: inline">element</pre> to refer to the current element.</li>
-        <li>Use <pre style="display: inline">element.key</pre> and <pre style="display: inline">element.value</pre> with maps.</li>
-        <li><strong>Don't use</strong> the <pre style="display: inline">return</pre> keyword, just write the condition.</li>
-        <li>Compare strings with <pre style="display: inline">==</pre> instead of <pre style="display: inline">===</pre>.</li>
-        <li>Use <pre style="display: inline">element.vector.get(index)</pre> to access Java  <pre style="display: inline">List</pre>s.</li>
-        <li>You can invoke Java methods from the scripts, like normal methods.</li>
-        <li>If your script throws an error for an element, it is considered as returning <pre style="display: inline">false</pre>.</li>
-        <li>If your script does not compile, an empty set is returned.</li>
-      </ul>
-    `
-  };
-
-  public slicerHelpDialogData: IScriptingButtonHelpDialogData = {
-    title: 'Slice scripting',
-    htmlContent: `
-      <ul>
-        <li>Language is JsonPath.</li>
-        <li>Press CTRL+Enter to apply the slice.</li>
-        <li>When used with maps, slicing is applied only to values.</li>
-      </ul>
-    `
-  };
-
   public options: any = {
     maxLines: 1000,
     fontSize: 22,
@@ -66,7 +32,7 @@ export class SharedScriptingButtonComponent implements AfterViewInit {
     printMargin: false
   };
 
-  public constructor(private dialog: MdcDialog) {
+  public constructor() {
   }
 
   public ngAfterViewInit(): void {
@@ -78,14 +44,6 @@ export class SharedScriptingButtonComponent implements AfterViewInit {
           this.apply.emit();
         }
       });
-    });
-  }
-
-  public showHelp(dialogData: IScriptingButtonHelpDialogData): void {
-    this.dialog.open(SharedScriptingButtonHelpDialog, {
-      data: dialogData,
-      escapeToClose: true,
-      clickOutsideToClose: true
     });
   }
 
