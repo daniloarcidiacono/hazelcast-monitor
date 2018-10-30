@@ -61,8 +61,8 @@ mdc-select.mdc-select--outlined.mdc-select--dense {
   }
 }
 
-
 mdc-text-field.mdc-text-field--outlined.mdc-text-field--dense {
+  overflow: hidden;
   height: 32px !important;
 
   & input {
@@ -75,6 +75,24 @@ mdc-text-field.mdc-text-field--outlined.mdc-text-field--dense {
 
     &[type="number"] {
       padding: 0 !important;
+    }
+  }
+
+  &.mdc-text-field--with-leading-icon {
+    & input {
+      &:focus + mdc-icon[leading] {
+        color: $mdc-theme-primary;
+      }
+
+      padding-left: calc(24px + 0.5em) !important;
+
+      & + mdc-icon[leading] {
+        bottom: 6px !important;
+        left: initial !important;
+        right: initial !important;
+        top: initial !important;
+        transform: initial !important;
+      }
     }
   }
 

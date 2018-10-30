@@ -323,7 +323,7 @@ export class SharedHazelcastAgentService {
     return this.subTo(subRequest);
   }
 
-  private subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProduct<any>>> {
+  private subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProduct<any>>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
       messageId: this.wsService.generateMessageId(),
@@ -332,7 +332,8 @@ export class SharedHazelcastAgentService {
         topicType: 'distributed_object',
         instanceName: instanceName,
         distributedObjectType: distributedObjectType
-      }
+      },
+      parameters: parameters
     };
 
     return this.subTo(subRequest);
@@ -380,8 +381,8 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SET);
   }
 
-  public subscribeToTopics(instanceName: string): Observable<SubscriptionNoticeResponseDTO<TopicsProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.TOPIC);
+  public subscribeToTopics(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<TopicsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.TOPIC, parameters);
   }
 
   public subscribeToAtomicLongs(instanceName: string): Observable<SubscriptionNoticeResponseDTO<AtomicLongsProductDTO>> {
