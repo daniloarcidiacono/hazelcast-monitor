@@ -74,6 +74,12 @@ public class TestComponent {
     private ICache<Object, Object> myCache;
     private ISet<Object> mySet;
     private ITopic<Object> myTopic;
+    private ITopic<Object> myTopic1;
+    private ITopic<Object> myTopic2;
+    private ITopic<Object> myTopic3;
+    private ITopic<Object> myTopic4;
+    private ITopic<Object> myTopic5;
+    private ITopic<Object> myTopic6;
     private IQueue<Object> myQueue;
     private IMap<Object, Object> myMap;
     private IMap<Object, Object> myMap2;
@@ -98,6 +104,12 @@ public class TestComponent {
         myCache.put("ciao", "Ceo");
         mySet = hazelcastInstance.getSet("mySet");
         myTopic = hazelcastInstance.getTopic("myTopic");
+        myTopic1 = hazelcastInstance.getTopic("myTopic1");
+        myTopic2 = hazelcastInstance.getTopic("myTopic2");
+        myTopic3 = hazelcastInstance.getTopic("myTopic3");
+        myTopic4 = hazelcastInstance.getTopic("myTopic4");
+        myTopic5 = hazelcastInstance.getTopic("myTopic5");
+        myTopic6 = hazelcastInstance.getTopic("myTopic6");
         myQueue = hazelcastInstance.getQueue("myQueue");
         myMap = hazelcastInstance.getMap("myMap");
         myMap2 = hazelcastInstance.getMap("myMap2");
