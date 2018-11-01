@@ -1,6 +1,7 @@
 package it.xdnl.hazelcast.monitor.agent.product;
 
 import com.hazelcast.monitor.LocalTopicStats;
+import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptComments;
 import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 
 import java.io.Serializable;
@@ -8,17 +9,16 @@ import java.util.Collection;
 
 @TypescriptDTO
 public class TopicStats implements Serializable {
+    @TypescriptComments("Total number of received messages of this topic on this member.")
     private long receiveOperationCount = 0;
+
+    @TypescriptComments("Total number of published messages of this topic on this member.")
     private long publishOperationCount = 0;
+
+    @TypescriptComments("Creation time of this topic on this member.")
     private long creationTime = 0;
 
     public TopicStats() {
-    }
-
-    public TopicStats(long receiveOperationCount, long publishOperationCount, long creationTime) {
-        this.receiveOperationCount = receiveOperationCount;
-        this.publishOperationCount = publishOperationCount;
-        this.creationTime = creationTime;
     }
 
     public static TopicStats aggregated(final Collection<TopicStats> stats) {
@@ -34,34 +34,38 @@ public class TopicStats implements Serializable {
     }
 
     public static TopicStats fromHazelcast(final LocalTopicStats localTopicStats) {
-        return new TopicStats(
-                localTopicStats.getReceiveOperationCount(),
-                localTopicStats.getPublishOperationCount(),
-                localTopicStats.getCreationTime()
-        );
+        final TopicStats result = new TopicStats();
+        result.setReceiveOperationCount(localTopicStats.getReceiveOperationCount());
+        result.setPublishOperationCount(localTopicStats.getPublishOperationCount());
+        result.setCreationTime(localTopicStats.getCreationTime());
+
+        return result;
     }
 
     public long getReceiveOperationCount() {
         return receiveOperationCount;
     }
 
-    public void setReceiveOperationCount(long receiveOperationCount) {
+    public TopicStats setReceiveOperationCount(long receiveOperationCount) {
         this.receiveOperationCount = receiveOperationCount;
+        return this;
     }
 
     public long getPublishOperationCount() {
         return publishOperationCount;
     }
 
-    public void setPublishOperationCount(long publishOperationCount) {
+    public TopicStats setPublishOperationCount(long publishOperationCount) {
         this.publishOperationCount = publishOperationCount;
+        return this;
     }
 
     public long getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(long creationTime) {
+    public TopicStats setCreationTime(long creationTime) {
         this.creationTime = creationTime;
+        return this;
     }
 }

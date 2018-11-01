@@ -9,8 +9,11 @@ import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.Member;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.product.Product;
+import it.xdnl.hazelcast.monitor.agent.product.QueueStats;
 import it.xdnl.hazelcast.monitor.agent.product.StatsProduct;
 import it.xdnl.hazelcast.monitor.agent.product.TopicStats;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -25,6 +28,8 @@ import java.util.concurrent.Future;
 public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
     public static final String TOPIC_TYPE = "distributed_object_stats";
     private static final ObjectMapper mapper = new ObjectMapper();
+    private static final Logger logger = LoggerFactory.getLogger(DistributedObjectStatsTopicProducer.class);
+
     private final DistributedObjectType distributedObjectType;
     private final String objectName;
     private final String instanceName;
@@ -50,6 +55,10 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
     @Override
     public Product produce() {
         switch (distributedObjectType) {
+            case QUEUE: {
+                return produceQueueStats();
+            }
+
             case TOPIC: {
                 return produceTopicStats();
             }
@@ -58,7 +67,37 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
         return null;
     }
 
-    private StatsProduct produceTopicStats() {
+    private StatsProduct<QueueStats> produceQueueStats() {
+        final StatsProduct<QueueStats> product = new StatsProduct<>();
+        product.setSampleTime(System.currentTimeMillis());
+
+        try {
+            final String __instanceName = instanceName;
+            final String __objectName = objectName;
+            final Map<Member, Future<QueueStats>> memberStats = executorService.submitToAllMembers(
+                (Callable<QueueStats> & Serializable)() ->
+                    QueueStats.fromHazelcast(
+                        Hazelcast.getHazelcastInstanceByName(__instanceName)
+                            .getQueue(__objectName)
+                            .getLocalQueueStats()
+                    )
+            );
+
+            for (Member member : memberStats.keySet()) {
+                final Future<QueueStats> future = memberStats.get(member);
+                final QueueStats stats = future.get();
+                product.add(member.getAddress().toString(), stats);
+            }
+
+            product.setAggregated(QueueStats.aggregated(product.getMembers().values()));
+        } catch (InterruptedException | ExecutionException e) {
+            logger.warn("Could not produce statistics for {}", objectName, e);
+        }
+
+        return product;
+    }
+
+    private StatsProduct<TopicStats> produceTopicStats() {
         final StatsProduct<TopicStats> product = new StatsProduct<>();
         product.setSampleTime(System.currentTimeMillis());
 
@@ -82,7 +121,7 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
 
             product.setAggregated(TopicStats.aggregated(product.getMembers().values()));
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            logger.warn("Could not produce statistics for {}", objectName, e);
         }
 
         return product;

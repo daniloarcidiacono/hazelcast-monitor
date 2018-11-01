@@ -159,50 +159,23 @@ public class TestComponent {
 
         System.out.println("Running the scheduled future!");
         final ScheduledFuture<?> scheduledFuture = threadPool.scheduleWithFixedDelay(() -> {
-            myList.set(0, "ciao" + t);
+            try {
+                myList.set(0, "ciao" + t);
 
-            final ComplexKey o = (ComplexKey)myList.get(1);
-            o.age = t;
-            myList.set(1, o);
+                final ComplexKey o = (ComplexKey) myList.get(1);
+                o.age = t;
+                myList.set(1, o);
 
-            final ComplexValue o2 = (ComplexValue)myList.get(2);
-            o2.getStats().set(0, t);
-            myList.set(2, o2);
+                final ComplexValue o2 = (ComplexValue) myList.get(2);
+                o2.getStats().set(0, t);
+                myList.set(2, o2);
 
-            myTopic.publish(new ComplexKey("A new message has arrived", t));
-
+                myTopic.publish(new ComplexKey("A new message has arrived", t));
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(myList.get(1));
+            }
             t = (t + 1) % 100;
         }, 0, 1, TimeUnit.SECONDS);
-
-        /*
-        this.myMap = hazelcastInstance.getMap("simple_map");
-        this.myMap.put("myKey1", "myValue1");
-        this.myMap.put("myKey2", "myValue2");
-
-        myMap2 = hazelcastInstance.getMap("complex_map");
-        myMap2.put(new ComplexKey("Danilo1", 28), new ComplexValue(1, 2, 3));
-        myMap2.put(new ComplexKey("Mario1", 50), new ComplexValue(7, -1, 5));
-        myMap2.put(new ComplexKey("Danilo2", 28), new ComplexValue(1, 2, 3));
-        myMap2.put(new ComplexKey("Mario2", 50), new ComplexValue(7, -1, 5));
-        myMap2.put(new ComplexKey("Danilo3", 28), new ComplexValue(1, 2, 3));
-        myMap2.put(new ComplexKey("Mario3", 50), new ComplexValue(7, -1, 5));
-        myMap2.put(new ComplexKey("Danilo4", 28), new ComplexValue(1, 2, 3));
-        myMap2.put(new ComplexKey("Mario4", 50), new ComplexValue(7, -1, 5));
-        myMap2.put(new ComplexKey("Danilo5", 28), new ComplexValue(1, 2, 3));
-        myMap2.put(new ComplexKey("Mario5", 50), new ComplexValue(7, -1, 5));
-
-        myMap3 = hazelcastInstance.getMap("intermediate_map");
-        myMap3.put(new ComplexKey("Danilo", 28), "Arcidiacono");
-        myMap3.put(new ComplexKey("Mario", 50), "Rhossi");
-        myMap3.put(new ComplexKey("Danilo2", 28), "Arcidiacono");
-        myMap3.put(new ComplexKey("Mari3o", 50), "Rhossi");
-        myMap3.put(new ComplexKey("Danil4o", 28), "Arcidiacono");
-        myMap3.put(new ComplexKey("Mari4o", 50), "Rhossi");
-        myMap3.put(new ComplexKey("Dani5lo", 28), "Arcidiacono");
-        myMap3.put(new ComplexKey("Mari6o", 50), "Rhossi");
-        myMap3.put(new ComplexKey("Dani7lo", 28), "Arcidiacono");
-        myMap3.put(new ComplexKey("Mari8o", 50), "Rhossi");
-        myMap3.put(new ComplexKey("Dani9lo", 28), "Arcidiacono");
-        myMap3.put(new ComplexKey("Mari10o", 50), "Rhossi");*/
     }
 }
