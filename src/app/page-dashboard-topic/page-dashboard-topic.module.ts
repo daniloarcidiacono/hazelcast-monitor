@@ -12,8 +12,8 @@ import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-tabl
 import {SharedObjectInspectorModule} from '@shared/components/object-inspector/shared-object-inspector.module';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {MomentModule} from 'ngx-moment';
-import {FormsModule} from "@angular/forms";
-import {SharedScriptingButtonModule} from "@shared/components/scripting-button/shared-scripting-button.module";
+import {FormsModule} from '@angular/forms';
+import {SharedScriptingButtonModule} from '@shared/components/scripting-button/shared-scripting-button.module';
 
 @NgModule({
   declarations: [

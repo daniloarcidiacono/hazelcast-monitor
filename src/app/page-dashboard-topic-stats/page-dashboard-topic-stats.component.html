@@ -8,6 +8,45 @@
   </div>
 
   <div class="DashboardTopicStats__Scroller">
+    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--misc">
+      <div class="DashboardTopicStats__SectionTitle" mdcButton>
+        <shared-help-button title="Tabular data">
+          <ng-template>
+            This sections shows the raw statistics for the topic in tabular form.
+          </ng-template>
+        </shared-help-button>
+        Tabular data
+      </div>
+      <div class="DashboardTopicStats__SectionContent">
+        <shared-mdc-table [model]="data?.members | keyvalue">
+          <ng-template #headerTemplate>
+            <tr class="mdc-data-table__row">
+              <th class="mdc-data-table__column">Member</th>
+              <th class="mdc-data-table__column">Creation time</th>
+              <th class="mdc-data-table__column">Publish operations</th>
+              <th class="mdc-data-table__column">Receive operations</th>
+            </tr>
+          </ng-template>
+          <ng-template let-item #bodyTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__cell">{{ item.key }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ item.value.publishOperationCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.receiveOperationCount }}</td>
+            </tr>
+          </ng-template>
+          <ng-template #footerTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__column">Total</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.publishOperationCount }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.receiveOperationCount }}</td>
+            </tr>
+          </ng-template>
+        </shared-mdc-table>
+      </div>
+    </div>
+
     <div class="DashboardTopicStats__Section DashboardTopicStats__Section--totalRate">
       <div class="DashboardTopicStats__SectionTitle" mdcButton>
         <shared-help-button title="Aggregated rates graphs">

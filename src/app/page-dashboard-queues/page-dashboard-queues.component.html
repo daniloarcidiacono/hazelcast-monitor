@@ -3,23 +3,51 @@
     <div class="DashboardQueues__HeaderLeft" mdcHeadline4>
       Queues of {{ clusterName }}
     </div>
+    <div class="DashboardQueues__HeaderRight">
+      <mdc-text-field type="text"
+                      placeholder="Search"
+                      [outlined]="true"
+                      [dense]="true"
+                      [(ngModel)]="filterRegex"
+                      (keydown)="handleKeydown($event)"
+                      label="Filter">
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+      </mdc-text-field>
+    </div>
   </div>
   <div class="DashboardQueues__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Actions</th>
           <th class="mdc-data-table__column">Name</th>
           <th class="mdc-data-table__column">Number of keys</th>
           <th class="mdc-data-table__column">Partition key</th>
         </tr>
       </ng-template>
       <ng-template let-queue #bodyTemplate>
-        <tr class="mdc-data-table__row" (click)="navigateToQueueDetails(queue)">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">
+            <button mdcIconButton icon="search" (click)="navigateToQueueDetails(queue)" title="Inspect"></button>
+            <button mdcIconButton icon="bar_chart" (click)="navigateToQueueStats(queue)" title="Statistics"></button>
+          </td>
           <td class="mdc-data-table__cell">{{ queue.name }}</td>
           <td class="mdc-data-table__cell">{{ queue.size }}</td>
           <td class="mdc-data-table__cell">{{ queue.partitionKey }}</td>
         </tr>
       </ng-template>
     </shared-mdc-table>
+  </div>
+  <div class="DashboardQueues__Footer">
+    <div class="DashboardQueues__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardQueues__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
   </div>
 </div>

@@ -65,6 +65,8 @@ import {SectionCardComponent} from './section-card.component';
 import {StatisticsGaugeModule} from './statistics-gauge.module';
 import {PageDashboardTopicStatsModule} from "../page-dashboard-topic-stats/page-dashboard-topic-stats.module";
 import {PageDashboardTopicStatsComponent} from "../page-dashboard-topic-stats/page-dashboard-topic-stats.component";
+import {PageDashboardQueueStatsComponent} from "../page-dashboard-queue-stats/page-dashboard-queue-stats.component";
+import {PageDashboardQueueStatsModule} from "../page-dashboard-queue-stats/page-dashboard-queue-stats.module";
 
 @NgModule({
   declarations: [
@@ -97,6 +99,7 @@ import {PageDashboardTopicStatsComponent} from "../page-dashboard-topic-stats/pa
     PageDashboardReplicatedMapModule,
     PageDashboardSetModule,
     PageDashboardQueueModule,
+    PageDashboardQueueStatsModule,
     PageDashboardTopicModule,
     PageDashboardTopicStatsModule,
     PageDashboardCacheModule,
@@ -145,6 +148,7 @@ import {PageDashboardTopicStatsComponent} from "../page-dashboard-topic-stats/pa
     PageDashboardReplicatedMapComponent,
     PageDashboardSetComponent,
     PageDashboardQueueComponent,
+    PageDashboardQueueStatsComponent,
     PageDashboardTopicComponent,
     PageDashboardTopicStatsComponent,
     PageDashboardCacheComponent

@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {PageDashboardTopicStatsComponent} from './page-dashboard-topic-stats.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {
   MdcButtonModule,
@@ -11,12 +10,15 @@ import {
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {FormsModule} from '@angular/forms';
 import {SharedHelpButtonModule} from '@shared/components/help-button/shared-help-button.module';
-import {SharedMdcTableModule} from "@shared/components/mdc-table/shared-mdc-table.module";
-import {MomentModule} from "ngx-moment";
+import {PageDashboardQueueStatsComponent} from './page-dashboard-queue-stats.component';
+import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
+import {MomentModule} from 'ngx-moment';
+import {SharedPipesModule} from '@shared/pipes/shared-pipes.module';
+import {SharedOptionalValuePipe} from '@shared/pipes/shared-optionalvalue.pipe';
 
 @NgModule({
   declarations: [
-    PageDashboardTopicStatsComponent
+    PageDashboardQueueStatsComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +35,12 @@ import {MomentModule} from "ngx-moment";
     // Shared
     SharedHelpButtonModule,
     SharedMdcTableModule,
+    SharedPipesModule,
     SharedServicesModule
+  ],
+  providers: [
+    SharedOptionalValuePipe
   ]
 })
-export class PageDashboardTopicStatsModule {
+export class PageDashboardQueueStatsModule {
 }

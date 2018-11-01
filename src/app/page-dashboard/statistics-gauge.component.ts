@@ -93,11 +93,14 @@ export class StatisticsGaugeComponent implements OnInit, OnChanges, OnDestroy {
     this.data[0] = this.value;
     this.data[1] = this.max - this.value;
     this.colorScheme = [ this.color, '#7f7f7f'];
-    this.chartGauge.options.title.text = this.label;
-    this.chartGauge.options.title.fontColor = this.color;
 
-    // Update
-    this.chartGauge.update();
+    if (this.chartGauge !== undefined) {
+      this.chartGauge.options.title.text = this.label;
+      this.chartGauge.options.title.fontColor = this.color;
+
+      // Update
+      this.chartGauge.update();
+    }
   }
 
   public gaugeLabel(): string {

@@ -8,9 +8,7 @@ import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelc
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {Chart} from 'chart.js';
 import * as palette from 'google-palette';
-
-type LineChartData = { x: any, y: number }[];
-type BarChartData = number[];
+import {BarChartData, LineChartData, StatisticsUtils} from '@shared/utils/stats.utils';
 
 @Component({
   templateUrl: './page-dashboard-topic-stats.component.html',
@@ -20,6 +18,9 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
   // Name of the topic
   @Input()
   public topicName: string;
+
+  // Current data
+  private data: TopicStatsProductDTO = undefined;
 
   // Data subscription
   private dataSub: Subscription;
@@ -86,23 +87,26 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
 
       this.dataSub = this.hazelcastService.subscribeToTopicStats(this.clustersService.getCurrentCluster().instanceName, this.topicName, parameters).subscribe(
         (notice: SubscriptionNoticeResponseDTO<TopicStatsProductDTO>) => {
-          const newData: TopicStatsProductDTO = notice.notice;
-
-          const newMembers: string[] = Object.keys(newData.members);
+          this.data = notice.notice;
+          const newMembers: string[] = Object.keys(this.data.members);
 
           // Update the color palette
           if (newMembers.length !== this.members.length) {
-            this.updateArray(
+            StatisticsUtils.updateArray(
               this.memberColors,
               palette('tol-rainbow', newMembers.length).map(color => `#${color}`)
             );
+
+            // When a member is added or removed, we must restart gathering the samples
+            // This is because the bar chart updating will break if the old sample does not have a corresponding entry for the new member
+            this.sampleBuffer = [];
           }
 
           // Update the members
-          this.updateArray(this.members, newMembers);
+          StatisticsUtils.updateArray(this.members, newMembers);
 
           // Gather samples
-          this.sampleBuffer.push(newData);
+          this.sampleBuffer.push(this.data);
 
           // If we have enough to calculate the derivative
           if (this.sampleBuffer.length === 2) {
@@ -120,12 +124,12 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
             });
 
             // Bar chart
-            this.updateArray(
+            StatisticsUtils.updateArray(
               this.publishMemberRates,
               this.members.map(member => (this.sampleBuffer[1].members[member].publishOperationCount - this.sampleBuffer[0].members[member].publishOperationCount) / dt)
             );
 
-            this.updateArray(
+            StatisticsUtils.updateArray(
               this.receiveMemberRates,
               this.members.map(member => (this.sampleBuffer[1].members[member].receiveOperationCount - this.sampleBuffer[0].members[member].receiveOperationCount) / dt)
             );
@@ -139,21 +143,21 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
 
           // Pie chart
           this.chartPiePushMember.options.title.text = [
-            `Published: ${newData.aggregated.publishOperationCount} messages`,
+            `Published: ${this.data.aggregated.publishOperationCount} messages`,
           ];
 
           this.chartPieRecvMember.options.title.text = [
-            `Received: ${newData.aggregated.receiveOperationCount} messages`
+            `Received: ${this.data.aggregated.receiveOperationCount} messages`
           ];
 
-          this.updateArray(
+          StatisticsUtils.updateArray(
             this.publishMemberTotal,
-            this.members.map(member => newData.members[member].publishOperationCount)
+            this.members.map(member => this.data.members[member].publishOperationCount)
           );
 
-          this.updateArray(
+          StatisticsUtils.updateArray(
             this.receiveMemberTotal,
-            this.members.map(member => newData.members[member].receiveOperationCount)
+            this.members.map(member => this.data.members[member].receiveOperationCount)
           );
         },
         (error: ErrorMessageDTO) => {
@@ -391,23 +395,5 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
     this.chartBarPushRecvMemberRate.update();
     this.chartPiePushMember.update();
     this.chartPieRecvMember.update();
-  }
-
-  // Copies src to dst
-  private updateArray(dst: any[], src: any[]) {
-    let i = 0;
-    while (i < src.length) {
-      if (i < dst.length) {
-        // Update
-        dst[i] = src[i];
-      } else {
-        // Mutate
-        dst.push(src[i]);
-      }
-      i++;
-    }
-
-    // Clip eventual excess items of dst
-    dst.length = src.length;
   }
 }

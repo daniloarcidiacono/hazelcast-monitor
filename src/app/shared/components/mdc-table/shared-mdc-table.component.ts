@@ -21,6 +21,9 @@ export class SharedMdcTableComponent {
   @ContentChild('bodyTemplate')
   private bodyTemplate: TemplateRef<any>;
 
+  @ContentChild('footerTemplate')
+  private footerTemplate: TemplateRef<any>;
+
   @Output()
   private onRowClick: EventEmitter<number> = new EventEmitter<number>();
 

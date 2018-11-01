@@ -157,8 +157,8 @@
     }
   }
 
-  // row in table column
-  thead .mdc-data-table__row {
+  // row in table header or footer
+  thead .mdc-data-table__row, tfoot .mdc-data-table__row {
     position: relative;
     height: 56px;
     border-top: 1px solid;

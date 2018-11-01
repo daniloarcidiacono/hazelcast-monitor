@@ -1,0 +1,183 @@
+<div class="DashboardQueueStats">
+  <div class="DashboardQueueStats__Header">
+    <div class="DashboardQueueStats__HeaderLeft" mdcHeadline4>
+      Statistics - {{ queueName }}
+    </div>
+    <div class="DashboardQueueStats__HeaderRight">
+    </div>
+  </div>
+
+  <div class="DashboardQueueStats__Scroller">
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--totalRate">
+      <div class="DashboardQueueStats__SectionTitle" mdcButton>
+        <shared-help-button title="Aggregated rates graphs">
+          <ng-template>
+            This graph shows the overall load of the queue (sum of all members), in terms of offer, poll, empty poll, rejected, event and other operations per second.
+          </ng-template>
+        </shared-help-button>
+        Aggregated rates
+      </div>
+      <div class="DashboardQueueStats__SectionContent">
+        <canvas #chartTotalRate></canvas>
+      </div>
+    </div>
+
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--memberRate">
+      <div class="DashboardQueueStats__SectionTitle" mdcButton>
+        <shared-help-button title="Rates per members graph">
+          <ng-template>
+            This graph shows the how fast each member is currently publishing and receiving messages.
+          </ng-template>
+        </shared-help-button>
+        Rates per members
+      </div>
+      <div class="DashboardQueueStats__SectionContent">
+        <canvas #chartMemberRate></canvas>
+      </div>
+    </div>
+
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--offerMember">
+      <div class="DashboardQueueStats__SectionTitle" mdcButton>
+        <shared-help-button title="Total offers per members graph">
+          <ng-template>
+            This graph shows how many offers have been done by each member.
+          </ng-template>
+        </shared-help-button>
+        Total offers per members
+      </div>
+      <div class="DashboardQueueStats__SectionContent">
+        <canvas #chartOfferMember></canvas>
+      </div>
+    </div>
+
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--pollMember">
+      <div class="DashboardQueueStats__SectionTitle" mdcButton>
+        <shared-help-button title="Total polls per members graph">
+          <ng-template>
+            This graph shows how many polls by each member.
+          </ng-template>
+        </shared-help-button>
+        Total polls per members
+      </div>
+      <div class="DashboardQueueStats__SectionContent">
+        <canvas #chartPollMember></canvas>
+      </div>
+    </div>
+
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--eventMember">
+      <div class="DashboardQueueStats__SectionTitle" mdcButton>
+        <shared-help-button title="Total events per members graph">
+          <ng-template>
+            This graph shows how many events by each member.
+          </ng-template>
+        </shared-help-button>
+        Total events per members
+      </div>
+      <div class="DashboardQueueStats__SectionContent">
+        <canvas #chartEventMember></canvas>
+      </div>
+    </div>
+
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--otherMember">
+      <div class="DashboardQueueStats__SectionTitle" mdcButton>
+        <shared-help-button title="Total other operations per members graph">
+          <ng-template>
+            This graph shows how many other operations by each member.
+          </ng-template>
+        </shared-help-button>
+        Total other operations per members
+      </div>
+      <div class="DashboardQueueStats__SectionContent">
+        <canvas #chartOtherMember></canvas>
+      </div>
+    </div>
+
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--misc">
+      <div class="DashboardQueueStats__SectionTitle" mdcButton>
+        <shared-help-button title="Tabular data">
+          <ng-template>
+            This sections shows the raw statistics for the queue in tabular form.
+          </ng-template>
+        </shared-help-button>
+        Tabular data
+      </div>
+      <div class="DashboardQueueStats__SectionContent">
+        <shared-mdc-table [model]="data?.members | keyvalue">
+          <ng-template #headerTemplate>
+            <tr class="mdc-data-table__row">
+              <th class="mdc-data-table__column">Member</th>
+              <th class="mdc-data-table__column">Creation time</th>
+              <th class="mdc-data-table__column">Owned entries</th>
+              <th class="mdc-data-table__column">Backup entries</th>
+              <th class="mdc-data-table__column">
+                Entries age<br>
+                (min / avg / max)
+              </th>
+              <th class="mdc-data-table__column">
+                Offers<br>
+                (total / rejected)
+              </th>
+              <th class="mdc-data-table__column">
+                Polls<br>
+                (total / empty)
+              </th>
+              <th class="mdc-data-table__column">Other</th>
+              <th class="mdc-data-table__column">Event</th>
+            </tr>
+          </ng-template>
+          <ng-template let-item #bodyTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__cell">{{ item.key }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ item.value.ownedItemCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.backupItemCount }}</td>
+              <td class="mdc-data-table__cell">
+                {{ item.value.minAge | optionalValue }} / {{ item.value.avgAge }} / {{ item.value.maxAge | optionalValue }}
+              </td>
+              <td class="mdc-data-table__cell">
+                {{ item.value.offerOperationCount }} / {{ item.value.rejectedOfferOperationCount }}
+              </td>
+              <td class="mdc-data-table__cell">
+                {{ item.value.pollOperationCount }} / {{ item.value.emptyPollOperationCount }}
+              </td>
+              <td class="mdc-data-table__cell">{{ item.value.otherOperationsCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.eventOperationCount }}</td>
+            </tr>
+          </ng-template>
+          <ng-template #footerTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__column">Total</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.ownedItemCount }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.backupItemCount }}</td>
+              <td class="mdc-data-table__column">
+                {{ data?.aggregated.minAge | optionalValue }} / {{ data?.aggregated.avgAge }} / {{ data?.aggregated.maxAge | optionalValue }}
+              </td>
+              <td class="mdc-data-table__column">
+                {{ data?.aggregated.offerOperationCount }} / {{ data?.aggregated.rejectedOfferOperationCount }}
+              </td>
+              <td class="mdc-data-table__column">
+                {{ data?.aggregated.pollOperationCount }} / {{ data?.aggregated.emptyPollOperationCount }}
+              </td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.otherOperationsCount }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.eventOperationCount }}</td>
+            </tr>
+          </ng-template>
+        </shared-mdc-table>
+      </div>
+    </div>
+  </div>
+
+  <div class="DashboardQueueStats__Footer">
+    <div class="DashboardQueueStats__FooterRight">
+      <label for="timebuffer">Buffer:</label>
+      <mdc-select class="DashboardQueueStats__ActionBarRight mdc-select--dense"
+                  id="timebuffer"
+                  [outlined]="true"
+                  [(ngModel)]="timeBuffer"
+                  [floatingLabel]="false">
+        <option [value]="items" *ngFor="let items of [5, 10, 20, 30, 60, 120, 300, 600]">{{ items }} seconds</option>
+      </mdc-select>
+    </div>
+  </div>
+</div>

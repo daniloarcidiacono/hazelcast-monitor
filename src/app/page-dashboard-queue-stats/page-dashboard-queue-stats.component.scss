@@ -1,6 +1,6 @@
 @import "../shared/styles/layouts/section";
 
-.DashboardTopicStats {
+.DashboardQueueStats {
   @include LayoutSection();
 
   &__Scroller {
@@ -12,6 +12,7 @@
     grid-template-areas:
       "misc misc"
       "pie1 pie2"
+      "pie3 pie4"
       "line line"
       "bar bar";
   }
@@ -25,12 +26,20 @@
       grid-area: bar;
     }
 
-    &--publishMember {
+    &--offerMember {
       grid-area: pie1;
     }
 
-    &--receiveMember {
+    &--pollMember {
       grid-area: pie2;
+    }
+
+    &--otherMember {
+      grid-area: pie3;
+    }
+
+    &--eventMember {
+      grid-area: pie4;
     }
 
     &--misc {

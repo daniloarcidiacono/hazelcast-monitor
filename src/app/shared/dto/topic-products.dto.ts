@@ -212,8 +212,65 @@ export interface StatsProductDTO<T> extends ProductDTO {
 
 // Topic Stats
 export interface TopicStatsDTO {
+  // Total number of received messages of this topic on this member.
   receiveOperationCount: number;
+
+  // Total number of published messages of this topic on this member.
   publishOperationCount: number;
+
+  // Creation time of this topic on this member.
   creationTime: number;
 }
 export type TopicStatsProductDTO = StatsProductDTO<TopicStatsDTO>;
+
+// Queue stats
+export interface QueueStatsDTO {
+  // Creation time on this member.
+  creationTime: number;
+
+  // Number of owned items in this member.
+  ownedItemCount: number;
+
+  // Number of backup items in this member.
+  backupItemCount: number;
+
+  // Minimum age of the items in this member.
+  minAge?: number;
+
+  // Maximum age of the items in this member.
+  maxAge?: number;
+
+  // Average age of the items in this member.
+  avgAge: number;
+
+  /**
+   * Number of offer/put/add operations.
+   * Offers returning false will be included.
+   */
+  offerOperationCount: number;
+
+  /**
+   * Number of rejected offers.
+   * Offer can be rejected because of max-size limit on the queue.
+   */
+  rejectedOfferOperationCount: number;
+
+  /**
+   * Number of poll/take/remove operations.
+   * Polls returning null (empty) will be included.
+   */
+  pollOperationCount: number;
+
+  /**
+   * Number of null returning poll operations.
+   * Poll operation might return null, if the queue is empty.
+   */
+  emptyPollOperationCount: number;
+
+  // Number of other operations
+  otherOperationsCount: number;
+
+  // Number of event operations
+  eventOperationCount: number;
+}
+export type QueueStatsProductDTO = StatsProductDTO<QueueStatsDTO>;

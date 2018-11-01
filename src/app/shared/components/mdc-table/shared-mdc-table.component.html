@@ -8,5 +8,8 @@
         <ng-container *ngTemplateOutlet="bodyTemplate; context: { $implicit: model[rowIndex], rowIndex: rowIndex }"></ng-container>
       </ng-container>
     </tbody>
+    <tfoot *ngIf="!!footerTemplate">
+      <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+    </tfoot>
   </table>
 </div>
