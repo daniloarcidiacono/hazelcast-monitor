@@ -78,21 +78,33 @@ mdc-text-field.mdc-text-field--outlined.mdc-text-field--dense {
     }
   }
 
-  &.mdc-text-field--with-leading-icon {
-    & input {
-      &:focus + mdc-icon[leading] {
-        color: $mdc-theme-primary;
-      }
+  &.mdc-text-field--with-leading-icon input {
+    padding-left: calc(24px + 0.5em) !important;
 
-      padding-left: calc(24px + 0.5em) !important;
+    &:focus ~ mdc-icon[leading] {
+      color: $mdc-theme-primary;
+    }
 
-      & + mdc-icon[leading] {
-        bottom: 6px !important;
-        left: initial !important;
-        right: initial !important;
-        top: initial !important;
-        transform: initial !important;
-      }
+    & ~ mdc-icon[leading] {
+      top: initial !important;
+      bottom: 6px !important;
+      left: 0 !important;
+      transform: initial !important;
+    }
+  }
+
+  &.mdc-text-field--with-trailing-icon input {
+    padding-right: calc(24px + 0.5em) !important;
+
+    &:focus ~ mdc-icon[trailing] {
+      color: $mdc-theme-primary;
+    }
+
+    & ~ mdc-icon[trailing] {
+      top: initial !important;
+      bottom: 6px !important;
+      right: 0 !important;
+      transform: initial !important;
     }
   }
 

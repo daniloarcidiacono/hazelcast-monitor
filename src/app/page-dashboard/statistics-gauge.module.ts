@@ -1,10 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {StatisticsGaugeComponent} from './statistics-gauge.component';
 import {PercentPipe} from '@angular/common';
-import {SharedPipesModule} from "@shared/pipes/shared-pipes.module";
-import {SharedBytesPipe} from "@shared/pipes/shared-bytes.pipe";
+import {SharedPipesModule} from '@shared/pipes/shared-pipes.module';
+import {SharedBytesPipe} from '@shared/pipes/shared-bytes.pipe';
 
 @NgModule({
   declarations: [
@@ -12,9 +11,6 @@ import {SharedBytesPipe} from "@shared/pipes/shared-bytes.pipe";
   ],
   imports: [
     BrowserModule,
-
-    // Charts
-    NgxChartsModule,
 
     // Shared
     SharedPipesModule

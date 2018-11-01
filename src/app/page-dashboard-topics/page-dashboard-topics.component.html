@@ -5,13 +5,13 @@
     </div>
     <div class="DashboardTopics__HeaderRight">
       <mdc-text-field type="text"
-                      placeholder="Filter by name..."
+                      placeholder="Search"
                       [outlined]="true"
                       [dense]="true"
                       [(ngModel)]="filterRegex"
                       (keydown)="handleKeydown($event)"
                       label="Filter">
-        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
       </mdc-text-field>
     </div>
   </div>
