@@ -27,6 +27,8 @@ public class StatisticsProduct extends Product {
     private long usedHeapMemory;
     private long maxNativeMemory;
     private long freeNativeMemory;
+    private int cardinalityEstimatorsCount;
+    private int executorsCount;
 
     public StatisticsProduct() {
     }
@@ -213,5 +215,21 @@ public class StatisticsProduct extends Product {
 
     public void setFreeNativeMemory(long freeNativeMemory) {
         this.freeNativeMemory = freeNativeMemory;
+    }
+
+    public void setCardinalityEstimatorsCount(int cardinalityEstimatorsCount) {
+        this.cardinalityEstimatorsCount = cardinalityEstimatorsCount;
+    }
+
+    public int getCardinalityEstimatorsCount() {
+        return cardinalityEstimatorsCount;
+    }
+
+    public void setExecutorsCount(int executorsCount) {
+        this.executorsCount = executorsCount;
+    }
+
+    public int getExecutorsCount() {
+        return executorsCount;
     }
 }

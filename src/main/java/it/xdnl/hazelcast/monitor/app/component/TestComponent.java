@@ -1,6 +1,7 @@
 package it.xdnl.hazelcast.monitor.app.component;
 
 import com.hazelcast.cache.ICache;
+import com.hazelcast.cardinality.CardinalityEstimator;
 import com.hazelcast.core.*;
 import com.hazelcast.ringbuffer.Ringbuffer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,7 @@ public class TestComponent {
     }
 
     private IExecutorService myExecutor;
+    private CardinalityEstimator myCardinalityEstimator;
     private ICache<Object, Object> myCache;
     private ISet<Object> mySet;
     private ITopic<Object> myTopic;
@@ -101,6 +103,10 @@ public class TestComponent {
     public void init() {
         hazelcastInstance.getExecutorService("myExecutor");
         myCache = hazelcastInstance.getCacheManager().getCache("myCache");
+        myCardinalityEstimator = hazelcastInstance.getCardinalityEstimator("myCardinalityEstimator");
+        myCardinalityEstimator.add(1);
+        myCardinalityEstimator.add(2);
+        myCardinalityEstimator.add(3);
         myCache.put("ciao", "Ceo");
         mySet = hazelcastInstance.getSet("mySet");
         myTopic = hazelcastInstance.getTopic("myTopic");

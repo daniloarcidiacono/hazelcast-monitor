@@ -1,6 +1,7 @@
 package it.xdnl.hazelcast.monitor.agent.producer;
 
 import com.hazelcast.cache.ICache;
+import com.hazelcast.cardinality.CardinalityEstimator;
 import com.hazelcast.core.*;
 import com.hazelcast.memory.DefaultMemoryStats;
 import com.hazelcast.monitor.LocalMemoryStats;
@@ -10,6 +11,7 @@ import it.xdnl.hazelcast.monitor.agent.product.StatisticsProduct;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
+import java.util.concurrent.ExecutorService;
 
 public class StatisticsTopicProducer extends AbstractTopicProducer {
     public static final String TOPIC_TYPE = "stats";
@@ -29,7 +31,9 @@ public class StatisticsTopicProducer extends AbstractTopicProducer {
         int atomicLongCount = 0;
         int atomicReferenceCount = 0;
         int cacheCount = 0;
+        int cardinalityEstimatorsCount = 0;
         int countDownLatchCount = 0;
+        int executorsCount = 0;
         int listCount = 0;
         int lockCount = 0;
         int mapCount = 0;
@@ -48,8 +52,12 @@ public class StatisticsTopicProducer extends AbstractTopicProducer {
                 atomicReferenceCount++;
             } else if (object instanceof ICache) {
                 cacheCount++;
+            } else if (object instanceof CardinalityEstimator) {
+                cardinalityEstimatorsCount++;
             } else if (object instanceof ICountDownLatch) {
                 countDownLatchCount++;
+            } else if (object instanceof ExecutorService) {
+                executorsCount++;
             } else if (object instanceof IList) {
                 listCount++;
             } else if (object instanceof ILock) {
@@ -77,7 +85,9 @@ public class StatisticsTopicProducer extends AbstractTopicProducer {
         product.setAtomicLongCount(atomicLongCount);
         product.setAtomicReferenceCount(atomicReferenceCount);
         product.setCacheCount(cacheCount);
+        product.setCardinalityEstimatorsCount(cardinalityEstimatorsCount);
         product.setCountDownLatchCount(countDownLatchCount);
+        product.setExecutorsCount(executorsCount);
         product.setListCount(listCount);
         product.setLockCount(lockCount);
         product.setMapCount(mapCount);

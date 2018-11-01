@@ -1,12 +1,17 @@
 package it.xdnl.hazelcast.monitor.agent.producer;
 
 import com.hazelcast.cache.ICache;
+import com.hazelcast.cardinality.CardinalityEstimator;
 import com.hazelcast.core.*;
 import com.hazelcast.ringbuffer.Ringbuffer;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectsTopic;
 import it.xdnl.hazelcast.monitor.agent.exception.UpdateParameterException;
 import it.xdnl.hazelcast.monitor.agent.product.*;
+
+import javax.smartcardio.Card;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Producer that iterates on Hazelcast's distributed objects picking only type of {@code distributedObjectType}.
@@ -189,6 +194,16 @@ public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
             case CACHE: {
                 final ICache casted = (ICache)object;
                 return new CacheSummary(casted.size(), casted.isDestroyed());
+            }
+
+            case CARDINALITYESTIMATOR: {
+                final CardinalityEstimator casted = (CardinalityEstimator)object;
+                return new CardinalityEstimatorSummary(casted.estimate());
+            }
+
+            case EXECUTOR: {
+                final IExecutorService casted = (IExecutorService)object;
+                return new ExecutorSummary();
             }
         }
 
