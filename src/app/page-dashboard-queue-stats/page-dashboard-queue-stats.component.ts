@@ -9,6 +9,7 @@ import {QueueStatsProductDTO} from '@shared/dto/topic-products.dto';
 import {BarChartData, LineChartData, StatisticsUtils} from '@shared/utils/stats.utils';
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
 import * as palette from 'google-palette';
+import {DateFormatPipe, LocalTimePipe} from 'ngx-moment';
 
 class TimeSeries {
   public propertyName: string;
@@ -37,8 +38,7 @@ class TimeSeries {
   }
 
   public trim(maxTimeSpan: number): void {
-    const timeSpan: number = (this.ratesData[this.ratesData.length - 1].x - this.ratesData[0].x) / 1000;
-    if (timeSpan > maxTimeSpan) {
+    while (this.ratesData.length > 0 && (this.ratesData[this.ratesData.length - 1].x - this.ratesData[0].x) / 1000 > maxTimeSpan) {
       this.ratesData.shift();
     }
   }
@@ -48,6 +48,7 @@ class TimeSeries {
       this.chart.update();
     }
   }
+
   public destroyChart(): void {
     if (this.chart !== undefined) {
       this.chart.destroy();
@@ -119,6 +120,9 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
   // Data subscription
   private dataSub: Subscription;
 
+  // Tab reference
+  private tab: TabData;
+
   // Update frequency
   private updateFrequency: number = 1;
 
@@ -169,14 +173,23 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
-                     private hazelcastService: SharedHazelcastAgentService) {
+                     private hazelcastService: SharedHazelcastAgentService,
+                     private localTimePipe: LocalTimePipe,
+                     private dateFormatPipe: DateFormatPipe) {
   }
 
   public ngOnDestroy(): void {
-    this.beforeHide();
+    this.unsubscribe();
   }
 
   public beforeShow(): void {
+  }
+
+  public beforeHide(): void {
+  }
+
+  private subscribe(): void {
+    this.tab.recording = true;
     this.initCharts();
 
     if (!this.dataSub) {
@@ -214,8 +227,8 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
             for (const property in this.timeseries) {
               // Line chart
               this.timeseries[property].ratesData.push({
-                  x: this.sampleBuffer[0].sampleTime,
-                  y: (this.sampleBuffer[1].aggregated[property] - this.sampleBuffer[0].aggregated[property]) / dt
+                x: this.sampleBuffer[0].sampleTime,
+                y: (this.sampleBuffer[1].aggregated[property] - this.sampleBuffer[0].aggregated[property]) / dt
               });
 
               // Bar chart
@@ -248,7 +261,8 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
     }
   }
 
-  public beforeHide(): void {
+  private unsubscribe(): void {
+    this.tab.recording = false;
     this.destroyCharts();
 
     if (!!this.dataSub) {
@@ -258,6 +272,8 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
   }
 
   public tabCreated(tab: TabData): void {
+    this.tab = tab;
+    this.subscribe();
   }
 
   private initCharts(): void {
@@ -358,6 +374,9 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
             {
               type: 'time',
               position: 'bottom',
+              ticks: {
+                maxRotation: 0
+              },
               scaleLabel: {
                 labelString: 'time',
                 display: true
@@ -375,6 +394,19 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
               }
             }
           ]
+        },
+        tooltips: {
+          intersect: false,
+          callbacks: {
+            title: (item, data) => {
+              const x: string = this.dateFormatPipe.transform(this.localTimePipe.transform(item.xLabel), 'HH:mm:ss');
+              return x;
+            },
+            label: (item, data) => {
+              const y: number = Math.round(item.yLabel * 100) / 100;
+              return `${data.datasets[item.datasetIndex].label}: ${y} ops/s`;
+            }
+          }
         }
       }
     });

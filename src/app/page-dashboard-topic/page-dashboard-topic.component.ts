@@ -96,6 +96,7 @@ export class PageDashboardTopicComponent implements TabAwareComponent, OnDestroy
 
   private unsubscribe(): void {
     this.tab.recording = false;
+
     if (!!this.dataSub) {
       this.dataSub.unsubscribe();
       this.dataSub = undefined;

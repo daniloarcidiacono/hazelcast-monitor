@@ -12,7 +12,7 @@ import {FormsModule} from '@angular/forms';
 import {SharedHelpButtonModule} from '@shared/components/help-button/shared-help-button.module';
 import {PageDashboardQueueStatsComponent} from './page-dashboard-queue-stats.component';
 import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
-import {MomentModule} from 'ngx-moment';
+import {DateFormatPipe, LocalTimePipe, MomentModule} from 'ngx-moment';
 import {SharedPipesModule} from '@shared/pipes/shared-pipes.module';
 import {SharedOptionalValuePipe} from '@shared/pipes/shared-optionalvalue.pipe';
 
@@ -39,7 +39,9 @@ import {SharedOptionalValuePipe} from '@shared/pipes/shared-optionalvalue.pipe';
     SharedServicesModule
   ],
   providers: [
-    SharedOptionalValuePipe
+    SharedOptionalValuePipe,
+    LocalTimePipe,
+    DateFormatPipe
   ]
 })
 export class PageDashboardQueueStatsModule {

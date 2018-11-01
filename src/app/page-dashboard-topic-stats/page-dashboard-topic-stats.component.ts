@@ -9,6 +9,7 @@ import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared
 import {Chart} from 'chart.js';
 import * as palette from 'google-palette';
 import {BarChartData, LineChartData, StatisticsUtils} from '@shared/utils/stats.utils';
+import {DateFormatPipe, LocalTimePipe} from "ngx-moment";
 
 @Component({
   templateUrl: './page-dashboard-topic-stats.component.html',
@@ -24,6 +25,9 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
 
   // Data subscription
   private dataSub: Subscription;
+
+  // Tab reference
+  private tab: TabData;
 
   // Update frequency
   private updateFrequency: number = 1;
@@ -70,14 +74,23 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
-                     private hazelcastService: SharedHazelcastAgentService) {
+                     private hazelcastService: SharedHazelcastAgentService,
+                     private localTimePipe: LocalTimePipe,
+                     private dateFormatPipe: DateFormatPipe) {
   }
 
   public ngOnDestroy(): void {
-    this.beforeHide();
+    this.unsubscribe();
   }
 
   public beforeShow(): void {
+  }
+
+  public beforeHide(): void {
+  }
+
+  private subscribe(): void {
+    this.tab.recording = true;
     this.initCharts();
 
     if (!this.dataSub) {
@@ -167,7 +180,8 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
     }
   }
 
-  public beforeHide(): void {
+  private unsubscribe(): void {
+    this.tab.recording = false;
     this.destroyCharts();
 
     if (!!this.dataSub) {
@@ -177,6 +191,8 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
   }
 
   public tabCreated(tab: TabData): void {
+    this.tab = tab;
+    this.subscribe();
   }
 
   private initCharts(): void {
@@ -303,6 +319,14 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
               }
             }
           ]
+        },
+        tooltips: {
+          callbacks: {
+            label: (item, data) => {
+              const y: number = Math.round(item.yLabel * 100) / 100;
+              return `${data.datasets[item.datasetIndex].label}: ${y} ops/s`;
+            }
+          }
         }
       }
     });
@@ -341,6 +365,9 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
             {
               type: 'time',
               position: 'bottom',
+              ticks: {
+                maxRotation: 0
+              },
               scaleLabel: {
                 labelString: 'time',
                 display: true
@@ -358,6 +385,19 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
               }
             }
           ]
+        },
+        tooltips: {
+          intersect: false,
+          callbacks: {
+            title: (item, data) => {
+              const x: string = this.dateFormatPipe.transform(this.localTimePipe.transform(item.xLabel), 'HH:mm:ss');
+              return x;
+            },
+            label: (item, data) => {
+              const y: number = Math.round(item.yLabel * 100) / 100;
+              return `${data.datasets[item.datasetIndex].label}: ${y} ops/s`;
+            }
+          }
         }
       }
     });
@@ -380,13 +420,11 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
   private updateCharts(): void {
     // Trim the data in excess
     // TODO: This is not correct if the updateFrequency is bigger than the cap
-    const pushRateTimeSpan: number = (this.publishAggregateRates[this.publishAggregateRates.length - 1].x - this.publishAggregateRates[0].x) / 1000;
-    if (pushRateTimeSpan > this.timeBuffer) {
+    while (this.publishAggregateRates.length > 0 && (this.publishAggregateRates[this.publishAggregateRates.length - 1].x - this.publishAggregateRates[0].x) / 1000 > this.timeBuffer) {
       this.publishAggregateRates.shift();
     }
 
-    const recvRateTimeSpan: number = (this.receiveAggregateRates[this.receiveAggregateRates.length - 1].x - this.receiveAggregateRates[0].x) / 1000;
-    if (recvRateTimeSpan > this.timeBuffer) {
+    while (this.receiveAggregateRates.length > 0 && (this.receiveAggregateRates[this.receiveAggregateRates.length - 1].x - this.receiveAggregateRates[0].x) / 1000 > this.timeBuffer) {
       this.receiveAggregateRates.shift();
     }
 

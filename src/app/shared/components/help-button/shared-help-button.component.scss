@@ -1,4 +1,9 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+}
+
 .HelpButton {
   cursor: pointer;
-  margin-right: 0.25em;
+  margin-right: 8px;
 }
