@@ -1,0 +1,48 @@
+<div class="DashboardCardinalityEstimators">
+  <div class="DashboardCardinalityEstimators__Header">
+    <div class="DashboardCardinalityEstimators__HeaderLeft" mdcHeadline4>
+      Cardinality estimators of {{ clusterName }}
+    </div>
+    <div class="DashboardCardinalityEstimators__HeaderRight">
+      <mdc-text-field type="text"
+                      placeholder="Search"
+                      [outlined]="true"
+                      [dense]="true"
+                      [(ngModel)]="filterRegex"
+                      (keydown)="handleKeydown($event)"
+                      label="Filter">
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+      </mdc-text-field>
+    </div>
+  </div>
+  <div class="DashboardCardinalityEstimators__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Estimate</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-cardinalityestimator #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ cardinalityestimator.name }}</td>
+          <td class="mdc-data-table__cell">{{ cardinalityestimator.estimate }}</td>
+          <td class="mdc-data-table__cell">{{ cardinalityestimator.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+  <div class="DashboardCardinalityEstimators__Footer">
+    <div class="DashboardCardinalityEstimators__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardCardinalityEstimators__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
+  </div>
+</div>

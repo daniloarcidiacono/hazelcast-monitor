@@ -26,10 +26,10 @@ import {
   AtomicLongsProductDTO,
   AtomicReferencesProductDTO,
   CacheProductDTO,
-  CachesProductDTO,
+  CachesProductDTO, CardinalityEstimatorsProductDTO,
   ClustersProductDTO,
   CountDownLatchesProductDTO,
-  DistributedObjectsProduct,
+  DistributedObjectsProduct, ExecutorsProductDTO,
   InternalsProductDTO,
   ListProductDTO,
   ListsProductDTO,
@@ -385,6 +385,14 @@ export class SharedHazelcastAgentService {
 
   public subscribeToTopics(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<TopicsProductDTO>> {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.TOPIC, parameters);
+  }
+
+  public subscribeToExecutors(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<ExecutorsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.EXECUTOR, parameters);
+  }
+
+  public subscribeToCardinalityEstimators(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<CardinalityEstimatorsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.CARDINALITYESTIMATOR, parameters);
   }
 
   public subscribeToAtomicLongs(instanceName: string): Observable<SubscriptionNoticeResponseDTO<AtomicLongsProductDTO>> {

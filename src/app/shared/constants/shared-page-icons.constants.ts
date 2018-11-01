@@ -79,6 +79,16 @@ export abstract class SharedPageIconsConstants {
       fontIcon: 'question_answer'
     };
 
+    public static EXECUTOR_ICON: FontIcon = {
+      fontSet: 'hzfont',
+      fontIcon: 'icon-executor'
+    };
+
+    public static CARDINALITY_ICON: FontIcon = {
+      fontSet: 'hzfont',
+      fontIcon: 'icon-cardinality'
+    };
+
     public static MONITORINTERNALS_ICON: FontIcon = {
       fontSet: 'material-icons',
       fontIcon: 'bug_report'

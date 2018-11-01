@@ -38,7 +38,10 @@ export interface StatisticsProductDTO extends ProductDTO {
   usedHeapMemory: number;
   maxNativeMemory: number;
   freeNativeMemory: number;
+  cardinalityEstimatorsCount: number;
+  executorsCount: number;
 }
+
 
 export interface MembersProductDTO extends ProductDTO {
   objects: MemberSummaryDTO[];
@@ -129,6 +132,17 @@ export interface CacheSummaryDTO extends DistributedObjectSummary {
   destroyed: boolean;
 }
 export type CachesProductDTO = DistributedObjectsProduct<CacheSummaryDTO>;
+
+// Executor
+export interface ExecutorSummaryDTO extends DistributedObjectSummary {
+}
+export type ExecutorsProductDTO = DistributedObjectsProduct<ExecutorSummaryDTO>;
+
+// Cardinality estimator
+export interface CardinalityEstimatorSummaryDTO extends DistributedObjectSummary {
+  estimate: number;
+}
+export type CardinalityEstimatorsProductDTO = DistributedObjectsProduct<CardinalityEstimatorSummaryDTO>;
 
 // Count down latches
 export interface CountDownLatchSummaryDTO extends DistributedObjectSummary {

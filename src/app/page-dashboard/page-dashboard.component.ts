@@ -27,6 +27,8 @@ import {PageDashboardCachesComponent} from '../page-dashboard-caches/page-dashbo
 import {PageDashboardRingbuffersComponent} from '../page-dashboard-ringbuffers/page-dashboard-ringbuffers.component';
 import {PageDashboardInternalsComponent} from '../page-dashboard-internals/page-dashboard-internals.component';
 import {FontIcon, SharedPageIconsConstants} from '@shared/constants/shared-page-icons.constants';
+import {PageDashboardCardinalityEstimatorsComponent} from "../page-dashboard-cardinalityestimators/page-dashboard-cardinalityestimators.component";
+import {PageDashboardExecutorsComponent} from "../page-dashboard-executors/page-dashboard-executors.component";
 
 interface SeparatorItem {
   separator: boolean;
@@ -68,7 +70,9 @@ export class PageDashboardComponent implements OnDestroy {
     'sienna',
     'seagreen',
     'darkorange',
-    'lightseagreen'
+    'lightseagreen',
+    'blueviolet',
+    'brown'
   ];
 
   public sections: DashboardSection[] = [
@@ -138,6 +142,18 @@ export class PageDashboardComponent implements OnDestroy {
       color: 'red'
     },
     {
+      icon: SharedPageIconsConstants.CARDINALITY_ICON,
+      caption: 'Cardinality estimators',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.cardinalityEstimatorsCount : undefined;
+      },
+      tab: {
+        label: 'Cardinality estimators',
+        componentClass: PageDashboardCardinalityEstimatorsComponent
+      },
+      color: 'red'
+    },
+    {
       icon: SharedPageIconsConstants.COUNTDOWNLATCHES_ICON,
       caption: 'Count-down latches',
       count: () => {
@@ -146,6 +162,18 @@ export class PageDashboardComponent implements OnDestroy {
       tab: {
         label: 'CountDownLatches',
         componentClass: PageDashboardCountdownLatchesComponent
+      },
+      color: 'red'
+    },
+    {
+      icon: SharedPageIconsConstants.EXECUTOR_ICON,
+      caption: 'Executors',
+      count: () => {
+        return !!this.currentStats ? this.currentStats.executorsCount : undefined;
+      },
+      tab: {
+        label: 'Executors',
+        componentClass: PageDashboardExecutorsComponent
       },
       color: 'red'
     },

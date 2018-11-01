@@ -67,6 +67,10 @@ import {PageDashboardTopicStatsModule} from "../page-dashboard-topic-stats/page-
 import {PageDashboardTopicStatsComponent} from "../page-dashboard-topic-stats/page-dashboard-topic-stats.component";
 import {PageDashboardQueueStatsComponent} from "../page-dashboard-queue-stats/page-dashboard-queue-stats.component";
 import {PageDashboardQueueStatsModule} from "../page-dashboard-queue-stats/page-dashboard-queue-stats.module";
+import {PageDashboardCardinalityEstimatorsModule} from "../page-dashboard-cardinalityestimators/page-dashboard-cardinalityestimators.module";
+import {PageDashboardExecutorsModule} from "../page-dashboard-executors/page-dashboard-executors.module";
+import {PageDashboardExecutorsComponent} from "../page-dashboard-executors/page-dashboard-executors.component";
+import {PageDashboardCardinalityEstimatorsComponent} from "../page-dashboard-cardinalityestimators/page-dashboard-cardinalityestimators.component";
 
 @NgModule({
   declarations: [
@@ -92,6 +96,8 @@ import {PageDashboardQueueStatsModule} from "../page-dashboard-queue-stats/page-
     PageDashboardSemaphoresModule,
     PageDashboardRingbuffersModule,
     PageDashboardCachesModule,
+    PageDashboardCardinalityEstimatorsModule,
+    PageDashboardExecutorsModule,
     PageDashboardInternalsModule,
     PageDashboardMapModule,
     PageDashboardListModule,
@@ -141,6 +147,8 @@ import {PageDashboardQueueStatsModule} from "../page-dashboard-queue-stats/page-
     PageDashboardSemaphoresComponent,
     PageDashboardRingbuffersComponent,
     PageDashboardCachesComponent,
+    PageDashboardCardinalityEstimatorsComponent,
+    PageDashboardExecutorsComponent,
     PageDashboardInternalsComponent,
     PageDashboardMapComponent,
     PageDashboardListComponent,
