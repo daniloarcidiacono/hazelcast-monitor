@@ -8,10 +8,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.Member;
 import it.xdnl.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
-import it.xdnl.hazelcast.monitor.agent.product.Product;
-import it.xdnl.hazelcast.monitor.agent.product.QueueStats;
-import it.xdnl.hazelcast.monitor.agent.product.StatsProduct;
-import it.xdnl.hazelcast.monitor.agent.product.TopicStats;
+import it.xdnl.hazelcast.monitor.agent.product.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +52,10 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
     @Override
     public Product produce() {
         switch (distributedObjectType) {
+            case EXECUTOR: {
+                return produceExecutorStats();
+            }
+
             case QUEUE: {
                 return produceQueueStats();
             }
@@ -65,6 +66,36 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
         }
 
         return null;
+    }
+
+    private StatsProduct<ExecutorStats> produceExecutorStats() {
+        final StatsProduct<ExecutorStats> product = new StatsProduct<>();
+        product.setSampleTime(System.currentTimeMillis());
+
+        try {
+            final String __instanceName = instanceName;
+            final String __objectName = objectName;
+            final Map<Member, Future<ExecutorStats>> memberStats = executorService.submitToAllMembers(
+                (Callable<ExecutorStats> & Serializable)() ->
+                    ExecutorStats.fromHazelcast(
+                        Hazelcast.getHazelcastInstanceByName(__instanceName)
+                            .getExecutorService(__objectName)
+                            .getLocalExecutorStats()
+                    )
+            );
+
+            for (Member member : memberStats.keySet()) {
+                final Future<ExecutorStats> future = memberStats.get(member);
+                final ExecutorStats stats = future.get();
+                product.add(member.getAddress().toString(), stats);
+            }
+
+            product.setAggregated(ExecutorStats.aggregated(product.getMembers().values()));
+        } catch (InterruptedException | ExecutionException e) {
+            logger.warn("Could not produce statistics for {}", objectName, e);
+        }
+
+        return product;
     }
 
     private StatsProduct<QueueStats> produceQueueStats() {
