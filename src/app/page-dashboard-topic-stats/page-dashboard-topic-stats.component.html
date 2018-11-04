@@ -93,19 +93,19 @@
     </div>
 
     <div class="DashboardTopicStats__Section DashboardTopicStats__Section--receiveMember">
-        <div class="DashboardTopicStats__SectionTitle" mdcButton>
-          <shared-help-button title="Total receive per members graph">
-            <ng-template>
-              This graph shows how many messages have been received by each member..
-            </ng-template>
-          </shared-help-button>
-          Total receive per members
-        </div>
-        <div class="DashboardTopicStats__SectionContent">
-          <!-- Pie chart -->
-          <canvas #chartPieRecvMember></canvas>
-        </div>
+      <div class="DashboardTopicStats__SectionTitle" mdcButton>
+        <shared-help-button title="Total receive per members graph">
+          <ng-template>
+            This graph shows how many messages have been received by each member..
+          </ng-template>
+        </shared-help-button>
+        Total receive per members
       </div>
+      <div class="DashboardTopicStats__SectionContent">
+        <!-- Pie chart -->
+        <canvas #chartPieRecvMember></canvas>
+      </div>
+    </div>
   </div>
 
   <div class="DashboardTopicStats__Footer">
@@ -114,7 +114,8 @@
       <mdc-select class="DashboardTopicStats__ActionBarRight mdc-select--dense"
                   id="timebuffer"
                   [outlined]="true"
-                  [(ngModel)]="timeBuffer"
+                  [ngModel]="statisticsEngine.timeBuffer"
+                  (ngModelChange)="statisticsEngine.setMaxTimeSpan($event)"
                   [floatingLabel]="false">
         <option [value]="items" *ngFor="let items of [5, 10, 20, 30, 60, 120, 300, 600]">{{ items }} seconds</option>
       </mdc-select>

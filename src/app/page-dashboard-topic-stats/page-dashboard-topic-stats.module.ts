@@ -11,8 +11,8 @@ import {
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {FormsModule} from '@angular/forms';
 import {SharedHelpButtonModule} from '@shared/components/help-button/shared-help-button.module';
-import {SharedMdcTableModule} from "@shared/components/mdc-table/shared-mdc-table.module";
-import {DateFormatPipe, LocalTimePipe, MomentModule} from "ngx-moment";
+import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
+import {DateFormatPipe, LocalTimePipe, MomentModule} from 'ngx-moment';
 
 @NgModule({
   declarations: [
