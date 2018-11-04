@@ -63,94 +63,144 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
             case TOPIC: {
                 return produceTopicStats();
             }
+
+            case CACHE: {
+                return produceCacheStats();
+            }
+
+            case MAP: {
+                return produceMapStats();
+            }
+
+            case REPLICATEDMAP: {
+                return produceReplicatedMapStats();
+            }
+
+            case MULTIMAP: {
+                return produceMultiMapStats();
+            }
         }
 
         return null;
     }
 
+    private StatsProduct<MapStats> produceMapStats() {
+        final String __instanceName = instanceName;
+        final String __objectName = objectName;
+        final StatsProduct<MapStats> product = produceStats((Callable<MapStats> & Serializable)() ->
+            MapStats.fromHazelcast(
+                Hazelcast.getHazelcastInstanceByName(__instanceName)
+                    .getMap(__objectName)
+                    .getLocalMapStats()
+            )
+        );
+
+        product.setAggregated(MapStats.aggregated(product.getMembers().values()));
+        return product;
+    }
+
+    private StatsProduct<MapStats> produceReplicatedMapStats() {
+        final String __instanceName = instanceName;
+        final String __objectName = objectName;
+        final StatsProduct<MapStats> product = produceStats((Callable<MapStats> & Serializable)() ->
+            MapStats.fromHazelcast(
+                Hazelcast.getHazelcastInstanceByName(__instanceName)
+                    .getReplicatedMap(__objectName)
+                    .getReplicatedMapStats()
+            )
+        );
+
+        product.setAggregated(MapStats.aggregated(product.getMembers().values()));
+        return product;
+    }
+
+    private StatsProduct<MapStats> produceMultiMapStats() {
+        final String __instanceName = instanceName;
+        final String __objectName = objectName;
+        final StatsProduct<MapStats> product = produceStats((Callable<MapStats> & Serializable)() ->
+            MapStats.fromHazelcast(
+                Hazelcast.getHazelcastInstanceByName(__instanceName)
+                    .getMultiMap(__objectName)
+                    .getLocalMultiMapStats()
+            )
+        );
+
+        product.setAggregated(MapStats.aggregated(product.getMembers().values()));
+        return product;
+    }
+
+    private StatsProduct<CacheStats> produceCacheStats() {
+        final String __instanceName = instanceName;
+        final String __objectName = objectName;
+        final StatsProduct<CacheStats> product = produceStats((Callable<CacheStats> & Serializable)() ->
+            CacheStats.fromHazelcast(
+                Hazelcast.getHazelcastInstanceByName(__instanceName)
+                    .getCacheManager().getCache(__objectName)
+                    .getLocalCacheStatistics()
+            )
+        );
+
+        product.setAggregated(CacheStats.aggregated(product.getMembers().values()));
+        return product;
+    }
+
     private StatsProduct<ExecutorStats> produceExecutorStats() {
-        final StatsProduct<ExecutorStats> product = new StatsProduct<>();
-        product.setSampleTime(System.currentTimeMillis());
+        final String __instanceName = instanceName;
+        final String __objectName = objectName;
+        final StatsProduct<ExecutorStats> product = produceStats((Callable<ExecutorStats> & Serializable)() ->
+            ExecutorStats.fromHazelcast(
+                Hazelcast.getHazelcastInstanceByName(__instanceName)
+                    .getExecutorService(__objectName)
+                    .getLocalExecutorStats()
+                )
+        );
 
-        try {
-            final String __instanceName = instanceName;
-            final String __objectName = objectName;
-            final Map<Member, Future<ExecutorStats>> memberStats = executorService.submitToAllMembers(
-                (Callable<ExecutorStats> & Serializable)() ->
-                    ExecutorStats.fromHazelcast(
-                        Hazelcast.getHazelcastInstanceByName(__instanceName)
-                            .getExecutorService(__objectName)
-                            .getLocalExecutorStats()
-                    )
-            );
-
-            for (Member member : memberStats.keySet()) {
-                final Future<ExecutorStats> future = memberStats.get(member);
-                final ExecutorStats stats = future.get();
-                product.add(member.getAddress().toString(), stats);
-            }
-
-            product.setAggregated(ExecutorStats.aggregated(product.getMembers().values()));
-        } catch (InterruptedException | ExecutionException e) {
-            logger.warn("Could not produce statistics for {}", objectName, e);
-        }
-
+        product.setAggregated(ExecutorStats.aggregated(product.getMembers().values()));
         return product;
     }
 
     private StatsProduct<QueueStats> produceQueueStats() {
-        final StatsProduct<QueueStats> product = new StatsProduct<>();
-        product.setSampleTime(System.currentTimeMillis());
+        final String __instanceName = instanceName;
+        final String __objectName = objectName;
+        final StatsProduct<QueueStats> product = produceStats((Callable<QueueStats> & Serializable)() ->
+            QueueStats.fromHazelcast(
+                Hazelcast.getHazelcastInstanceByName(__instanceName)
+                    .getQueue(__objectName)
+                    .getLocalQueueStats()
+            )
+        );
 
-        try {
-            final String __instanceName = instanceName;
-            final String __objectName = objectName;
-            final Map<Member, Future<QueueStats>> memberStats = executorService.submitToAllMembers(
-                (Callable<QueueStats> & Serializable)() ->
-                    QueueStats.fromHazelcast(
-                        Hazelcast.getHazelcastInstanceByName(__instanceName)
-                            .getQueue(__objectName)
-                            .getLocalQueueStats()
-                    )
-            );
-
-            for (Member member : memberStats.keySet()) {
-                final Future<QueueStats> future = memberStats.get(member);
-                final QueueStats stats = future.get();
-                product.add(member.getAddress().toString(), stats);
-            }
-
-            product.setAggregated(QueueStats.aggregated(product.getMembers().values()));
-        } catch (InterruptedException | ExecutionException e) {
-            logger.warn("Could not produce statistics for {}", objectName, e);
-        }
-
+        product.setAggregated(QueueStats.aggregated(product.getMembers().values()));
         return product;
     }
 
     private StatsProduct<TopicStats> produceTopicStats() {
-        final StatsProduct<TopicStats> product = new StatsProduct<>();
+        final String __instanceName = instanceName;
+        final String __objectName = objectName;
+        final StatsProduct<TopicStats> product = produceStats((Callable<TopicStats> & Serializable)() ->
+            TopicStats.fromHazelcast(
+                Hazelcast.getHazelcastInstanceByName(__instanceName)
+                    .getTopic(__objectName)
+                    .getLocalTopicStats()
+            )
+        );
+
+        product.setAggregated(TopicStats.aggregated(product.getMembers().values()));
+        return product;
+    }
+
+    private <T> StatsProduct<T> produceStats(final Callable<T> callable) {
+        final StatsProduct<T> product = new StatsProduct<>();
         product.setSampleTime(System.currentTimeMillis());
 
         try {
-            final String __instanceName = instanceName;
-            final String __objectName = objectName;
-            final Map<Member, Future<TopicStats>> memberStats = executorService.submitToAllMembers(
-                (Callable<TopicStats> & Serializable)() ->
-                    TopicStats.fromHazelcast(
-                        Hazelcast.getHazelcastInstanceByName(__instanceName)
-                            .getTopic(__objectName)
-                            .getLocalTopicStats()
-                    )
-            );
+            final Map<Member, Future<T>> memberStats = executorService.submitToAllMembers(callable);
 
             for (Member member : memberStats.keySet()) {
-                final Future<TopicStats> future = memberStats.get(member);
-                final TopicStats stats = future.get();
+                final Future<T> future = memberStats.get(member);
+                final T stats = future.get();
                 product.add(member.getAddress().toString(), stats);
             }
-
-            product.setAggregated(TopicStats.aggregated(product.getMembers().values()));
         } catch (InterruptedException | ExecutionException e) {
             logger.warn("Could not produce statistics for {}", objectName, e);
         }
