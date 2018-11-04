@@ -13,6 +13,8 @@ import {
 } from '@shared/dto/hazelcast-monitor.dto';
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
+import {SharedPageIconsConstants} from '@shared/constants/shared-page-icons.constants';
+import {PageDashboardExecutorStatsComponent} from '../page-dashboard-executor-stats/page-dashboard-executor-stats.component';
 // import {PageDashboardExecutorStatsComponent} from '../page-dashboard-executor-stats/page-dashboard-executor-stats.component';
 
 @Component({
@@ -58,31 +60,16 @@ export class PageDashboardExecutorsComponent implements TabAwareComponent, OnDes
   }
 
   public navigateToExecutorStats(row: ExecutorSummaryDTO): void {
-    /*
-    const topicName: string = row.name;
+    const executorName: string = row.name;
 
     this.tabsService.addTab({
-      label: `${topicName} statistics`,
+      label: `${executorName} statistics`,
       icon: SharedPageIconsConstants.STATS_ICON,
       componentClass: PageDashboardExecutorStatsComponent,
       componentInputs: {
-        topicName: topicName
+        executorName: executorName
       }
-    });*/
-  }
-
-  public navigateToExecutorDetails(row: ExecutorSummaryDTO): void {
-    /*
-    const topicName: string = row.name;
-
-    this.tabsService.addTab({
-      label: topicName,
-      icon: SharedPageIconsConstants.TOPICS_ICON,
-      componentClass: PageDashboardExecutorComponent,
-      componentInputs: {
-        topicName: topicName
-      }
-    });*/
+    });
   }
 
   public beforeShow(): void {

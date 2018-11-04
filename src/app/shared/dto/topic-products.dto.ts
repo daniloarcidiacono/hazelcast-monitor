@@ -288,3 +288,28 @@ export interface QueueStatsDTO {
   eventOperationCount: number;
 }
 export type QueueStatsProductDTO = StatsProductDTO<QueueStatsDTO>;
+
+// Executor stats
+export interface ExecutorStatsDTO {
+  // Creation time on this member.
+  creationTime: number;
+
+  // Number of pending operations on the executor service
+  pendingTaskCount: number;
+
+  // Number of started operations on the executor service
+  startedTaskCount: number;
+
+  // Number of completed operations on the executor service
+  completedTaskCount: number;
+
+  // Number of cancelled operations on the executor service
+  cancelledTaskCount: number;
+
+  // Total start latency of operations started
+  totalStartLatency: number;
+
+  // Total execution time of operations finished
+  totalExecutionLatency: number;
+}
+export type ExecutorStatsProductDTO = StatsProductDTO<ExecutorStatsDTO>;

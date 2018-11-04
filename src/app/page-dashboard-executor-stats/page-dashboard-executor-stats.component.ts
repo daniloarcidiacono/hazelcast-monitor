@@ -3,7 +3,7 @@ import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-age
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {Subscription} from 'rxjs/index';
-import {TopicStatsDTO, TopicStatsProductDTO} from '@shared/dto/topic-products.dto';
+import {ExecutorStatsDTO, ExecutorStatsProductDTO} from '@shared/dto/topic-products.dto';
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {Chart} from 'chart.js';
@@ -12,16 +12,16 @@ import {StatisticsEngine} from '../shared/utils/statistics-engine';
 import {DateFormatPipe, LocalTimePipe} from 'ngx-moment';
 
 @Component({
-  templateUrl: './page-dashboard-topic-stats.component.html',
-  styleUrls: [ './page-dashboard-topic-stats.component.scss' ]
+  templateUrl: './page-dashboard-executor-stats.component.html',
+  styleUrls: [ './page-dashboard-executor-stats.component.scss' ]
 })
-export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDestroy {
-  // Name of the topic
+export class PageDashboardExecutorStatsComponent implements TabAwareComponent, OnDestroy {
+  // Name of the executor
   @Input()
-  public topicName: string;
+  public executorName: string;
 
   // Current data
-  private data: TopicStatsProductDTO = undefined;
+  private data: ExecutorStatsProductDTO = undefined;
 
   // Data subscription
   private dataSub: Subscription;
@@ -33,27 +33,20 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
   private updateFrequency: number = 1;
 
   // Chart handler
-  private statisticsEngine: StatisticsEngine<TopicStatsDTO>;
+  private statisticsEngine: StatisticsEngine<ExecutorStatsDTO>;
 
   // Chart DOM hooks
-  @ViewChild('chartLinearPushRecvRate')
-  private chartLinearPushRecvRateElementRef: ElementRef<HTMLCanvasElement>;
+  @ViewChild('chartLatency')
+  private chartLatencyElementRef: ElementRef<HTMLCanvasElement>;
 
-  @ViewChild('chartBarPushRecvMemberRate')
-  private chartBarPushRecvMemberRateElementRef: ElementRef<HTMLCanvasElement>;
-
-  @ViewChild('chartPiePushMember')
-  private chartPiePushMemberElementRef: ElementRef<HTMLCanvasElement>;
-
-  @ViewChild('chartPieRecvMember')
-  private chartPieRecvMemberElementRef: ElementRef<HTMLCanvasElement>;
+  @ViewChild('chartCounters')
+  private chartCountersElementRef: ElementRef<HTMLCanvasElement>;
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
                      private hazelcastService: SharedHazelcastAgentService,
                      private localTimePipe: LocalTimePipe,
                      private dateFormatPipe: DateFormatPipe) {
-
     this.statisticsEngine = new StatisticsEngine(localTimePipe, dateFormatPipe);
   }
 
@@ -76,27 +69,18 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
         frequency: `${this.updateFrequency}`
       };
 
-      this.dataSub = this.hazelcastService.subscribeToTopicStats(this.clustersService.getCurrentCluster().instanceName, this.topicName, parameters).subscribe(
-        (notice: SubscriptionNoticeResponseDTO<TopicStatsProductDTO>) => {
+      this.dataSub = this.hazelcastService.subscribeToExecutorStats(this.clustersService.getCurrentCluster().instanceName, this.executorName, parameters).subscribe(
+        (notice: SubscriptionNoticeResponseDTO<ExecutorStatsProductDTO>) => {
           this.data = notice.notice;
 
           // Update the properties
           this.statisticsEngine.processSample(this.data);
 
-          // Pie chart
-          // this.chartPiePushMember.options.title.text = [
-          //   `Published: ${this.data.aggregated.publishOperationCount} messages`,
-          // ];
-          //
-          // this.chartPieRecvMember.options.title.text = [
-          //   `Received: ${this.data.aggregated.receiveOperationCount} messages`
-          // ];
-
           // Rebuild the graph data
           this.statisticsEngine.updateCharts();
         },
         (error: ErrorMessageDTO) => {
-          this.snackbarService.show(`Could not fetch the topic stats: ${error.errors}`);
+          this.snackbarService.show(`Could not fetch the executor stats: ${error.errors}`);
         }
       );
     }
@@ -118,50 +102,62 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
   }
 
   private initCharts(): void {
-    const propertyColors: string[] = palette('tol', 2).map(color => `#${color}`);
+    const propertyColors: string[] = palette('tol', 6).map(color => `#${color}`);
     this.statisticsEngine.initCharts(
       {
         properties: {
-          'publishOperationCount': {
-            label: 'Publishes',
-            unit: 'ops',
+          'pendingTaskCount': {
+            label: 'Pending',
+            unit: 'tasks',
             color: propertyColors[0]
           },
 
-          'receiveOperationCount': {
-            label: 'Receives',
-            unit: 'ops',
+          'startedTaskCount': {
+            label: 'Started',
+            unit: 'tasks',
             color: propertyColors[1]
+          },
+
+          'completedTaskCount': {
+            label: 'Completed',
+            unit: 'tasks',
+            color: propertyColors[2]
+          },
+
+          'cancelledTaskCount': {
+            label: 'Cancelled',
+            unit: 'tasks',
+            color: propertyColors[3]
+          },
+
+          'totalStartLatency': {
+            label: 'Total start latency',
+            unit: 'ms',
+            color: propertyColors[4]
+          },
+
+          'totalExecutionLatency': {
+            label: 'Total execution latency',
+            unit: 'ms',
+            color: propertyColors[5]
           }
         },
 
         timeseries: [
           {
-            element: this.chartLinearPushRecvRateElementRef.nativeElement,
-            properties: [ 'publishOperationCount', 'receiveOperationCount' ],
-            rate: true,
-            yLabel: 'Operations per second'
+            element: this.chartLatencyElementRef.nativeElement,
+            properties: [ 'totalStartLatency', 'totalExecutionLatency' ],
+            rate: false,
+            yLabel: 'Latency (ms)'
           }
         ],
 
         memberseries: [
           {
-            element: this.chartPiePushMemberElementRef.nativeElement,
-            properties: [ 'publishOperationCount' ],
+            element: this.chartCountersElementRef.nativeElement,
+            properties: [ 'pendingTaskCount', 'startedTaskCount', 'completedTaskCount', 'cancelledTaskCount' ],
             rate: false,
-            yLabel: 'Operations'
-          },
-          {
-            element: this.chartPieRecvMemberElementRef.nativeElement,
-            properties: [ 'receiveOperationCount' ],
-            rate: false,
-            yLabel: 'Operations'
-          },
-          {
-            element: this.chartBarPushRecvMemberRateElementRef.nativeElement,
-            properties: [ 'publishOperationCount', 'receiveOperationCount' ],
-            rate: true,
-            yLabel: 'Operations'
+            yLabel: 'Tasks'
           }
         ]
       }

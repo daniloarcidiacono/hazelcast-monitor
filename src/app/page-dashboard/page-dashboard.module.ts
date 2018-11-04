@@ -71,6 +71,8 @@ import {PageDashboardCardinalityEstimatorsModule} from "../page-dashboard-cardin
 import {PageDashboardExecutorsModule} from "../page-dashboard-executors/page-dashboard-executors.module";
 import {PageDashboardExecutorsComponent} from "../page-dashboard-executors/page-dashboard-executors.component";
 import {PageDashboardCardinalityEstimatorsComponent} from "../page-dashboard-cardinalityestimators/page-dashboard-cardinalityestimators.component";
+import {PageDashboardExecutorStatsComponent} from "../page-dashboard-executor-stats/page-dashboard-executor-stats.component";
+import {PageDashboardExecutorStatsModule} from "../page-dashboard-executor-stats/page-dashboard-executor-stats.module";
 
 @NgModule({
   declarations: [
@@ -98,6 +100,7 @@ import {PageDashboardCardinalityEstimatorsComponent} from "../page-dashboard-car
     PageDashboardCachesModule,
     PageDashboardCardinalityEstimatorsModule,
     PageDashboardExecutorsModule,
+    PageDashboardExecutorStatsModule,
     PageDashboardInternalsModule,
     PageDashboardMapModule,
     PageDashboardListModule,
@@ -149,6 +152,7 @@ import {PageDashboardCardinalityEstimatorsComponent} from "../page-dashboard-car
     PageDashboardCachesComponent,
     PageDashboardCardinalityEstimatorsComponent,
     PageDashboardExecutorsComponent,
+    PageDashboardExecutorStatsComponent,
     PageDashboardInternalsComponent,
     PageDashboardMapComponent,
     PageDashboardListComponent,

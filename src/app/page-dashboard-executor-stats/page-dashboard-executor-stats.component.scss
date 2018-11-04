@@ -1,6 +1,6 @@
 @import "../shared/styles/layouts/section";
 
-.DashboardTopicStats {
+.DashboardExecutorStats {
   @include LayoutSection();
 
   &__Scroller {
@@ -10,30 +10,21 @@
     grid-template-columns: calc(50% - 32px) calc(50% - 32px);
     grid-template-rows: auto;
     grid-template-areas:
-      "misc misc"
-      "pie1 pie2"
-      "line bar";
+      "tabular tabular"
+      "latency counters";
   }
 
   &__Section {
-    &--totalRate {
-      grid-area: line;
+    &--tabular {
+      grid-area: tabular;
     }
 
-    &--memberRate {
-      grid-area: bar;
+    &--latency {
+      grid-area: latency;
     }
 
-    &--publishMember {
-      grid-area: pie1;
-    }
-
-    &--receiveMember {
-      grid-area: pie2;
-    }
-
-    &--misc {
-      grid-area: misc;
+    &--counters {
+      grid-area: counters;
     }
   }
 

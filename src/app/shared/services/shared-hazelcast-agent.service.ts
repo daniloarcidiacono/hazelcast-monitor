@@ -13,7 +13,8 @@ import {
 import {Observable, Observer, of, Subscription} from 'rxjs/index';
 import {SharedWebSocketService} from '@shared/services/shared-websocket.service';
 import {
-  ClustersTopicDTO, DistributedObjectStatsTopicDTO,
+  ClustersTopicDTO,
+  DistributedObjectStatsTopicDTO,
   DistributedObjectsTopicDTO,
   DistributedObjectTopicDTO,
   DistributedObjectType,
@@ -26,10 +27,13 @@ import {
   AtomicLongsProductDTO,
   AtomicReferencesProductDTO,
   CacheProductDTO,
-  CachesProductDTO, CardinalityEstimatorsProductDTO,
+  CachesProductDTO,
+  CardinalityEstimatorsProductDTO,
   ClustersProductDTO,
   CountDownLatchesProductDTO,
-  DistributedObjectsProduct, ExecutorsProductDTO,
+  DistributedObjectsProduct,
+  ExecutorsProductDTO,
+  ExecutorStatsProductDTO,
   InternalsProductDTO,
   ListProductDTO,
   ListsProductDTO,
@@ -40,7 +44,8 @@ import {
   MultiMapProductDTO,
   MultiMapsProductDTO,
   QueueProductDTO,
-  QueuesProductDTO, QueueStatsProductDTO,
+  QueuesProductDTO,
+  QueueStatsProductDTO,
   ReplicatedMapProductDTO,
   ReplicatedMapsProductDTO,
   RingbuffersProductDTO,
@@ -49,7 +54,8 @@ import {
   SetsProductDTO,
   StatisticsProductDTO,
   TopicProductDTO,
-  TopicsProductDTO, TopicStatsProductDTO
+  TopicsProductDTO,
+  TopicStatsProductDTO
 } from '@shared/dto/topic-products.dto';
 
 @Injectable()
@@ -493,5 +499,9 @@ export class SharedHazelcastAgentService {
 
   public subscribeToQueueStats(instanceName: string, queueName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<QueueStatsProductDTO>> {
     return this.subscribeToDistributedObjectStats(instanceName, DistributedObjectType.QUEUE, queueName, parameters);
+  }
+
+  public subscribeToExecutorStats(instanceName: string, executorName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<ExecutorStatsProductDTO>> {
+    return this.subscribeToDistributedObjectStats(instanceName, DistributedObjectType.EXECUTOR, executorName, parameters);
   }
 }

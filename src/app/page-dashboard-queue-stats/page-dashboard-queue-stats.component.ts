@@ -120,37 +120,37 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
         properties: {
           'offerOperationCount': {
             label: 'Total offers',
-            unit: 'ops/s',
+            unit: 'ops',
             color: propertyColors[0]
           },
 
           'rejectedOfferOperationCount': {
             label: 'Rejected offers',
-            unit: 'ops/s',
+            unit: 'ops',
             color: propertyColors[1]
           },
 
           'pollOperationCount': {
             label: 'Total polls',
-            unit: 'ops/s',
+            unit: 'ops',
             color: propertyColors[2]
           },
 
           'emptyPollOperationCount': {
             label: 'Empty polls',
-            unit: 'ops/s',
+            unit: 'ops',
             color: propertyColors[3]
           },
 
           'otherOperationsCount': {
             label: 'Others',
-            unit: 'ops/s',
+            unit: 'ops',
             color: propertyColors[4]
           },
 
           'eventOperationCount': {
             label: 'Events',
-            unit: 'ops/s',
+            unit: 'ops',
             color: propertyColors[5]
           }
         },
@@ -165,7 +165,8 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
               'otherOperationsCount',
               'eventOperationCount'
             ],
-            rate: true
+            rate: true,
+            yLabel: 'Operations per second'
           }
         ],
         memberseries: [
@@ -179,35 +180,40 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
               'otherOperationsCount',
               'eventOperationCount'
             ],
-            rate: true
+            rate: true,
+            yLabel: 'Operations per second'
           },
           {
             element: this.chartOfferMemberElementRef.nativeElement,
             properties: [
               'offerOperationCount'
             ],
-            rate: false
+            rate: false,
+            yLabel: 'Offers'
           },
           {
             element: this.chartPollMemberElementRef.nativeElement,
             properties: [
               'pollOperationCount'
             ],
-            rate: false
+            rate: false,
+            yLabel: 'Polls'
           },
           {
             element: this.chartOtherMemberElementRef.nativeElement,
             properties: [
               'otherOperationsCount'
             ],
-            rate: false
+            rate: false,
+            yLabel: 'Other operations'
           },
           {
             element: this.chartEventMemberElementRef.nativeElement,
             properties: [
               'eventOperationCount'
             ],
-            rate: false
+            rate: false,
+            yLabel: 'Events'
           }
         ]
       }

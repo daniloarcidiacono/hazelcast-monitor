@@ -10,11 +10,10 @@
     grid-template-columns: calc(50% - 32px) calc(50% - 32px);
     grid-template-rows: auto;
     grid-template-areas:
-      "misc misc"
+      "tabular tabular"
       "pie1 pie2"
       "pie3 pie4"
-      "line line"
-      "bar bar";
+      "line bar";
   }
 
   &__Section {
@@ -42,8 +41,8 @@
       grid-area: pie4;
     }
 
-    &--misc {
-      grid-area: misc;
+    &--tabular {
+      grid-area: tabular;
     }
   }
 

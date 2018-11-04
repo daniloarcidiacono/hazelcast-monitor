@@ -4,6 +4,7 @@ import {PropertyTracker} from './property-tracker';
 import {StatsProductDTO} from '@shared/dto/topic-products.dto';
 import {StatisticsUtils} from '@shared/utils/stats.utils';
 import * as palette from 'google-palette';
+import {isNumber} from 'util';
 
 export interface PropertiesDescriptor {
   label: string;
@@ -15,6 +16,7 @@ export interface ChartDescriptor {
   element: HTMLCanvasElement;
   properties: string[];
   rate: boolean;
+  yLabel: string;
 }
 
 export interface StatisticsCharts {
@@ -55,25 +57,46 @@ export class StatisticsEngine<S> {
           timeserie.properties.map(property => ({
             data: this.propertyTracker.trackGlobalProperty(property, timeserie.rate),
             borderColor: descriptor.properties[property].color,
-            label: descriptor.properties[property].label
-          }))
+            label: descriptor.properties[property].label,
+            property: descriptor.properties[property],
+            rate: timeserie.rate
+          })),
+          timeserie.yLabel
         )
       );
     }
 
     for (const memberserie of descriptor.memberseries) {
-      this.charts.push(
-        this.createMemberseriesChart(
-          memberserie.element,
-          memberserie.properties.map(property => ({
-            data: this.propertyTracker.trackMembersProperty(property, memberserie.rate),
-            backgroundColor: memberserie.rate ? descriptor.properties[property].color : this.memberColors,
-            label: descriptor.properties[property].label
-          })),
-          this.propertyTracker.getMembers(),
-          memberserie.rate
-        )
-      );
+      if (memberserie.rate || memberserie.properties.length > 1) {
+        this.charts.push(
+          this.createMemberseriesBarChart(
+            memberserie.element,
+            memberserie.properties.map(property => ({
+              data: this.propertyTracker.trackMembersProperty(property, memberserie.rate),
+              backgroundColor: descriptor.properties[property].color,
+              label: descriptor.properties[property].label,
+              property: descriptor.properties[property],
+              rate: memberserie.rate
+            })),
+            this.propertyTracker.getMembers(),
+            memberserie.yLabel
+          )
+        );
+      } else {
+        this.charts.push(
+          this.createMemberseriesPieChart(
+            memberserie.element,
+            memberserie.properties.map(property => ({
+              data: this.propertyTracker.trackMembersProperty(property, memberserie.rate),
+              backgroundColor: this.memberColors,
+              label: descriptor.properties[property].label,
+              property: descriptor.properties[property],
+              rate: memberserie.rate
+            })),
+            this.propertyTracker.getMembers()
+          )
+        );
+      }
     }
   }
 
@@ -109,7 +132,7 @@ export class StatisticsEngine<S> {
     this.propertyTracker.setMaxTimeSpan(value);
   }
 
-  private createTimeseriesChart(element: HTMLCanvasElement, datasets: any[]): Chart {
+  private createTimeseriesChart(element: HTMLCanvasElement, datasets: any[], yLabel: string): Chart {
     return new Chart(element, {
       type: 'line',
       data: {
@@ -137,7 +160,7 @@ export class StatisticsEngine<S> {
                 maxRotation: 0
               },
               scaleLabel: {
-                labelString: 'time',
+                labelString: 'Time',
                 display: true
               }
             }
@@ -148,7 +171,7 @@ export class StatisticsEngine<S> {
                 beginAtZero: true
               },
               scaleLabel: {
-                labelString: 'ops/s',
+                labelString: yLabel,
                 display: true
               }
             }
@@ -158,53 +181,53 @@ export class StatisticsEngine<S> {
           intersect: false,
           callbacks: {
             title: this.titleDateFormattingFn,
-            label: this.labelRateFormattingFn
+            label: this.labelFormattingFn
           }
         }
       }
     });
   }
 
-  private createMemberseriesChart(element: HTMLCanvasElement, datasets: any[], members: string[], rate: boolean): Chart {
-    if (rate) {
-      return new Chart(element, {
-        type: 'bar',
-        data: {
-          labels: members,
-          datasets: datasets
+  private createMemberseriesBarChart(element: HTMLCanvasElement, datasets: any[], members: string[], yLabel: string): Chart {
+    return new Chart(element, {
+      type: 'bar',
+      data: {
+        labels: members,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'bottom'
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          legend: {
-            position: 'bottom'
-          },
-          title: {
-            text: 'Bar chart',
-            display: false
-          },
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true
-                },
-                scaleLabel: {
-                  labelString: 'ops/s',
-                  display: true
-                }
+        title: {
+          text: 'Bar chart',
+          display: false
+        },
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true
+              },
+              scaleLabel: {
+                labelString: yLabel,
+                display: true
               }
-            ]
-          },
-          tooltips: {
-            callbacks: {
-              label: this.labelRateFormattingFn
             }
+          ]
+        },
+        tooltips: {
+          callbacks: {
+            label: this.labelFormattingFn
           }
         }
-      });
-    }
+      }
+    });
+  }
 
+  private createMemberseriesPieChart(element: HTMLCanvasElement, datasets: any[], members: string[]): Chart {
     return new Chart(element, {
       type: 'pie',
       data: {
@@ -224,7 +247,7 @@ export class StatisticsEngine<S> {
         },
         tooltips: {
           callbacks: {
-            label: this.labelValueFormattingFn
+            label: this.labelFormattingFn
           }
         }
       }
@@ -235,12 +258,15 @@ export class StatisticsEngine<S> {
     return this.dateFormatPipe.transform(this.localTimePipe.transform(item.xLabel), 'HH:mm:ss');
   };
 
-  private labelRateFormattingFn = (item, data): string => {
-    const y: number = Math.round(item.yLabel * 100) / 100;
-    return `${data.datasets[item.datasetIndex].label}: ${y} ops/s`;
-  };
+  private labelFormattingFn = (item, data): string => {
+    const point: number | any = data.datasets[item.datasetIndex].data[item.index];
+    let value: number = isNumber(point) ? point : point.y;
+    let unit: string = data.datasets[item.datasetIndex].property.unit;
+    if (data.datasets[item.datasetIndex].rate) {
+      value = Math.round(value * 100) / 100;
+      unit = unit + '/s';
+    }
 
-  private labelValueFormattingFn = (item, data): string => {
-    return `${data.datasets[item.datasetIndex].label}: ${data.labels[item.index]}: ${data.datasets[item.datasetIndex].data[item.index]}`;
+    return `${data.datasets[item.datasetIndex].label}: ${value} ${unit}`;
   };
 }
