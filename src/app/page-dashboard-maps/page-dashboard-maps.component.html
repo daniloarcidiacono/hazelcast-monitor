@@ -3,6 +3,17 @@
     <div class="DashboardMaps__HeaderLeft" mdcHeadline4>
       Maps of {{ clusterName }}
     </div>
+    <div class="DashboardMaps__HeaderRight">
+      <mdc-text-field type="text"
+                      placeholder="Search"
+                      [outlined]="true"
+                      [dense]="true"
+                      [(ngModel)]="filterRegex"
+                      (keydown)="handleKeydown($event)"
+                      label="Filter">
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+      </mdc-text-field>
+    </div>
   </div>
   <div class="DashboardMaps__Scroller">
     <shared-mdc-table [model]="data?.objects">
@@ -21,5 +32,17 @@
         </tr>
       </ng-template>
     </shared-mdc-table>
+  </div>
+  <div class="DashboardMaps__Footer">
+    <div class="DashboardMaps__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardMaps__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
   </div>
 </div>
