@@ -27,7 +27,7 @@ import {
   AtomicLongsProductDTO,
   AtomicReferencesProductDTO,
   CacheProductDTO,
-  CachesProductDTO,
+  CachesProductDTO, CacheStatsProductDTO,
   CardinalityEstimatorsProductDTO,
   ClustersProductDTO,
   CountDownLatchesProductDTO,
@@ -417,8 +417,8 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SEMAPHORE);
   }
 
-  public subscribeToCaches(instanceName: string): Observable<SubscriptionNoticeResponseDTO<CachesProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.CACHE);
+  public subscribeToCaches(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<CachesProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.CACHE, parameters);
   }
 
   public subscribeToRingbuffers(instanceName: string): Observable<SubscriptionNoticeResponseDTO<RingbuffersProductDTO>> {
@@ -503,5 +503,9 @@ export class SharedHazelcastAgentService {
 
   public subscribeToExecutorStats(instanceName: string, executorName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<ExecutorStatsProductDTO>> {
     return this.subscribeToDistributedObjectStats(instanceName, DistributedObjectType.EXECUTOR, executorName, parameters);
+  }
+
+  public subscribeToCacheStats(instanceName: string, cacheName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<CacheStatsProductDTO>> {
+    return this.subscribeToDistributedObjectStats(instanceName, DistributedObjectType.CACHE, cacheName, parameters);
   }
 }

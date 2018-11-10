@@ -1,5 +1,6 @@
 import {StatsProductDTO} from '@shared/dto/topic-products.dto';
 import {StatisticsUtils} from '@shared/utils/stats.utils';
+import * as _ from 'lodash';
 
 enum SeriesDataType {
   VALUE,
@@ -131,7 +132,7 @@ export class PropertyTracker<S> {
         StatisticsUtils.updateArray(
           memberserie.data,
           Object.values(sample.members).map(member => {
-            return member.hasOwnProperty(memberserie.property) ? member[memberserie.property] : 0;
+            return _.get(member, memberserie.property, 0);
           })
         );
       }
@@ -141,21 +142,22 @@ export class PropertyTracker<S> {
   private updateValueTimeSeries(sample: StatsProductDTO<S>): void {
     for (const timeserie of this.timeseries) {
       if (timeserie.type === SeriesDataType.VALUE) {
+        let value: number;
+
         // Member-specific time series
-        if (timeserie.member !== undefined &&
-          sample.members.hasOwnProperty(timeserie.member) &&
-          sample.members[timeserie.member].hasOwnProperty(timeserie.property)) {
-          timeserie.data.push({
-            x: sample.sampleTime,
-            y: sample.members[timeserie.member][timeserie.property]
-          });
+        if (timeserie.member !== undefined)  {
+          if (sample.members.hasOwnProperty(timeserie.member)) {
+            value = _.get(sample.members[timeserie.member], timeserie.property);
+          }
+        } else {
+          // Aggregated time series
+          value = _.get(sample.aggregated, timeserie.property);
         }
 
-        // Aggregated time series
-        if (timeserie.member === undefined) {
+        if (value !== undefined) {
           timeserie.data.push({
             x: sample.sampleTime,
-            y: sample.aggregated[timeserie.property]
+            y: value
           });
         }
       }
@@ -168,26 +170,21 @@ export class PropertyTracker<S> {
 
     for (const timeserie of this.timeseries) {
       if (timeserie.type === SeriesDataType.RATE) {
-        // Member-specific time series
-        if (timeserie.member !== undefined &&
-          this.sampleBuffer[0].members.hasOwnProperty(timeserie.member) &&
-          this.sampleBuffer[1].members.hasOwnProperty(timeserie.member) &&
-          this.sampleBuffer[0].members[timeserie.member].hasOwnProperty(timeserie.property) &&
-          this.sampleBuffer[1].members[timeserie.member].hasOwnProperty(timeserie.property)) {
-          const dv: number = this.sampleBuffer[1].members[timeserie.member][timeserie.property] - this.sampleBuffer[0].members[timeserie.member][timeserie.property];
+        let dv: number;
 
-          timeserie.data.push({
-            x: this.sampleBuffer[0].sampleTime,
-            y: dv / dt
-          });
+        // Member-specific time series
+        if (timeserie.member !== undefined) {
+          if (this.sampleBuffer[0].members.hasOwnProperty(timeserie.member) && this.sampleBuffer[1].members.hasOwnProperty(timeserie.member)) {
+            dv = _.get(this.sampleBuffer[1].members[timeserie.member], timeserie.property) -
+                 _.get(this.sampleBuffer[0].members[timeserie.member], timeserie.property);
+          }
+        } else {
+          // Aggregated time series
+          dv = _.get(this.sampleBuffer[1].aggregated, timeserie.property) -
+               _.get(this.sampleBuffer[0].aggregated, timeserie.property);
         }
 
-        // Aggregated time series
-        if (timeserie.member === undefined &&
-          this.sampleBuffer[0].aggregated.hasOwnProperty(timeserie.property) &&
-          this.sampleBuffer[1].aggregated.hasOwnProperty(timeserie.property)) {
-          const dv: number = this.sampleBuffer[1].aggregated[timeserie.property] - this.sampleBuffer[0].aggregated[timeserie.property];
-
+        if (!isNaN(dv)) {
           timeserie.data.push({
             x: this.sampleBuffer[0].sampleTime,
             y: dv / dt
@@ -206,14 +203,14 @@ export class PropertyTracker<S> {
         StatisticsUtils.updateArray(
           memberserie.data,
           this.members.map(member => {
+            let dv: number;
             if (this.sampleBuffer[0].members.hasOwnProperty(member) &&
-                this.sampleBuffer[0].members[member].hasOwnProperty(memberserie.property) &&
-                this.sampleBuffer[1].members[member].hasOwnProperty(memberserie.property)) {
-              const dv: number = (this.sampleBuffer[1].members[member][memberserie.property] - this.sampleBuffer[0].members[member][memberserie.property]);
-              return dv / dt;
+                this.sampleBuffer[1].members.hasOwnProperty(member)) {
+              dv = _.get(this.sampleBuffer[1].members[member], memberserie.property) -
+                   _.get(this.sampleBuffer[0].members[member], memberserie.property);
             }
 
-            return 0;
+            return !isNaN(dv) ? dv / dt : 0;
           })
         );
       }

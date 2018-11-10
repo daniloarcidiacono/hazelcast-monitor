@@ -132,6 +132,16 @@ export class StatisticsEngine<S> {
     this.propertyTracker.setMaxTimeSpan(value);
   }
 
+  public chartOf(element: HTMLCanvasElement): Chart {
+    for (let chart of this.charts) {
+      if (chart.canvas === element) {
+        return chart;
+      }
+    }
+
+    return undefined;
+  }
+
   private createTimeseriesChart(element: HTMLCanvasElement, datasets: any[], yLabel: string): Chart {
     return new Chart(element, {
       type: 'line',

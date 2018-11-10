@@ -3,11 +3,23 @@
     <div class="DashboardCaches__HeaderLeft" mdcHeadline4>
       Caches of {{ clusterName }}
     </div>
+    <div class="DashboardCaches__HeaderRight">
+      <mdc-text-field type="text"
+                      placeholder="Search"
+                      [outlined]="true"
+                      [dense]="true"
+                      [(ngModel)]="filterRegex"
+                      (keydown)="handleKeydown($event)"
+                      label="Filter">
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+      </mdc-text-field>
+    </div>
   </div>
   <div class="DashboardCaches__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Actions</th>
           <th class="mdc-data-table__column">Name</th>
           <th class="mdc-data-table__column">Size</th>
           <th class="mdc-data-table__column">Destroyed</th>
@@ -15,7 +27,11 @@
         </tr>
       </ng-template>
       <ng-template let-cache #bodyTemplate>
-        <tr class="mdc-data-table__row" (click)="navigateToCacheDetails(cache)">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">
+            <button mdcIconButton icon="search" (click)="navigateToCacheDetails(cache)" title="Inspect"></button>
+            <button mdcIconButton icon="bar_chart" (click)="navigateToCacheStats(cache)" title="Statistics"></button>
+          </td>
           <td class="mdc-data-table__cell">{{ cache.name }}</td>
           <td class="mdc-data-table__cell">{{ cache.size }}</td>
           <td class="mdc-data-table__cell">{{ cache.destroyed }}</td>
@@ -23,5 +39,17 @@
         </tr>
       </ng-template>
     </shared-mdc-table>
+  </div>
+  <div class="DashboardCaches__Footer">
+    <div class="DashboardCaches__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardCaches__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
   </div>
 </div>

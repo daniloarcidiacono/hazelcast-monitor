@@ -44,15 +44,19 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
 
   @ViewChild('chartOfferMember')
   private chartOfferMemberElementRef: ElementRef<HTMLCanvasElement>;
+  private chartOfferMember: Chart;
 
   @ViewChild('chartPollMember')
   private chartPollMemberElementRef: ElementRef<HTMLCanvasElement>;
+  private chartPollMember: Chart;
 
   @ViewChild('chartEventMember')
   private chartEventMemberElementRef: ElementRef<HTMLCanvasElement>;
+  private chartEventMember: Chart;
 
   @ViewChild('chartOtherMember')
   private chartOtherMemberElementRef: ElementRef<HTMLCanvasElement>;
+  private chartOtherMember: Chart;
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
@@ -87,6 +91,23 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
 
           // Update the properties
           this.statisticsEngine.processSample(this.data);
+
+          // Update pie chart titles
+          this.chartOfferMember.options.title.text = [
+            `${this.data.aggregated.offerOperationCount} offers`
+          ];
+
+          this.chartPollMember.options.title.text = [
+            `${this.data.aggregated.pollOperationCount} polls`
+          ];
+
+          this.chartEventMember.options.title.text = [
+            `${this.data.aggregated.eventOperationCount} events`
+          ];
+
+          this.chartOtherMember.options.title.text = [
+            `${this.data.aggregated.otherOperationsCount} other operations`
+          ];
 
           // Rebuild the graph data
           this.statisticsEngine.updateCharts();
@@ -218,5 +239,10 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
         ]
       }
     );
+
+    this.chartOfferMember = this.statisticsEngine.chartOf(this.chartOfferMemberElementRef.nativeElement);
+    this.chartPollMember = this.statisticsEngine.chartOf(this.chartPollMemberElementRef.nativeElement);
+    this.chartEventMember = this.statisticsEngine.chartOf(this.chartEventMemberElementRef.nativeElement);
+    this.chartOtherMember = this.statisticsEngine.chartOf(this.chartOtherMemberElementRef.nativeElement);
   }
 }

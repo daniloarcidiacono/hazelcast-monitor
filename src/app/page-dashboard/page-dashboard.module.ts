@@ -73,6 +73,8 @@ import {PageDashboardExecutorsComponent} from "../page-dashboard-executors/page-
 import {PageDashboardCardinalityEstimatorsComponent} from "../page-dashboard-cardinalityestimators/page-dashboard-cardinalityestimators.component";
 import {PageDashboardExecutorStatsComponent} from "../page-dashboard-executor-stats/page-dashboard-executor-stats.component";
 import {PageDashboardExecutorStatsModule} from "../page-dashboard-executor-stats/page-dashboard-executor-stats.module";
+import {PageDashboardCacheStatsModule} from "../page-dashboard-cache-stats/page-dashboard-cache-stats.module";
+import {PageDashboardCacheStatsComponent} from "../page-dashboard-cache-stats/page-dashboard-cache-stats.component";
 
 @NgModule({
   declarations: [
@@ -112,6 +114,7 @@ import {PageDashboardExecutorStatsModule} from "../page-dashboard-executor-stats
     PageDashboardTopicModule,
     PageDashboardTopicStatsModule,
     PageDashboardCacheModule,
+    PageDashboardCacheStatsModule,
 
     // Local modules
     StatisticsGaugeModule,
@@ -163,7 +166,8 @@ import {PageDashboardExecutorStatsModule} from "../page-dashboard-executor-stats
     PageDashboardQueueStatsComponent,
     PageDashboardTopicComponent,
     PageDashboardTopicStatsComponent,
-    PageDashboardCacheComponent
+    PageDashboardCacheComponent,
+    PageDashboardCacheStatsComponent
   ]
 })
 export class PageDashboardModule { }

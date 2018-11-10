@@ -44,9 +44,11 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
 
   @ViewChild('chartPiePushMember')
   private chartPiePushMemberElementRef: ElementRef<HTMLCanvasElement>;
+  private chartPiePushMember: Chart;
 
   @ViewChild('chartPieRecvMember')
   private chartPieRecvMemberElementRef: ElementRef<HTMLCanvasElement>;
+  private chartPieRecvMember: Chart;
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
@@ -83,14 +85,14 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
           // Update the properties
           this.statisticsEngine.processSample(this.data);
 
-          // Pie chart
-          // this.chartPiePushMember.options.title.text = [
-          //   `Published: ${this.data.aggregated.publishOperationCount} messages`,
-          // ];
-          //
-          // this.chartPieRecvMember.options.title.text = [
-          //   `Received: ${this.data.aggregated.receiveOperationCount} messages`
-          // ];
+          // Update pie chart titles
+          this.chartPiePushMember.options.title.text = [
+            `${this.data.aggregated.publishOperationCount} publishes`,
+          ];
+
+          this.chartPieRecvMember.options.title.text = [
+            `${this.data.aggregated.receiveOperationCount} receives`
+          ];
 
           // Rebuild the graph data
           this.statisticsEngine.updateCharts();
@@ -166,5 +168,8 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
         ]
       }
     );
+
+    this.chartPiePushMember = this.statisticsEngine.chartOf(this.chartPiePushMemberElementRef.nativeElement);
+    this.chartPieRecvMember = this.statisticsEngine.chartOf(this.chartPieRecvMemberElementRef.nativeElement);
   }
 }

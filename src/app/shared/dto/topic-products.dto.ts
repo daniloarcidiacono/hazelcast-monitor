@@ -313,3 +313,105 @@ export interface ExecutorStatsDTO {
   totalExecutionLatency: number;
 }
 export type ExecutorStatsProductDTO = StatsProductDTO<ExecutorStatsDTO>;
+
+// Cache stats
+export interface CacheStatsDTO {
+  // Cache creation time
+  creationTime: number;
+
+  // Last access time to cache
+  lastAccessTime: number;
+
+  // Last update time to cache
+  lastUpdateTime: number;
+
+  // Owned entry count in the cache
+  ownedEntryCount: number;
+
+  // Number of get requests that were satisfied by the cache
+  cacheHits: number;
+
+  // A measure of cache efficiency
+  cacheHitPercentage: number;
+
+  // A miss is a get request that is not satisfied
+  cacheMisses: number;
+
+  // Percentage of cache accesses that did not find a requested entry in the cache
+  cacheMissPercentage: number;
+
+  // Total number of requests to the cache. This will be equal to the sum of the hits and misses
+  cacheGets: number;
+
+  // Total number of puts to the cache
+  cachePuts: number;
+
+  /**
+   * Total number of removals from the cache. This does not include evictions,
+   * where the cache itself initiates the removal to make space.
+   */
+  cacheRemovals: number;
+
+  /**
+   * Total number of evictions from the cache. An eviction is a removal
+   * initiated by the cache itself to free up space. An eviction is not treated as
+   * a removal and does not appear in the removal counts.
+   */
+  cacheEvictions: number;
+
+  // Mean time in microseconds to execute gets
+  averageGetTime: number;
+
+  // Mean time in microseconds to execute puts
+  averagePutTime: number;
+
+  // Mean time in microseconds to execute removes
+  averageRemoveTime: number;
+}
+export type CacheStatsProductDTO = StatsProductDTO<CacheStatsDTO>;
+
+// Near cache stats
+export interface NearCacheStatsDTO {
+  // Creation time of this Near Cache on this member
+  creationTime: number;
+
+  // Number of Near Cache entries owned by this member
+  ownedEntryCount: number;
+
+  // Memory cost (number of bytes) of Near Cache entries owned by this member
+  ownedEntryMemoryCost: number;
+
+  // Number of hits (reads) of Near Cache entries owned by this member
+  hits: number;
+
+  // Number of misses of Near Cache entries owned by this member
+  misses: number;
+
+  // Hit/miss ratio of Near Cache entries owned by this member
+  ratio: number;
+
+  // Number of evictions of Near Cache entries owned by this member
+  evictions: number;
+
+  // Number of TTL and max-idle expirations of Near Cache entries owned by this member
+  expirations: number;
+
+  // Number of Near Cache key persistences (when the pre-load feature is enabled)
+  persistenceCount: number;
+
+  // Timestamp of the last Near Cache key persistence (when the pre-load feature is enabled)
+  lastPersistenceTime: number;
+
+  // Duration in milliseconds of the last Near Cache key persistence (when the pre-load feature is enabled)
+  lastPersistenceDuration: number;
+
+  // Written bytes of the last Near Cache key persistence (when the pre-load feature is enabled)
+  lastPersistenceWrittenBytes: number;
+
+  // Number of persisted keys of the last Near Cache key persistence (when the pre-load feature is enabled)
+  lastPersistenceKeyCount: number;
+
+  // Failure reason of the last Near Cache persistence (when the pre-load feature is enabled)
+  lastPersistenceFailure: string;
+}
+
