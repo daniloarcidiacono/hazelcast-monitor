@@ -164,7 +164,7 @@ public class TestComponent {
         }
 
         System.out.println("Running the scheduled future!");
-        final ScheduledFuture<?> scheduledFuture = threadPool.scheduleWithFixedDelay(() -> {
+        threadPool.scheduleWithFixedDelay(() -> {
             try {
                 myList.set(0, "ciao" + t);
 
@@ -182,6 +182,15 @@ public class TestComponent {
                 System.out.println(myList.get(1));
             }
             t = (t + 1) % 100;
+        }, 0, 1, TimeUnit.SECONDS);
+
+        threadPool.scheduleWithFixedDelay(() -> {
+            final String getKey = String.valueOf(1 + Math.floor(Math.random() * 10));
+            final String putKey = String.valueOf(1 + Math.floor(Math.random() * 10));
+            final String removeKey = String.valueOf(1 + Math.floor(Math.random() * 10));
+            myCache.get(getKey);
+            myCache.put(putKey, "1");
+            myCache.remove(removeKey);
         }, 0, 1, TimeUnit.SECONDS);
     }
 }

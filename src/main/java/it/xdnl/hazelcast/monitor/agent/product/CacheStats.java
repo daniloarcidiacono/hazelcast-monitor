@@ -6,7 +6,6 @@ import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @TypescriptDTO
 public class CacheStats implements Serializable {
@@ -14,10 +13,10 @@ public class CacheStats implements Serializable {
     private long creationTime = 0;
 
     @TypescriptComments("Last access time to cache")
-    private long lastAccessTime = 0;
+    private long lastAccessTime = Long.MIN_VALUE;
 
     @TypescriptComments("Last update time to cache")
-    private long lastUpdateTime = 0;
+    private long lastUpdateTime = Long.MIN_VALUE;
 
     @TypescriptComments("Owned entry count in the cache")
     private long ownedEntryCount = 0;
@@ -62,9 +61,6 @@ public class CacheStats implements Serializable {
     @TypescriptComments("Mean time in microseconds to execute removes")
     private float averageRemoveTime = 0;
 
-    @TypescriptComments("Near Cache statistics")
-    private NearCacheStats nearCacheStatistics;
-
     public CacheStats() {
     }
 
@@ -73,26 +69,22 @@ public class CacheStats implements Serializable {
         final CacheStats result = new CacheStats();
         for (CacheStats stat : stats) {
             result.creationTime += stat.creationTime / statCount;
-            result.lastAccessTime += stat.lastAccessTime;
-            result.lastUpdateTime += stat.lastUpdateTime;
+            result.lastAccessTime = Math.max(result.lastAccessTime, stat.lastAccessTime);
+            result.lastUpdateTime = Math.max(result.lastUpdateTime, stat.lastUpdateTime);
             result.ownedEntryCount += stat.ownedEntryCount;
             result.cacheHits += stat.cacheHits;
-            result.cacheHitPercentage += stat.cacheHitPercentage;
             result.cacheMisses += stat.cacheMisses;
-            result.cacheMissPercentage += stat.cacheMissPercentage;
             result.cacheGets += stat.cacheGets;
             result.cachePuts += stat.cachePuts;
             result.cacheRemovals += stat.cacheRemovals;
             result.cacheEvictions += stat.cacheEvictions;
-            result.averageGetTime += stat.averageGetTime;
-            result.averagePutTime += stat.averagePutTime;
-            result.averageRemoveTime += stat.averageRemoveTime;
-
+            result.averageGetTime += stat.averageGetTime / statCount;
+            result.averagePutTime += stat.averagePutTime / statCount;
+            result.averageRemoveTime += stat.averageRemoveTime / statCount;
         }
 
-        result.nearCacheStatistics = NearCacheStats.aggregated(
-            stats.stream().map(CacheStats::getNearCacheStatistics).collect(Collectors.toList())
-        );
+        result.cacheHitPercentage = result.cacheGets > 0 ? result.cacheHits / (float)result.cacheGets * 100.0f : 0;
+        result.cacheMissPercentage = result.cacheGets > 0 ? result.cacheMisses / (float)result.cacheGets * 100.0f : 0;
 
         return result;
     }
@@ -114,11 +106,6 @@ public class CacheStats implements Serializable {
         result.setAverageGetTime(localCacheStats.getAverageGetTime());
         result.setAveragePutTime(localCacheStats.getAveragePutTime());
         result.setAverageRemoveTime(localCacheStats.getAverageRemoveTime());
-        result.setNearCacheStatistics(
-            NearCacheStats.fromHazelcast(
-                localCacheStats.getNearCacheStatistics()
-            )
-        );
 
         return result;
     }
@@ -255,15 +242,6 @@ public class CacheStats implements Serializable {
 
     public CacheStats setAverageRemoveTime(float averageRemoveTime) {
         this.averageRemoveTime = averageRemoveTime;
-        return this;
-    }
-
-    public NearCacheStats getNearCacheStatistics() {
-        return nearCacheStatistics;
-    }
-
-    public CacheStats setNearCacheStatistics(NearCacheStats nearCacheStatistics) {
-        this.nearCacheStatistics = nearCacheStatistics;
         return this;
     }
 }

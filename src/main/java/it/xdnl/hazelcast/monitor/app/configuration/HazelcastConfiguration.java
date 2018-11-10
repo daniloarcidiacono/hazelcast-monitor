@@ -14,7 +14,11 @@ public class HazelcastConfiguration {
     public Config config() {
         final Config config = new Config();
         final Map<String, CacheSimpleConfig> cacheConfigs = new HashMap<>();
-        cacheConfigs.put("myCache", new CacheSimpleConfig());
+        cacheConfigs.put(
+        "myCache",
+            new CacheSimpleConfig()
+                .setStatisticsEnabled(true)
+        );
         config.setCacheConfigs(cacheConfigs);
         config.setManagementCenterConfig(
             new ManagementCenterConfig()
