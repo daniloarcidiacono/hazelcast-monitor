@@ -40,35 +40,46 @@ export class SharedWebSocketService {
     // Begin the connection
     this.address = address;
     this.state = ConnectionState.CONNECTING;
-    this.socket = new SockJS(address, null, {
-      'transports': [
-        'websocket'
-      ]
-    });
-    this.onConnectivityChanged.next(this.state);
-
-    // Setup the callbacks
-    this.socket.onopen = () => {
-      this.state = ConnectionState.CONNECTED;
+    try {
+      this.socket = new SockJS(address, null, {
+        'transports': [
+          'websocket'
+        ]
+      });
       this.onConnectivityChanged.next(this.state);
-    };
 
-    this.socket.onerror = (event: Event) => {
-      this.onError.next(event);
-    };
+      // Setup the callbacks
+      this.socket.onopen = () => {
+        this.state = ConnectionState.CONNECTED;
+        this.onConnectivityChanged.next(this.state);
+      };
 
-    this.socket.onmessage = this.dispatchMessage.bind(this);
+      this.socket.onerror = (event: Event) => {
+        this.onError.next(event);
+      };
 
-    this.socket.onclose = (e: CloseEvent) => {
-      console.log('onclose...', e);
-      if (!e.wasClean) {
-        this.onError.next(e);
-      }
+      this.socket.onmessage = this.dispatchMessage.bind(this);
 
+      this.socket.onclose = (e: CloseEvent) => {
+        console.log('onclose...', e);
+        if (!e.wasClean) {
+          this.onError.next(e);
+        }
+
+        this.state = ConnectionState.DISCONNECTED;
+        this.socket = undefined;
+        this.onConnectivityChanged.next(this.state);
+      };
+    } catch (e) {
+      // This can happen, for example, when trying to establish an insecure SockJS connection from an https page
+      // TODO: Fix this (CloseEvent)
+      this.onError.next(e);
+
+      // Reset the state
       this.state = ConnectionState.DISCONNECTED;
       this.socket = undefined;
       this.onConnectivityChanged.next(this.state);
-    };
+    }
   }
 
   public disconnect(): void {

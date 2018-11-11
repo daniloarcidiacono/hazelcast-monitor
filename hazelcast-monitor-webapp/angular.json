@@ -62,6 +62,11 @@
             "browserTarget": "hazelcast-monitor:build"
           },
           "configurations": {
+            "ssl": {
+              "ssl": true,
+              "sslKey": "./keys/key.pem",
+              "sslCert": "./keys/cert.pem"
+            },
             "production": {
               "browserTarget": "hazelcast-monitor:build:production"
             }
