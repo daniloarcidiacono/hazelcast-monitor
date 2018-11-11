@@ -20,6 +20,7 @@ public class HazelcastAgent implements ClientConnectionListener {
     private Set<MessageHandler> handlers = new HashSet<>();
 
     public HazelcastAgent() {
+        logger.info("Starting Hazelcast Monitor Agent...");
     }
 
     public void addConnection(final ClientConnection connection) {
