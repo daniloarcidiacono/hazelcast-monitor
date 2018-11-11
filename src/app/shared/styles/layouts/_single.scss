@@ -1,0 +1,20 @@
+@import "full";
+
+@mixin LayoutSingle($contentElementName: "Content") {
+  @include LayoutFull();
+
+  /*
+    Layout children in column
+    Note: we don't use justify-contents or align-items to center the card block, because if we zoom the page and the
+    card overflows, some part of it become unreachable.
+
+    (https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container)
+  */
+  display: flex;
+  flex-direction: column;
+
+  &__#{$contentElementName} {
+    /* Center the content */
+    margin: auto;
+  }
+}

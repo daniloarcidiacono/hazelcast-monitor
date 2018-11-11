@@ -1,0 +1,5 @@
+@import "../shared/styles/layouts/section";
+
+.DashboardQueues {
+  @include LayoutSection();
+}

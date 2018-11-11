@@ -1,0 +1,16 @@
+<shared-mdc-tree [model]="data">
+  <ng-template let-node>
+    <div class="MdcTreeNode MdcTreeNode__Content" [ngClass]="depthClass(node)" style="margin-right: 3em">
+      <div class="MdcTreeNode__Expander" *ngIf="node.childCount > 0">
+        <mdc-icon *ngIf="node.other.collapsed">chevron_right</mdc-icon>
+        <mdc-icon *ngIf="!node.other.collapsed">expand_more</mdc-icon>
+      </div>
+      <div class="MdcTreeNode__Icon" *ngIf="locked && node.parent === undefined" title="This entry is currently locked">
+        <mdc-icon style="color: red">lock</mdc-icon>
+      </div>
+      <div class="MdcTreeNode__Label">
+        {{ nodeCaption(node) }}
+      </div>
+    </div>
+  </ng-template>
+</shared-mdc-tree>

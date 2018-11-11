@@ -1,0 +1,10 @@
+@import "../shared/styles/layouts/section";
+@import "~@angular-mdc/theme/scss/theme/mdc-theme";
+
+.DashboardList {
+  @include LayoutSection();
+
+  &__FooterLeft {
+    @include mdc-theme-prop(color, text-secondary-on-background);
+  }
+}

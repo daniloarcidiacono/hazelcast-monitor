@@ -1,0 +1,27 @@
+<div class="DashboardMembers">
+  <div class="DashboardMembers__Header">
+    <div class="DashboardMembers__HeaderLeft" mdcHeadline4>
+      Members of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardMembers__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">IP Address</th>
+          <th class="mdc-data-table__column">Port</th>
+          <th class="mdc-data-table__column">Version</th>
+          <th class="mdc-data-table__column">UUID</th>
+        </tr>
+      </ng-template>
+      <ng-template let-member #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ member.address }}</td>
+          <td class="mdc-data-table__cell">{{ member.port }}</td>
+          <td class="mdc-data-table__cell">{{ member.version }}</td>
+          <td class="mdc-data-table__cell">{{ member.uuid }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+</div>

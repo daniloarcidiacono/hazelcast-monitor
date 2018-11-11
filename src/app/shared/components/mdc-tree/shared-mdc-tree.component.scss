@@ -1,0 +1,66 @@
+@import "~@angular-mdc/theme/scss/typography/mdc-typography";
+@import "~@angular-mdc/theme/scss/theme/_variables.scss";
+@import "~@angular-mdc/theme/scss/ripple/mdc-ripple.scss";
+
+.MdcTreeNode {
+  user-select: none;
+
+  &__Content {
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    height: 32px;
+
+    //@include mdc-ripple-surface;
+    //@include mdc-ripple-radius-bounded;
+    //@include mdc-states;
+
+    &:hover {
+      background-color: #eef2fa;
+    }
+
+    &--selected {
+      color: $mdc-theme-accent;
+      background-color: #d5ddf2;
+      box-shadow: 4px 0 0 0 $mdc-theme-accent inset;
+    }
+
+    @for $i from 1 through 40 {
+      &--depth-#{$i} {
+        padding-left: 32px * ($i - 1);
+      }
+    }
+  }
+
+  &__Expander {
+    margin-right: 0.5em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    color: black;
+  }
+
+  &__Icon {
+    margin-right: 0.5em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 24px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  &__Label {
+    //@extend .mdc-typography--caption;
+
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

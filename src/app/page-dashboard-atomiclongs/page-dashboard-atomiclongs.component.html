@@ -1,0 +1,25 @@
+<div class="DashboardAtomicLongs">
+  <div class="DashboardAtomicLongs__Header">
+    <div class="DashboardAtomicLongs__HeaderLeft" mdcHeadline4>
+      Atomic longs of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardAtomicLongs__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Value</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-atomiclong #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ atomiclong.name }}</td>
+          <td class="mdc-data-table__cell">{{ atomiclong.value }}</td>
+          <td class="mdc-data-table__cell">{{ atomiclong.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+</div>

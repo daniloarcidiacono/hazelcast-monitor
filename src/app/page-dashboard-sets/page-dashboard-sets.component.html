@@ -1,0 +1,25 @@
+<div class="DashboardSets">
+  <div class="DashboardSets__Header">
+    <div class="DashboardSets__HeaderLeft" mdcHeadline4>
+      Sets of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardSets__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Number of keys</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-set #bodyTemplate>
+        <tr class="mdc-data-table__row" (click)="navigateToListDetails(set)">
+          <td class="mdc-data-table__cell">{{ set.name }}</td>
+          <td class="mdc-data-table__cell">{{ set.size }}</td>
+          <td class="mdc-data-table__cell">{{ set.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+@import "../shared/styles/layouts/section";
+
+.DashboardTopic {
+  @include LayoutSection();
+}
+

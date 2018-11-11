@@ -1,0 +1,28 @@
+@mixin ComponentCard {
+  /* Layout the child in column */
+  display: flex;
+  flex-direction: column;
+
+  /* Give a fixed width */
+  width: 400px;
+
+  /* This is needed to place the progress bar at the top of the card */
+  position: relative;
+
+  /* Visual stuff */
+  padding: 2em;
+  border-radius: 8px;
+
+  &__Progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  &__Logo {
+    height: 100px;
+    background-size: 100% auto;
+    background: url(../../assets/logos/HazelcastLogo-Orange_Dark.svg) center no-repeat;
+  }
+}

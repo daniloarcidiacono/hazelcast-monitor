@@ -1,0 +1,28 @@
+<div class="Page" mdcTypography>
+  <div class="Page__Top">
+    <mdc-top-app-bar [fixed]="false">
+      <mdc-top-app-bar-row>
+        <mdc-top-app-bar-section align="start">
+          <mdc-top-app-bar-title class="Page__TopTitle">
+            <img class="Page__TopLogo" src="assets/logos/HazelcastLogo-Orange_Light.svg">
+          </mdc-top-app-bar-title>
+        </mdc-top-app-bar-section>
+        <mdc-top-app-bar-section align="end">
+          <shared-connection-indicator></shared-connection-indicator>
+          <a mdcTopAppBarActionItem
+             style="font-size: 24px"
+             href="https://github.com/daniloarcidiacono"
+             target="_blank"
+             rel="noopener noreferrer"
+             role="button"
+             title="Go to project page">
+            <mdc-icon fontSet="hzfont">icon-github</mdc-icon>
+          </a>
+        </mdc-top-app-bar-section>
+      </mdc-top-app-bar-row>
+    </mdc-top-app-bar>
+  </div>
+  <div class="Page__Content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="mdc-data-table" [ngClass]="{ 'mdc-data-table--select-multiple': selectable }">
+  <table class="mdc-data-table__content">
+    <thead *ngIf="!!headerTemplate">
+      <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+    </thead>
+    <tbody *ngIf="!!bodyTemplate && !!model">
+      <ng-container *ngFor="let rowIndex of model.length | times">
+        <ng-container *ngTemplateOutlet="bodyTemplate; context: { $implicit: model[rowIndex], rowIndex: rowIndex }"></ng-container>
+      </ng-container>
+    </tbody>
+    <tfoot *ngIf="!!footerTemplate">
+      <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+    </tfoot>
+  </table>
+</div>

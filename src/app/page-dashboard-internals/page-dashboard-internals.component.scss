@@ -1,0 +1,5 @@
+@import "../shared/styles/layouts/section";
+
+.DashboardInternals {
+  @include LayoutSection();
+}

@@ -1,0 +1,11 @@
+<div class="Chart">
+  <div class="Chart__Graph">
+    <canvas #chartGauge width="300"></canvas>
+    <div class="Chart__GraphLabel" [ngStyle]="{ 'color': color }" mdcHeadline5>
+      {{ gaugeLabel() }}
+    </div>
+  </div>
+  <div class="Chart__Label" [ngStyle]="{ 'color': color }" mdcSubtitle1>
+    {{ label }}
+  </div>
+</div>

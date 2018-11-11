@@ -1,0 +1,25 @@
+<div class="DashboardCountdownLatches">
+  <div class="DashboardCountdownLatches__Header">
+    <div class="DashboardCountdownLatches__HeaderLeft" mdcHeadline4>
+    Countdown latches of {{ clusterName }}
+  </div>
+  </div>
+  <div class="DashboardCountdownLatches__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Count</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-countdownlatch #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ countdownlatch.name }}</td>
+          <td class="mdc-data-table__cell">{{ countdownlatch.count }}</td>
+          <td class="mdc-data-table__cell">{{ countdownlatch.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+</div>

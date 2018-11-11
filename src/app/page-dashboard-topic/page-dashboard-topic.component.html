@@ -1,0 +1,57 @@
+<div class="DashboardTopic">
+
+  <div class="DashboardTopic__Header">
+    <div class="DashboardTopic__HeaderLeft" mdcHeadline4>
+      Inspector - {{ topicName }}
+    </div>
+    <div class="DashboardTopic__HeaderRight">
+      <button mdcIconButton icon="delete_forever" (click)="clear()" title="Clear"></button>
+      <button mdcIconButton icon="fiber_manual_record" [disabled]="isRecording()" (click)="record()" title="Record"></button>
+      <button mdcIconButton icon="stop" [disabled]="!isRecording()" (click)="stop()" title="Stop"></button>
+      <shared-scripting-button [(filterScript)]="filterScript"
+                               [(sliceScript)]="sliceScript"
+                               (apply)="updateSubscription()">
+      </shared-scripting-button>
+    </div>
+  </div>
+
+  <div class="DashboardTopic__Scroller">
+    <shared-mdc-table [model]="data">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Time</th>
+          <th class="mdc-data-table__column">Message</th>
+          <th class="mdc-data-table__column">Publisher address</th>
+          <th class="mdc-data-table__column">Publisher UUID</th>
+          <th class="mdc-data-table__column">Publisher version</th>
+        </tr>
+      </ng-template>
+      <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ entry.publishTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss' }}</td>
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">
+            <shared-object-inspector [data]="entry.message"
+                                     [stringData]="entry.messageString">
+            </shared-object-inspector>
+          </td>
+          <td class="mdc-data-table__cell">{{ entry.publisher.address }}:{{ entry.publisher.port }}</td>
+          <td class="mdc-data-table__cell">{{ entry.publisher.uuid }}</td>
+          <td class="mdc-data-table__cell">{{ entry.publisher.version }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+
+  <div class="DashboardTopic__Footer">
+    <div class="DashboardTopic__FooterRight">
+      <label for="cap">Cap:</label>
+      <mdc-select class="DashboardTopic__ActionBarRight mdc-select--dense"
+                  id="cap"
+                  [outlined]="true"
+                  [(ngModel)]="cap"
+                  [floatingLabel]="false">
+        <option [value]="items" *ngFor="let items of [5, 10, 15, 25, 50, 75, 100]">{{ items }}</option>
+      </mdc-select>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="DashboardSemaphores">
+  <div class="DashboardSemaphores__Header">
+    <div class="DashboardSemaphores__HeaderLeft" mdcHeadline4>
+      Semaphores of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardSemaphores__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Permits</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-semaphore #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ semaphore.name }}</td>
+          <td class="mdc-data-table__cell">{{ semaphore.permits }}</td>
+          <td class="mdc-data-table__cell">{{ semaphore.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+</div>

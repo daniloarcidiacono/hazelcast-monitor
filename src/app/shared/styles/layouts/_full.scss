@@ -1,0 +1,7 @@
+@mixin LayoutFull() {
+  /*
+    Use all available space: we use min-height instead of height because when the user zooms the page can overflow the
+    parent container.
+  */
+  min-height: 100%;
+}

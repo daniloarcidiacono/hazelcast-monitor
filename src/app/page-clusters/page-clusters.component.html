@@ -1,0 +1,30 @@
+<div class="PageClusters">
+  <div class="PageClusters__Card" [mdcElevation]="4">
+    <div class="PageClusters__Card__Logo"></div>
+    <h1 mdcHeadline6>Choose an instance to monitor</h1>
+    <form [formGroup]="bindings.form" class="PageClusters__Card__Form">
+      <mdc-select formControlName="cluster"
+                  [disabled]="!hasClusters()"
+                  [outlined]="true"
+                  [autosize]="false"
+                  [floatingLabel]="false">
+        <option *ngFor="let cluster of bindings.clusters; let clusterIndex = index" [value]="clusterIndex">
+          {{ cluster.instanceName }}
+        </option>
+      </mdc-select>
+
+      <mdc-text-field-helper-text [validation]="true" [persistent]="false">
+        <span *ngIf="bindings.form.controls['cluster'].errors?.required">Cluster is required</span>
+      </mdc-text-field-helper-text>
+
+      <button mdc-button
+              [primary]="true"
+              [raised]="true"
+              [disabled]="!isNextButtonEnabled()"
+              (click)="next()"
+              class="PageClusters__Card__NextButton">
+        Go to Dashboard
+      </button>
+    </form>
+  </div>
+</div>

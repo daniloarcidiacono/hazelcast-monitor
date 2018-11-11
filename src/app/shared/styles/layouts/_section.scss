@@ -1,0 +1,95 @@
+@mixin LayoutSection() {
+  /* Layout children in column */
+  display: flex;
+  flex-direction: column;
+
+  /* We do not use min-height because the section cannot overflow its container */
+  height: 100%;
+
+  /* Include some padding */
+  padding: 32px 48px;
+
+  /* This is needed to not include the padding when the children overflow */
+  box-sizing: border-box;
+
+  &__Header {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 48px;
+  }
+
+  &__HeaderLeft {
+    font-weight: lighter;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+
+  &__HeaderRight {
+    flex-grow: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__Scroller {
+    flex-basis: 100%;
+    flex-grow: 1;
+    overflow: auto;
+  }
+
+  &__Section {
+  }
+
+  &__SectionTitle {
+    border-bottom: 1px solid gainsboro;
+  }
+
+  &__SectionTitle + &__SectionContent {
+    margin-top: 24px;
+  }
+
+  &__SectionContent {
+    margin-bottom: 48px;
+  }
+
+  &__Footer {
+    flex-grow: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    margin-top: 1em;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__FooterLeft {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-right: 1em;
+
+    & *:not(:first-child) {
+      margin-left: 1em;
+    }
+  }
+
+  &__FooterRight {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+
+    & *:not(:first-child) {
+      margin-left: 1em;
+    }
+  }
+}

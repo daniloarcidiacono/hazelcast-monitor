@@ -1,0 +1,58 @@
+<div class="DashboardList">
+  <div class="DashboardList__Header">
+    <div class="DashboardList__HeaderLeft" mdcHeadline4>
+      {{ listName }}
+    </div>
+    <div class="DashboardList__HeaderRight">
+      <button mdcIconButton
+              [disabled]="!isManual()"
+              (click)="pull()"
+              icon="refresh"
+              title="Pull data">
+      </button>
+      <shared-frequency-button [frequency]="updateFrequency"
+                               (frequencyChange)="trackUpdateFrequencyChange($event)">
+      </shared-frequency-button>
+      <shared-scripting-button [(filterScript)]="filterScript"
+                               [(sliceScript)]="sliceScript"
+                               (apply)="updateSubscription()">
+      </shared-scripting-button>
+    </div>
+  </div>
+
+  <div class="DashboardList__Scroller">
+    <shared-mdc-table [model]="data?.entries">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Index</th>
+          <th class="mdc-data-table__column">Value</th>
+        </tr>
+      </ng-template>
+      <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">
+            {{ rowIndex }}
+          </td>
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">
+            <shared-object-inspector [data]="entry.value"
+                                     [stringData]="entry.valueString">
+            </shared-object-inspector>
+          </td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+
+  <div class="DashboardList__Footer">
+    <div class="DashboardList__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardList__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
+  </div>
+</div>

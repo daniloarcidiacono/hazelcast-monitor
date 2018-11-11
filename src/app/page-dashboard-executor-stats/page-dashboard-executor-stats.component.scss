@@ -1,0 +1,39 @@
+@import "../shared/styles/layouts/section";
+
+.DashboardExecutorStats {
+  @include LayoutSection();
+
+  &__Scroller {
+    display: grid;
+    grid-column-gap: 32px;
+    grid-row-gap: 32px;
+    grid-template-columns: calc(50% - 32px) calc(50% - 32px);
+    grid-template-rows: auto;
+    grid-template-areas:
+      "tabular tabular"
+      "latency counters";
+  }
+
+  &__Section {
+    &--tabular {
+      grid-area: tabular;
+    }
+
+    &--latency {
+      grid-area: latency;
+    }
+
+    &--counters {
+      grid-area: counters;
+    }
+  }
+
+  &__SectionTitle {
+    display: flex;
+    align-items: center;
+  }
+
+  & canvas {
+    min-height: 400px;
+  }
+}

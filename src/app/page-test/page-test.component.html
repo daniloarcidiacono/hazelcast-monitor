@@ -1,0 +1,94 @@
+<div class="Page__Main">
+
+  <shared-mdc-table [model]="tableModel">
+    <ng-template #headerTemplate>
+      <tr class="mdc-data-table__row mdc-data-table__row--centered">
+        <th rowspan="3" class="mdc-data-table__column">Brand</th>
+        <th colspan="4" class="mdc-data-table__column">Sale Rate</th>
+      </tr>
+      <tr class="mdc-data-table__row mdc-data-table__row--centered">
+        <th colspan="2" class="mdc-data-table__column">Sales</th>
+        <th colspan="2" class="mdc-data-table__column">Profits</th>
+      </tr>
+      <tr class="mdc-data-table__row mdc-data-table__row--centered">
+        <th class="mdc-data-table__column">Last Year</th>
+        <th class="mdc-data-table__column">This Year</th>
+        <th class="mdc-data-table__column">Last Year</th>
+        <th class="mdc-data-table__column">This Year</th>
+      </tr>
+    </ng-template>
+    <ng-template let-sale #bodyTemplate>
+      <tr class="mdc-data-table__row mdc-data-table__row--centered">
+        <td class="mdc-data-table__cell" style="font-weight: bold">{{sale.brand}}</td>
+        <td class="mdc-data-table__cell">{{sale.lastYearSale}}</td>
+        <td class="mdc-data-table__cell">{{sale.thisYearSale}}</td>
+        <td class="mdc-data-table__cell">{{sale.lastYearProfit}}</td>
+        <td class="mdc-data-table__cell">{{sale.thisYearProfit}}</td>
+      </tr>
+    </ng-template>
+  </shared-mdc-table>
+
+  <!--<shared-mdc-treetable [model]="treeTableModel">-->
+    <!--<ng-template let-node>-->
+      <!--<div class="MdcTreeNode MdcTreeNode__Content" [ngClass]="depthClass(node)" style="margin-right: 3em">-->
+        <!--<div class="MdcTreeNode__Expander">-->
+          <!--<ng-container *ngIf="node.children().length > 0">-->
+            <!--<mdc-icon *ngIf="node.collapsed()">chevron_right</mdc-icon>-->
+            <!--<mdc-icon *ngIf="!node.collapsed()">expand_more</mdc-icon>-->
+          <!--</ng-container>-->
+        <!--</div>-->
+        <!--<div class="MdcTreeNode__Icon" *ngIf="isArray(node)">-->
+          <!--{{ node.parentPropertyName }}-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div class="MdcTreeNode__Icon">&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<img src="../../../../assets/braces.svg" *ngIf="!isArray()"&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;<mdc-icon *ngIf="!isArray(node) && node.collapsed() && node.children().length > 0">folder</mdc-icon>&ndash;&gt;-->
+          <!--&lt;!&ndash;<mdc-icon *ngIf="!isArray(node) && !node.collapsed() && node.children().length > 0">folder_open</mdc-icon>&ndash;&gt;-->
+          <!--&lt;!&ndash;<span *ngIf="isArray(node)">&ndash;&gt;-->
+           <!--&lt;!&ndash;{{ node.parentPropertyName }}&ndash;&gt;-->
+          <!--&lt;!&ndash;</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--<div class="MdcTreeNode__Label">-->
+          <!--<div class="MdcTreeNode__LabelKey" *ngIf="!isArray(node)">-->
+            <!--{{ node.parentPropertyName }}-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</ng-template>-->
+  <!--</shared-mdc-treetable>-->
+  <!--<shared-mdc-table [model]="tableModel">-->
+  <!--</shared-mdc-table>-->
+  <!--<shared-mdc-paginator [total]="tableModel.rowCount()">-->
+  <!--</shared-mdc-paginator>-->
+  <!--<shared-mdc-tree [model]="model">-->
+    <!--<ng-template let-node>-->
+      <!--&lt;!&ndash;Ciao&ndash;&gt;-->
+      <!--&lt;!&ndash;{{ node.parentPropertyName }}&ndash;&gt;-->
+
+      <!--<div class="MdcTreeNode MdcTreeNode__Content" [ngClass]="depthClass(node)">-->
+        <!--<div class="MdcTreeNode__Expander" *ngIf="node.children().length > 0">-->
+          <!--<mdc-icon *ngIf="node.collapsed()">chevron_right</mdc-icon>-->
+          <!--<mdc-icon *ngIf="!node.collapsed()">expand_more</mdc-icon>-->
+        <!--</div>-->
+        <!--<div class="MdcTreeNode__Icon">-->
+          <!--&lt;!&ndash;<img src="../../../../assets/braces.svg" *ngIf="!isArray()"&ndash;&gt;-->
+          <!--<mdc-icon *ngIf="!isArray(node) && node.collapsed() && node.children().length > 0">folder</mdc-icon>-->
+          <!--<mdc-icon *ngIf="!isArray(node) && !node.collapsed() && node.children().length > 0">folder_open</mdc-icon>-->
+          <!--<span *ngIf="isArray(node)">-->
+           <!--{{ node.parentPropertyName }}-->
+          <!--</span>-->
+        <!--</div>-->
+        <!--<div class="MdcTreeNode__Label">-->
+          <!--<div class="MdcTreeNode__LabelKey" *ngIf="!isArray(node)">-->
+            <!--{{ node.parentPropertyName }}<span *ngIf="!node.children().length > 0">:</span>-->
+          <!--</div>-->
+          <!--<div class="MdcTreeNode__LabelValue" *ngIf="!node.children().length > 0">-->
+            <!--{{ node.data }}-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</ng-template>-->
+  <!--</shared-mdc-tree>-->
+  <!--<button (click)="addProperty()">Add</button>-->
+
+</div>

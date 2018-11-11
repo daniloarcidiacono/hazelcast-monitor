@@ -1,0 +1,102 @@
+<div class="PageDashboard">
+  <div class="PageDashboard__Side">
+    <mdc-drawer drawer="permanent">
+      <mdc-drawer-header>
+        <h3 mdcDrawerTitle>Monitor</h3>
+        <!--<h6 mdcDrawerSubtitle>Subtitle</h6>-->
+      </mdc-drawer-header>
+      <mdc-drawer-content>
+        <mdc-list-group>
+          <mdc-list>
+            <ng-container *ngFor="let section of sections">
+              <h6 mdcListGroupSubheader *ngIf="!!section.subHeader">{{section.subHeader}}</h6>
+              <mdc-list-item *ngIf="!section.separator"
+                             (click)="navigateTo(section)">
+                <mdc-icon mdcListItemGraphic fontSize="24" [fontSet]="section.icon.fontSet">{{ section.icon.fontIcon }}</mdc-icon>
+                {{ section.caption }}
+                <div mdcListItemMeta *ngIf="!!section.count()">
+                  {{ section.count() }}
+                </div>
+              </mdc-list-item>
+              <mdc-list-divider *ngIf="!!section.separator"></mdc-list-divider>
+            </ng-container>
+          </mdc-list>
+        </mdc-list-group>
+      </mdc-drawer-content>
+    </mdc-drawer>
+  </div>
+  <div class="PageDashboard__Main">
+    <shared-dynamic-tabs>
+      <ng-template #defaultContentTemplate>
+        <div class="Default">
+          <div class="Default__Header">
+            <div class="Default__HeaderLeft" mdcHeadline4>
+              Dashboard
+            </div>
+          </div>
+          <div class="Default__Scroller">
+            <div class="Default__Section">
+              <div class="Default__SectionTitle" mdcButton>
+                System health
+              </div>
+              <div class="Default__SectionContent Default__SectionContent--health">
+                <statistics-gauge label="System CPU load"
+                                  units="Used"
+                                  color="#5AA454"
+                                  [min]="0"
+                                  [max]="1"
+                                  [percentage]="true"
+                                  [value]="currentStats?.systemCpuLoad">
+                </statistics-gauge>
+
+                <statistics-gauge label="Process CPU load"
+                                  units="Used"
+                                  color="#A10A28"
+                                  [min]="0"
+                                  [max]="1"
+                                  [percentage]="true"
+                                  [value]="currentStats?.processCpuLoad">
+                </statistics-gauge>
+
+                <statistics-gauge label="Physical memory"
+                                  units="Used"
+                                  color="#AAAAAA"
+                                  [min]="0"
+                                  [max]="currentStats?.totalPhysicalMemory"
+                                  [bytes]="true"
+                                  [value]="currentStats?.totalPhysicalMemory - currentStats?.freePhysicalMemory">
+                </statistics-gauge>
+
+                <statistics-gauge label="Heap memory"
+                                  units="Used"
+                                  color="#C7B42C"
+                                  [min]="0"
+                                  [max]="currentStats?.maxHeapMemory"
+                                  [bytes]="true"
+                                  [value]="currentStats?.maxHeapMemory - currentStats?.usedHeapMemory">
+                </statistics-gauge>
+              </div>
+            </div>
+            <div class="Default__Section">
+              <div class="Default__SectionTitle" mdcButton>
+                Quicklinks
+              </div>
+              <div class="Default__SectionContent Default__SectionContent--resources">
+                <ng-container *ngFor="let section of sections">
+                  <section-card *ngIf="!section.separator && section.count() > 0"
+                                [fontIcon]="section.icon.fontIcon"
+                                [fontSet]="section.icon.fontSet"
+                                [title]="section.caption"
+                                [counter]="section.count()"
+                                [color]="section.color"
+                                (click)="navigateTo(section)">
+                  </section-card>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </shared-dynamic-tabs>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.SectionCard {
+  width: 325px;
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  overflow: hidden;
+  cursor: pointer;
+
+  &__Icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 96px;
+    background-color: red;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    & mdc-icon {
+      color: white;
+      font-size: 48px;
+    }
+  }
+
+  &__Right {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__Count {
+    border-bottom: 1px solid gainsboro;
+    flex-grow: 1;
+    padding: 16px;
+    font-weight: lighter;
+  }
+
+  &__Label {
+    flex-grow: 1;
+    padding: 16px;
+    font-weight: lighter;
+  }
+}

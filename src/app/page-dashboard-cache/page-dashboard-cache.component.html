@@ -1,0 +1,60 @@
+<div class="DashboardCache">
+  <div class="DashboardCache__Header">
+    <div class="DashboardCache__HeaderLeft" mdcHeadline4>
+      Inspector - {{ cacheName }}
+    </div>
+    <div class="DashboardCache__HeaderRight">
+      <button mdcIconButton
+              [disabled]="!isManual()"
+              (click)="pull()"
+              icon="refresh"
+              title="Pull data">
+      </button>
+      <shared-frequency-button [frequency]="updateFrequency"
+                               (frequencyChange)="trackUpdateFrequencyChange($event)">
+      </shared-frequency-button>
+      <shared-scripting-button [(filterScript)]="filterScript"
+                               [(sliceScript)]="sliceScript"
+                               (apply)="updateSubscription()">
+      </shared-scripting-button>
+    </div>
+  </div>
+  <div class="DashboardCache__Scroller">
+    <shared-mdc-table [model]="data?.entries">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Key</th>
+          <th class="mdc-data-table__column">Value</th>
+        </tr>
+      </ng-template>
+      <ng-template #bodyTemplate let-entry>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">
+            <shared-object-inspector [data]="entry.key"
+                                     [locked]="entry.locked"
+                                     [stringData]="entry.keyString">
+            </shared-object-inspector>
+          </td>
+          <td class="mdc-data-table__cell  mdc-data-table__cell--top">
+            <shared-object-inspector [data]="entry.value"
+                                     [stringData]="entry.valueString">
+            </shared-object-inspector>
+          </td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+  <div class="DashboardCache__Footer">
+    <div class="DashboardCache__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardCache__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
+  </div>
+
+</div>

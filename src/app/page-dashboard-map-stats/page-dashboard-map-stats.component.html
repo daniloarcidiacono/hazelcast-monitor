@@ -1,0 +1,220 @@
+<div class="DashboardMapStats">
+  <div class="DashboardMapStats__Header">
+    <div class="DashboardMapStats__HeaderLeft" mdcHeadline4>
+      Statistics - {{ mapName }}
+    </div>
+    <div class="DashboardMapStats__HeaderRight">
+    </div>
+  </div>
+
+  <div class="DashboardMapStats__Scroller">
+    <div class="DashboardMapStats__Section DashboardMapStats__Section--tabularMap">
+      <div class="DashboardMapStats__SectionTitle" mdcButton>
+        <shared-help-button title="Tabular data">
+          <ng-template>
+            This sections shows the raw statistics for the map in tabular form.
+          </ng-template>
+        </shared-help-button>
+        Tabular data
+      </div>
+      <div class="DashboardMapStats__SectionContent">
+        <shared-mdc-table [model]="data?.members | keyvalue">
+          <ng-template #headerTemplate>
+            <tr class="mdc-data-table__row">
+              <th class="mdc-data-table__column">Member</th>
+              <th class="mdc-data-table__column">Creation time</th>
+              <th class="mdc-data-table__column">Last access time</th>
+              <th class="mdc-data-table__column">Last update time</th>
+              <th class="mdc-data-table__column">Owned entries</th>
+              <th class="mdc-data-table__column">Backup entries</th>
+              <th class="mdc-data-table__column">Locked entries</th>
+              <th class="mdc-data-table__column">Dirty entries</th>
+              <th class="mdc-data-table__column">Heap cost</th>
+              <th class="mdc-data-table__column">Get</th>
+              <th class="mdc-data-table__column">Put</th>
+              <th class="mdc-data-table__column">Remove</th>
+              <th class="mdc-data-table__column">Event</th>
+              <th class="mdc-data-table__column">Other</th>
+            </tr>
+          </ng-template>
+          <ng-template let-item #bodyTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__cell">{{ item.key }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ item.value.lastAccessTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ item.value.lastUpdateTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ item.value.ownedEntryCount }} ({{ item.value.ownedEntryMemoryCost | bytes }})</td>
+              <td class="mdc-data-table__cell">{{ item.value.backupEntryCount }} ({{ item.value.backupEntryMemoryCost | bytes }})</td>
+              <td class="mdc-data-table__cell">{{ item.value.lockedEntryCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.dirtyEntryCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.heapCost | bytes }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.getOperationCount }} ({{ item.value.totalGetLatency / item.value.getOperationCount | optionalValue }} &micro;s / {{ item.value.maxGetLatency }} &micro;s)</td>
+              <td class="mdc-data-table__cell">{{ item.value.putOperationCount }} ({{ item.value.totalPutLatency / item.value.putOperationCount | optionalValue }} &micro;s / {{ item.value.maxPutLatency }} &micro;s)</td>
+              <td class="mdc-data-table__cell">{{ item.value.removeOperationCount }} ({{ item.value.totalRemoveLatency / item.value.removeOperationCount | optionalValue }} &micro;s / {{ item.value.maxRemoveLatency }} &micro;s)</td>
+              <td class="mdc-data-table__cell">{{ item.value.eventOperationCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.otherOperationCount }}</td>
+            </tr>
+          </ng-template>
+          <ng-template #footerTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__column">Total</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.lastAccessTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.lastUpdateTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.ownedEntryCount }} ({{ data?.aggregated.ownedEntryMemoryCost | bytes }})</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.backupEntryCount }} ({{ data?.aggregated.backupEntryMemoryCost | bytes }})</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.lockedEntryCount }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.dirtyEntryCount }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.heapCost | bytes }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.getOperationCount }} ({{ data?.aggregated.totalGetLatency / data?.aggregated.getOperationCount | optionalValue }} &micro;s / {{ data?.aggregated.maxGetLatency }} &micro;s)</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.putOperationCount }} ({{ data?.aggregated.totalPutLatency / data?.aggregated.putOperationCount | optionalValue }} &micro;s / {{ data?.aggregated.maxPutLatency }} &micro;s)</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.removeOperationCount }} ({{ data?.aggregated.totalRemoveLatency / data?.aggregated.removeOperationCount | optionalValue }} &micro;s / {{ data?.aggregated.maxRemoveLatency }} &micro;s)</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.eventOperationCount }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.otherOperationCount }}</td>
+            </tr>
+          </ng-template>
+        </shared-mdc-table>
+      </div>
+    </div>
+
+    <div class="DashboardMapStats__Section DashboardMapStats__Section--tabularNearCache">
+      <div class="DashboardMapStats__SectionTitle" mdcButton>
+        <shared-help-button title="Near cache statistics">
+          <ng-template>
+            This sections shows the raw statistics for the near cache in tabular form.
+          </ng-template>
+        </shared-help-button>
+        Near cache statistics
+      </div>
+      <div class="DashboardMapStats__SectionContent">
+        <shared-mdc-table [model]="data?.members | keyvalue">
+          <ng-template #headerTemplate>
+            <tr class="mdc-data-table__row">
+              <th class="mdc-data-table__column">Member</th>
+              <th class="mdc-data-table__column">Creation time</th>
+              <th class="mdc-data-table__column">Owned entries</th>
+              <th class="mdc-data-table__column">Hits</th>
+              <th class="mdc-data-table__column">Misses</th>
+              <th class="mdc-data-table__column">Evictions</th>
+              <th class="mdc-data-table__column">Expirations</th>
+              <td class="mdc-data-table__column">persistence Count</td>
+              <td class="mdc-data-table__column">Last persistence time</td>
+              <td class="mdc-data-table__column">Last persistence duration</td>
+              <td class="mdc-data-table__column">Last persistence written bytes</td>
+              <td class="mdc-data-table__column">Last persistence key count</td>
+              <td class="mdc-data-table__column">Last persistence failure</td>
+            </tr>
+          </ng-template>
+          <ng-template let-item #bodyTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__cell">{{ item.key }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.ownedEntryCount }} ({{ item.value.nearCacheStatistics?.ownedEntryMemoryCost | bytes }})</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.hits }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.misses }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.evictions }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.expirations }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.persistenceCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.lastPersistenceTime }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.lastPersistenceDuration }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.lastPersistenceWrittenBytes }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.lastPersistenceKeyCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.nearCacheStatistics?.lastPersistenceFailure | optionalValue }}</td>
+            </tr>
+          </ng-template>
+          <ng-template #footerTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__column">Total</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.ownedEntryCount }} ({{ data?.aggregated.nearCacheStatistics?.ownedEntryMemoryCost | bytes }})</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.hits }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.misses }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.evictions }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.expirations }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.persistenceCount }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.lastPersistenceTime }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.lastPersistenceDuration }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.lastPersistenceWrittenBytes }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.lastPersistenceKeyCount }}</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.nearCacheStatistics?.lastPersistenceFailure | optionalValue }}</td>
+            </tr>
+          </ng-template>
+        </shared-mdc-table>
+      </div>
+    </div>
+
+    <div class="DashboardMapStats__Section DashboardMapStats__Section--linear">
+      <div class="DashboardMapStats__SectionTitle" mdcButton>
+        <shared-help-button title="Hit rates graphs">
+          <ng-template>
+            This graph shows the overall rates of the map.
+          </ng-template>
+        </shared-help-button>
+        Aggregated rates
+      </div>
+      <div class="DashboardMapStats__SectionContent">
+        <!-- Line chart -->
+        <canvas #chartRates></canvas>
+      </div>
+    </div>
+
+    <div class="DashboardMapStats__Section DashboardMapStats__Section--bar">
+      <div class="DashboardMapStats__SectionTitle" mdcButton>
+        <shared-help-button title="Hit rates graphs">
+          <ng-template>
+            This graph shows the member rates of the map.
+          </ng-template>
+        </shared-help-button>
+        Member rates
+      </div>
+      <div class="DashboardMapStats__SectionContent">
+        <!-- Bar chart -->
+        <canvas #chartMemberRates></canvas>
+      </div>
+    </div>
+
+    <!--<div class="DashboardMapStats__Section DashboardMapStats__Section&#45;&#45;owned">-->
+      <!--<div class="DashboardMapStats__SectionTitle" mdcButton>-->
+        <!--<shared-help-button title="Owned entries graph">-->
+          <!--<ng-template>-->
+            <!--This graph shows how map entries are distributed among members.-->
+          <!--</ng-template>-->
+        <!--</shared-help-button>-->
+        <!--Owned entries-->
+      <!--</div>-->
+      <!--<div class="DashboardMapStats__SectionContent">-->
+        <!--&lt;!&ndash; Pie chart &ndash;&gt;-->
+        <!--<canvas #chartOwned></canvas>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="DashboardMapStats__Section DashboardMapStats__Section&#45;&#45;bar">-->
+      <!--<div class="DashboardMapStats__SectionTitle" mdcButton>-->
+        <!--<shared-help-button title="Operations graph">-->
+          <!--<ng-template>-->
+            <!--This graph shows how map operations are distributed among members.-->
+          <!--</ng-template>-->
+        <!--</shared-help-button>-->
+        <!--Operations-->
+      <!--</div>-->
+      <!--<div class="DashboardMapStats__SectionContent">-->
+        <!--&lt;!&ndash; Bar chart &ndash;&gt;-->
+        <!--<canvas #chartOperations></canvas>-->
+      <!--</div>-->
+    <!--</div>-->
+  </div>
+
+  <div class="DashboardMapStats__Footer">
+    <div class="DashboardMapStats__FooterRight">
+      <label for="timebuffer">Buffer:</label>
+      <mdc-select class="DashboardMapStats__ActionBarRight mdc-select--dense"
+                  id="timebuffer"
+                  [outlined]="true"
+                  [ngModel]="statisticsEngine.timeBuffer"
+                  (ngModelChange)="statisticsEngine.setMaxTimeSpan($event)"
+                  [floatingLabel]="false">
+        <option [value]="items" *ngFor="let items of [5, 10, 20, 30, 60, 120, 300, 600]">{{ items }} seconds</option>
+      </mdc-select>
+    </div>
+  </div>
+</div>

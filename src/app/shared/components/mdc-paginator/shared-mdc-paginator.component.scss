@@ -1,0 +1,27 @@
+@import "~@angular-mdc/theme/scss/theme/mdc-theme";
+
+.MdcPaginator {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+
+  &__PageSelector {
+    margin-left: 1em;
+    width: 4em;
+  }
+
+  &__PageSizeSelector {
+    margin-left: 1em;
+  }
+
+  &__Caption {
+    @include mdc-theme-prop(color, text-secondary-on-background);
+    margin-left: 3em;
+  }
+
+  &__Buttons {
+    margin-left: 1em;
+  }
+}

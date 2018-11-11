@@ -1,0 +1,80 @@
+<div class="PageConnect">
+  <div class="PageConnect__Card" [mdcElevation]="4">
+    <div class="PageConnect__Card__Progress">
+      <mdc-linear-progress [open]="isProgressVisible()">
+      </mdc-linear-progress>
+    </div>
+    <div class="PageConnect__Card__Logo"></div>
+    <h1 mdcHeadline6>Connect</h1>
+    <form class="PageConnect__Card__Form" [formGroup]="bindings.form">
+      <div class="PageConnect__Card__TopBar">
+        <!-- Protocol -->
+        <mdc-select formControlName="protocol"
+                    [outlined]="true"
+                    placeholder="Protocol"
+                    [floatingLabel]="true"
+                    class="PageConnect__Card__ProtocolSelector">
+          <option value="http" selected>ws</option>
+          <option value="https">wss</option>
+        </mdc-select>
+
+        <!-- Host -->
+        <mdc-text-field formControlName="host"
+                        type="text"
+                        [outlined]="true"
+                        [dense]="false"
+                        label="Host"
+                        [helperText]="hostHelper"
+                        [required]="true"
+                        class="PageConnect__Card__HostSelector">
+        </mdc-text-field>
+        <mdc-text-field-helper-text #hostHelper [validation]="true" [persistent]="false">
+          <span *ngIf="bindings.form.controls['host'].errors?.required">Host is required</span>
+        </mdc-text-field-helper-text>
+      </div>
+
+      <!-- Port -->
+      <mdc-text-field formControlName="port"
+                      type="number"
+                      [outlined]="true"
+                      [dense]="false"
+                      label="Port"
+                      [helperText]="portHelper"
+                      [required]="true"
+                      class="PageConnect__Card__PortSelector">
+      </mdc-text-field>
+      <mdc-text-field-helper-text #portHelper [validation]="true" [persistent]="false">
+        <span *ngIf="bindings.form.controls['port'].errors?.required">Port is required</span>
+      </mdc-text-field-helper-text>
+
+      <!-- Path -->
+      <mdc-text-field formControlName="path"
+                      type="text"
+                      [outlined]="true"
+                      [dense]="false"
+                      label="Path"
+                      class="PageConnect__Card__PathSelector">
+      </mdc-text-field>
+      <!--<mdc-text-field-helper-text #pathHelper [validation]="true" [persistent]="false">-->
+        <!--<span *ngIf="bindings.form.controls['path'].errors?.required">Path is required</span>-->
+      <!--</mdc-text-field-helper-text>-->
+
+      <button mdc-button
+              *ngIf="isConnectButtonVisible()"
+              [primary]="true"
+              [raised]="true"
+              [disabled]="!isConnectButtonEnabled()"
+              (click)="connect()"
+              class="PageConnect__Card__ConnectButton">
+        Connect
+      </button>
+      <button mdc-button
+              *ngIf="isDisconnectButtonVisible()"
+              [outlined]="true"
+              (click)="disconnect()"
+              class="PageConnect__Card__DisconnectButton">
+        Disconnect
+      </button>
+    </form>
+  </div>
+</div>

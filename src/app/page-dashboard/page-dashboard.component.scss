@@ -1,0 +1,42 @@
+@import "../shared/styles/layouts/section";
+
+.PageDashboard {
+  /** Full height */
+  height: 100%;
+
+  /* Layout the children horizontally */
+  display: flex;
+  flex-direction: row;
+
+  /* The dashboard itself cannot scroll */
+  overflow: hidden;
+
+  &__Side {
+    flex-shrink: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  &__Main {
+    flex-grow: 1;
+    overflow: auto;
+  }
+}
+
+.Default {
+  @include LayoutSection();
+
+  &__SectionContent {
+    &--resources {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+      grid-gap: 32px;
+    }
+
+    &--health {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-gap: 32px;
+    }
+  }
+}

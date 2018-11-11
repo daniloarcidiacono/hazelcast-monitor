@@ -1,0 +1,53 @@
+.DynamicTabs {
+  /* Layout children vertically */
+  display: flex;
+  flex-direction: column;
+
+  /* Full height */
+  height: 100%;
+
+  &__TopBar {
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  &__Content {
+    // Fill up the remaining part of the Page
+    flex-grow: 1;
+
+    // Specifying an height indication in the parent container is mandatory if you want to use height: 100% in children!
+    // (https://stackoverflow.com/questions/33636796/chrome-safari-not-filling-100-height-of-flex-parent)
+    //
+    // Also please note this is NOT equivalent to height: 100%, because the latter would take the whole DynamicTabs height.
+    // In other words, the TopBar section would not be excluded causing the Page container to overflow!
+    flex-basis: 100%;
+
+    // This container can eventually overflow
+    overflow: auto;
+  }
+}
+
+.Tab {
+  &__Content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    pointer-events: auto;
+  }
+
+  &__RecordIcon {
+    color: red;
+    animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+  }
+}
+
+mdc-tab-bar {
+  overflow-x: hidden;
+}
+
+@keyframes blinker {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

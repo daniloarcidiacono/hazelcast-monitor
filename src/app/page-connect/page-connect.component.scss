@@ -1,0 +1,35 @@
+@import "../shared/styles/layouts/single";
+@import "../shared/styles/components/card";
+
+.PageConnect {
+  @include LayoutSingle("Card");
+
+  // Main card block
+  &__Card {
+    @include ComponentCard();
+
+    &__Form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__ProtocolSelector {
+      width: 8rem;
+      margin-right: 1em;
+    }
+
+    &__HostSelector {
+      width: calc(100% - 8rem - 1em);
+    }
+
+    &__TopBar, &__PortSelector,  &__PathSelector {
+      margin-top: 1em;
+    }
+
+    &__ConnectButton, &__DisconnectButton {
+      margin-top: 4em;
+    }
+  }
+}
+
+

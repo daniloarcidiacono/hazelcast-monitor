@@ -1,0 +1,33 @@
+<div class="DashboardRingbuffers">
+  <div class="DashboardRingbuffers__Header">
+    <div class="DashboardRingbuffers__HeaderLeft" mdcHeadline4>
+      Ringbuffers of {{ clusterName }}
+    </div>
+  </div>
+  <div class="DashboardRingbuffers__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Size</th>
+          <th class="mdc-data-table__column">Capacity</th>
+          <th class="mdc-data-table__column">Remaining capacity</th>
+          <th class="mdc-data-table__column">Head sequence</th>
+          <th class="mdc-data-table__column">Tail sequence</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-ringbuffer #bodyTemplate>
+        <tr class="mdc-data-table__row" (click)="navigateToRingbufferDetails(ringbuffer)">
+          <td class="mdc-data-table__cell">{{ ringbuffer.name }}</td>
+          <td class="mdc-data-table__cell">{{ ringbuffer.size }}</td>
+          <td class="mdc-data-table__cell">{{ ringbuffer.capacity }}</td>
+          <td class="mdc-data-table__cell">{{ ringbuffer.remainingCapacity }}</td>
+          <td class="mdc-data-table__cell">{{ ringbuffer.headSequence }}</td>
+          <td class="mdc-data-table__cell">{{ ringbuffer.tailSequence }}</td>
+          <td class="mdc-data-table__cell">{{ ringbuffer.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+</div>

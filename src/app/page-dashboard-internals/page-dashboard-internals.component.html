@@ -1,0 +1,60 @@
+<div class="DashboardInternals">
+  <div class="DashboardInternals__Header">
+    <div class="DashboardInternals__HeaderLeft" mdcHeadline4>
+      Monitor internals
+    </div>
+  </div>
+  <div class="DashboardInternals__Scroller">
+    <div class="DashboardInternals__SectionTitle" mdcButton>
+      Active subscriptions
+    </div>
+    <div class="DashboardInternals__SectionContent">
+      <shared-mdc-table [model]="data?.subscriptionStats.subscriptions">
+        <ng-template #headerTemplate>
+          <tr class="mdc-data-table__row">
+            <th class="mdc-data-table__column">Subscription ID</th>
+            <th class="mdc-data-table__column">Topic type</th>
+          </tr>
+        </ng-template>
+        <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+          <tr class="mdc-data-table__row">
+            <td class="mdc-data-table__cell">{{ entry.id }}</td>
+            <td class="mdc-data-table__cell">{{ entry.topic }}</td>
+          </tr>
+        </ng-template>
+      </shared-mdc-table>
+    </div>
+
+    <div class="DashboardInternals__SectionTitle" mdcButton>
+      Member configuration
+    </div>
+    <div class="DashboardInternals__SectionContent">
+      <ace-editor mode="xml"
+                  [options]="options"
+                  theme="chrome"
+                  [readOnly]="true"
+                  [text]="data?.memberConfig">
+      </ace-editor>
+    </div>
+
+    <div class="DashboardInternals__SectionTitle" mdcButton>
+      Environment variables
+    </div>
+    <div class="DashboardInternals__SectionContent">
+      <shared-mdc-table [model]="data?.envVariables">
+        <ng-template #headerTemplate>
+          <tr class="mdc-data-table__row">
+            <th class="mdc-data-table__column">Name</th>
+            <th class="mdc-data-table__column">Value</th>
+          </tr>
+        </ng-template>
+        <ng-template #bodyTemplate let-entry let-rowIndex="rowIndex">
+          <tr class="mdc-data-table__row">
+            <td class="mdc-data-table__cell">{{ entry.name }}</td>
+            <td class="mdc-data-table__cell">{{ entry.value }}</td>
+          </tr>
+        </ng-template>
+      </shared-mdc-table>
+    </div>
+  </div>
+</div>

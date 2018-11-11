@@ -1,0 +1,104 @@
+<div class="DashboardExecutorStats">
+  <div class="DashboardExecutorStats__Header">
+    <div class="DashboardExecutorStats__HeaderLeft" mdcHeadline4>
+      Statistics - {{ executorName }}
+    </div>
+    <div class="DashboardExecutorStats__HeaderRight">
+    </div>
+  </div>
+
+  <div class="DashboardExecutorStats__Scroller">
+    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--tabular">
+      <div class="DashboardExecutorStats__SectionTitle" mdcButton>
+        <shared-help-button title="Tabular data">
+          <ng-template>
+            This sections shows the raw statistics for the excutor in tabular form.
+          </ng-template>
+        </shared-help-button>
+        Tabular data
+      </div>
+      <div class="DashboardExecutorStats__SectionContent">
+        <shared-mdc-table [model]="data?.members | keyvalue">
+          <ng-template #headerTemplate>
+            <tr class="mdc-data-table__row">
+              <th class="mdc-data-table__column">Member</th>
+              <th class="mdc-data-table__column">Creation time</th>
+              <th class="mdc-data-table__column">Pending tasks</th>
+              <th class="mdc-data-table__column">Started tasks</th>
+              <th class="mdc-data-table__column">Completed tasks</th>
+              <th class="mdc-data-table__column">Cancelled tasks</th>
+              <th class="mdc-data-table__column">Total start latency</th>
+              <th class="mdc-data-table__column">Total execution latency</th>
+            </tr>
+          </ng-template>
+          <ng-template let-item #bodyTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__cell">{{ item.key }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ item.value.pendingTaskCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.startedTaskCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.completedTaskCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.cancelledTaskCount }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.totalStartLatency }}</td>
+              <td class="mdc-data-table__cell">{{ item.value.totalExecutionLatency }}</td>
+            </tr>
+          </ng-template>
+          <ng-template #footerTemplate>
+            <tr class="mdc-data-table__row">
+              <td class="mdc-data-table__column">Total</td>
+              <td class="mdc-data-table__column">{{ data?.aggregated.creationTime | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.pendingTaskCount }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.startedTaskCount }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.completedTaskCount }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.cancelledTaskCount }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.totalStartLatency }}</td>
+              <td class="mdc-data-table__cell">{{ data?.aggregated.totalExecutionLatency }}</td>
+            </tr>
+          </ng-template>
+        </shared-mdc-table>
+      </div>
+    </div>
+
+    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--latency">
+      <div class="DashboardExecutorStats__SectionTitle" mdcButton>
+        <shared-help-button title="Total latency graph">
+          <ng-template>
+            This graph shows the execution latencies.
+          </ng-template>
+        </shared-help-button>
+        Latency
+      </div>
+      <div class="DashboardExecutorStats__SectionContent">
+        <canvas #chartLatency></canvas>
+      </div>
+    </div>
+
+    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--counters">
+      <div class="DashboardExecutorStats__SectionTitle" mdcButton>
+        <shared-help-button title="Total counters graph">
+          <ng-template>
+            This graph shows the execution counters.
+          </ng-template>
+        </shared-help-button>
+        Counters
+      </div>
+      <div class="DashboardExecutorStats__SectionContent">
+        <canvas #chartCounters></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="DashboardExecutorStats__Footer">
+    <div class="DashboardExecutorStats__FooterRight">
+      <label for="timebuffer">Buffer:</label>
+      <mdc-select class="DashboardExecutorStats__ActionBarRight mdc-select--dense"
+                  id="timebuffer"
+                  [outlined]="true"
+                  [ngModel]="statisticsEngine.timeBuffer"
+                  (ngModelChange)="statisticsEngine.setMaxTimeSpan($event)"
+                  [floatingLabel]="false">
+        <option [value]="items" *ngFor="let items of [5, 10, 20, 30, 60, 120, 300, 600]">{{ items }} seconds</option>
+      </mdc-select>
+    </div>
+  </div>
+</div>

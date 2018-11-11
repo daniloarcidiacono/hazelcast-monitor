@@ -1,0 +1,36 @@
+<div class="MdcPaginator">
+  <div>
+    <label for="page" class="MdcPaginator__Caption">Page:</label>
+    <mdc-text-field id="page"
+                    type="number"
+                    min="1"
+                    [outlined]="true"
+                    [dense]="true"
+                    [ngModel]="page"
+                    (ngModelChange)="trackPageChange($event)"
+                    class="MdcPaginator__PageSelector">
+    </mdc-text-field>
+  </div>
+
+  <div>
+    <label for="pageSize" class="MdcPaginator__Caption">Items per page:</label>
+    <mdc-select id="pageSize"
+                [outlined]="true"
+                [autosize]="true"
+                [floatingLabel]="false"
+                [(ngModel)]="pageSize"
+                (ngModelChange)="trackPageSizeChange($event)"
+                class="MdcPaginator__PageSizeSelector mdc-select--dense">
+      <option [value]="items" *ngFor="let items of [5, 10, 15, 25]">{{ items }}</option>
+    </mdc-select>
+  </div>
+
+  <div class="MdcPaginator__Caption">
+    {{ 1 + (page - 1) * pageSize }} - {{ page * pageSize }}
+  </div>
+
+  <div class="MdcPaginator__Buttons">
+    <button mdcIconButton (click)="previousPage()" [disabled]="page === 1" icon="chevron_left"></button>
+    <button mdcIconButton (click)="nextPage()" icon="chevron_right"></button>
+  </div>
+</div>
