@@ -415,3 +415,81 @@ export interface NearCacheStatsDTO {
   lastPersistenceFailure: string;
 }
 
+// Maps, MultiMaps and ReplicatedMaps
+export interface MapStatsDTO {
+  // Creation time of this map on this member
+  creationTime: number;
+
+  // Number of entries owned by this member
+  ownedEntryCount: number;
+
+  // Number of backup entries hold by this member
+  backupEntryCount: number;
+
+  // Number of backups per entry
+  backupCount: number;
+
+  // Memory cost (number of bytes) of owned entries in this member
+  ownedEntryMemoryCost: number;
+
+  // Memory cost (number of bytes) of backup entries in this member
+  backupEntryMemoryCost: number;
+
+  // Last access (read) time of the locally owned entries
+  lastAccessTime: number;
+
+  // Last update time of the locally owned entries
+  lastUpdateTime: number;
+
+  // Number of hits (reads) of the locally owned entries
+  hits: number;
+
+  // Number of currently locked locally owned keys
+  lockedEntryCount: number;
+
+  // Number of entries that the member owns and are dirty (updated but not persisted yet)
+  dirtyEntryCount: number;
+
+  // Number of put operations
+  putOperationCount: number;
+
+  // Number of get operations
+  getOperationCount: number;
+
+  // Number of Remove operations
+  removeOperationCount: number;
+
+  // Number of Events Received
+  eventOperationCount: number;
+
+  // Total number of Other Operations
+  otherOperationCount: number;
+
+  // Total latency of put operations. To get the average latency, divide by the number of puts
+  totalPutLatency: number;
+
+  // Total latency of get operations. To get the average latency, divide by the number of gets
+  totalGetLatency: number;
+
+  // Total latency of remove operations. To get the average latency, divide by the number of gets
+  totalRemoveLatency: number;
+
+  // Maximum latency of put operations
+  maxPutLatency: number;
+
+  // Maximum latency of get operations
+  maxGetLatency: number;
+
+  // Maximum latency of remove operations
+  maxRemoveLatency: number;
+
+  // Total number of total operations
+  total: number;
+
+  // Cost of map & Near Cache & backup in bytes
+  heapCost: number;
+
+  // Statistics related to the Near Cache
+  nearCacheStatistics: NearCacheStatsDTO;
+}
+export type MapStatsProductDTO = StatsProductDTO<MapStatsDTO>;

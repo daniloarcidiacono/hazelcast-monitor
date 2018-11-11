@@ -17,6 +17,7 @@
                 <li>Press CTRL+Enter to apply the filter.</li>
                 <li>Use <pre style="display: inline">element</pre> to refer to the current element.</li>
                 <li>Use <pre style="display: inline">element.key</pre> and <pre style="display: inline">element.value</pre> with maps.</li>
+                <li>With multimaps, <pre style="display: inline">element.value</pre> is always an array.</li>
                 <li><strong>Don't use</strong> the <pre style="display: inline">return</pre> keyword, just write the condition.</li>
                 <li>Compare strings with <pre style="display: inline">==</pre> instead of <pre style="display: inline">===</pre>.</li>
                 <li>Use <pre style="display: inline">element.vector.get(index)</pre> to access Java  <pre style="display: inline">List</pre>s.</li>
@@ -44,6 +45,7 @@
                 <li>Language is JsonPath.</li>
                 <li>Press CTRL+Enter to apply the slice.</li>
                 <li>When used with maps, slicing is applied only to values.</li>
+                <li>When used with multimaps, slicing is applied to the collection of values. For example, <pre style="display: inline">$[0]</pre> extracts the first value.</li>
               </ul>
             </ng-template>
           </shared-help-button>

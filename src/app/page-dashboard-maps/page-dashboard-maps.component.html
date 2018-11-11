@@ -19,13 +19,18 @@
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Actions</th>
           <th class="mdc-data-table__column">Name</th>
           <th class="mdc-data-table__column">Number of keys</th>
           <th class="mdc-data-table__column">Partition key</th>
         </tr>
       </ng-template>
       <ng-template let-map #bodyTemplate>
-        <tr class="mdc-data-table__row" (click)="navigateToMapDetails(map)">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">
+            <button mdcIconButton icon="search" (click)="navigateToMapDetails(map)" title="Inspect"></button>
+            <button mdcIconButton icon="bar_chart" (click)="navigateToMapStats(map)" title="Statistics"></button>
+          </td>
           <td class="mdc-data-table__cell">{{ map.name }}</td>
           <td class="mdc-data-table__cell">{{ map.size }}</td>
           <td class="mdc-data-table__cell">{{ map.partitionKey }}</td>

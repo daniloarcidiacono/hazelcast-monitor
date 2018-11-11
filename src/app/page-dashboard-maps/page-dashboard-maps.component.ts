@@ -12,6 +12,8 @@ import {
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
 import {SharedPageIconsConstants} from "@shared/constants/shared-page-icons.constants";
+import {DistributedObjectType} from "@shared/dto/topics.dto";
+import {PageDashboardMapStatsComponent} from "../page-dashboard-map-stats/page-dashboard-map-stats.component";
 
 @Component({
   templateUrl: './page-dashboard-maps.component.html',
@@ -53,6 +55,20 @@ export class PageDashboardMapsComponent implements TabAwareComponent, OnDestroy 
   public trackPageSizeChange(newPageSize: number): void {
     this.pageSize = newPageSize;
     this.updateSubscription();
+  }
+
+  public navigateToMapStats(row: MapSummaryDTO): void {
+    const mapName: string = row.name;
+
+    this.tabsService.addTab({
+      label: `${mapName} statistics`,
+      icon: SharedPageIconsConstants.STATS_ICON,
+      componentClass: PageDashboardMapStatsComponent,
+      componentInputs: {
+        mapName: mapName,
+        mapType: DistributedObjectType.MAP
+      }
+    });
   }
 
   public navigateToMapDetails(row: MapSummaryDTO): void {

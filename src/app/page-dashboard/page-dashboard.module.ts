@@ -75,6 +75,8 @@ import {PageDashboardExecutorStatsComponent} from "../page-dashboard-executor-st
 import {PageDashboardExecutorStatsModule} from "../page-dashboard-executor-stats/page-dashboard-executor-stats.module";
 import {PageDashboardCacheStatsModule} from "../page-dashboard-cache-stats/page-dashboard-cache-stats.module";
 import {PageDashboardCacheStatsComponent} from "../page-dashboard-cache-stats/page-dashboard-cache-stats.component";
+import {PageDashboardMapStatsComponent} from "../page-dashboard-map-stats/page-dashboard-map-stats.component";
+import {PageDashboardMapStatsModule} from "../page-dashboard-map-stats/page-dashboard-map-stats.module";
 
 @NgModule({
   declarations: [
@@ -105,6 +107,7 @@ import {PageDashboardCacheStatsComponent} from "../page-dashboard-cache-stats/pa
     PageDashboardExecutorStatsModule,
     PageDashboardInternalsModule,
     PageDashboardMapModule,
+    PageDashboardMapStatsModule,
     PageDashboardListModule,
     PageDashboardMultiMapModule,
     PageDashboardReplicatedMapModule,
@@ -158,6 +161,7 @@ import {PageDashboardCacheStatsComponent} from "../page-dashboard-cache-stats/pa
     PageDashboardExecutorStatsComponent,
     PageDashboardInternalsComponent,
     PageDashboardMapComponent,
+    PageDashboardMapStatsComponent,
     PageDashboardListComponent,
     PageDashboardMultiMapComponent,
     PageDashboardReplicatedMapComponent,

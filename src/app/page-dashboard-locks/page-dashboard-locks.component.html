@@ -17,7 +17,7 @@
       <ng-template let-lock #bodyTemplate>
         <tr class="mdc-data-table__row">
           <td class="mdc-data-table__cell" style="display: flex; flex-direction: row; align-items: center">
-            <mdc-icon *ngIf="lock.locked" style="color: red">lock</mdc-icon>
+            <mdc-icon *ngIf="lock.locked" style="color: red" title="This lock is currently held">lock</mdc-icon>
             <mdc-icon *ngIf="!lock.locked" style="color: green">lock_open</mdc-icon>
             <div style="margin-left: 1em">
               {{ lock.name }}

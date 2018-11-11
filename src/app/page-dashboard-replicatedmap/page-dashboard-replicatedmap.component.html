@@ -1,7 +1,7 @@
 <div class="DashboardReplicatedMap">
   <div class="DashboardReplicatedMap__Header">
     <div class="DashboardReplicatedMap__HeaderLeft" mdcHeadline4>
-      {{ mapName }}
+      Inspector - {{ mapName }}
     </div>
     <div class="DashboardReplicatedMap__HeaderRight">
       <button mdcIconButton
@@ -19,6 +19,7 @@
       </shared-scripting-button>
     </div>
   </div>
+
   <div class="DashboardReplicatedMap__Scroller">
     <shared-mdc-table [model]="data?.entries">
       <ng-template #headerTemplate>

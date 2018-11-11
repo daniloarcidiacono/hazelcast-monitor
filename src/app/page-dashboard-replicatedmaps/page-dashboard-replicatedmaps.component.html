@@ -3,23 +3,51 @@
     <div class="DashboardReplicatedMaps__HeaderLeft" mdcHeadline4>
       Replicated maps of {{ clusterName }}
     </div>
+    <div class="DashboardReplicatedMaps__HeaderRight">
+      <mdc-text-field type="text"
+                      placeholder="Search"
+                      [outlined]="true"
+                      [dense]="true"
+                      [(ngModel)]="filterRegex"
+                      (keydown)="handleKeydown($event)"
+                      label="Filter">
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+      </mdc-text-field>
+    </div>
   </div>
   <div class="DashboardReplicatedMaps__Scroller">
     <shared-mdc-table [model]="data?.objects">
       <ng-template #headerTemplate>
         <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Actions</th>
           <th class="mdc-data-table__column">Name</th>
           <th class="mdc-data-table__column">Number of keys</th>
           <th class="mdc-data-table__column">Partition key</th>
         </tr>
       </ng-template>
       <ng-template let-map #bodyTemplate>
-        <tr class="mdc-data-table__row" (click)="navigateToReplicatedMapDetails(map)">
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">
+            <button mdcIconButton icon="search" (click)="navigateToReplicatedMapDetails(map)" title="Inspect"></button>
+            <button mdcIconButton icon="bar_chart" (click)="navigateToReplicatedMapStats(map)" title="Statistics"></button>
+          </td>
           <td class="mdc-data-table__cell">{{ map.name }}</td>
           <td class="mdc-data-table__cell">{{ map.size }}</td>
           <td class="mdc-data-table__cell">{{ map.partitionKey }}</td>
         </tr>
       </ng-template>
     </shared-mdc-table>
+  </div>
+  <div class="DashboardReplicatedMaps__Footer">
+    <div class="DashboardReplicatedMaps__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardReplicatedMaps__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
   </div>
 </div>

@@ -5,7 +5,7 @@
         <mdc-icon *ngIf="node.other.collapsed">chevron_right</mdc-icon>
         <mdc-icon *ngIf="!node.other.collapsed">expand_more</mdc-icon>
       </div>
-      <div class="MdcTreeNode__Icon" *ngIf="locked && node.parent === undefined">
+      <div class="MdcTreeNode__Icon" *ngIf="locked && node.parent === undefined" title="This entry is currently locked">
         <mdc-icon style="color: red">lock</mdc-icon>
       </div>
       <div class="MdcTreeNode__Label">
