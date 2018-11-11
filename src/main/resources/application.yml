@@ -1,0 +1,22 @@
+server:
+  servlet:
+    contextPath: /monitor
+  port: 7000
+
+spring:
+  main:
+    banner-mode: "off"
+
+logging:
+  level:
+    it.xdnl.hazelcast.monitor: DEBUG
+
+monitor:
+  threads:
+    threadPoolSize: 2
+
+  websocket:
+    # Must not contain an eventual contextPath
+    endpoint: "/ws"
+    allowed-origins:
+      - "*"
