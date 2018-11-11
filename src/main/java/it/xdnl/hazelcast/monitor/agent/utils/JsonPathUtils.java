@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 
+import java.util.Collection;
 import java.util.Map;
 
 public abstract class JsonPathUtils {
@@ -24,6 +25,13 @@ public abstract class JsonPathUtils {
     public static Object slice(final Object object, final JsonPath jsonPath) {
         if (jsonPath != null) {
             try {
+                // Handle collection separately
+                if (object instanceof Collection) {
+                    final Collection json = mapper.convertValue(object, Collection.class);
+                    return jsonPath.read(json);
+                }
+
+                // Objects
                 final Map<String, Object> json = mapper.convertValue(object, Map.class);
                 return jsonPath.read(json);
             } catch (Exception e) {

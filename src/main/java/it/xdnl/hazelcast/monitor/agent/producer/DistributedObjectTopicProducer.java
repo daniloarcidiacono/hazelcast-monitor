@@ -235,19 +235,39 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
 
     private MapProduct produceMultiMap() {
         final MapProduct product = new MapProduct();
-        final MultiMap map = instance.getMultiMap(objectName);
-        final Set<Object> keys = map.keySet();
-        for (Object key : keys) {
-            final Collection<Object> values = map.get(key);
-            product.add(
-                new MapProduct.Entry(
-                    mapper.valueToTree(key),
-                    mapper.valueToTree(values),
-                    key.toString(),
-                    "Collection",
-                    map.isLocked(key)
-                )
-            );
+        try {
+            final MultiMap map = instance.getMultiMap(objectName);
+
+            // Filter
+            final List<Map.Entry> filtered = predicateQueryEngine.queryMultiMap(map, predicate);
+
+            // Paginate
+            final int start = pageSize * (page - 1);
+            final int end = start + pageSize - 1;
+            int current = start;
+            while (current <= end && current < filtered.size()) {
+                final Map.Entry entry = filtered.get(current);
+
+                // Slice (the collection)
+                final Object sliced = JsonPathUtils.slice(entry.getValue(), jsonPath);
+
+                // If we have applied the slice with success
+                if (sliced != null) {
+                    product.add(
+                        new MapProduct.Entry(
+                            mapper.valueToTree(entry.getKey()),
+                            mapper.valueToTree(sliced),
+                            entry.getKey().toString(),
+                            sliced instanceof Collection ? "Collection" : sliced.toString(),
+                            map.isLocked(entry.getKey())
+                        )
+                    );
+                }
+
+                current++;
+            }
+        } catch (PredicateQueryEngineException e) {
+            predicate = FalsePredicate.INSTANCE;
         }
 
         return product;

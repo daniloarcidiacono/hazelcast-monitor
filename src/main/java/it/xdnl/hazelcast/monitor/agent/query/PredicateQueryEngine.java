@@ -5,9 +5,7 @@ import com.hazelcast.core.*;
 import it.xdnl.hazelcast.monitor.agent.utils.PredicateUtils;
 
 import javax.cache.Cache;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
@@ -87,5 +85,29 @@ public class PredicateQueryEngine {
         }
 
         return result;
+    }
+
+    public <K, V> List<Map.Entry<K, List<V>>> queryMultiMap(final MultiMap<K, V> map, final Predicate predicate) {
+        // A MultiMap entrySet() contains duplicated entries for the same key!
+        final Map<K, List<V>> collapsedMap = new HashMap<>();
+        for (Map.Entry<K, V> kvEntry : map.entrySet()) {
+            if (!collapsedMap.containsKey(kvEntry.getKey())) {
+                collapsedMap.put(kvEntry.getKey(), new ArrayList<>());
+            }
+
+            collapsedMap.get(kvEntry.getKey()).add(kvEntry.getValue());
+        }
+
+        if (predicate instanceof ScriptPredicate) {
+            ((ScriptPredicate)predicate).prepare();
+        }
+
+        // ReplicatedMap does not support predicates, so we filter manually
+        // TODO: The values order is random!
+        return collapsedMap.entrySet().stream().filter(mapEntry -> {
+            // Notice that we are passing the whole collection as the value
+            final SimpleEntry simpleEntry = new SimpleEntry(mapEntry.getKey(), mapEntry.getValue());
+            return PredicateUtils.safePredicateApply(predicate, simpleEntry);
+        }).collect(Collectors.toList());
     }
 }
