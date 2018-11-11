@@ -1,7 +1,4 @@
 export abstract class SharedStorageConstants {
-  // Current cluster
-  public static CURRENT_CLUSTER_KEY: string = 'CURRENT_CLUSTER';
-
-  // Clusters
-  public static CLUSTERS_KEY: string = 'CLUSTERS';
+  // Connection parameters used in page-connect
+  public static CONNECTION_PARAMS: string = 'CONNECTION_PARAMS';
 }

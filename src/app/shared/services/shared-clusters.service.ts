@@ -1,16 +1,12 @@
 import {Injectable} from '@angular/core';
-import {SharedWebStorageService} from "./shared-webstorage.service";
-import {Cluster} from "../model/shared-cluster.model";
+import {Cluster} from '../model/shared-cluster.model';
 
 @Injectable()
 export class SharedClustersService {
   private clusters: Cluster[];
   private currentCluster: Cluster;
 
-  public constructor(private storage: SharedWebStorageService) {
-    // TODO: Read from web storage
-    // this.clusters = this.storage.get(SharedStorageConstants.CLUSTERS_KEY) || [];
-    // this.currentCluster = this.storage.get(SharedStorageConstants.CURRENT_CLUSTER_KEY);
+  public constructor() {
     this.clusters = [];
     this.currentCluster = undefined;
   }

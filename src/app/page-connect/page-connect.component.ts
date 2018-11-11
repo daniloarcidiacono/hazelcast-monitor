@@ -1,10 +1,12 @@
-import {Component, HostBinding, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {ConnectionState, SharedWebSocketService} from '@shared/services/shared-websocket.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {MdcLinearProgress} from '@angular-mdc/web';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/index';
+import {SharedWebStorageService} from '@shared/services/shared-webstorage.service';
+import {SharedStorageConstants} from '@shared/constants/shared-storage.constants';
 
 @Component({
   templateUrl: './page-connect.component.html',
@@ -29,11 +31,17 @@ export class PageConnectComponent implements OnDestroy {
 
   public constructor(private wsService: SharedWebSocketService,
                      private snackbarService: SharedSnackbarService,
+                     private storageService: SharedWebStorageService,
                      private formBuilder: FormBuilder,
                      private router: Router) {
     this.initForm();
+
     this.wsStateSub = this.wsService.onConnectivityChanged.subscribe((value: ConnectionState) => {
       if (value === ConnectionState.CONNECTED) {
+        // Store the connnection
+        this.storageService.setAsObject(SharedStorageConstants.CONNECTION_PARAMS, this.form.value);
+
+        // Navigate to clusters page
         this.router.navigateByUrl('/clusters');
       }
 
@@ -55,11 +63,24 @@ export class PageConnectComponent implements OnDestroy {
   }
 
   private initForm(): void {
+    // Read from storage
+    let connectionParams: any = this.storageService.getAsObject(SharedStorageConstants.CONNECTION_PARAMS);
+
+    // If not present (or invalid json) load the defaults
+    if (connectionParams === undefined) {
+      connectionParams = {
+        protocol: 'http',
+        host: 'localhost',
+        port: '7000',
+        path: '/monitor/ws'
+      };
+    }
+
     this.form = this.formBuilder.group({
-      protocol: ['http', Validators.required],
-      host: ['localhost', Validators.required],
-      port: ['7000', Validators.required],
-      path: ['/monitor/ws']
+      protocol: [connectionParams.protocol, Validators.required],
+      host: [connectionParams.host, Validators.required],
+      port: [connectionParams.port, Validators.required],
+      path: [connectionParams.path]
     });
 
     if (!this.isFormEnabled()) {

@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {SharedWebStorageService} from "./shared-webstorage.service";
-import {Cluster} from "../model/shared-cluster.model";
 import {MdcSnackbar} from "@angular-mdc/web";
 
 @Injectable()
