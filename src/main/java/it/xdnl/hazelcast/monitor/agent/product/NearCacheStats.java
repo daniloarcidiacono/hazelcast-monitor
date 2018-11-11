@@ -36,16 +36,16 @@ public class NearCacheStats implements Serializable {
     private long persistenceCount = 0;
 
     @TypescriptComments("Timestamp of the last Near Cache key persistence (when the pre-load feature is enabled)")
-    private long lastPersistenceTime = 0;
+    private long lastPersistenceTime = Long.MIN_VALUE;
 
     @TypescriptComments("Duration in milliseconds of the last Near Cache key persistence (when the pre-load feature is enabled)")
-    private long lastPersistenceDuration = 0;
+    private long lastPersistenceDuration = Long.MIN_VALUE;
 
     @TypescriptComments("Written bytes of the last Near Cache key persistence (when the pre-load feature is enabled)")
-    private long lastPersistenceWrittenBytes = 0;
+    private long lastPersistenceWrittenBytes = Long.MIN_VALUE;
 
     @TypescriptComments("Number of persisted keys of the last Near Cache key persistence (when the pre-load feature is enabled)")
-    private long lastPersistenceKeyCount = 0;
+    private long lastPersistenceKeyCount = Long.MIN_VALUE;
 
     @TypescriptComments("Failure reason of the last Near Cache persistence (when the pre-load feature is enabled)")
     private String lastPersistenceFailure;
@@ -57,19 +57,28 @@ public class NearCacheStats implements Serializable {
         final int statCount = stats.size();
         final NearCacheStats result = new NearCacheStats();
         for (NearCacheStats stat : stats) {
+            if (stat == null) {
+                continue;
+            }
+
             result.creationTime += stat.creationTime / statCount;
             result.ownedEntryCount += stat.ownedEntryCount;
             result.ownedEntryMemoryCost += stat.ownedEntryMemoryCost;
             result.hits += stat.hits;
             result.misses += stat.misses;
-            result.ratio += stat.ratio;
             result.evictions += stat.evictions;
             result.expirations += stat.expirations;
             result.persistenceCount += stat.persistenceCount;
-            result.lastPersistenceTime += stat.lastPersistenceTime;
-            result.lastPersistenceDuration += stat.lastPersistenceDuration;
-            result.lastPersistenceWrittenBytes += stat.lastPersistenceWrittenBytes;
-            result.lastPersistenceKeyCount += stat.lastPersistenceKeyCount;
+            result.lastPersistenceTime = Math.max(result.lastPersistenceTime, stat.lastPersistenceTime);
+            result.lastPersistenceDuration = Math.max(result.lastPersistenceDuration, stat.lastPersistenceDuration);
+            result.lastPersistenceWrittenBytes = Math.max(result.lastPersistenceWrittenBytes, stat.lastPersistenceWrittenBytes);
+            result.lastPersistenceKeyCount = Math.max(result.lastPersistenceKeyCount, stat.lastPersistenceKeyCount);
+        }
+
+        if (result.misses == 0) {
+            result.ratio = result.hits == 0 ? Double.NaN : Double.POSITIVE_INFINITY;
+        } else {
+            result.ratio = result.hits / (float)result.misses * 100.0f;
         }
 
         // This property cannot be aggregated
@@ -78,6 +87,10 @@ public class NearCacheStats implements Serializable {
     }
 
     public static NearCacheStats fromHazelcast(final com.hazelcast.monitor.NearCacheStats nearCacheStats) {
+        if (nearCacheStats == null) {
+            return null;
+        }
+
         final NearCacheStats result = new NearCacheStats();
         result.setCreationTime(nearCacheStats.getCreationTime());
         result.setOwnedEntryCount(nearCacheStats.getOwnedEntryCount());
@@ -93,6 +106,9 @@ public class NearCacheStats implements Serializable {
         result.setLastPersistenceWrittenBytes(nearCacheStats.getLastPersistenceWrittenBytes());
         result.setLastPersistenceKeyCount(nearCacheStats.getLastPersistenceKeyCount());
         result.setLastPersistenceFailure(nearCacheStats.getLastPersistenceFailure());
+        if (result.getLastPersistenceFailure().isEmpty()) {
+            result.setLastPersistenceFailure(null);
+        }
 
         return result;
     }

@@ -13,6 +13,8 @@ public class HazelcastConfiguration {
     @Bean
     public Config config() {
         final Config config = new Config();
+
+        // Caches
         final Map<String, CacheSimpleConfig> cacheConfigs = new HashMap<>();
         cacheConfigs.put(
         "myCache",
@@ -20,6 +22,18 @@ public class HazelcastConfiguration {
                 .setStatisticsEnabled(true)
         );
         config.setCacheConfigs(cacheConfigs);
+
+        // Maps
+        final Map<String, MapConfig> mapConfigs = new HashMap<>();
+        mapConfigs.put(
+            "myMap",
+            new MapConfig()
+                .setNearCacheConfig(
+                    new NearCacheConfig()
+                )
+        );
+        config.setMapConfigs(mapConfigs);
+
         config.setManagementCenterConfig(
             new ManagementCenterConfig()
                 .setUrl("http://localhost:8080/mancenter")

@@ -29,10 +29,10 @@ public class MapStats implements Serializable {
     private long backupEntryMemoryCost = 0;
 
     @TypescriptComments("Last access (read) time of the locally owned entries")
-    private long lastAccessTime = 0;
+    private long lastAccessTime = Long.MIN_VALUE;
 
     @TypescriptComments("Last update time of the locally owned entries")
-    private long lastUpdateTime = 0;
+    private long lastUpdateTime = Long.MIN_VALUE;
 
     @TypescriptComments("Number of hits (reads) of the locally owned entries")
     private long hits = 0;
@@ -62,13 +62,13 @@ public class MapStats implements Serializable {
     private long totalRemoveLatency = 0;
 
     @TypescriptComments("Maximum latency of put operations")
-    private long maxPutLatency = 0;
+    private long maxPutLatency = Long.MIN_VALUE;
 
     @TypescriptComments("Maximum latency of get operations")
-    private long maxGetLatency = 0;
+    private long maxGetLatency = Long.MIN_VALUE;
 
     @TypescriptComments("Maximum latency of remove operations")
-    private long maxRemoveLatency = 0;
+    private long maxRemoveLatency = Long.MIN_VALUE;
 
     @TypescriptComments("Number of Events Received")
     private long eventOperationCount = 0;
@@ -98,8 +98,8 @@ public class MapStats implements Serializable {
             result.backupCount += stat.backupCount;
             result.ownedEntryMemoryCost += stat.ownedEntryMemoryCost;
             result.backupEntryMemoryCost += stat.backupEntryMemoryCost;
-            result.lastAccessTime += stat.lastAccessTime;
-            result.lastUpdateTime += stat.lastUpdateTime;
+            result.lastAccessTime = Math.max(result.lastAccessTime, stat.lastAccessTime);
+            result.lastUpdateTime = Math.max(result.lastUpdateTime, stat.lastUpdateTime);
             result.hits += stat.hits;
             result.lockedEntryCount += stat.lockedEntryCount;
             result.dirtyEntryCount += stat.dirtyEntryCount;
@@ -109,9 +109,9 @@ public class MapStats implements Serializable {
             result.totalPutLatency += stat.totalPutLatency;
             result.totalGetLatency += stat.totalGetLatency;
             result.totalRemoveLatency += stat.totalRemoveLatency;
-            result.maxPutLatency += stat.maxPutLatency;
-            result.maxGetLatency += stat.maxGetLatency;
-            result.maxRemoveLatency += stat.maxRemoveLatency;
+            result.maxPutLatency = Math.max(result.maxPutLatency, stat.maxPutLatency);
+            result.maxGetLatency = Math.max(result.maxGetLatency, stat.maxGetLatency);
+            result.maxRemoveLatency = Math.max(result.maxRemoveLatency, stat.maxRemoveLatency);
             result.eventOperationCount += stat.eventOperationCount;
             result.otherOperationCount += stat.otherOperationCount;
             result.total += stat.total;
@@ -151,11 +151,16 @@ public class MapStats implements Serializable {
         result.setOtherOperationCount(localMapStats.getOtherOperationCount());
         result.setTotal(localMapStats.total());
         result.setHeapCost(localMapStats.getHeapCost());
-        result.setNearCacheStatistics(
-            NearCacheStats.fromHazelcast(
-                localMapStats.getNearCacheStats()
-            )
-        );
+        try {
+            result.setNearCacheStatistics(
+                    NearCacheStats.fromHazelcast(
+                            localMapStats.getNearCacheStats()
+                    )
+            );
+        } catch (UnsupportedOperationException e) {
+            // Just ignore the exception
+            // Caches (server-side) and replicated maps do not support near caches
+        }
 
         return result;
     }
