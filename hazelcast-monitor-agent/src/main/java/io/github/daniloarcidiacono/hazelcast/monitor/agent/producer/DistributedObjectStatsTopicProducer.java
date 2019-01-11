@@ -1,14 +1,12 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.producer;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.Member;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
-import io.github.daniloarcidiacono.hazelcast.monitor.agent.product.*;
+import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.ObjectMapperFactory;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.product.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,18 +23,17 @@ import java.util.concurrent.Future;
  */
 public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
     public static final String TOPIC_TYPE = "distributed_object_stats";
-    private static final ObjectMapper mapper = new ObjectMapper();
     private static final Logger logger = LoggerFactory.getLogger(DistributedObjectStatsTopicProducer.class);
+
+    // Mapper
+    private ObjectMapper mapper;
+    private ObjectMapperFactory objectMapperFactory;
 
     private final DistributedObjectType distributedObjectType;
     private final String objectName;
     private final String instanceName;
     private final HazelcastInstance instance;
     private final IExecutorService executorService;
-
-    static {
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-    }
 
     public DistributedObjectStatsTopicProducer(final String instanceName,
                                                final DistributedObjectType distributedObjectType,
@@ -207,5 +204,16 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
         }
 
         return product;
+    }
+
+    public ObjectMapperFactory getObjectMapperFactory() {
+        return objectMapperFactory;
+    }
+
+    public void setObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
+        this.objectMapperFactory = objectMapperFactory;
+        if (objectMapperFactory != null) {
+            mapper = objectMapperFactory.instance();
+        }
     }
 }

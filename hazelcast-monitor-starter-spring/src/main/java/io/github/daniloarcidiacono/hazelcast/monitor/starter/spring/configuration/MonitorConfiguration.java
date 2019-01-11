@@ -2,6 +2,8 @@ package io.github.daniloarcidiacono.hazelcast.monitor.starter.spring.configurati
 
 import com.hazelcast.core.HazelcastInstance;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.HazelcastAgent;
+import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.DefaultObjectMapperFactory;
+import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.ObjectMapperFactory;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.TopicProducerFactory;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.handler.SubscribeMessageHandler;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.helper.ConnectionSubscriptionsRegistry;
@@ -10,6 +12,7 @@ import io.github.daniloarcidiacono.hazelcast.monitor.starter.spring.property.Mon
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.handler.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +24,7 @@ import java.util.List;
 @ComponentScan(basePackages = { "io.github.daniloarcidiacono.hazelcast.monitor.starter.spring" })
 @EnableWebSocket
 @ConditionalOnMissingBean(HazelcastAgent.class)
+@ConditionalOnProperty(value = "monitor.enabled", havingValue = "true", matchIfMissing = true)
 public class MonitorConfiguration {
     @Autowired
     private MonitorThreadsProperties threadsProperties;
@@ -39,10 +43,17 @@ public class MonitorConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(ObjectMapperFactory.class)
+    public ObjectMapperFactory objectMapperFactory() {
+        return new DefaultObjectMapperFactory();
+    }
+
+    @Bean
     public TopicProducerFactory topicFactory() {
         final TopicProducerFactory topicProducerFactory = new TopicProducerFactory(threadsProperties.getThreadPoolSize());
         topicProducerFactory.setConnectionSubscriptionsRegistry(connectionSubscriptionsRegistry());
         topicProducerFactory.setPredicateQueryEngine(predicateQueryEngine());
+        topicProducerFactory.setObjectMapperFactory(objectMapperFactory());
 
         return topicProducerFactory;
     }
@@ -59,6 +70,7 @@ public class MonitorConfiguration {
     @Bean
     public HazelcastAgent hazelcastAgent(final List<MessageHandler> handlers) {
         final HazelcastAgent agent = new HazelcastAgent();
+        agent.setObjectMapperFactory(objectMapperFactory());
         for (MessageHandler handler : handlers) {
             agent.addHandler(handler);
         }

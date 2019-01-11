@@ -15,6 +15,9 @@ public class TopicProducerFactory {
     private ConnectionSubscriptionsRegistry connectionSubscriptionsRegistry;
     private PredicateQueryEngine predicateQueryEngine;
 
+    // Mapper
+    private ObjectMapperFactory objectMapperFactory;
+
     public TopicProducerFactory(final int corePoolSize) {
         threadPool = Executors.newScheduledThreadPool(corePoolSize);
     }
@@ -53,12 +56,16 @@ public class TopicProducerFactory {
                 return new TopicTopicProducer(topic.getInstanceName(), topic.getObjectName());
             }
 
-            return wrapProducer(new DistributedObjectTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName(), predicateQueryEngine), message);
+            final DistributedObjectTopicProducer producer = new DistributedObjectTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName(), predicateQueryEngine);
+            producer.setObjectMapperFactory(objectMapperFactory);
+            return wrapProducer(producer, message);
         }
 
         if (message.getTopic() instanceof DistributedObjectStatsTopic) {
             final DistributedObjectStatsTopic topic = (DistributedObjectStatsTopic) message.getTopic();
-            return wrapProducer(new DistributedObjectStatsTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName()), message);
+            final DistributedObjectStatsTopicProducer producer = new DistributedObjectStatsTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName());
+            producer.setObjectMapperFactory(objectMapperFactory);
+            return wrapProducer(producer, message);
         }
 
         return null;
@@ -87,5 +94,13 @@ public class TopicProducerFactory {
 
     public void setPredicateQueryEngine(PredicateQueryEngine predicateQueryEngine) {
         this.predicateQueryEngine = predicateQueryEngine;
+    }
+
+    public ObjectMapperFactory getObjectMapperFactory() {
+        return objectMapperFactory;
+    }
+
+    public void setObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
+        this.objectMapperFactory = objectMapperFactory;
     }
 }

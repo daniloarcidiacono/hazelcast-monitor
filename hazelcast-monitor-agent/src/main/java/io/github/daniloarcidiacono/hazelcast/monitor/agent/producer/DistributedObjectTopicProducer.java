@@ -1,13 +1,12 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.producer;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hazelcast.cache.ICache;
 import com.hazelcast.core.*;
 import com.jayway.jsonpath.JsonPath;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.exception.UpdateParameterException;
+import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.ObjectMapperFactory;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.product.ListProduct;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.product.MapProduct;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.product.Product;
@@ -25,10 +24,13 @@ import java.util.function.Predicate;
  */
 public class DistributedObjectTopicProducer extends AbstractTopicProducer {
     public static final String TOPIC_TYPE = "distributed_object_details";
-    private static final ObjectMapper mapper = new ObjectMapper();
     private DistributedObjectType distributedObjectType;
     private String objectName;
     private HazelcastInstance instance;
+
+    // Mapper
+    private ObjectMapper mapper;
+    private ObjectMapperFactory objectMapperFactory;
 
     // Pagination
     private int page = 1;
@@ -38,10 +40,6 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
     private PredicateQueryEngine predicateQueryEngine;
     private Predicate predicate = TruePredicate.INSTANCE;
     private JsonPath jsonPath = null;
-
-    static {
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-    }
 
     public DistributedObjectTopicProducer(final String instanceName,
                                           final DistributedObjectType distributedObjectType,
@@ -427,5 +425,16 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
         }
 
         return product;
+    }
+
+    public ObjectMapperFactory getObjectMapperFactory() {
+        return objectMapperFactory;
+    }
+
+    public void setObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
+        this.objectMapperFactory = objectMapperFactory;
+        if (objectMapperFactory != null) {
+            mapper = objectMapperFactory.instance();
+        }
     }
 }

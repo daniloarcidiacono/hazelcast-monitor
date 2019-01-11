@@ -3,6 +3,7 @@ package io.github.daniloarcidiacono.hazelcast.monitor.agent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.ErrorMessage;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.AbstractMessage;
+import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.ObjectMapperFactory;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.handler.MessageHandler;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.utils.ClientConnectionUtils;
 import org.slf4j.Logger;
@@ -13,9 +14,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class HazelcastAgent implements ClientConnectionListener {
-    private static final ObjectMapper mapper = new ObjectMapper();
     private static final Logger logger = LoggerFactory.getLogger(HazelcastAgent.class);
 
+    private ObjectMapper mapper;
+    private ObjectMapperFactory objectMapperFactory;
     private Set<ClientConnection> connections = new HashSet<>();
     private Set<MessageHandler> handlers = new HashSet<>();
 
@@ -74,5 +76,16 @@ public class HazelcastAgent implements ClientConnectionListener {
     public void closed(final ClientConnection connection) {
         connection.removeListener(this);
         connections.remove(connection);
+    }
+
+    public ObjectMapperFactory getObjectMapperFactory() {
+        return objectMapperFactory;
+    }
+
+    public void setObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
+        this.objectMapperFactory = objectMapperFactory;
+        if (objectMapperFactory != null) {
+            mapper = objectMapperFactory.instance();
+        }
     }
 }
