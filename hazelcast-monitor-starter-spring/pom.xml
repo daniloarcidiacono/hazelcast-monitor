@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.github.daniloarcidiacono.hazelcast.monitor</groupId>
         <artifactId>hazelcast-monitor-dependencies</artifactId>
-        <version>${revision}</version>
+        <version>0.0.1.BUILD-SNAPSHOT</version>
         <relativePath>../hazelcast-monitor-dependencies</relativePath>
     </parent>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>io.github.daniloarcidiacono.hazelcast.monitor</groupId>
             <artifactId>hazelcast-monitor-agent</artifactId>
-            <version>${revision}</version>
+            <version>0.0.1.BUILD-SNAPSHOT</version>
         </dependency>
 
         <dependency>
