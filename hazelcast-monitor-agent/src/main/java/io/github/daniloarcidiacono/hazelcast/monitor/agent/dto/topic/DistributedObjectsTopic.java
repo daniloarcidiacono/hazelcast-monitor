@@ -1,7 +1,7 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.topic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 
 @TypescriptDTO
 public class DistributedObjectsTopic extends AbstractTopic {

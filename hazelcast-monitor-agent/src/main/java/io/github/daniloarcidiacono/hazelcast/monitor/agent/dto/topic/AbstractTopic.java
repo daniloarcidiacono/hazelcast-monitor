@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,

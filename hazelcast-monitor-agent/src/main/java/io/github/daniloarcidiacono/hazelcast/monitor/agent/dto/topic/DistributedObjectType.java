@@ -4,7 +4,7 @@ import com.hazelcast.cache.ICache;
 import com.hazelcast.cardinality.CardinalityEstimator;
 import com.hazelcast.core.*;
 import com.hazelcast.ringbuffer.Ringbuffer;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 
 @TypescriptDTO
 public enum DistributedObjectType {

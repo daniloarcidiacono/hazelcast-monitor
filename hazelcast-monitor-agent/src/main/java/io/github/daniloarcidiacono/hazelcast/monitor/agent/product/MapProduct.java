@@ -1,8 +1,8 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.product;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptField;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptField;
 
 import java.util.ArrayList;
 import java.util.List;

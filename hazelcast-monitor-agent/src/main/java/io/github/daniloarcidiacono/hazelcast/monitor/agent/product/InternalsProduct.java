@@ -1,6 +1,6 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.product;
 
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.helper.EnvironmentVariable;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.helper.SubscriptionRegistryStatistics;
 

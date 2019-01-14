@@ -11,8 +11,8 @@ import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.request.UpdateSub
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.response.SubscribeResponse;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.response.SubscriptionNoticeResponse;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.response.UpdateSubscriptionResponse;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptField;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptField;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,

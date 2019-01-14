@@ -1,7 +1,7 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.request;
 
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptField;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptField;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.AbstractMessage;
 
 import java.util.Map;

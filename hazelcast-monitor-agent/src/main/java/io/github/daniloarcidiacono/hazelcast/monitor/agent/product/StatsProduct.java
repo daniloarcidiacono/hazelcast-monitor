@@ -1,6 +1,6 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.product;
 
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 
 import java.util.HashMap;
 import java.util.Map;

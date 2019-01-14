@@ -1,6 +1,6 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.response;
 
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.AbstractMessage;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.topic.AbstractTopic;
 

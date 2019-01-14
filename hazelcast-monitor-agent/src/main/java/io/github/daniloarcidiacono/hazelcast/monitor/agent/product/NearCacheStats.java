@@ -1,7 +1,7 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.product;
 
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptComments;
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptComments;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 
 import java.io.Serializable;
 import java.util.Collection;

@@ -1,7 +1,7 @@
 
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.helper;
 
-import io.github.daniloarcidiacono.typescript.mapper.annotation.TypescriptDTO;
+import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 
 import java.util.ArrayList;
 import java.util.List;
