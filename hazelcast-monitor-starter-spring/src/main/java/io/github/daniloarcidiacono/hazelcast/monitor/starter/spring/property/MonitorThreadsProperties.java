@@ -1,13 +1,11 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.starter.spring.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties("monitor.threads")
 public class MonitorThreadsProperties {
-    @NestedConfigurationProperty
     private int threadPoolSize;
 
     public MonitorThreadsProperties() {

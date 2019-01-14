@@ -33,22 +33,25 @@ public class MonitorConfiguration {
     private HazelcastInstance hazelcastInstance;
 
     @Bean
+    @ConditionalOnMissingBean
     public ConnectionSubscriptionsRegistry connectionSubscriptionsRegistry() {
         return new ConnectionSubscriptionsRegistry();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public PredicateQueryEngine predicateQueryEngine() {
         return new PredicateQueryEngine(hazelcastInstance);
     }
 
     @Bean
-    @ConditionalOnMissingBean(ObjectMapperFactory.class)
+    @ConditionalOnMissingBean
     public ObjectMapperFactory objectMapperFactory() {
         return new DefaultObjectMapperFactory();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public TopicProducerFactory topicFactory() {
         final TopicProducerFactory topicProducerFactory = new TopicProducerFactory(threadsProperties.getThreadPoolSize());
         topicProducerFactory.setConnectionSubscriptionsRegistry(connectionSubscriptionsRegistry());
@@ -59,6 +62,7 @@ public class MonitorConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public MessageHandler subscribeMessageHandler() {
         final SubscribeMessageHandler subscribeMessageHandler = new SubscribeMessageHandler();
         subscribeMessageHandler.setTopicProducerFactory(topicFactory());
