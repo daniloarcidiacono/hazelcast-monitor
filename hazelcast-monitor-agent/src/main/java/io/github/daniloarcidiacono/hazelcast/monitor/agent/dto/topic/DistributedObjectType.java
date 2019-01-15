@@ -6,7 +6,7 @@ import com.hazelcast.core.*;
 import com.hazelcast.ringbuffer.Ringbuffer;
 import io.github.daniloarcidiacono.typescriptmapper.core.annotation.TypescriptDTO;
 
-@TypescriptDTO
+@TypescriptDTO(identifier = "DistributedObjectType")
 public enum DistributedObjectType {
     ATOMICLONG(IAtomicLong.class),
     ATOMICREFERENCE(IAtomicReference.class),
