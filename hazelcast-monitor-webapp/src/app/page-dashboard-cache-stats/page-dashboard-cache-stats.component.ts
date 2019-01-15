@@ -3,7 +3,8 @@ import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-age
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {Subscription} from 'rxjs/index';
-import {CacheStatsDTO, CacheStatsProductDTO} from '@shared/dto/topic-products.dto';
+import {CacheStatsDTO} from '@shared/dto/topic-products.dto';
+import {CacheStatsProductDTO} from "@shared/dto/topic-products-aliases.dto";
 import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {Chart} from 'chart.js';

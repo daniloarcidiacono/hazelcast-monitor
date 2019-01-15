@@ -3,7 +3,7 @@ import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-age
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {Subscription} from 'rxjs/index';
-import {SetProductDTO} from '@shared/dto/topic-products.dto';
+import {SetProductDTO} from '@shared/dto/topic-products-aliases.dto';
 import {
   ErrorMessageDTO, SubscribeResponseDTO, SubscriptionNoticeResponseDTO,
   UpdateSubscriptionRequestDTO, UpdateSubscriptionResponseDTO

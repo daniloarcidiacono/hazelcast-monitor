@@ -24,23 +24,28 @@ import {
 } from '@shared/dto/topics.dto';
 import {mergeAll} from 'rxjs/internal/operators';
 import {
+  ClustersProductDTO,
+  DistributedObjectsProductDTO,
+  InternalsProductDTO,
+  ListProductDTO,
+  MapProductDTO,
+  MembersProductDTO,
+  StatisticsProductDTO,
+  TopicProductDTO
+} from '@shared/dto/topic-products.dto';
+import {
   AtomicLongsProductDTO,
   AtomicReferencesProductDTO,
   CacheProductDTO,
-  CachesProductDTO, CacheStatsProductDTO,
+  CachesProductDTO,
+  CacheStatsProductDTO,
   CardinalityEstimatorsProductDTO,
-  ClustersProductDTO,
   CountDownLatchesProductDTO,
-  DistributedObjectsProduct,
   ExecutorsProductDTO,
   ExecutorStatsProductDTO,
-  InternalsProductDTO,
-  ListProductDTO,
   ListsProductDTO,
   LocksProductDTO,
-  MapProductDTO,
   MapsProductDTO,
-  MembersProductDTO,
   MultiMapProductDTO,
   MultiMapsProductDTO,
   QueueProductDTO,
@@ -52,11 +57,9 @@ import {
   SemaphoresProductDTO,
   SetProductDTO,
   SetsProductDTO,
-  StatisticsProductDTO,
-  TopicProductDTO,
   TopicsProductDTO,
   TopicStatsProductDTO
-} from '@shared/dto/topic-products.dto';
+} from "@shared/dto/topic-products-aliases.dto";
 
 @Injectable()
 export class SharedHazelcastAgentService {
@@ -345,7 +348,7 @@ export class SharedHazelcastAgentService {
   }
 
   // Distributed objects
-  private subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProduct<any>>> {
+  private subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProductDTO<any>>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
       messageId: this.wsService.generateMessageId(),

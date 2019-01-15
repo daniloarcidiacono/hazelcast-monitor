@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {LocksProductDTO} from '@shared/dto/topic-products.dto';
+import {LocksProductDTO} from '@shared/dto/topic-products-aliases.dto';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {Subscription} from 'rxjs/index';

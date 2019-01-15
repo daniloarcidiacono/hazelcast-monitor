@@ -1,8 +1,9 @@
 import {Component, OnDestroy} from '@angular/core';
 import {
-  MapsProductDTO, MapSummaryDTO, ReplicatedMapsProductDTO,
+  MapSummaryDTO,
   ReplicatedMapSummaryDTO
 } from '@shared/dto/topic-products.dto';
+import { MapsProductDTO, ReplicatedMapsProductDTO } from '@shared/dto/topic-products-aliases.dto';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {SharedTabsService} from '@shared/services/shared-tabs.service';

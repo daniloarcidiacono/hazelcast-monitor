@@ -1,5 +1,6 @@
 import {Component, OnDestroy} from '@angular/core';
-import {SetsProductDTO, SetSummaryDTO} from '@shared/dto/topic-products.dto';
+import {SetsProductDTO} from '@shared/dto/topic-products-aliases.dto';
+import {SetSummaryDTO} from '@shared/dto/topic-products.dto';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {SharedTabsService} from '@shared/services/shared-tabs.service';
