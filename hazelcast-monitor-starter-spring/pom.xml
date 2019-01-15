@@ -6,9 +6,8 @@
 
     <parent>
         <groupId>io.github.daniloarcidiacono.hazelcast.monitor</groupId>
-        <artifactId>hazelcast-monitor-dependencies</artifactId>
-        <version>0.0.1.BUILD-SNAPSHOT</version>
-        <relativePath>../hazelcast-monitor-dependencies</relativePath>
+        <artifactId>hazelcast-monitor</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>hazelcast-monitor-starter-spring</artifactId>
@@ -20,7 +19,6 @@
         <dependency>
             <groupId>io.github.daniloarcidiacono.hazelcast.monitor</groupId>
             <artifactId>hazelcast-monitor-agent</artifactId>
-            <version>0.0.1.BUILD-SNAPSHOT</version>
         </dependency>
 
         <dependency>
