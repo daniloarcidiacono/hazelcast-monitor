@@ -13,6 +13,7 @@ import {FormsModule} from '@angular/forms';
 import {SharedHelpButtonModule} from '@shared/components/help-button/shared-help-button.module';
 import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
 import {DateFormatPipe, LocalTimePipe, MomentModule} from 'ngx-moment';
+import {SharedFullscreenButtonModule} from "@shared/components/fullscreen-button/shared-fullscreen-button.module";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {DateFormatPipe, LocalTimePipe, MomentModule} from 'ngx-moment';
 
     // Shared
     SharedHelpButtonModule,
+    SharedFullscreenButtonModule,
     SharedMdcTableModule,
     SharedServicesModule
   ],

@@ -8,13 +8,14 @@
   </div>
 
   <div class="DashboardMapStats__Scroller">
-    <div class="DashboardMapStats__Section DashboardMapStats__Section--tabularMap">
+    <div class="DashboardMapStats__Section DashboardMapStats__Section--tabularMap" #tabularMapSection>
       <div class="DashboardMapStats__SectionTitle" mdcButton>
         <shared-help-button title="Tabular data">
           <ng-template>
             This sections shows the raw statistics for the map in tabular form.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="tabularMapSection"></shared-fullscreen-button>
         Tabular data
       </div>
       <div class="DashboardMapStats__SectionContent">
@@ -77,13 +78,14 @@
       </div>
     </div>
 
-    <div class="DashboardMapStats__Section DashboardMapStats__Section--tabularNearCache">
+    <div class="DashboardMapStats__Section DashboardMapStats__Section--tabularNearCache" #tabularNearCacheSection>
       <div class="DashboardMapStats__SectionTitle" mdcButton>
         <shared-help-button title="Near cache statistics">
           <ng-template>
             This sections shows the raw statistics for the near cache in tabular form.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="tabularNearCacheSection"></shared-fullscreen-button>
         Near cache statistics
       </div>
       <div class="DashboardMapStats__SectionContent">
@@ -143,13 +145,14 @@
       </div>
     </div>
 
-    <div class="DashboardMapStats__Section DashboardMapStats__Section--linear">
+    <div class="DashboardMapStats__Section DashboardMapStats__Section--linear" #linearSection>
       <div class="DashboardMapStats__SectionTitle" mdcButton>
         <shared-help-button title="Hit rates graphs">
           <ng-template>
             This graph shows the overall rates of the map.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="linearSection"></shared-fullscreen-button>
         Aggregated rates
       </div>
       <div class="DashboardMapStats__SectionContent">
@@ -158,13 +161,14 @@
       </div>
     </div>
 
-    <div class="DashboardMapStats__Section DashboardMapStats__Section--bar">
+    <div class="DashboardMapStats__Section DashboardMapStats__Section--bar" #barSection>
       <div class="DashboardMapStats__SectionTitle" mdcButton>
         <shared-help-button title="Hit rates graphs">
           <ng-template>
             This graph shows the member rates of the map.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="barSection"></shared-fullscreen-button>
         Member rates
       </div>
       <div class="DashboardMapStats__SectionContent">

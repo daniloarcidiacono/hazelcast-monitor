@@ -17,6 +17,7 @@ import {SharedSafeRoundPipe} from '@shared/pipes/shared-saferound.pipe';
 import {SharedPipesModule} from '@shared/pipes/shared-pipes.module';
 import {SharedBytesPipe} from "@shared/pipes/shared-bytes.pipe";
 import {SharedOptionalValuePipe} from "@shared/pipes/shared-optionalvalue.pipe";
+import {SharedFullscreenButtonModule} from "@shared/components/fullscreen-button/shared-fullscreen-button.module";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {SharedOptionalValuePipe} from "@shared/pipes/shared-optionalvalue.pipe";
 
     // Shared
     SharedHelpButtonModule,
+    SharedFullscreenButtonModule,
     SharedMdcTableModule,
     SharedPipesModule,
     SharedServicesModule

@@ -8,13 +8,14 @@
   </div>
 
   <div class="DashboardTopicStats__Scroller">
-    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--misc">
+    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--misc" #miscSection>
       <div class="DashboardTopicStats__SectionTitle" mdcButton>
         <shared-help-button title="Tabular data">
           <ng-template>
             This sections shows the raw statistics for the topic in tabular form.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="miscSection"></shared-fullscreen-button>
         Tabular data
       </div>
       <div class="DashboardTopicStats__SectionContent">
@@ -47,13 +48,14 @@
       </div>
     </div>
 
-    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--totalRate">
+    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--totalRate" #totalRateSection>
       <div class="DashboardTopicStats__SectionTitle" mdcButton>
         <shared-help-button title="Aggregated rates graphs">
           <ng-template>
             This graph shows the overall load of the topic (sum of all members), in terms of publish and receive operations per second.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="totalRateSection"></shared-fullscreen-button>
         Aggregated rates
       </div>
       <div class="DashboardTopicStats__SectionContent">
@@ -62,13 +64,14 @@
       </div>
     </div>
 
-    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--memberRate">
+    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--memberRate" #memberRateSection>
       <div class="DashboardTopicStats__SectionTitle" mdcButton>
         <shared-help-button title="Rates per members graph">
           <ng-template>
             This graph shows the how fast each member is currently publishing and receiving messages.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="memberRateSection"></shared-fullscreen-button>
         Rates per members
       </div>
       <div class="DashboardTopicStats__SectionContent">
@@ -77,13 +80,14 @@
       </div>
     </div>
 
-    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--publishMember">
+    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--publishMember" #publishMemberSection>
       <div class="DashboardTopicStats__SectionTitle" mdcButton>
         <shared-help-button title="Total publish per members graph">
           <ng-template>
             This graph shows how many messages have been published by each member.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="publishMemberSection"></shared-fullscreen-button>
         Total publish per members
       </div>
       <div class="DashboardTopicStats__SectionContent">
@@ -92,13 +96,14 @@
       </div>
     </div>
 
-    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--receiveMember">
+    <div class="DashboardTopicStats__Section DashboardTopicStats__Section--receiveMember" #receiveMemberSection>
       <div class="DashboardTopicStats__SectionTitle" mdcButton>
         <shared-help-button title="Total receive per members graph">
           <ng-template>
             This graph shows how many messages have been received by each member..
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="receiveMemberSection"></shared-fullscreen-button>
         Total receive per members
       </div>
       <div class="DashboardTopicStats__SectionContent">

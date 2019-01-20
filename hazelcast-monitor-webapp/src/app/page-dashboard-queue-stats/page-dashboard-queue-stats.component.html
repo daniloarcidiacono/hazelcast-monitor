@@ -8,13 +8,14 @@
   </div>
 
   <div class="DashboardQueueStats__Scroller">
-    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--totalRate">
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--totalRate" #totalRateSection>
       <div class="DashboardQueueStats__SectionTitle" mdcButton>
         <shared-help-button title="Aggregated rates graphs">
           <ng-template>
             This graph shows the overall load of the queue (sum of all members), in terms of offer, poll, empty poll, rejected, event and other operations per second.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="totalRateSection"></shared-fullscreen-button>
         Aggregated rates
       </div>
       <div class="DashboardQueueStats__SectionContent">
@@ -22,13 +23,14 @@
       </div>
     </div>
 
-    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--memberRate">
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--memberRate" #memberRateSection>
       <div class="DashboardQueueStats__SectionTitle" mdcButton>
         <shared-help-button title="Rates per members graph">
           <ng-template>
             This graph shows the how fast each member is currently publishing and receiving messages.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="memberRateSection"></shared-fullscreen-button>
         Rates per members
       </div>
       <div class="DashboardQueueStats__SectionContent">
@@ -36,13 +38,14 @@
       </div>
     </div>
 
-    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--offerMember">
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--offerMember" #offerMemberSection>
       <div class="DashboardQueueStats__SectionTitle" mdcButton>
         <shared-help-button title="Total offers per members graph">
           <ng-template>
             This graph shows how many offers have been done by each member.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="offerMemberSection"></shared-fullscreen-button>
         Total offers per members
       </div>
       <div class="DashboardQueueStats__SectionContent">
@@ -50,13 +53,14 @@
       </div>
     </div>
 
-    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--pollMember">
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--pollMember" #pollMemberSection>
       <div class="DashboardQueueStats__SectionTitle" mdcButton>
         <shared-help-button title="Total polls per members graph">
           <ng-template>
             This graph shows how many polls by each member.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="pollMemberSection"></shared-fullscreen-button>
         Total polls per members
       </div>
       <div class="DashboardQueueStats__SectionContent">
@@ -64,13 +68,14 @@
       </div>
     </div>
 
-    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--eventMember">
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--eventMember" #eventMemberSection>
       <div class="DashboardQueueStats__SectionTitle" mdcButton>
         <shared-help-button title="Total events per members graph">
           <ng-template>
             This graph shows how many events by each member.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="eventMemberSection"></shared-fullscreen-button>
         Total events per members
       </div>
       <div class="DashboardQueueStats__SectionContent">
@@ -78,13 +83,14 @@
       </div>
     </div>
 
-    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--otherMember">
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--otherMember" #otherMemberSection>
       <div class="DashboardQueueStats__SectionTitle" mdcButton>
         <shared-help-button title="Total other operations per members graph">
           <ng-template>
             This graph shows how many other operations by each member.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="otherMemberSection"></shared-fullscreen-button>
         Total other operations per members
       </div>
       <div class="DashboardQueueStats__SectionContent">
@@ -92,13 +98,14 @@
       </div>
     </div>
 
-    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--tabular">
+    <div class="DashboardQueueStats__Section DashboardQueueStats__Section--tabular" #tabularSection>
       <div class="DashboardQueueStats__SectionTitle" mdcButton>
         <shared-help-button title="Tabular data">
           <ng-template>
             This sections shows the raw statistics for the queue in tabular form.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="tabularSection"></shared-fullscreen-button>
         Tabular data
       </div>
       <div class="DashboardQueueStats__SectionContent">

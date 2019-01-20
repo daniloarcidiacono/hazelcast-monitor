@@ -15,6 +15,7 @@ import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-tabl
 import {DateFormatPipe, LocalTimePipe, MomentModule} from 'ngx-moment';
 import {SharedSafeRoundPipe} from "@shared/pipes/shared-saferound.pipe";
 import {SharedPipesModule} from "@shared/pipes/shared-pipes.module";
+import {SharedFullscreenButtonModule} from "@shared/components/fullscreen-button/shared-fullscreen-button.module";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {SharedPipesModule} from "@shared/pipes/shared-pipes.module";
 
     // Shared
     SharedHelpButtonModule,
+    SharedFullscreenButtonModule,
     SharedMdcTableModule,
     SharedPipesModule,
     SharedServicesModule

@@ -45,3 +45,15 @@ mdc-top-app-bar {
     overflow: auto;
   }
 }
+
+// Used by shared-fullscreen-button
+.Element--fullscreen {
+  position: fixed;
+  padding: 1em;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 7; // 8 is used by dialogs
+  background-color: white;
+}

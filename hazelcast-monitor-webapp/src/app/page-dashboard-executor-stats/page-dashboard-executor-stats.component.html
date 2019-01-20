@@ -8,13 +8,14 @@
   </div>
 
   <div class="DashboardExecutorStats__Scroller">
-    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--tabular">
+    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--tabular" #tabularSection>
       <div class="DashboardExecutorStats__SectionTitle" mdcButton>
         <shared-help-button title="Tabular data">
           <ng-template>
             This sections shows the raw statistics for the excutor in tabular form.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="tabularSection"></shared-fullscreen-button>
         Tabular data
       </div>
       <div class="DashboardExecutorStats__SectionContent">
@@ -59,13 +60,14 @@
       </div>
     </div>
 
-    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--latency">
+    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--latency" #latencySection>
       <div class="DashboardExecutorStats__SectionTitle" mdcButton>
         <shared-help-button title="Total latency graph">
           <ng-template>
             This graph shows the execution latencies.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="latencySection"></shared-fullscreen-button>
         Latency
       </div>
       <div class="DashboardExecutorStats__SectionContent">
@@ -73,13 +75,14 @@
       </div>
     </div>
 
-    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--counters">
+    <div class="DashboardExecutorStats__Section DashboardExecutorStats__Section--counters" #countersSection>
       <div class="DashboardExecutorStats__SectionTitle" mdcButton>
         <shared-help-button title="Total counters graph">
           <ng-template>
             This graph shows the execution counters.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="countersSection"></shared-fullscreen-button>
         Counters
       </div>
       <div class="DashboardExecutorStats__SectionContent">

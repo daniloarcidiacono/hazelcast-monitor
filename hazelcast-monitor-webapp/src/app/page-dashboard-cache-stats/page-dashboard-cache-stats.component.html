@@ -8,13 +8,14 @@
   </div>
 
   <div class="DashboardCacheStats__Scroller">
-    <div class="DashboardCacheStats__Section DashboardCacheStats__Section--tabular">
+    <div class="DashboardCacheStats__Section DashboardCacheStats__Section--tabular" #tabularSection>
       <div class="DashboardCacheStats__SectionTitle" mdcButton>
         <shared-help-button title="Tabular data">
           <ng-template>
             This sections shows the raw statistics for the cache in tabular form.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="tabularSection"></shared-fullscreen-button>
         Tabular data
       </div>
       <div class="DashboardCacheStats__SectionContent">
@@ -62,13 +63,14 @@
       </div>
     </div>
 
-    <div class="DashboardCacheStats__Section DashboardCacheStats__Section--linear">
+    <div class="DashboardCacheStats__Section DashboardCacheStats__Section--linear" #linearSection>
       <div class="DashboardCacheStats__SectionTitle" mdcButton>
         <shared-help-button title="Hit rates graphs">
           <ng-template>
             This graph shows the overall hit and miss of the cache.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="linearSection"></shared-fullscreen-button>
         Aggregated hit rates
       </div>
       <div class="DashboardCacheStats__SectionContent">
@@ -77,13 +79,14 @@
       </div>
     </div>
 
-    <div class="DashboardCacheStats__Section DashboardCacheStats__Section--owned">
+    <div class="DashboardCacheStats__Section DashboardCacheStats__Section--owned" #ownedSection>
       <div class="DashboardCacheStats__SectionTitle" mdcButton>
         <shared-help-button title="Owned entries graph">
           <ng-template>
             This graph shows how cache entries are distributed among members.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="ownedSection"></shared-fullscreen-button>
         Owned entries
       </div>
       <div class="DashboardCacheStats__SectionContent">
@@ -92,13 +95,14 @@
       </div>
     </div>
 
-    <div class="DashboardCacheStats__Section DashboardCacheStats__Section--bar">
+    <div class="DashboardCacheStats__Section DashboardCacheStats__Section--bar" #barSection>
       <div class="DashboardCacheStats__SectionTitle" mdcButton>
         <shared-help-button title="Operations graph">
           <ng-template>
             This graph shows how cache operations are distributed among members.
           </ng-template>
         </shared-help-button>
+        <shared-fullscreen-button [element]="barSection"></shared-fullscreen-button>
         Operations
       </div>
       <div class="DashboardCacheStats__SectionContent">
