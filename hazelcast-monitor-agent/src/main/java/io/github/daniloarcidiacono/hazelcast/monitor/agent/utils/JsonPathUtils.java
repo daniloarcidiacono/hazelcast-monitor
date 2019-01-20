@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public abstract class JsonPathUtils {
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -27,7 +29,7 @@ public abstract class JsonPathUtils {
             try {
                 // Handle collection separately
                 if (object instanceof Collection) {
-                    final Collection json = mapper.convertValue(object, Collection.class);
+                    final List<Map<String, Object>> json = (List<Map<String, Object>>)((Collection) object).stream().map(x -> mapper.convertValue(x, Map.class)).collect(Collectors.toList());
                     return jsonPath.read(json);
                 }
 
