@@ -3,6 +3,17 @@
     <div class="DashboardLists__HeaderLeft" mdcHeadline4>
       Lists of {{ clusterName }}
     </div>
+    <div class="DashboardLists__HeaderRight">
+      <mdc-text-field type="text"
+                      placeholder="Search"
+                      [outlined]="true"
+                      [dense]="true"
+                      [(ngModel)]="filterRegex"
+                      (keydown)="handleKeydown($event)"
+                      label="Filter">
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+      </mdc-text-field>
+    </div>
   </div>
   <div class="DashboardLists__Scroller">
     <div class="DashboardLists__SectionContent">
@@ -22,6 +33,18 @@
           </tr>
         </ng-template>
       </shared-mdc-table>
+    </div>
+  </div>
+  <div class="DashboardLists__Footer">
+    <div class="DashboardLists__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardLists__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
     </div>
   </div>
 </div>

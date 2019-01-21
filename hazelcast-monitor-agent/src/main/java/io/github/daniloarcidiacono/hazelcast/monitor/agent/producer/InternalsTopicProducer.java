@@ -23,7 +23,7 @@ public class InternalsTopicProducer extends AbstractTopicProducer {
     private final ConfigXmlGenerator configXmlGenerator = new ConfigXmlGenerator(true);
 
     public InternalsTopicProducer(final String instanceName, final ConnectionSubscriptionsRegistry registry) {
-        super(TOPIC_TYPE);
+        super(TOPIC_TYPE, instanceName);
         this.registry = registry;
         instance = Hazelcast.getHazelcastInstanceByName(instanceName);
         for (Map.Entry<String, String> variable : System.getenv().entrySet()) {

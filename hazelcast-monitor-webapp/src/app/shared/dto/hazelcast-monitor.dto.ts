@@ -7,8 +7,31 @@
 import { AbstractTopicDTO } from './topics.dto';
 import { ProductDTO } from './topic-products.dto';
 export interface AbstractMessageDTO {
-	messageType: 'subscribe' | 'update_subscription' | 'unsubscribe' | 'pull_subscription' | 'subscribe_response' | 'update_subscription_response' | 'notice' | 'error';
+	messageType: 'subscribe' | 'update_subscription' | 'unsubscribe' | 'pull_subscription' | 'authenticate' | 'check_authentication' | 'subscribe_response' | 'update_subscription_response' | 'notice' | 'authenticate_response' | 'check_authentication_response' | 'error';
 	messageId?: number;
+}
+
+export interface AuthenticateRequestDTO extends AbstractMessageDTO {
+	messageType: 'authenticate';
+	groupName: string;
+	groupPassword: string;
+}
+
+export interface AuthenticateResponseDTO extends AbstractMessageDTO {
+	messageType: 'authenticate_response';
+	groupName: string;
+	error?: string;
+}
+
+export interface CheckAuthenticationRequestDTO extends AbstractMessageDTO {
+	messageType: 'check_authentication';
+	groupName: string;
+}
+
+export interface CheckAuthenticationResponseDTO extends AbstractMessageDTO {
+	messageType: 'check_authentication_response';
+	groupName: string;
+	authenticated: boolean;
 }
 
 export interface ErrorMessageDTO extends AbstractMessageDTO {

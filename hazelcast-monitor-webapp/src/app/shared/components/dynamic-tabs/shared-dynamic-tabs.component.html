@@ -2,8 +2,7 @@
   <div class="DynamicTabs__TopBar">
     <button mdcIconButton *ngIf="hasActiveTab()" (click)="scroller.incrementScroll(-65)" icon="navigate_before"></button>
     <mdc-tab-bar [activeTabIndex]="activeTabIndex"
-                 align="start"
-                 [fixed]="true">
+                 align="start">
       <mdc-tab-scroller #scroller>
         <mdc-tab *ngFor="let tab of tabs; let tabIndex = index"
                  (click)="selectTab(tabIndex)">

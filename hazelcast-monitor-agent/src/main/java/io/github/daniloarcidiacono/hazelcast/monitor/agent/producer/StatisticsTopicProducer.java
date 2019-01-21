@@ -20,7 +20,7 @@ public class StatisticsTopicProducer extends AbstractTopicProducer {
     private HazelcastInstance instance;
 
     public StatisticsTopicProducer(final String instanceName) {
-        super(TOPIC_TYPE);
+        super(TOPIC_TYPE, instanceName);
         instance = Hazelcast.getHazelcastInstanceByName(instanceName);
     }
 

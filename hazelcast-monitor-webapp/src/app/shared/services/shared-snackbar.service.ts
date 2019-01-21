@@ -6,7 +6,7 @@ export class SharedSnackbarService {
   public constructor(private snackbar: MdcSnackbar) {
   }
 
-  public show(message: string, options?: any) {
-    this.snackbar.show(message, options);
+  public show(message: string) {
+    this.snackbar.open(message);
   }
 }

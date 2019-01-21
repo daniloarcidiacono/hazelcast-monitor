@@ -2,6 +2,7 @@ package io.github.daniloarcidiacono.hazelcast.monitor.agent.producer;
 
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import io.github.daniloarcidiacono.hazelcast.monitor.agent.product.Cluster;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.product.ClustersProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,7 @@ public class ClustersTopicProducer extends AbstractTopicProducer {
     private static final Logger logger = LoggerFactory.getLogger(ClustersTopicProducer.class);
 
     public ClustersTopicProducer() {
-        super(TOPIC_TYPE);
+        super(TOPIC_TYPE, null);
     }
 
     @Override
@@ -21,7 +22,9 @@ public class ClustersTopicProducer extends AbstractTopicProducer {
             // @TODO: Clarify getName vs getInstanceName
 //            final String instanceName = hazelcastInstance.getConfig().getInstanceName();
             final String instanceName = hazelcastInstance.getName();
-            product.add(instanceName);
+            final String groupName = hazelcastInstance.getConfig().getGroupConfig().getName();
+
+            product.add(new Cluster(instanceName, groupName));
         }
 
         return product;

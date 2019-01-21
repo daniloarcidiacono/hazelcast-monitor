@@ -13,7 +13,7 @@ public class MembersTopicProducer extends AbstractTopicProducer {
     private HazelcastInstance instance;
 
     public MembersTopicProducer(final String instanceName) {
-        super(TOPIC_TYPE);
+        super(TOPIC_TYPE, instanceName);
         instance = Hazelcast.getHazelcastInstanceByName(instanceName);
     }
 

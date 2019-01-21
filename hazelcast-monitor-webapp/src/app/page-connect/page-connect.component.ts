@@ -17,9 +17,6 @@ export class PageConnectComponent implements OnDestroy {
   private wsStateErrorSub: Subscription;
   private form: FormGroup;
 
-  @ViewChild(MdcLinearProgress)
-  private progressBar: MdcLinearProgress;
-
   // View bindings
   public bindings: any = {
     ctrl: this,

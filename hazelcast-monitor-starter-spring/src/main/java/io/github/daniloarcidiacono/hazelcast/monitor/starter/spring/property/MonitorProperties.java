@@ -2,18 +2,23 @@ package io.github.daniloarcidiacono.hazelcast.monitor.starter.spring.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 @ConfigurationProperties("monitor")
 public class MonitorProperties {
     private boolean enabled = true;
 
-    @NestedConfigurationProperty
-    private MonitorThreadsProperties threadsProperties;
+    /**
+     * Whether the connection should be authenticated or not.
+     */
+    private boolean secure = true;
 
     @NestedConfigurationProperty
-    private MonitorWebSocketProperties webSocketProperties;
+    private MonitorThreadsProperties threads;
+
+    @NestedConfigurationProperty
+    private MonitorWebSocketProperties websocket;
 
     public MonitorProperties() {
     }
@@ -26,19 +31,27 @@ public class MonitorProperties {
         this.enabled = enabled;
     }
 
-    public MonitorThreadsProperties getThreadsProperties() {
-        return threadsProperties;
+    public boolean isSecure() {
+        return secure;
     }
 
-    public void setThreadsProperties(MonitorThreadsProperties threadsProperties) {
-        this.threadsProperties = threadsProperties;
+    public void setSecure(boolean secure) {
+        this.secure = secure;
     }
 
-    public MonitorWebSocketProperties getWebSocketProperties() {
-        return webSocketProperties;
+    public MonitorThreadsProperties getThreads() {
+        return threads;
     }
 
-    public void setWebSocketProperties(MonitorWebSocketProperties webSocketProperties) {
-        this.webSocketProperties = webSocketProperties;
+    public void setThreads(MonitorThreadsProperties threads) {
+        this.threads = threads;
+    }
+
+    public MonitorWebSocketProperties getWebsocket() {
+        return websocket;
+    }
+
+    public void setWebsocket(MonitorWebSocketProperties websocket) {
+        this.websocket = websocket;
     }
 }

@@ -25,7 +25,7 @@ public class DistributedObjectsTopicProducer extends AbstractTopicProducer {
     private int pageSize = 5;
 
     public DistributedObjectsTopicProducer(final String instanceName, final DistributedObjectType distributedObjectType) {
-        super(TOPIC_TYPE);
+        super(TOPIC_TYPE, instanceName);
         this.distributedObjectType = distributedObjectType;
         instance = Hazelcast.getHazelcastInstanceByName(instanceName);
     }

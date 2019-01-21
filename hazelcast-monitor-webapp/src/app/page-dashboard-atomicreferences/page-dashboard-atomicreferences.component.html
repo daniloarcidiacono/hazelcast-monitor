@@ -1,7 +1,18 @@
-<div class="DashboardAtomicReferences" mdcTypography>
+<div class="DashboardAtomicReferences">
   <div class="DashboardAtomicReferences__Header">
     <div class="DashboardAtomicReferences__HeaderLeft" mdcHeadline4>
       Atomic references of {{ clusterName }}
+    </div>
+    <div class="DashboardAtomicReferences__HeaderRight">
+      <mdc-text-field type="text"
+                      placeholder="Search"
+                      [outlined]="true"
+                      [dense]="true"
+                      [(ngModel)]="filterRegex"
+                      (keydown)="handleKeydown($event)"
+                      label="Filter">
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+      </mdc-text-field>
     </div>
   </div>
   <div class="DashboardAtomicReferences__Scroller">
@@ -25,5 +36,17 @@
         </tr>
       </ng-template>
     </shared-mdc-table>
+  </div>
+  <div class="DashboardAtomicReferences__Footer">
+    <div class="DashboardAtomicReferences__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardAtomicReferences__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
   </div>
 </div>

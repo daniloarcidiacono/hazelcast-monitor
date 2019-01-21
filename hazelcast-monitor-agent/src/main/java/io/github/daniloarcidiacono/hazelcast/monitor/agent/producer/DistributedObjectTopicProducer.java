@@ -45,7 +45,7 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
                                           final DistributedObjectType distributedObjectType,
                                           final String objectName,
                                           final PredicateQueryEngine predicateQueryEngine) {
-        super(TOPIC_TYPE);
+        super(TOPIC_TYPE, instanceName);
 
         this.distributedObjectType = distributedObjectType;
         this.objectName = objectName;

@@ -21,7 +21,7 @@ public class ScheduledTopicProducer extends AbstractTopicProducer implements Run
                                   final ScheduledExecutorService threadPool,
                                   final Long delay,
                                   final TimeUnit timeUnit) {
-        super(producer.getTopicType());
+        super(producer.getTopicType(), producer.getInstanceName());
         this.threadPool = threadPool;
         this.delay = delay;
         this.timeUnit = timeUnit;

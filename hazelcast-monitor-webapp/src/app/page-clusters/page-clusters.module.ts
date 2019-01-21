@@ -5,7 +5,7 @@ import {
   MdcButtonModule,
   MdcElevationModule,
   MdcFormFieldModule,
-  MdcIconModule,
+  MdcIconModule, MdcLinearProgressModule,
   MdcSelectModule,
   MdcTextFieldModule,
   MdcTypographyModule
@@ -26,6 +26,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     MdcTextFieldModule,
     MdcSelectModule,
     MdcElevationModule,
+    MdcLinearProgressModule,
     MdcIconModule,
     MdcButtonModule,
     MdcTypographyModule

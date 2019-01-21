@@ -6,6 +6,16 @@ import java.util.Set;
 public abstract class ClientConnection {
     private Set<ClientConnectionListener> listeners = new HashSet<>();
 
+    /**
+     * Whether the connection should be authenticated.
+     */
+    private boolean authenticationRequired = true;
+
+    /**
+     * Group names for which the client connection has been authenticated.
+     */
+    private Set<String> authenticatedGroups = new HashSet<>();
+
     public ClientConnection() {
     }
 
@@ -28,6 +38,27 @@ public abstract class ClientConnection {
         // Iterate a copy of the original set to prevent ConcurrentModificationExceptions
         for (ClientConnectionListener listener : new HashSet<>(listeners)) {
             listener.closed(this);
+        }
+    }
+
+    public boolean isAuthenticationRequired() {
+        return authenticationRequired;
+    }
+
+    public void setAuthenticationRequired(boolean authenticationRequired) {
+        if (authenticationRequired != this.authenticationRequired) {
+            this.authenticationRequired = authenticationRequired;
+            authenticatedGroups.clear();
+        }
+    }
+
+    public boolean isAuthenticated(final String groupName) {
+        return !authenticationRequired || authenticatedGroups.contains(groupName);
+    }
+
+    public void addGroupAuthentication(final String groupName) {
+        if (authenticationRequired) {
+            authenticatedGroups.add(groupName);
         }
     }
 

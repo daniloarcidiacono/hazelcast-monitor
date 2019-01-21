@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.ErrorMessage;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.AbstractMessage;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.ObjectMapperFactory;
+import io.github.daniloarcidiacono.hazelcast.monitor.agent.handler.AuthenticationMessageHandler;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.handler.MessageHandler;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.utils.ClientConnectionUtils;
 import org.slf4j.Logger;
@@ -20,12 +21,17 @@ public class HazelcastAgent implements ClientConnectionListener {
     private ObjectMapperFactory objectMapperFactory;
     private Set<ClientConnection> connections = new HashSet<>();
     private Set<MessageHandler> handlers = new HashSet<>();
+    private boolean authenticationRequired = true;
 
     public HazelcastAgent() {
         logger.info("Starting Hazelcast Monitor Agent...");
+
+        // Add the authentication handler by default
+        addHandler(new AuthenticationMessageHandler());
     }
 
     public void addConnection(final ClientConnection connection) {
+        connection.setAuthenticationRequired(authenticationRequired);
         connection.addListener(this);
         connections.add(connection);
     }
@@ -87,5 +93,13 @@ public class HazelcastAgent implements ClientConnectionListener {
         if (objectMapperFactory != null) {
             mapper = objectMapperFactory.instance();
         }
+    }
+
+    public boolean isAuthenticationRequired() {
+        return authenticationRequired;
+    }
+
+    public void setAuthenticationRequired(boolean authenticationRequired) {
+        this.authenticationRequired = authenticationRequired;
     }
 }

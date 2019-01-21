@@ -6,426 +6,431 @@
  */
 import { EnvironmentVariableDTO, SubscriptionRegistryStatisticsDTO } from './internals.dto';
 export interface CacheStatsDTO {
-  // Cache creation time
-  creationTime: number;
+	// Cache creation time
+	creationTime: number;
 
-  // Last access time to cache
-  lastAccessTime: number;
+	// Last access time to cache
+	lastAccessTime: number;
 
-  // Last update time to cache
-  lastUpdateTime: number;
+	// Last update time to cache
+	lastUpdateTime: number;
 
-  // Owned entry count in the cache
-  ownedEntryCount: number;
+	// Owned entry count in the cache
+	ownedEntryCount: number;
 
-  // Number of get requests that were satisfied by the cache
-  cacheHits: number;
+	// Number of get requests that were satisfied by the cache
+	cacheHits: number;
 
-  // A measure of cache efficiency
-  cacheHitPercentage: number;
+	// A measure of cache efficiency
+	cacheHitPercentage: number;
 
-  // A miss is a get request that is not satisfied
-  cacheMisses: number;
+	// A miss is a get request that is not satisfied
+	cacheMisses: number;
 
-  // Percentage of cache accesses that did not find a requested entry in the cache
-  cacheMissPercentage: number;
+	// Percentage of cache accesses that did not find a requested entry in the cache
+	cacheMissPercentage: number;
 
-  // Total number of requests to the cache. This will be equal to the sum of the hits and misses
-  cacheGets: number;
+	// Total number of requests to the cache. This will be equal to the sum of the hits and misses
+	cacheGets: number;
 
-  // Total number of puts to the cache
-  cachePuts: number;
+	// Total number of puts to the cache
+	cachePuts: number;
 
-  /**
-   * Total number of removals from the cache. This does not include evictions,
-   * where the cache itself initiates the removal to make space.
-   */
-  cacheRemovals: number;
+	/**
+	 * Total number of removals from the cache. This does not include evictions,
+	 * where the cache itself initiates the removal to make space.
+	 */
+	cacheRemovals: number;
 
-  /**
-   * Total number of evictions from the cache. An eviction is a removal
-   * initiated by the cache itself to free up space. An eviction is not treated as
-   * a removal and does not appear in the removal counts.
-   */
-  cacheEvictions: number;
+	/**
+	 * Total number of evictions from the cache. An eviction is a removal
+	 * initiated by the cache itself to free up space. An eviction is not treated as
+	 * a removal and does not appear in the removal counts.
+	 */
+	cacheEvictions: number;
 
-  // Mean time in microseconds to execute gets
-  averageGetTime: number;
+	// Mean time in microseconds to execute gets
+	averageGetTime: number;
 
-  // Mean time in microseconds to execute puts
-  averagePutTime: number;
+	// Mean time in microseconds to execute puts
+	averagePutTime: number;
 
-  // Mean time in microseconds to execute removes
-  averageRemoveTime: number;
+	// Mean time in microseconds to execute removes
+	averageRemoveTime: number;
+}
+
+export interface ClusterDTO {
+	instanceName: string;
+	groupName: string;
 }
 
 export interface DistributedObjectSummaryDTO {
-  partitionKey: string;
-  name: string;
+	partitionKey: string;
+	name: string;
 }
 
 export interface ExecutorStatsDTO {
-  // Creation time on this member.
-  creationTime: number;
+	// Creation time on this member.
+	creationTime: number;
 
-  // Number of pending operations on the executor service
-  pendingTaskCount: number;
+	// Number of pending operations on the executor service
+	pendingTaskCount: number;
 
-  // Number of started operations on the executor service
-  startedTaskCount: number;
+	// Number of started operations on the executor service
+	startedTaskCount: number;
 
-  // Number of completed operations on the executor service
-  completedTaskCount: number;
+	// Number of completed operations on the executor service
+	completedTaskCount: number;
 
-  // Number of cancelled operations on the executor service
-  cancelledTaskCount: number;
+	// Number of cancelled operations on the executor service
+	cancelledTaskCount: number;
 
-  // Total start latency of operations started
-  totalStartLatency: number;
+	// Total start latency of operations started
+	totalStartLatency: number;
 
-  // Total execution time of operations finished
-  totalExecutionLatency: number;
+	// Total execution time of operations finished
+	totalExecutionLatency: number;
 }
 
 export interface ListProductEntryDTO {
-  value: any;
-  valueString: string;
+	value: any;
+	valueString: string;
 }
 
 export interface MapProductEntryDTO {
-  key: any;
-  value: any;
-  keyString: string;
-  valueString: string;
-  locked: boolean;
+	key: any;
+	value: any;
+	keyString: string;
+	valueString: string;
+	locked: boolean;
 }
 
 export interface MapStatsDTO {
-  // Creation time of this map on this member
-  creationTime: number;
+	// Creation time of this map on this member
+	creationTime: number;
 
-  // Number of entries owned by this member
-  ownedEntryCount: number;
+	// Number of entries owned by this member
+	ownedEntryCount: number;
 
-  // Number of backup entries hold by this member
-  backupEntryCount: number;
+	// Number of backup entries hold by this member
+	backupEntryCount: number;
 
-  // Number of backups per entry
-  backupCount: number;
+	// Number of backups per entry
+	backupCount: number;
 
-  // Memory cost (number of bytes) of owned entries in this member
-  ownedEntryMemoryCost: number;
+	// Memory cost (number of bytes) of owned entries in this member
+	ownedEntryMemoryCost: number;
 
-  // Memory cost (number of bytes) of backup entries in this member
-  backupEntryMemoryCost: number;
+	// Memory cost (number of bytes) of backup entries in this member
+	backupEntryMemoryCost: number;
 
-  // Last access (read) time of the locally owned entries
-  lastAccessTime: number;
+	// Last access (read) time of the locally owned entries
+	lastAccessTime: number;
 
-  // Last update time of the locally owned entries
-  lastUpdateTime: number;
+	// Last update time of the locally owned entries
+	lastUpdateTime: number;
 
-  // Number of hits (reads) of the locally owned entries
-  hits: number;
+	// Number of hits (reads) of the locally owned entries
+	hits: number;
 
-  // Number of currently locked locally owned keys
-  lockedEntryCount: number;
+	// Number of currently locked locally owned keys
+	lockedEntryCount: number;
 
-  // Number of entries that the member owns and are dirty (updated but not persisted yet)
-  dirtyEntryCount: number;
+	// Number of entries that the member owns and are dirty (updated but not persisted yet)
+	dirtyEntryCount: number;
 
-  // Number of put operations
-  putOperationCount: number;
+	// Number of put operations
+	putOperationCount: number;
 
-  // Number of get operations
-  getOperationCount: number;
+	// Number of get operations
+	getOperationCount: number;
 
-  // Number of Remove operations
-  removeOperationCount: number;
+	// Number of Remove operations
+	removeOperationCount: number;
 
-  // Total latency of put operations. To get the average latency, divide by the number of puts
-  totalPutLatency: number;
+	// Total latency of put operations. To get the average latency, divide by the number of puts
+	totalPutLatency: number;
 
-  // Total latency of get operations. To get the average latency, divide by the number of gets
-  totalGetLatency: number;
+	// Total latency of get operations. To get the average latency, divide by the number of gets
+	totalGetLatency: number;
 
-  // Total latency of remove operations. To get the average latency, divide by the number of gets
-  totalRemoveLatency: number;
+	// Total latency of remove operations. To get the average latency, divide by the number of gets
+	totalRemoveLatency: number;
 
-  // Maximum latency of put operations
-  maxPutLatency: number;
+	// Maximum latency of put operations
+	maxPutLatency: number;
 
-  // Maximum latency of get operations
-  maxGetLatency: number;
+	// Maximum latency of get operations
+	maxGetLatency: number;
 
-  // Maximum latency of remove operations
-  maxRemoveLatency: number;
+	// Maximum latency of remove operations
+	maxRemoveLatency: number;
 
-  // Number of Events Received
-  eventOperationCount: number;
+	// Number of Events Received
+	eventOperationCount: number;
 
-  // Total number of Other Operations
-  otherOperationCount: number;
+	// Total number of Other Operations
+	otherOperationCount: number;
 
-  // Total number of total operations
-  total: number;
+	// Total number of total operations
+	total: number;
 
-  // Cost of map & Near Cache & backup in bytes
-  heapCost: number;
+	// Cost of map & Near Cache & backup in bytes
+	heapCost: number;
 
-  // Statistics related to the Near Cache
-  nearCacheStatistics: NearCacheStatsDTO;
+	// Statistics related to the Near Cache
+	nearCacheStatistics: NearCacheStatsDTO;
 }
 
 export interface MemberSummaryDTO {
-  address: string;
-  port: number;
-  version: string;
-  uuid: string;
+	address: string;
+	port: number;
+	version: string;
+	uuid: string;
 }
 
 export interface NearCacheStatsDTO {
-  // Creation time of this Near Cache on this member
-  creationTime: number;
+	// Creation time of this Near Cache on this member
+	creationTime: number;
 
-  // Number of Near Cache entries owned by this member
-  ownedEntryCount: number;
+	// Number of Near Cache entries owned by this member
+	ownedEntryCount: number;
 
-  // Memory cost (number of bytes) of Near Cache entries owned by this member
-  ownedEntryMemoryCost: number;
+	// Memory cost (number of bytes) of Near Cache entries owned by this member
+	ownedEntryMemoryCost: number;
 
-  // Number of hits (reads) of Near Cache entries owned by this member
-  hits: number;
+	// Number of hits (reads) of Near Cache entries owned by this member
+	hits: number;
 
-  // Number of misses of Near Cache entries owned by this member
-  misses: number;
+	// Number of misses of Near Cache entries owned by this member
+	misses: number;
 
-  // Hit/miss ratio of Near Cache entries owned by this member
-  ratio: number;
+	// Hit/miss ratio of Near Cache entries owned by this member
+	ratio: number;
 
-  // Number of evictions of Near Cache entries owned by this member
-  evictions: number;
+	// Number of evictions of Near Cache entries owned by this member
+	evictions: number;
 
-  // Number of TTL and max-idle expirations of Near Cache entries owned by this member
-  expirations: number;
+	// Number of TTL and max-idle expirations of Near Cache entries owned by this member
+	expirations: number;
 
-  // Number of Near Cache key persistences (when the pre-load feature is enabled)
-  persistenceCount: number;
+	// Number of Near Cache key persistences (when the pre-load feature is enabled)
+	persistenceCount: number;
 
-  // Timestamp of the last Near Cache key persistence (when the pre-load feature is enabled)
-  lastPersistenceTime: number;
+	// Timestamp of the last Near Cache key persistence (when the pre-load feature is enabled)
+	lastPersistenceTime: number;
 
-  // Duration in milliseconds of the last Near Cache key persistence (when the pre-load feature is enabled)
-  lastPersistenceDuration: number;
+	// Duration in milliseconds of the last Near Cache key persistence (when the pre-load feature is enabled)
+	lastPersistenceDuration: number;
 
-  // Written bytes of the last Near Cache key persistence (when the pre-load feature is enabled)
-  lastPersistenceWrittenBytes: number;
+	// Written bytes of the last Near Cache key persistence (when the pre-load feature is enabled)
+	lastPersistenceWrittenBytes: number;
 
-  // Number of persisted keys of the last Near Cache key persistence (when the pre-load feature is enabled)
-  lastPersistenceKeyCount: number;
+	// Number of persisted keys of the last Near Cache key persistence (when the pre-load feature is enabled)
+	lastPersistenceKeyCount: number;
 
-  // Failure reason of the last Near Cache persistence (when the pre-load feature is enabled)
-  lastPersistenceFailure: string;
+	// Failure reason of the last Near Cache persistence (when the pre-load feature is enabled)
+	lastPersistenceFailure: string;
 }
 
 export interface ProductDTO {
-  produceTime?: number;
+	produceTime?: number;
 }
 
 export interface QueueStatsDTO {
-  // Creation time on this member.
-  creationTime: number;
+	// Creation time on this member.
+	creationTime: number;
 
-  // Number of owned items in this member.
-  ownedItemCount: number;
+	// Number of owned items in this member.
+	ownedItemCount: number;
 
-  // Number of backup items in this member.
-  backupItemCount: number;
+	// Number of backup items in this member.
+	backupItemCount: number;
 
-  // Minimum age of the items in this member.
-  minAge?: number;
+	// Minimum age of the items in this member.
+	minAge?: number;
 
-  // Maximum age of the items in this member.
-  maxAge?: number;
+	// Maximum age of the items in this member.
+	maxAge?: number;
 
-  // Average age of the items in this member.
-  avgAge: number;
+	// Average age of the items in this member.
+	avgAge: number;
 
-  /**
-   * Number of offer/put/add operations.
-   * Offers returning false will be included.
-   */
-  offerOperationCount: number;
+	/**
+	 * Number of offer/put/add operations.
+	 * Offers returning false will be included.
+	 */
+	offerOperationCount: number;
 
-  /**
-   * Number of rejected offers.
-   * Offer can be rejected because of max-size limit on the queue.
-   */
-  rejectedOfferOperationCount: number;
+	/**
+	 * Number of rejected offers.
+	 * Offer can be rejected because of max-size limit on the queue.
+	 */
+	rejectedOfferOperationCount: number;
 
-  /**
-   * Number of poll/take/remove operations.
-   * Polls returning null (empty) will be included.
-   */
-  pollOperationCount: number;
+	/**
+	 * Number of poll/take/remove operations.
+	 * Polls returning null (empty) will be included.
+	 */
+	pollOperationCount: number;
 
-  /**
-   * Number of null returning poll operations.
-   * Poll operation might return null, if the queue is empty.
-   */
-  emptyPollOperationCount: number;
+	/**
+	 * Number of null returning poll operations.
+	 * Poll operation might return null, if the queue is empty.
+	 */
+	emptyPollOperationCount: number;
 
-  // Number of other operations
-  otherOperationsCount: number;
+	// Number of other operations
+	otherOperationsCount: number;
 
-  // Number of event operations
-  eventOperationCount: number;
+	// Number of event operations
+	eventOperationCount: number;
 }
 
 export interface TopicStatsDTO {
-  // Total number of received messages of this topic on this member.
-  receiveOperationCount: number;
+	// Total number of received messages of this topic on this member.
+	receiveOperationCount: number;
 
-  // Total number of published messages of this topic on this member.
-  publishOperationCount: number;
+	// Total number of published messages of this topic on this member.
+	publishOperationCount: number;
 
-  // Creation time of this topic on this member.
-  creationTime: number;
+	// Creation time of this topic on this member.
+	creationTime: number;
 }
 
 export interface AtomicLongSummaryDTO extends DistributedObjectSummaryDTO {
-  value: number;
+	value: number;
 }
 
 export interface AtomicReferenceSummaryDTO extends DistributedObjectSummaryDTO {
-  value: any;
-  valueString: string;
+	value: any;
+	valueString: string;
 }
 
 export interface CacheSummaryDTO extends DistributedObjectSummaryDTO {
-  size: number;
-  destroyed: boolean;
+	size: number;
+	destroyed: boolean;
 }
 
 export interface CardinalityEstimatorSummaryDTO extends DistributedObjectSummaryDTO {
-  estimate: number;
+	estimate: number;
 }
 
 export interface ClustersProductDTO extends ProductDTO {
-  clusters: string[];
+	clusters: ClusterDTO[];
 }
 
 export interface CountDownLatchSummaryDTO extends DistributedObjectSummaryDTO {
-  count: number;
+	count: number;
 }
 
 export interface DistributedObjectsProductDTO<T extends DistributedObjectSummaryDTO> extends ProductDTO {
-  objects: T[];
+	objects: T[];
 }
 
 export interface ExecutorSummaryDTO extends DistributedObjectSummaryDTO {
 }
 
 export interface InternalsProductDTO extends ProductDTO {
-  subscriptionStats: SubscriptionRegistryStatisticsDTO;
-  envVariables: EnvironmentVariableDTO[];
-  memberConfig: string;
+	subscriptionStats: SubscriptionRegistryStatisticsDTO;
+	envVariables: EnvironmentVariableDTO[];
+	memberConfig: string;
 }
 
 export interface ListProductDTO extends ProductDTO {
-  entries: ListProductEntryDTO[];
+	entries: ListProductEntryDTO[];
 }
 
 export interface ListSummaryDTO extends DistributedObjectSummaryDTO {
-  size: number;
+	size: number;
 }
 
 export interface LockSummaryDTO extends DistributedObjectSummaryDTO {
-  lockCount: number;
-  remainingLeaseTime: number;
-  locked: boolean;
+	lockCount: number;
+	remainingLeaseTime: number;
+	locked: boolean;
 }
 
 export interface MapProductDTO extends ProductDTO {
-  entries: MapProductEntryDTO[];
+	entries: MapProductEntryDTO[];
 }
 
 export interface MapSummaryDTO extends DistributedObjectSummaryDTO {
-  size: number;
+	size: number;
 }
 
 export interface MembersProductDTO extends ProductDTO {
-  objects: MemberSummaryDTO[];
+	objects: MemberSummaryDTO[];
 }
 
 export interface MultiMapSummaryDTO extends DistributedObjectSummaryDTO {
-  keyCount: number;
-  valueCount: number;
+	keyCount: number;
+	valueCount: number;
 }
 
 export interface QueueSummaryDTO extends DistributedObjectSummaryDTO {
-  size: number;
+	size: number;
 }
 
 export interface ReplicatedMapSummaryDTO extends DistributedObjectSummaryDTO {
-  size: number;
+	size: number;
 }
 
 export interface RingbufferSummaryDTO extends DistributedObjectSummaryDTO {
-  size: number;
-  capacity: number;
-  remainingCapacity: number;
-  headSequence: number;
-  tailSequence: number;
+	size: number;
+	capacity: number;
+	remainingCapacity: number;
+	headSequence: number;
+	tailSequence: number;
 }
 
 export interface SemaphoreSummaryDTO extends DistributedObjectSummaryDTO {
-  permits: number;
+	permits: number;
 }
 
 export interface SetSummaryDTO extends DistributedObjectSummaryDTO {
-  size: number;
+	size: number;
 }
 
 export interface StatisticsProductDTO extends ProductDTO {
-  membersCount: number;
-  atomicLongCount: number;
-  atomicReferenceCount: number;
-  cacheCount: number;
-  countDownLatchCount: number;
-  listCount: number;
-  lockCount: number;
-  mapCount: number;
-  multiMapCount: number;
-  queueCount: number;
-  replicatedMapCount: number;
-  ringbufferCount: number;
-  semaphoreCount: number;
-  setCount: number;
-  topicCount: number;
-  systemCpuLoad: number;
-  processCpuLoad: number;
-  totalPhysicalMemory: number;
-  freePhysicalMemory: number;
-  maxHeapMemory: number;
-  usedHeapMemory: number;
-  maxNativeMemory: number;
-  freeNativeMemory: number;
-  cardinalityEstimatorsCount: number;
-  executorsCount: number;
+	membersCount: number;
+	atomicLongCount: number;
+	atomicReferenceCount: number;
+	cacheCount: number;
+	countDownLatchCount: number;
+	listCount: number;
+	lockCount: number;
+	mapCount: number;
+	multiMapCount: number;
+	queueCount: number;
+	replicatedMapCount: number;
+	ringbufferCount: number;
+	semaphoreCount: number;
+	setCount: number;
+	topicCount: number;
+	systemCpuLoad: number;
+	processCpuLoad: number;
+	totalPhysicalMemory: number;
+	freePhysicalMemory: number;
+	maxHeapMemory: number;
+	usedHeapMemory: number;
+	maxNativeMemory: number;
+	freeNativeMemory: number;
+	cardinalityEstimatorsCount: number;
+	executorsCount: number;
 }
 
 export interface StatsProductDTO<T> extends ProductDTO {
-  sampleTime: number;
-  members: { [ index: string ]: T };
-  aggregated: T;
+	sampleTime: number;
+	members: { [ index: string ]: T };
+	aggregated: T;
 }
 
 export interface TopicProductDTO extends ProductDTO {
-  publisher: MemberSummaryDTO;
-  message: any;
-  messageString: string;
-  publishTime: number;
+	publisher: MemberSummaryDTO;
+	message: any;
+	messageString: string;
+	publishTime: number;
 }
 
 export interface TopicSummaryDTO extends DistributedObjectSummaryDTO {

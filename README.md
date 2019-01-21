@@ -27,3 +27,16 @@ npm run start-ssl
 ```
 
 to serve in SSL.
+
+
+# TODO
+2) Variable frequency in test app
+3) Test with two instances on same JVM!
+
+4) Nella schermata Clusters, fare che quando clicchi su una istanza, visualizza il gruppo a cui appartiene e se gli serve autenticazione.
+Solo se gli serve autenticazione mostro la input per la password.
+
+    1   N          1  1
+app <---> instance <--> group
+
+5) Nel titolo della finestra settare il nome del cluster

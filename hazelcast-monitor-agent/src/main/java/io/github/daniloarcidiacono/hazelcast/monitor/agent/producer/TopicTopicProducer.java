@@ -36,7 +36,7 @@ public class TopicTopicProducer extends AbstractTopicProducer implements Message
     private JsonPath jsonPath = null;
 
     public TopicTopicProducer(final String instanceName, final String topicName) {
-        super(TOPIC_TYPE);
+        super(TOPIC_TYPE, instanceName);
         instance = Hazelcast.getHazelcastInstanceByName(instanceName);
         topic = instance.getTopic(topicName);
     }

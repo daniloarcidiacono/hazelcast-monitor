@@ -48,11 +48,26 @@ public class SubscribeMessageHandler implements MessageHandler {
     }
 
     private void onUnsubscribeMessage(final ClientConnection connection, final UnsubscribeRequest request) {
+        final AbstractTopicProducer topic = subscriptionsRegistry.getTopicProducer(request.getSubscriptionId());
+
+        // Security checks
+        if (topic != null && topic.getInstanceName() != null && !connection.isAuthenticated(topic.getInstanceName())) {
+            ClientConnectionUtils.convertAndReply(connection, request, new ErrorMessage("Access Denied"));
+            return;
+        }
+
         subscriptionsRegistry.unsubscribe(request.getSubscriptionId());
     }
 
     private void onSubscribeMessage(final ClientConnection connection, final SubscribeRequest request) {
         final AbstractTopicProducer topic = topicProducerFactory.instanceTopicProducer(request);
+
+        // Security checks
+        if (topic != null && topic.getInstanceName() != null && !connection.isAuthenticated(topic.getInstanceName())) {
+            ClientConnectionUtils.convertAndReply(connection, request, new ErrorMessage("Access Denied"));
+            return;
+        }
+
         if (topic != null) {
             // Subscribe
             final long subscriptionId = subscriptionsRegistry.subscribe(connection, topic);
@@ -85,6 +100,13 @@ public class SubscribeMessageHandler implements MessageHandler {
 
     private void onUpdateSubscription(final ClientConnection connection, final UpdateSubscriptionRequest request) {
         final AbstractTopicProducer topic = subscriptionsRegistry.getTopicProducer(request.getSubscriptionId());
+
+        // Security checks
+        if (topic != null && topic.getInstanceName() != null && !connection.isAuthenticated(topic.getInstanceName())) {
+            ClientConnectionUtils.convertAndReply(connection, request, new ErrorMessage("Access Denied"));
+            return;
+        }
+
         if (topic != null) {
             final Map<String, String> actualParameters = new HashMap<>();
             final List<String> failedParameters = new ArrayList<>();
@@ -114,6 +136,13 @@ public class SubscribeMessageHandler implements MessageHandler {
 
     private void onPullSubscriptionRequest(final ClientConnection connection, final PullSubscriptionRequest request) {
         final AbstractTopicProducer topic = subscriptionsRegistry.getTopicProducer(request.getSubscriptionId());
+
+        // Security checks
+        if (topic != null && topic.getInstanceName() != null && !connection.isAuthenticated(topic.getInstanceName())) {
+            ClientConnectionUtils.convertAndReply(connection, request, new ErrorMessage("Access Denied"));
+            return;
+        }
+
         if (topic != null) {
             if (topic instanceof ScheduledTopicProducer) {
                 ((ScheduledTopicProducer) topic).run();

@@ -1,12 +1,12 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.starter.spring.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Configuration
 @ConfigurationProperties("monitor.websocket")
 public class MonitorWebSocketProperties {
     private String endpoint;

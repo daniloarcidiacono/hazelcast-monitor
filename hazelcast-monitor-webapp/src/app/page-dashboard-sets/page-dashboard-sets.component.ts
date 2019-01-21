@@ -5,19 +5,38 @@ import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared-dynamic-tabs.model';
 import {SharedTabsService} from '@shared/services/shared-tabs.service';
 import {Subscription} from 'rxjs/index';
-import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
+import {
+  ErrorMessageDTO,
+  SubscribeResponseDTO,
+  SubscriptionNoticeResponseDTO,
+  UpdateSubscriptionRequestDTO,
+  UpdateSubscriptionResponseDTO
+} from '@shared/dto/hazelcast-monitor.dto';
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
-import {PageDashboardSetComponent} from "../page-dashboard-set/page-dashboard-set.component";
-import {SharedPageIconsConstants} from "@shared/constants/shared-page-icons.constants";
+import {PageDashboardSetComponent} from '../page-dashboard-set/page-dashboard-set.component';
+import {SharedPageIconsConstants} from '@shared/constants/shared-page-icons.constants';
 
 @Component({
   templateUrl: './page-dashboard-sets.component.html',
   styleUrls: [ './page-dashboard-sets.component.scss' ]
 })
 export class PageDashboardSetsComponent implements TabAwareComponent, OnDestroy {
+  // Data subscription
   private dataSub: Subscription;
+
+  // Current data
   private data: SetsProductDTO = undefined;
+
+  // Update frequency
+  public updateFrequency: number = 1;
+
+  // Pagination
+  public page: number = 1;
+  public pageSize: number = 15;
+
+  // Filtering
+  public filterRegex: string = '';
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,
@@ -28,6 +47,16 @@ export class PageDashboardSetsComponent implements TabAwareComponent, OnDestroy 
 
   public ngOnDestroy(): void {
     this.beforeHide();
+  }
+
+  public trackPageChange(newPage: number): void {
+    this.page = newPage;
+    this.updateSubscription();
+  }
+
+  public trackPageSizeChange(newPageSize: number): void {
+    this.pageSize = newPageSize;
+    this.updateSubscription();
   }
 
   public navigateToListDetails(row: SetSummaryDTO): void {
@@ -45,7 +74,14 @@ export class PageDashboardSetsComponent implements TabAwareComponent, OnDestroy 
 
   public beforeShow(): void {
     if (!this.dataSub) {
-      this.dataSub = this.hazelcastService.subscribeToSets(this.clustersService.getCurrentCluster().instanceName).subscribe(
+      const parameters: any = {
+        frequency: `${this.updateFrequency}`,
+        filter: this.filterRegex,
+        page: `${this.page}`,
+        pageSize: `${this.pageSize}`
+      };
+
+      this.dataSub = this.hazelcastService.subscribeToSets(this.clustersService.getCurrentCluster().instanceName, parameters).subscribe(
         (notice: SubscriptionNoticeResponseDTO<SetsProductDTO>) => {
           this.data = notice.notice;
         },
@@ -63,10 +99,52 @@ export class PageDashboardSetsComponent implements TabAwareComponent, OnDestroy 
     }
   }
 
+  public tabCreated(tab: TabData): void {
+  }
+
+  private updateSubscription(): void {
+    const request: UpdateSubscriptionRequestDTO = {
+      messageType: 'update_subscription',
+      subscriptionId: this.getSubscriptionId(),
+      parameters: {
+        frequency: `${this.updateFrequency}`,
+        filter: this.filterRegex,
+        page: `${this.page}`,
+        pageSize: `${this.pageSize}`
+      }
+    };
+
+    this.hazelcastService.sendUpdateSubscription(request).then((response: UpdateSubscriptionResponseDTO) => {
+      if (!!response.error) {
+        this.snackbarService.show(`Error while updating the subscription: ${response.error}`);
+
+        // When an error occours, the BE sends the current value
+        this.updateFrequency = parseInt(response.parameters['frequency'], 10);
+        this.page = parseInt(response.parameters['page'], 10);
+        this.pageSize = parseInt(response.parameters['pageSize'], 10);
+      } else {
+        this.snackbarService.show('Subscription updated');
+      }
+    }).catch((error: ErrorMessageDTO) => {
+      this.snackbarService.show(`Error while updating the subscription: ${error.errors.join('\n')}`);
+    });
+  }
+
   public get clusterName(): string {
     return this.clustersService.getCurrentCluster().instanceName;
   }
 
-  public tabCreated(tab: TabData): void {
+  public getSubscriptionId(): number {
+    if (!!this.dataSub && !!this.dataSub['subscribeResponse']) {
+      return (this.dataSub['subscribeResponse'] as SubscribeResponseDTO).subscriptionId;
+    }
+
+    return undefined;
+  }
+
+  public handleKeydown(event: KeyboardEvent): void {
+    if (event.ctrlKey && event.which === 13) {
+      this.updateSubscription();
+    }
   }
 }

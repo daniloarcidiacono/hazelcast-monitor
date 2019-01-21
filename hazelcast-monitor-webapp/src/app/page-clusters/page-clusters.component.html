@@ -1,21 +1,45 @@
 <div class="PageClusters">
   <div class="PageClusters__Card" [mdcElevation]="4">
+    <div class="PageClusters__Card__Progress">
+      <mdc-linear-progress [open]="isProgressVisible()">
+      </mdc-linear-progress>
+    </div>
     <div class="PageClusters__Card__Logo"></div>
     <h1 mdcHeadline6>Choose an instance to monitor</h1>
     <form [formGroup]="bindings.form" class="PageClusters__Card__Form">
+      <!-- Cluster -->
       <mdc-select formControlName="cluster"
                   [disabled]="!hasClusters()"
                   [outlined]="true"
                   [autosize]="false"
-                  [floatingLabel]="false">
+                  [floatLabel]="false">
         <option *ngFor="let cluster of bindings.clusters; let clusterIndex = index" [value]="clusterIndex">
           {{ cluster.instanceName }}
         </option>
       </mdc-select>
-
       <mdc-text-field-helper-text [validation]="true" [persistent]="false">
         <span *ngIf="bindings.form.controls['cluster'].errors?.required">Cluster is required</span>
       </mdc-text-field-helper-text>
+
+      <!-- Group name (display only) -->
+      <mdc-text-field type="text"
+                      [outlined]="true"
+                      [dense]="false"
+                      [readonly]="true"
+                      label="Group name"
+                      class="PageClusters__Card__GroupName"
+                      [value]="bindings.currentCluster?.groupName">
+      </mdc-text-field>
+
+      <!-- Password -->
+      <mdc-text-field formControlName="password"
+                      type="password"
+                      [outlined]="true"
+                      [dense]="false"
+                      label="Group password"
+                      [required]="false"
+                      class="PageClusters__Card__PasswordSelector">
+      </mdc-text-field>
 
       <button mdc-button
               [primary]="true"

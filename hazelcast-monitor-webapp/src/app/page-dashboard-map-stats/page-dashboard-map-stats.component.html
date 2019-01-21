@@ -216,7 +216,7 @@
                   [outlined]="true"
                   [ngModel]="statisticsEngine.timeBuffer"
                   (ngModelChange)="statisticsEngine.setMaxTimeSpan($event)"
-                  [floatingLabel]="false">
+                  [floatLabel]="false">
         <option [value]="items" *ngFor="let items of [5, 10, 20, 30, 60, 120, 300, 600]">{{ items }} seconds</option>
       </mdc-select>
     </div>

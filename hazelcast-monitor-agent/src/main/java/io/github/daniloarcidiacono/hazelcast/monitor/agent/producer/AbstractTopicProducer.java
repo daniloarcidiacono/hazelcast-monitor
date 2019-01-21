@@ -9,10 +9,18 @@ import java.util.Set;
 
 public abstract class AbstractTopicProducer {
     private Set<TopicListener> listeners = new HashSet<>();
-    private String topicType;
 
-    public AbstractTopicProducer(String topicType) {
+    private final String topicType;
+
+    /**
+     * The name of the Hazelcast instance to which the producer is bound, or null if
+     * the producer is not specific for any instance (e.g. {@link ClustersTopicProducer}).
+     */
+    protected final String instanceName;
+
+    public AbstractTopicProducer(final String topicType, final String instanceName) {
         this.topicType = topicType;
+        this.instanceName = instanceName;
     }
 
     public void addListener(final TopicListener listener) {
@@ -63,6 +71,10 @@ public abstract class AbstractTopicProducer {
 
     public String getTopicType() {
         return topicType;
+    }
+
+    public String getInstanceName() {
+        return instanceName;
     }
 
     public Set<TopicListener> getListeners() {

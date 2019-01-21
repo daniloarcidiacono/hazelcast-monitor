@@ -3,8 +3,10 @@ import {BrowserModule} from '@angular/platform-browser';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
 import {PageDashboardRingbuffersComponent} from './page-dashboard-ringbuffers.component';
-import {MdcDialogModule, MdcTypographyModule} from '@angular-mdc/web';
+import {MdcDialogModule, MdcIconButtonModule, MdcTextFieldModule, MdcTypographyModule} from '@angular-mdc/web';
 import {PageDashboardRingbuffersDialogComponent} from './page-dashboard-ringbuffers-dialog.component';
+import {SharedMdcPaginatorModule} from '@shared/components/mdc-paginator/shared-mdc-paginator.module';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,13 +15,17 @@ import {PageDashboardRingbuffersDialogComponent} from './page-dashboard-ringbuff
   ],
   imports: [
     BrowserModule,
+    FormsModule,
 
     // Angular MDC Web
     MdcTypographyModule,
     MdcDialogModule,
+    MdcIconButtonModule,
+    MdcTextFieldModule,
 
     // Shared
     SharedMdcTableModule,
+    SharedMdcPaginatorModule,
     SharedServicesModule
   ],
   providers: [

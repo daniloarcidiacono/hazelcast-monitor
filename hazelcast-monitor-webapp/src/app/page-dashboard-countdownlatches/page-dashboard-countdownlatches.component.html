@@ -1,8 +1,19 @@
 <div class="DashboardCountdownLatches">
   <div class="DashboardCountdownLatches__Header">
     <div class="DashboardCountdownLatches__HeaderLeft" mdcHeadline4>
-    Countdown latches of {{ clusterName }}
-  </div>
+      Countdown latches of {{ clusterName }}
+    </div>
+    <div class="DashboardCountdownLatches__HeaderRight">
+      <mdc-text-field type="text"
+                      placeholder="Search"
+                      [outlined]="true"
+                      [dense]="true"
+                      [(ngModel)]="filterRegex"
+                      (keydown)="handleKeydown($event)"
+                      label="Filter">
+        <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+      </mdc-text-field>
+    </div>
   </div>
   <div class="DashboardCountdownLatches__Scroller">
     <shared-mdc-table [model]="data?.objects">
@@ -21,5 +32,17 @@
         </tr>
       </ng-template>
     </shared-mdc-table>
+  </div>
+  <div class="DashboardCountdownLatches__Footer">
+    <div class="DashboardCountdownLatches__FooterLeft" title="Server time consumed for querying data">
+      Query time: {{ data?.produceTime }} ms
+    </div>
+    <div class="DashboardCountdownLatches__FooterRight">
+      <shared-mdc-paginator [page]="page"
+                            [pageSize]="pageSize"
+                            (pageChange)="trackPageChange($event)"
+                            (pageSizeChange)="trackPageSizeChange($event)">
+      </shared-mdc-paginator>
+    </div>
   </div>
 </div>

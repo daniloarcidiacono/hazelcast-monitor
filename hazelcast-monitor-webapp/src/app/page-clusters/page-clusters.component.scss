@@ -13,6 +13,10 @@
       flex-direction: column;
     }
 
+    &__GroupName, &__PasswordSelector {
+      margin-top: 1em;
+    }
+
     &__NextButton {
       margin-top: 4em;
     }

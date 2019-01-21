@@ -1,9 +1,11 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {PageDashboardLocksComponent} from "./page-dashboard-locks.component";
-import {MdcIconModule, MdcTypographyModule} from "@angular-mdc/web";
-import {SharedMdcTableModule} from "@shared/components/mdc-table/shared-mdc-table.module";
-import {SharedServicesModule} from "@shared/services/shared-services.module";
+import {SharedServicesModule} from '@shared/services/shared-services.module';
+import {SharedMdcTableModule} from '@shared/components/mdc-table/shared-mdc-table.module';
+import {PageDashboardLocksComponent} from './page-dashboard-locks.component';
+import {MdcIconButtonModule, MdcTextFieldModule, MdcTypographyModule} from '@angular-mdc/web';
+import {SharedMdcPaginatorModule} from '@shared/components/mdc-paginator/shared-mdc-paginator.module';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,13 +13,16 @@ import {SharedServicesModule} from "@shared/services/shared-services.module";
   ],
   imports: [
     BrowserModule,
+    FormsModule,
 
     // Angular MDC Web
     MdcTypographyModule,
-    MdcIconModule,
+    MdcIconButtonModule,
+    MdcTextFieldModule,
 
     // Shared
     SharedMdcTableModule,
+    SharedMdcPaginatorModule,
     SharedServicesModule
   ],
   providers: [

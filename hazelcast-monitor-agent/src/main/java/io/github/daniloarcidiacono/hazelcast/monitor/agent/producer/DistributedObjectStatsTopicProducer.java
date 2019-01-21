@@ -1,12 +1,7 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.agent.producer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.IExecutorService;
-import com.hazelcast.core.Member;
+import com.hazelcast.core.*;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.dto.topic.DistributedObjectType;
-import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.ObjectMapperFactory;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.product.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,22 +20,16 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
     public static final String TOPIC_TYPE = "distributed_object_stats";
     private static final Logger logger = LoggerFactory.getLogger(DistributedObjectStatsTopicProducer.class);
 
-    // Mapper
-    private ObjectMapper mapper;
-    private ObjectMapperFactory objectMapperFactory;
-
     private final DistributedObjectType distributedObjectType;
     private final String objectName;
-    private final String instanceName;
     private final HazelcastInstance instance;
     private final IExecutorService executorService;
 
     public DistributedObjectStatsTopicProducer(final String instanceName,
                                                final DistributedObjectType distributedObjectType,
                                                final String objectName) {
-        super(TOPIC_TYPE);
+        super(TOPIC_TYPE, instanceName);
 
-        this.instanceName = instanceName;
         this.distributedObjectType = distributedObjectType;
         this.objectName = objectName;
         instance = Hazelcast.getHazelcastInstanceByName(instanceName);
@@ -82,107 +71,152 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
         return null;
     }
 
-    private StatsProduct<MapStats> produceMapStats() {
-        final String __instanceName = instanceName;
-        final String __objectName = objectName;
-        final StatsProduct<MapStats> product = produceStats((Callable<MapStats> & Serializable)() ->
-            MapStats.fromHazelcast(
-                Hazelcast.getHazelcastInstanceByName(__instanceName)
-                    .getMap(__objectName)
-                    .getLocalMapStats()
-            )
-        );
+    static abstract class StatsTask<T> implements Callable<T>, Serializable, HazelcastInstanceAware {
+        protected transient HazelcastInstance instance;
+        protected final String objectName;
 
+        public StatsTask(final String objectName) {
+            this.objectName = objectName;
+        }
+
+        @Override
+        public abstract T call() throws Exception;
+
+        @Override
+        public void setHazelcastInstance(HazelcastInstance hazelcastInstance) {
+            instance = hazelcastInstance;
+        }
+    }
+
+    static class MapStatsTask extends StatsTask<MapStats> {
+        MapStatsTask(String objectName) {
+            super(objectName);
+        }
+
+        @Override
+        public MapStats call() {
+            return MapStats.fromHazelcast(
+                instance.getMap(objectName).getLocalMapStats()
+            );
+        }
+    }
+
+    private StatsProduct<MapStats> produceMapStats() {
+        final StatsProduct<MapStats> product = produceStats(new MapStatsTask(objectName));
         product.setAggregated(MapStats.aggregated(product.getMembers().values()));
         return product;
+    }
+
+    static class ReplicatedMapStatsTask extends StatsTask<MapStats> {
+        ReplicatedMapStatsTask(String objectName) {
+            super(objectName);
+        }
+
+        @Override
+        public MapStats call() {
+            return MapStats.fromHazelcast(
+                    instance.getReplicatedMap(objectName).getReplicatedMapStats()
+            );
+        }
     }
 
     private StatsProduct<MapStats> produceReplicatedMapStats() {
-        final String __instanceName = instanceName;
-        final String __objectName = objectName;
-        final StatsProduct<MapStats> product = produceStats((Callable<MapStats> & Serializable)() ->
-            MapStats.fromHazelcast(
-                Hazelcast.getHazelcastInstanceByName(__instanceName)
-                    .getReplicatedMap(__objectName)
-                    .getReplicatedMapStats()
-            )
-        );
-
+        final StatsProduct<MapStats> product = produceStats(new ReplicatedMapStatsTask(objectName));
         product.setAggregated(MapStats.aggregated(product.getMembers().values()));
         return product;
+    }
+
+    static class MultiMapStatsTask extends StatsTask<MapStats> {
+        MultiMapStatsTask(String objectName) {
+            super(objectName);
+        }
+
+        @Override
+        public MapStats call() {
+            return MapStats.fromHazelcast(
+                    instance.getMultiMap(objectName).getLocalMultiMapStats()
+            );
+        }
     }
 
     private StatsProduct<MapStats> produceMultiMapStats() {
-        final String __instanceName = instanceName;
-        final String __objectName = objectName;
-        final StatsProduct<MapStats> product = produceStats((Callable<MapStats> & Serializable)() ->
-            MapStats.fromHazelcast(
-                Hazelcast.getHazelcastInstanceByName(__instanceName)
-                    .getMultiMap(__objectName)
-                    .getLocalMultiMapStats()
-            )
-        );
-
+        final StatsProduct<MapStats> product = produceStats(new MultiMapStatsTask(objectName));
         product.setAggregated(MapStats.aggregated(product.getMembers().values()));
         return product;
     }
 
-    private StatsProduct<CacheStats> produceCacheStats() {
-        final String __instanceName = instanceName;
-        final String __objectName = objectName;
-        final StatsProduct<CacheStats> product = produceStats((Callable<CacheStats> & Serializable)() ->
-            CacheStats.fromHazelcast(
-                Hazelcast.getHazelcastInstanceByName(__instanceName)
-                    .getCacheManager().getCache(__objectName)
-                    .getLocalCacheStatistics()
-            )
-        );
+    static class CacheStatsTask extends StatsTask<CacheStats> {
+        CacheStatsTask(String objectName) {
+            super(objectName);
+        }
 
+        @Override
+        public CacheStats call() {
+            return CacheStats.fromHazelcast(
+                instance.getCacheManager().getCache(objectName).getLocalCacheStatistics()
+            );
+        }
+    }
+
+    private StatsProduct<CacheStats> produceCacheStats() {
+        final StatsProduct<CacheStats> product = produceStats(new CacheStatsTask(objectName));
         product.setAggregated(CacheStats.aggregated(product.getMembers().values()));
         return product;
     }
 
-    private StatsProduct<ExecutorStats> produceExecutorStats() {
-        final String __instanceName = instanceName;
-        final String __objectName = objectName;
-        final StatsProduct<ExecutorStats> product = produceStats((Callable<ExecutorStats> & Serializable)() ->
-            ExecutorStats.fromHazelcast(
-                Hazelcast.getHazelcastInstanceByName(__instanceName)
-                    .getExecutorService(__objectName)
-                    .getLocalExecutorStats()
-                )
-        );
+    static class ExecutorStatsTask extends StatsTask<ExecutorStats> {
+        ExecutorStatsTask(String objectName) {
+            super(objectName);
+        }
 
+        @Override
+        public ExecutorStats call() {
+            return ExecutorStats.fromHazelcast(
+                    instance.getExecutorService(objectName).getLocalExecutorStats()
+            );
+        }
+    }
+
+    private StatsProduct<ExecutorStats> produceExecutorStats() {
+        final StatsProduct<ExecutorStats> product = produceStats(new ExecutorStatsTask(objectName));
         product.setAggregated(ExecutorStats.aggregated(product.getMembers().values()));
         return product;
     }
 
-    private StatsProduct<QueueStats> produceQueueStats() {
-        final String __instanceName = instanceName;
-        final String __objectName = objectName;
-        final StatsProduct<QueueStats> product = produceStats((Callable<QueueStats> & Serializable)() ->
-            QueueStats.fromHazelcast(
-                Hazelcast.getHazelcastInstanceByName(__instanceName)
-                    .getQueue(__objectName)
-                    .getLocalQueueStats()
-            )
-        );
+    static class QueueStatsTask extends StatsTask<QueueStats> {
+        QueueStatsTask(String objectName) {
+            super(objectName);
+        }
 
+        @Override
+        public QueueStats call() {
+            return QueueStats.fromHazelcast(
+                instance.getQueue(objectName).getLocalQueueStats()
+            );
+        }
+    }
+
+    private StatsProduct<QueueStats> produceQueueStats() {
+        final StatsProduct<QueueStats> product = produceStats(new QueueStatsTask(objectName));
         product.setAggregated(QueueStats.aggregated(product.getMembers().values()));
         return product;
     }
 
-    private StatsProduct<TopicStats> produceTopicStats() {
-        final String __instanceName = instanceName;
-        final String __objectName = objectName;
-        final StatsProduct<TopicStats> product = produceStats((Callable<TopicStats> & Serializable)() ->
-            TopicStats.fromHazelcast(
-                Hazelcast.getHazelcastInstanceByName(__instanceName)
-                    .getTopic(__objectName)
-                    .getLocalTopicStats()
-            )
-        );
+    static class TopicStatsTask extends StatsTask<TopicStats> {
+        TopicStatsTask(String objectName) {
+            super(objectName);
+        }
 
+        @Override
+        public TopicStats call() {
+            return TopicStats.fromHazelcast(
+                    instance.getTopic(objectName).getLocalTopicStats()
+            );
+        }
+    }
+
+    private StatsProduct<TopicStats> produceTopicStats() {
+        final StatsProduct<TopicStats> product = produceStats(new TopicStatsTask(objectName));
         product.setAggregated(TopicStats.aggregated(product.getMembers().values()));
         return product;
     }
@@ -204,16 +238,5 @@ public class DistributedObjectStatsTopicProducer extends AbstractTopicProducer {
         }
 
         return product;
-    }
-
-    public ObjectMapperFactory getObjectMapperFactory() {
-        return objectMapperFactory;
-    }
-
-    public void setObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
-        this.objectMapperFactory = objectMapperFactory;
-        if (objectMapperFactory != null) {
-            mapper = objectMapperFactory.instance();
-        }
     }
 }

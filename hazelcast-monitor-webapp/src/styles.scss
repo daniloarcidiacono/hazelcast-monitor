@@ -56,6 +56,10 @@ mdc-select.mdc-select--outlined.mdc-select--dense {
     height: 32px !important;
   }
 
+  & i.mdc-select__dropdown-icon {
+    bottom: 8px !important;
+  }
+
   & mdc-notched-outline {
     display: none;
   }

@@ -64,7 +64,6 @@ public class TopicProducerFactory {
         if (message.getTopic() instanceof DistributedObjectStatsTopic) {
             final DistributedObjectStatsTopic topic = (DistributedObjectStatsTopic) message.getTopic();
             final DistributedObjectStatsTopicProducer producer = new DistributedObjectStatsTopicProducer(topic.getInstanceName(), topic.getDistributedObjectType(), topic.getObjectName());
-            producer.setObjectMapperFactory(objectMapperFactory);
             return wrapProducer(producer, message);
         }
 

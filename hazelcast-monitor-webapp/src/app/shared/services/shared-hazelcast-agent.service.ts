@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
-  AbstractMessageDTO,
+  AbstractMessageDTO, AuthenticateRequestDTO, AuthenticateResponseDTO,
   ErrorMessageDTO,
   PullSubscriptionRequestDTO,
   SubscribeRequestDTO,
@@ -291,6 +291,40 @@ export class SharedHazelcastAgentService {
     }).toPromise();
   }
 
+  public sendAuthenticate(groupName: string, groupPassword: string): Promise<AuthenticateResponseDTO> {
+    const request: AuthenticateRequestDTO = {
+      messageId: this.wsService.generateMessageId(),
+      messageType: 'authenticate',
+      groupName: groupName,
+      groupPassword: groupPassword
+    };
+
+    // Send the request
+    this.wsService.sendMessage(JSON.stringify(request));
+
+    // Create an observable listening for AuthenticateResponseDTO
+    return new Observable<AuthenticateResponseDTO>((observer: Observer<AuthenticateResponseDTO>) => {
+      const sub: Subscription = this.parsedMessages.subscribe(
+        (message: AbstractMessageDTO) => {
+          if (message.messageType === 'authenticate_response') {
+            observer.next(message as AuthenticateResponseDTO);
+            observer.complete();
+          }
+        },
+        (error: ErrorMessageDTO) => {
+          observer.error(error);
+        },
+        () => {
+          observer.complete();
+        }
+      );
+
+      return () => {
+        sub.unsubscribe();
+      };
+    }).toPromise();
+  }
+
   // Misc
   public subscribeToClusters(): Observable<SubscriptionNoticeResponseDTO<ClustersProductDTO>> {
     const subRequest: SubscribeRequestDTO = {
@@ -368,12 +402,12 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.MAP, parameters);
   }
 
-  public subscribeToLists(instanceName: string): Observable<SubscriptionNoticeResponseDTO<ListsProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.LIST);
+  public subscribeToLists(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<ListsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.LIST, parameters);
   }
 
-  public subscribeToLocks(instanceName: string): Observable<SubscriptionNoticeResponseDTO<LocksProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.LOCK);
+  public subscribeToLocks(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<LocksProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.LOCK, parameters);
   }
 
   public subscribeToMultiMaps(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<MultiMapsProductDTO>> {
@@ -388,8 +422,8 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.QUEUE, parameters);
   }
 
-  public subscribeToSets(instanceName: string): Observable<SubscriptionNoticeResponseDTO<SetsProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SET);
+  public subscribeToSets(instanceName: string,  parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<SetsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SET, parameters);
   }
 
   public subscribeToTopics(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<TopicsProductDTO>> {
@@ -404,28 +438,28 @@ export class SharedHazelcastAgentService {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.CARDINALITYESTIMATOR, parameters);
   }
 
-  public subscribeToAtomicLongs(instanceName: string): Observable<SubscriptionNoticeResponseDTO<AtomicLongsProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.ATOMICLONG);
+  public subscribeToAtomicLongs(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<AtomicLongsProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.ATOMICLONG, parameters);
   }
 
-  public subscribeToAtomicReferences(instanceName: string): Observable<SubscriptionNoticeResponseDTO<AtomicReferencesProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.ATOMICREFERENCE);
+  public subscribeToAtomicReferences(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<AtomicReferencesProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.ATOMICREFERENCE, parameters);
   }
 
-  public subscribeToCountdownLatches(instanceName: string): Observable<SubscriptionNoticeResponseDTO<CountDownLatchesProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.COUNTDOWNLATCH);
+  public subscribeToCountdownLatches(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<CountDownLatchesProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.COUNTDOWNLATCH, parameters);
   }
 
-  public subscribeToSemaphores(instanceName: string): Observable<SubscriptionNoticeResponseDTO<SemaphoresProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SEMAPHORE);
+  public subscribeToSemaphores(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<SemaphoresProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.SEMAPHORE, parameters);
   }
 
   public subscribeToCaches(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<CachesProductDTO>> {
     return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.CACHE, parameters);
   }
 
-  public subscribeToRingbuffers(instanceName: string): Observable<SubscriptionNoticeResponseDTO<RingbuffersProductDTO>> {
-    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.RINGBUFFER);
+  public subscribeToRingbuffers(instanceName: string, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<RingbuffersProductDTO>> {
+    return this.subscribeToDistributedObjects(instanceName, DistributedObjectType.RINGBUFFER, parameters);
   }
 
   // Distributed object

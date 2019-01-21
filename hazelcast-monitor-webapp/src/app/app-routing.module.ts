@@ -7,7 +7,6 @@ import {SharedClusterGuard} from '@shared/guards/shared-cluster.guard';
 import {SharedServicesModule} from '@shared/services/shared-services.module';
 import {PageConnectComponent} from './page-connect/page-connect.component';
 import {SharedDashboardGuard} from '@shared/guards/shared-dashboard-guard';
-import {PageTestComponent} from './page-test/page-test.component';
 
 @NgModule({
   imports: [
@@ -29,10 +28,6 @@ import {PageTestComponent} from './page-test/page-test.component';
         canActivate: [
           SharedClusterGuard
         ]
-      },
-      {
-        path: 'test',
-        component: PageTestComponent
       },
       {
         path: '',

@@ -6,7 +6,11 @@ import {ConnectionState, SharedWebSocketService} from '@shared/services/shared-w
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/index';
-import {ErrorMessageDTO, SubscriptionNoticeResponseDTO} from '@shared/dto/hazelcast-monitor.dto';
+import {
+  AuthenticateResponseDTO,
+  ErrorMessageDTO,
+  SubscriptionNoticeResponseDTO
+} from '@shared/dto/hazelcast-monitor.dto';
 import {SharedHazelcastAgentService} from '@shared/services/shared-hazelcast-agent.service';
 import {ClustersProductDTO} from '@shared/dto/topic-products.dto';
 
@@ -18,6 +22,7 @@ export class PageClustersComponent implements OnDestroy {
   private form: FormGroup;
   private wsStateSub: Subscription;
   private clusterSub: Subscription;
+  private isLoading: boolean = false;
 
   // View bindings
   public bindings: any = {
@@ -25,6 +30,10 @@ export class PageClustersComponent implements OnDestroy {
 
     get form(): FormGroup {
       return this.ctrl.form;
+    },
+
+    get currentCluster(): Cluster {
+      return this.ctrl.form.value.cluster !== undefined ? this.ctrl.clustersService.getClusters()[parseInt(this.ctrl.form.value.cluster)] : undefined;
     },
 
     get clusters(): Cluster[] {
@@ -53,7 +62,7 @@ export class PageClustersComponent implements OnDestroy {
 
     this.clusterSub = this.hazelcastService.subscribeToClusters().subscribe(
       (notice: SubscriptionNoticeResponseDTO<ClustersProductDTO>) => {
-        const newData: Cluster[] = notice.notice.clusters.map(name => new Cluster(name));
+        const newData: Cluster[] = notice.notice.clusters.map(cluster => new Cluster(cluster.instanceName, cluster.groupName));
         this.clustersService.setClusters(newData);
         if (this.form.pristine) {
           this.form.patchValue({
@@ -73,10 +82,10 @@ export class PageClustersComponent implements OnDestroy {
     this.wsStateSub.unsubscribe();
   }
 
-
   private initForm(): void {
     this.form = this.fb.group({
-      cluster: [ undefined, Validators.required ]
+      cluster: [ undefined, Validators.required ],
+      password: [ undefined ]
     });
   }
 
@@ -84,13 +93,35 @@ export class PageClustersComponent implements OnDestroy {
     return this.clustersService.hasClusters();
   }
 
+  public isProgressVisible(): boolean {
+    return this.wsService.getState() === ConnectionState.CONNECTING;
+  }
+
   public isNextButtonEnabled(): boolean {
-    return this.form.valid;
+    return this.form.valid && !this.isLoading;
   }
 
   public next(): void {
     const selectedCluster: Cluster = this.clustersService.getClusters()[parseInt(this.form.value.cluster)];
-    this.clustersService.setCurrentCluster(selectedCluster);
-    this.router.navigateByUrl('/dashboard');
+    const password: string = this.form.value.password;
+
+    this.isLoading = true;
+    this.form.disable();
+
+    this.hazelcastService.sendAuthenticate(selectedCluster.instanceName, password).then((response: AuthenticateResponseDTO) => {
+      this.isLoading = false;
+      this.form.enable();
+
+      if (response.error !== null) {
+        this.snackbarService.show(`Error while authenticating: ${response.error}`);
+      } else {
+        this.clustersService.setCurrentCluster(selectedCluster);
+        this.router.navigateByUrl('/dashboard');
+      }
+    }).catch((error: ErrorMessageDTO) => {
+      this.isLoading = false;
+      this.form.enable();
+      this.snackbarService.show(`Error while authenticating: ${error.errors.join('\n')}`);
+    });
   }
 }
