@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableHazelcastMonitor
-public class AppApplication {
+public class HazelcastMonitorTestApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AppApplication.class, args);
+        SpringApplication.run(HazelcastMonitorTestApplication.class, args);
     }
 }

@@ -20,3 +20,10 @@ monitor:
     endpoint: "/ws"
     allowed-origins:
       - "*"
+
+sampleapp:
+  instanceName: "dev"
+  groupName: "group"
+  groupPassword: "pass"
+  managementCenterEnabled: false
+  managementCenterUrl: "http://localhost:8080/mancenter"
