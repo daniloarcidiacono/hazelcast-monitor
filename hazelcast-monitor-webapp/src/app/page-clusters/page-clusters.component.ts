@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnDestroy} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {Cluster} from '@shared/model/shared-cluster.model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -60,10 +60,12 @@ export class PageClustersComponent implements OnDestroy {
       }
     });
 
+    this.form.markAsPending();
     this.clusterSub = this.hazelcastService.subscribeToClusters().subscribe(
       (notice: SubscriptionNoticeResponseDTO<ClustersProductDTO>) => {
         const newData: Cluster[] = notice.notice.clusters.map(cluster => new Cluster(cluster.instanceName, cluster.groupName));
         this.clustersService.setClusters(newData);
+
         if (this.form.pristine) {
           this.form.patchValue({
             cluster: '0'
@@ -80,6 +82,10 @@ export class PageClustersComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.clusterSub.unsubscribe();
     this.wsStateSub.unsubscribe();
+  }
+
+  public trackClusterFn(cluster: Cluster): any {
+    return cluster ? cluster.instanceName : undefined;
   }
 
   private initForm(): void {

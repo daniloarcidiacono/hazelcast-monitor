@@ -28,8 +28,8 @@
                         [required]="true"
                         class="PageConnect__Card__HostSelector">
         </mdc-text-field>
-        <mdc-text-field-helper-text #hostHelper [validation]="true" [persistent]="false">
-          <span *ngIf="bindings.form.controls['host'].errors?.required">Host is required</span>
+        <mdc-text-field-helper-text #hostHelper validation>
+          <span *ngIf="bindings.form.controls['host'].hasError('required')">Host is required</span>
         </mdc-text-field-helper-text>
       </div>
 
@@ -43,8 +43,8 @@
                       [required]="true"
                       class="PageConnect__Card__PortSelector">
       </mdc-text-field>
-      <mdc-text-field-helper-text #portHelper [validation]="true" [persistent]="false">
-        <span *ngIf="bindings.form.controls['port'].errors?.required">Port is required</span>
+      <mdc-text-field-helper-text #portHelper validation>
+        <span *ngIf="bindings.form.controls['port'].hasError('required')">Port is required</span>
       </mdc-text-field-helper-text>
 
       <!-- Path -->
@@ -55,8 +55,8 @@
                       label="Path"
                       class="PageConnect__Card__PathSelector">
       </mdc-text-field>
-      <!--<mdc-text-field-helper-text #pathHelper [validation]="true" [persistent]="false">-->
-        <!--<span *ngIf="bindings.form.controls['path'].errors?.required">Path is required</span>-->
+      <!--<mdc-text-field-helper-text #pathHelper validation>-->
+        <!--<span *ngIf="bindings.form.controls['path'].hasError('required')">Path is required</span>-->
       <!--</mdc-text-field-helper-text>-->
 
       <button mdc-button

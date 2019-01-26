@@ -12,14 +12,15 @@
                   [disabled]="!hasClusters()"
                   [outlined]="true"
                   [autosize]="false"
-                  [floatLabel]="false">
-        <option *ngFor="let cluster of bindings.clusters; let clusterIndex = index" [value]="clusterIndex">
+                  [helperText]="clusterHelper"
+                  required>
+        <option *ngFor="let cluster of bindings.clusters; trackBy: trackClusterFn; let clusterIndex = index" [value]="clusterIndex">
           {{ cluster.instanceName }}
         </option>
       </mdc-select>
-      <mdc-text-field-helper-text [validation]="true" [persistent]="false">
-        <span *ngIf="bindings.form.controls['cluster'].errors?.required">Cluster is required</span>
-      </mdc-text-field-helper-text>
+      <mdc-helper-text #clusterHelper validation>
+        <span *ngIf="bindings.form.controls['cluster'].hasError('required')">Cluster is required</span>
+      </mdc-helper-text>
 
       <!-- Group name (display only) -->
       <mdc-text-field type="text"
