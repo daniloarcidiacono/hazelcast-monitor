@@ -12,14 +12,13 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class PredicateQueryEngine {
-    private final IExecutorService executorService;
-
-    public PredicateQueryEngine(final HazelcastInstance hazelcastInstance) {
-        this.executorService = hazelcastInstance.getExecutorService("_hzMonitor_predicateSearch");
+    private IExecutorService getExecutorService(final HazelcastInstance hazelcastInstance) {
+        return hazelcastInstance.getExecutorService("_hzMonitor_predicateSearch");
     }
 
-    public <T> List<T> queryList(final IList<T> list, final Predicate predicate) throws PredicateQueryEngineException {
+    public <T> List<T> queryList(final IList<T> list, final Predicate predicate, final HazelcastInstance hazelcastInstance) throws PredicateQueryEngineException {
         try {
+            final IExecutorService executorService = getExecutorService(hazelcastInstance);
             final ListQueryTask<T> task = new ListQueryTask(list.getName(), predicate);
             final Future<List<T>> future = executorService.submitToKeyOwner(task, list.getPartitionKey());
             return future.get();
@@ -28,8 +27,9 @@ public class PredicateQueryEngine {
         }
     }
 
-    public <T> List<T> queryQueue(final IQueue<T> queue, final Predicate predicate) throws PredicateQueryEngineException {
+    public <T> List<T> queryQueue(final IQueue<T> queue, final Predicate predicate, final HazelcastInstance hazelcastInstance) throws PredicateQueryEngineException {
         try {
+            final IExecutorService executorService = getExecutorService(hazelcastInstance);
             final QueueQueryTask<T> task = new QueueQueryTask(queue.getName(), predicate);
             final Future<List<T>> future = executorService.submitToKeyOwner(task, queue.getPartitionKey());
             return future.get();
@@ -38,8 +38,9 @@ public class PredicateQueryEngine {
         }
     }
 
-    public <T> List<T> querySet(final ISet<T> set, final Predicate predicate) throws PredicateQueryEngineException {
+    public <T> List<T> querySet(final ISet<T> set, final Predicate predicate, final HazelcastInstance hazelcastInstance) throws PredicateQueryEngineException {
         try {
+            final IExecutorService executorService = getExecutorService(hazelcastInstance);
             final SetQueryTask<T> task = new SetQueryTask(set.getName(), predicate);
             final Future<List<T>> future = executorService.submitToKeyOwner(task, set.getPartitionKey());
             return future.get();
@@ -48,8 +49,9 @@ public class PredicateQueryEngine {
         }
     }
 
-    public <K, V> List<Cache.Entry<K, V>> queryCache(final ICache<K, V> cache, final Predicate predicate) {
+    public <K, V> List<Cache.Entry<K, V>> queryCache(final ICache<K, V> cache, final Predicate predicate, final HazelcastInstance hazelcastInstance) {
         try {
+            final IExecutorService executorService = getExecutorService(hazelcastInstance);
             final CacheQueryTask<K, V> task = new CacheQueryTask(cache.getName(), predicate);
             final Future<List<Cache.Entry<K, V>>> future = executorService.submitToKeyOwner(task, cache.getPartitionKey());
             return future.get();

@@ -202,7 +202,7 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
             final IList<Object> list = instance.getList(objectName);
 
             // Filter
-            final List<Object> filtered = predicateQueryEngine.queryList(list, predicate);
+            final List<Object> filtered = predicateQueryEngine.queryList(list, predicate, instance);
 
             // Paginate
             final int start = pageSize * (page - 1);
@@ -279,7 +279,7 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
             final IQueue queue = instance.getQueue(objectName);
 
             // Filter
-            final List<Object> filtered = predicateQueryEngine.queryQueue(queue, predicate);
+            final List<Object> filtered = predicateQueryEngine.queryQueue(queue, predicate, instance);
 
             // Paginate
             final int start = pageSize * (page - 1);
@@ -316,7 +316,7 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
             final ISet set = instance.getSet(objectName);
 
             // Filter
-            final List<Object> filtered = predicateQueryEngine.querySet(set, predicate);
+            final List<Object> filtered = predicateQueryEngine.querySet(set, predicate, instance);
 
             // Paginate
             final int start = pageSize * (page - 1);
@@ -393,7 +393,7 @@ public class DistributedObjectTopicProducer extends AbstractTopicProducer {
             final ICache cache = instance.getCacheManager().getCache(objectName);
 
             // Filter
-            final List<Cache.Entry> filtered = predicateQueryEngine.queryCache(cache, predicate);
+            final List<Cache.Entry> filtered = predicateQueryEngine.queryCache(cache, predicate, instance);
 
             // Paginate
             final int start = pageSize * (page - 1);

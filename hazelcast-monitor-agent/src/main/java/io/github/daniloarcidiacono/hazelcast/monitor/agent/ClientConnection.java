@@ -3,6 +3,12 @@ package io.github.daniloarcidiacono.hazelcast.monitor.agent;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Abstraction of a connection used by the monitor.
+ * <p>
+ * Subclasses must implement the {@link #send(String)} method and are also responsible of
+ * calling {@link #receive(String)} when appropriate.
+ */
 public abstract class ClientConnection {
     private Set<ClientConnectionListener> listeners = new HashSet<>();
 

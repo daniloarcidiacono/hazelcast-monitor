@@ -1,6 +1,5 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.starter.spring.configuration;
 
-import com.hazelcast.core.HazelcastInstance;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.HazelcastAgent;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.DefaultObjectMapperFactory;
 import io.github.daniloarcidiacono.hazelcast.monitor.agent.factory.ObjectMapperFactory;
@@ -29,9 +28,6 @@ public class MonitorConfiguration {
     @Autowired
     private MonitorProperties monitorProperties;
 
-    @Autowired
-    private HazelcastInstance hazelcastInstance;
-
     @Bean
     @ConditionalOnMissingBean
     public ConnectionSubscriptionsRegistry connectionSubscriptionsRegistry() {
@@ -41,7 +37,7 @@ public class MonitorConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public PredicateQueryEngine predicateQueryEngine() {
-        return new PredicateQueryEngine(hazelcastInstance);
+        return new PredicateQueryEngine();
     }
 
     @Bean
