@@ -1,0 +1,12 @@
+server:
+  port: 7100
+
+monitor:
+  secure: false
+
+sampleapp:
+  instances:
+    dev-c:
+      instanceName: "dev-c"
+      groupName: "group"
+      groupPassword: "pass-c"

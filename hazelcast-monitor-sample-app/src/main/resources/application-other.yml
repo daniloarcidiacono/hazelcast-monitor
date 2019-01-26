@@ -1,9 +1,0 @@
-server:
-  port: 7100
-
-sampleapp:
-  instanceName: "dev-other"
-  groupName: "group"
-  groupPassword: "pass"
-  managementCenterEnabled: false
-  managementCenterUrl: "http://localhost:8080/mancenter"

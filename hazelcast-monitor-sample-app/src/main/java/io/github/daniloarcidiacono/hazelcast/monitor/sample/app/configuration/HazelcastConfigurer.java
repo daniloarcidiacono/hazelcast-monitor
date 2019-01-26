@@ -4,7 +4,7 @@ import com.hazelcast.config.Config;
 
 /**
  * Configurer for Hazelcast {@link Config} object.
- * @see HazelcastConfiguration
+ * @see HazelcastAppFactory
  */
 public interface HazelcastConfigurer {
     /**

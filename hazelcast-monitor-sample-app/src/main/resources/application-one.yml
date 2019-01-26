@@ -1,0 +1,11 @@
+sampleapp:
+  instances:
+    dev-a:
+      instanceName: "dev-a"
+      groupName: "group"
+      groupPassword: "pass-a"
+
+    dev-b:
+      instanceName: "dev-b"
+      groupName: "group"
+      groupPassword: "pass-b"
