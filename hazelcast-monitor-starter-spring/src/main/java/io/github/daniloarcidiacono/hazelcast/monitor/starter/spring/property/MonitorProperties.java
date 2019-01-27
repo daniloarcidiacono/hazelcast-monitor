@@ -4,9 +4,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Main configuration class for the monitor.
+ * @see MonitorThreadsProperties
+ * @see MonitorWebSocketProperties
+ */
 @Configuration
 @ConfigurationProperties("monitor")
 public class MonitorProperties {
+    /**
+     * Whether the monitor should be enabled or not.
+     */
     private boolean enabled = true;
 
     /**
@@ -14,9 +22,15 @@ public class MonitorProperties {
      */
     private boolean secure = true;
 
+    /**
+     * Thread-related properties
+     */
     @NestedConfigurationProperty
     private MonitorThreadsProperties threads;
 
+    /**
+     * Websocket properties
+     */
     @NestedConfigurationProperty
     private MonitorWebSocketProperties websocket;
 

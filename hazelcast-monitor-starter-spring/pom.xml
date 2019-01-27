@@ -12,8 +12,8 @@
 
     <artifactId>hazelcast-monitor-starter-spring</artifactId>
     <packaging>jar</packaging>
-    <name>Hazelcast monitor Spring Starter</name>
-    <description>Hazelcast monitor Spring Starter</description>
+    <name>Hazelcast Monitor Spring Starter</name>
+    <description>Hazelcast Monitor Spring Starter</description>
 
     <dependencies>
         <dependency>
