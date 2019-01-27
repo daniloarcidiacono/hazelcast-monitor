@@ -26,12 +26,14 @@
         <json-path.version>2.4.0</json-path.version>
         <hazelcast.version>3.9.3</hazelcast.version>
         <typescript-mapper.version>0.1.0</typescript-mapper.version>
+        <java-websocket.version>1.3.9</java-websocket.version>
     </properties>
 
     <modules>
         <module>hazelcast-monitor-agent</module>
         <module>hazelcast-monitor-sample-app</module>
         <module>hazelcast-monitor-starter-spring</module>
+        <module>hazelcast-monitor-starter-java-websockets</module>
     </modules>
 
     <dependencyManagement>
@@ -45,6 +47,12 @@
             <dependency>
                 <groupId>io.github.daniloarcidiacono.hazelcast.monitor</groupId>
                 <artifactId>hazelcast-monitor-starter-spring</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.daniloarcidiacono.hazelcast.monitor</groupId>
+                <artifactId>hazelcast-monitor-starter-java-websockets</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
@@ -97,6 +105,12 @@
                 <artifactId>typescript-mapper-maven-plugin</artifactId>
                 <version>${typescript-mapper.version}</version>
                 <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.java-websocket</groupId>
+                <artifactId>Java-WebSocket</artifactId>
+                <version>${java-websocket.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
