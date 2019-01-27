@@ -69,7 +69,8 @@ export class PageConnectComponent implements OnDestroy {
         protocol: 'http',
         host: 'localhost',
         port: '7000',
-        path: '/monitor/ws'
+        path: '/monitor/ws',
+        useSockJS: true
       };
     }
 
@@ -77,7 +78,8 @@ export class PageConnectComponent implements OnDestroy {
       protocol: [connectionParams.protocol, Validators.required],
       host: [connectionParams.host, Validators.required],
       port: [connectionParams.port, Validators.required],
-      path: [connectionParams.path]
+      path: [connectionParams.path],
+      useSockJS: [connectionParams.useSockJS, Validators.required]
     });
 
     if (!this.isFormEnabled()) {
@@ -107,7 +109,7 @@ export class PageConnectComponent implements OnDestroy {
 
   public connect(): void {
     const address: string = `${this.form.value.protocol}://${this.form.value.host}:${this.form.value.port}${PageConnectComponent.prefixWithSlash(this.form.value.path)}`;
-    this.wsService.connect(address);
+    this.wsService.connect(address, this.form.value.useSockJS);
   }
 
   public disconnect(): void {

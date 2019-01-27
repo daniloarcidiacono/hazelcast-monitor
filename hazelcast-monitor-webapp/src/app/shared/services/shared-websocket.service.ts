@@ -32,20 +32,25 @@ export class SharedWebSocketService {
     return this.messageId++;
   }
 
-  public connect(address: string): void {
+  public connect(address: string, useSockJS: boolean): void {
     if (this.state !== ConnectionState.DISCONNECTED) {
       return;
     }
 
     // Begin the connection
-    this.address = address;
+    if (useSockJS) {
+      this.address = address;
+    } else {
+      if (address.startsWith("https")) {
+        this.address = address.replace("https", "wss");
+      } else if (address.startsWith("http")) {
+        this.address = address.replace("http", "ws");
+      }
+    }
+
     this.state = ConnectionState.CONNECTING;
     try {
-      this.socket = new SockJS(address, null, {
-        'transports': [
-          'websocket'
-        ]
-      });
+      this.socket = useSockJS ? new SockJS(this.address) : new WebSocket(this.address);
       this.onConnectivityChanged.next(this.state);
 
       // Setup the callbacks

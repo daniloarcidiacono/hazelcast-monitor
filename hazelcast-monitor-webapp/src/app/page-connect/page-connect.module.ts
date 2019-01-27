@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {
-  MdcButtonModule,
+  MdcButtonModule, MdcCheckboxModule,
   MdcElevationModule,
   MdcFormFieldModule,
   MdcIconModule, MdcLinearProgressModule, MdcSelectModule,
@@ -26,6 +26,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     MdcSelectModule,
     MdcElevationModule,
     MdcLinearProgressModule,
+    MdcCheckboxModule,
     MdcIconModule,
     MdcButtonModule,
     MdcTypographyModule

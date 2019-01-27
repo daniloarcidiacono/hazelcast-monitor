@@ -59,6 +59,12 @@
         <!--<span *ngIf="bindings.form.controls['path'].hasError('required')">Path is required</span>-->
       <!--</mdc-text-field-helper-text>-->
 
+      <!-- SockJS -->
+      <mdc-form-field class="PageConnect__Card__SockJSSelector">
+        <mdc-checkbox formControlName="useSockJS"></mdc-checkbox>
+        <label>Use SockJS</label>
+      </mdc-form-field>
+
       <button mdc-button
               *ngIf="isConnectButtonVisible()"
               [primary]="true"
