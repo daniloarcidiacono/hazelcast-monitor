@@ -29,7 +29,7 @@ export interface StatisticsCharts {
 // Handles chart objects and property tracking
 export class StatisticsEngine<S> {
   // Time buffer in seconds
-  private timeBuffer: number = 20;
+  public timeBuffer: number = 20;
 
   // Property tracker
   private propertyTracker: PropertyTracker<S> = new PropertyTracker(this.timeBuffer);

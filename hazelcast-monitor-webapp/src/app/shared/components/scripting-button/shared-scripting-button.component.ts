@@ -8,10 +8,10 @@ import {AceEditorComponent} from 'ng2-ace-editor';
 })
 export class SharedScriptingButtonComponent implements AfterViewInit {
   @Input()
-  private filterScript: string = 'true';
+  public filterScript: string = 'true';
 
   @Input()
-  private sliceScript: string = '$..*';
+  public sliceScript: string = '$..*';
 
   @Output()
   private filterScriptChange: EventEmitter<string> = new EventEmitter<string>();

@@ -19,7 +19,7 @@ export abstract class SharedMasterComponent<T extends DistributedObjectsProductD
   protected dataSub: Subscription;
 
   // Current data
-  protected data: T = undefined;
+  public data: T = undefined;
 
   // Update frequency
   public updateFrequency: number = 1;
@@ -83,7 +83,7 @@ export abstract class SharedMasterComponent<T extends DistributedObjectsProductD
   public tabCreated(tab: TabData): void {
   }
 
-  private updateSubscription(): void {
+  public updateSubscription(): void {
     const request: UpdateSubscriptionRequestDTO = {
       messageType: 'update_subscription',
       subscriptionId: this.getSubscriptionId(),

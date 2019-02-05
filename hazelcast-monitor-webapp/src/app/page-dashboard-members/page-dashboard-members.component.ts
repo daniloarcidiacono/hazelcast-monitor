@@ -13,7 +13,7 @@ import {TabAwareComponent, TabData} from '@shared/components/dynamic-tabs/shared
 })
 export class PageDashboardMembersComponent implements TabAwareComponent, OnDestroy {
   private dataSub: Subscription;
-  private data: MembersProductDTO = undefined;
+  public data: MembersProductDTO = undefined;
 
   public constructor(private clustersService: SharedClustersService,
                      private snackbarService: SharedSnackbarService,

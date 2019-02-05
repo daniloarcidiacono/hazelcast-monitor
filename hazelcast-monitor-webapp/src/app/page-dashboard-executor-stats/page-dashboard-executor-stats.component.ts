@@ -22,7 +22,7 @@ export class PageDashboardExecutorStatsComponent implements TabAwareComponent, O
   public executorName: string;
 
   // Current data
-  private data: ExecutorStatsProductDTO = undefined;
+  public data: ExecutorStatsProductDTO = undefined;
 
   // Data subscription
   private dataSub: Subscription;
@@ -34,7 +34,7 @@ export class PageDashboardExecutorStatsComponent implements TabAwareComponent, O
   private updateFrequency: number = 1;
 
   // Chart handler
-  private statisticsEngine: StatisticsEngine<ExecutorStatsDTO>;
+  public statisticsEngine: StatisticsEngine<ExecutorStatsDTO>;
 
   // Chart DOM hooks
   @ViewChild('chartLatency')

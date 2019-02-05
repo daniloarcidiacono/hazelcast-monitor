@@ -1,15 +1,29 @@
 {
   "name": "hazelcast-monitor",
-  "version": "0.0.0",
+  "description": "Hazelcast Monitor Tool",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "start-ssl": "ng serve -c ssl",
     "build": "ng build --base-href \".\"",
+    "build-prod": "ng build --prod --base-href \".\"",
+    "serve-dist": "http-server dist/hazelcast-monitor",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daniloarcidiacono/hazelcast-monitor.git"
+  },
+  "keywords": [ "hazelcast", "monitor" ],
+  "author": "Danilo Arcidiacono <danilo.arcidiacono@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daniloarcidiacono/hazelcast-monitor/issues"
+  },
+  "homepage": "https://github.com/daniloarcidiacono/hazelcast-monitor",
   "private": true,
   "dependencies": {
     "@angular-mdc/web": "^0.43.6",
@@ -43,6 +57,7 @@
     "@types/node": "~8.9.4",
     "@types/sockjs-client": "^1.1.0",
     "codelyzer": "~4.2.1",
+    "http-server": "^0.11.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",

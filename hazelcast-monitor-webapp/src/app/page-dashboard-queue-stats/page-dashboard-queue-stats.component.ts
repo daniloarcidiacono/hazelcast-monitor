@@ -22,7 +22,7 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
   public queueName: string;
 
   // Current data
-  private data: QueueStatsProductDTO = undefined;
+  public data: QueueStatsProductDTO = undefined;
 
   // Data subscription
   private dataSub: Subscription;
@@ -34,7 +34,7 @@ export class PageDashboardQueueStatsComponent implements TabAwareComponent, OnDe
   private updateFrequency: number = 1;
 
   // Chart handler
-  private statisticsEngine: StatisticsEngine<QueueStatsDTO>;
+  public statisticsEngine: StatisticsEngine<QueueStatsDTO>;
 
   // Chart DOM hooks
   @ViewChild('chartTotalRate')

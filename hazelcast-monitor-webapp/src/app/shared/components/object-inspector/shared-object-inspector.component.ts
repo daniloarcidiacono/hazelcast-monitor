@@ -8,7 +8,7 @@ import {ObjectTreeNode} from "../mdc-tree/object-preorder-iterator";
 })
 export class SharedObjectInspectorComponent {
   @Input()
-  private data: any;
+  public data: any;
 
   @Input()
   private stringData: string;

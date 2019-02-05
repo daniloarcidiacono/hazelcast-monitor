@@ -27,7 +27,7 @@ export class PageDashboardMapStatsComponent implements TabAwareComponent, OnDest
   public mapType: DistributedObjectType;
 
   // Current data
-  private data: MapStatsProductDTO = undefined;
+  public data: MapStatsProductDTO = undefined;
 
   // Data subscription
   private dataSub: Subscription;
@@ -39,7 +39,7 @@ export class PageDashboardMapStatsComponent implements TabAwareComponent, OnDest
   private updateFrequency: number = 1;
 
   // Chart handler
-  private statisticsEngine: StatisticsEngine<MapStatsDTO>;
+  public statisticsEngine: StatisticsEngine<MapStatsDTO>;
 
   // Chart DOM hooks
   @ViewChild('chartRates')

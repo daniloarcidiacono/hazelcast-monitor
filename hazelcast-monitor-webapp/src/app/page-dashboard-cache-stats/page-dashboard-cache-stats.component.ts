@@ -22,7 +22,7 @@ export class PageDashboardCacheStatsComponent implements TabAwareComponent, OnDe
   public cacheName: string;
 
   // Current data
-  private data: CacheStatsProductDTO = undefined;
+  public data: CacheStatsProductDTO = undefined;
 
   // Data subscription
   private dataSub: Subscription;
@@ -34,7 +34,7 @@ export class PageDashboardCacheStatsComponent implements TabAwareComponent, OnDe
   private updateFrequency: number = 1;
 
   // Chart handler
-  private statisticsEngine: StatisticsEngine<CacheStatsDTO>;
+  public statisticsEngine: StatisticsEngine<CacheStatsDTO>;
 
   // Chart DOM hooks
   @ViewChild('chartRates')

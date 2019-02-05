@@ -29,7 +29,7 @@ export class PageDashboardTopicComponent implements TabAwareComponent, OnDestroy
   public data: TopicProductDTO[] = [];
 
   // Pagination
-  private cap: number = 15;
+  public cap: number = 15;
 
   // Filtering and slicing
   public filterScript: string = 'true';
@@ -103,7 +103,7 @@ export class PageDashboardTopicComponent implements TabAwareComponent, OnDestroy
     }
   }
 
-  private updateSubscription(): void {
+  public updateSubscription(): void {
     const request: UpdateSubscriptionRequestDTO = {
       messageType: 'update_subscription',
       subscriptionId: this.getSubscriptionId(),

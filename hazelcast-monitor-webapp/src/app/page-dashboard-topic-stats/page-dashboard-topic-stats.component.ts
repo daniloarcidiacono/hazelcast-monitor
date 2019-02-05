@@ -22,7 +22,7 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
   public topicName: string;
 
   // Current data
-  private data: TopicStatsProductDTO = undefined;
+  public data: TopicStatsProductDTO = undefined;
 
   // Data subscription
   private dataSub: Subscription;
@@ -34,7 +34,7 @@ export class PageDashboardTopicStatsComponent implements TabAwareComponent, OnDe
   private updateFrequency: number = 1;
 
   // Chart handler
-  private statisticsEngine: StatisticsEngine<TopicStatsDTO>;
+  public statisticsEngine: StatisticsEngine<TopicStatsDTO>;
 
   // Chart DOM hooks
   @ViewChild('chartLinearPushRecvRate')

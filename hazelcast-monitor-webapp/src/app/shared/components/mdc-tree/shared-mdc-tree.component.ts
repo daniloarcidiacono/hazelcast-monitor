@@ -14,7 +14,7 @@ export class SharedMdcTreeComponent implements OnChanges {
   @ContentChild(TemplateRef)
   private template: TemplateRef<any>;
 
-  private tree: ObjectPreorderIterator;
+  public tree: ObjectPreorderIterator;
 
   private internalModel: any = {
   };

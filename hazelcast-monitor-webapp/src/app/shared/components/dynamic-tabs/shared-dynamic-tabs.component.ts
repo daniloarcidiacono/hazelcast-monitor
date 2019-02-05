@@ -28,7 +28,7 @@ export class SharedDynamicTabsComponent {
   private tabBarComponent: MdcTabBar;
 
   @ContentChild('defaultContentTemplate')
-  private defaultContentTemplate: TemplateRef<any>;
+  public defaultContentTemplate: TemplateRef<any>;
 
   public constructor(private componentFactoryResolver: ComponentFactoryResolver) {
   }

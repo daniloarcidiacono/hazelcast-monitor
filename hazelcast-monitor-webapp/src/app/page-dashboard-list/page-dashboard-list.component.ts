@@ -98,7 +98,7 @@ export class PageDashboardListComponent implements TabAwareComponent, OnDestroy 
   public tabCreated(tab: TabData): void {
   }
 
-  private updateSubscription(): void {
+  public updateSubscription(): void {
     const request: UpdateSubscriptionRequestDTO = {
       messageType: 'update_subscription',
       subscriptionId: this.getSubscriptionId(),

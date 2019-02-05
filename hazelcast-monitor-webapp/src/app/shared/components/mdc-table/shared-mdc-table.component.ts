@@ -10,19 +10,19 @@ import {
 })
 export class SharedMdcTableComponent {
   @Input()
-  private model: any[];
+  public model: any[];
 
   @Input()
   public selectable: boolean = false;
 
   @ContentChild('headerTemplate')
-  private headerTemplate: TemplateRef<any>;
+  public headerTemplate: TemplateRef<any>;
 
   @ContentChild('bodyTemplate')
-  private bodyTemplate: TemplateRef<any>;
+  public bodyTemplate: TemplateRef<any>;
 
   @ContentChild('footerTemplate')
-  private footerTemplate: TemplateRef<any>;
+  public footerTemplate: TemplateRef<any>;
 
   @Output()
   private onRowClick: EventEmitter<number> = new EventEmitter<number>();

@@ -95,7 +95,7 @@ export class PageDashboardReplicatedMapComponent implements TabAwareComponent, O
   public tabCreated(tab: TabData): void {
   }
 
-  private updateSubscription(): void {
+  public updateSubscription(): void {
     const request: UpdateSubscriptionRequestDTO = {
       messageType: 'update_subscription',
       subscriptionId: this.getSubscriptionId(),
