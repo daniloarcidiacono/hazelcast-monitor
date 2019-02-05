@@ -1,0 +1,10 @@
+<mdc-text-field type="text"
+                placeholder="Search"
+                [outlined]="true"
+                [dense]="true"
+                [ngModel]="filterRegex"
+                (ngModelChange)="updateFilterRegex($event)"
+                (keydown)="handleKeydown($event)"
+                label="Filter">
+  <mdc-icon mdcTextFieldIcon trailing>search</mdc-icon>
+</mdc-text-field>

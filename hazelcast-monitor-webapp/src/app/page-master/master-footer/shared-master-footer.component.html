@@ -1,0 +1,12 @@
+<div class="PageMaster__Footer">
+  <div class="PageMaster__FooterLeft" title="Server time consumed for querying data">
+    Query time: {{ queryTime }} ms
+  </div>
+  <div class="PageMaster__FooterRight">
+    <shared-mdc-paginator [page]="page"
+                          [pageSize]="pageSize"
+                          (pageChange)="updatePage($event)"
+                          (pageSizeChange)="updatePageSize($event)">
+    </shared-mdc-paginator>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="PageMaster">
+  <shared-master-header [caption]="title" [(filterRegex)]="filterRegex" (search)="updateSubscription()"></shared-master-header>
+  <div class="PageMaster__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Estimate</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-cardinalityestimator #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ cardinalityestimator.name }}</td>
+          <td class="mdc-data-table__cell">{{ cardinalityestimator.estimate }}</td>
+          <td class="mdc-data-table__cell">{{ cardinalityestimator.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+  <shared-master-footer [page]="page" [queryTime]="data?.produceTime" (pageChange)="trackPageChange($event)" (pageSizeChange)="trackPageSizeChange($event)"></shared-master-footer>
+</div>

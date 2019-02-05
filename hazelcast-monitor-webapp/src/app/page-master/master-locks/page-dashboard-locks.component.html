@@ -1,0 +1,37 @@
+<div class="PageMaster">
+  <shared-master-header [caption]="title" [(filterRegex)]="filterRegex" (search)="updateSubscription()"></shared-master-header>
+  <div class="PageMaster__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Lock count</th>
+          <th class="mdc-data-table__column">Remaining leasing time</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-lock #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell" style="display: flex; flex-direction: row; align-items: center">
+            <mdc-icon *ngIf="lock.locked" style="color: red" title="This lock is currently held">lock</mdc-icon>
+            <mdc-icon *ngIf="!lock.locked" style="color: green">lock_open</mdc-icon>
+            <div style="margin-left: 1em">
+              {{ lock.name }}
+            </div>
+          </td>
+          <td class="mdc-data-table__cell">{{ lock.lockCount }}</td>
+          <td class="mdc-data-table__cell">
+            <span *ngIf="lock.remainingLeaseTime > 0">
+              {{ lock.remainingLeaseTime / 1000 }} seconds
+            </span>
+            <span *ngIf="lock.remainingLeaseTime <= 0">
+              <mdc-icon>all_inclusive</mdc-icon>
+            </span>
+          </td>
+          <td class="mdc-data-table__cell">{{ lock.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+  <shared-master-footer [page]="page" [queryTime]="data?.produceTime" (pageChange)="trackPageChange($event)" (pageSizeChange)="trackPageSizeChange($event)"></shared-master-footer>
+</div>

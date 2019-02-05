@@ -1,0 +1,27 @@
+<div class="PageMaster">
+  <shared-master-header [caption]="title" [(filterRegex)]="filterRegex" (search)="updateSubscription()"></shared-master-header>
+  <div class="PageMaster__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Actions</th>
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Number of keys</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-map #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">
+            <button mdcIconButton icon="search" (click)="navigateToDetails(map)" title="Inspect"></button>
+            <button mdcIconButton icon="bar_chart" (click)="navigateToStats(map)" title="Statistics"></button>
+          </td>
+          <td class="mdc-data-table__cell">{{ map.name }}</td>
+          <td class="mdc-data-table__cell">{{ map.size }}</td>
+          <td class="mdc-data-table__cell">{{ map.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+  <shared-master-footer [page]="page" [queryTime]="data?.produceTime" (pageChange)="trackPageChange($event)" (pageSizeChange)="trackPageSizeChange($event)"></shared-master-footer>
+</div>

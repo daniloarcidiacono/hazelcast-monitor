@@ -382,7 +382,7 @@ export class SharedHazelcastAgentService {
   }
 
   // Distributed objects
-  private subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProductDTO<any>>> {
+  public subscribeToDistributedObjects(instanceName: string, distributedObjectType: DistributedObjectType, parameters?: { [ index: string ]: string }): Observable<SubscriptionNoticeResponseDTO<DistributedObjectsProductDTO<any>>> {
     const subRequest: SubscribeRequestDTO = {
       messageType: 'subscribe',
       messageId: this.wsService.generateMessageId(),

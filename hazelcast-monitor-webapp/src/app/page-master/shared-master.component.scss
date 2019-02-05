@@ -1,0 +1,5 @@
+@import "../shared/styles/layouts/section";
+
+.PageMaster {
+  @include LayoutSection();
+}

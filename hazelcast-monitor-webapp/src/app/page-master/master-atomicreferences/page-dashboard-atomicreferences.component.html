@@ -1,0 +1,26 @@
+<div class="PageMaster">
+  <shared-master-header [caption]="title" [(filterRegex)]="filterRegex" (search)="updateSubscription()"></shared-master-header>
+  <div class="PageMaster__Scroller">
+    <shared-mdc-table [model]="data?.objects">
+      <ng-template #headerTemplate>
+        <tr class="mdc-data-table__row">
+          <th class="mdc-data-table__column">Name</th>
+          <th class="mdc-data-table__column">Value</th>
+          <th class="mdc-data-table__column">Partition key</th>
+        </tr>
+      </ng-template>
+      <ng-template let-atomicreference #bodyTemplate>
+        <tr class="mdc-data-table__row">
+          <td class="mdc-data-table__cell">{{ atomicreference.name }}</td>
+          <td class="mdc-data-table__cell">
+            <shared-object-inspector [data]="atomicreference.value"
+                                     [stringData]="atomicreference.valueString">
+            </shared-object-inspector>
+          </td>
+          <td class="mdc-data-table__cell mdc-data-table__cell--top">{{ atomicreference.partitionKey }}</td>
+        </tr>
+      </ng-template>
+    </shared-mdc-table>
+  </div>
+  <shared-master-footer [page]="page" [queryTime]="data?.produceTime" (pageChange)="trackPageChange($event)" (pageSizeChange)="trackPageSizeChange($event)"></shared-master-footer>
+</div>

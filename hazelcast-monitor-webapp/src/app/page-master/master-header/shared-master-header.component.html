@@ -1,0 +1,11 @@
+<div class="PageMaster__Header">
+  <div class="PageMaster__HeaderLeft" mdcHeadline4>
+    {{ caption }}
+  </div>
+  <div class="PageMaster__HeaderRight">
+    <shared-search-bar [filterRegex]="filterRegex"
+                       (filterRegexChange)="updateFilterRegex($event)"
+                       (search)="notifySearch($event)">
+    </shared-search-bar>
+  </div>
+</div>
