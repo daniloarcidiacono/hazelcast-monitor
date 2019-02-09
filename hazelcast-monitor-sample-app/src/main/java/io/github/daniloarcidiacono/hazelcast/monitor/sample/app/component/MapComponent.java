@@ -13,11 +13,9 @@ import org.slf4j.LoggerFactory;
  */
 public class MapComponent implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(MapComponent.class);
-    private final HazelcastInstance hazelcastInstance;
     private IMap<Object, Object> map;
 
     public MapComponent(final HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
         map = hazelcastInstance.getMap("test_map");
 
         for (final Person person : Persons.random(15)) {

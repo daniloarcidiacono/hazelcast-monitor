@@ -13,11 +13,9 @@ import org.slf4j.LoggerFactory;
  */
 public class RingbufferComponent implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RingbufferComponent.class);
-    private final HazelcastInstance hazelcastInstance;
     private Ringbuffer<Object> ringbuffer;
 
     public RingbufferComponent(final HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
         ringbuffer = hazelcastInstance.getRingbuffer("test_ringbuffer");
 
         for (final Person person : Persons.random(4)) {

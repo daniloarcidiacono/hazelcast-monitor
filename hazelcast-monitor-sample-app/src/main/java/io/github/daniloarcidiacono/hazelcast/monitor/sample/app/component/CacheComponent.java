@@ -4,16 +4,16 @@ import com.hazelcast.cache.ICache;
 import com.hazelcast.config.CacheSimpleConfig;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.HazelcastInstance;
-import io.github.daniloarcidiacono.hazelcast.monitor.sample.app.configuration.HazelcastConfigurer;
+import com.hazelcast.core.HazelcastInstanceNotActiveException;
+import io.github.daniloarcidiacono.hazelcast.monitor.sample.app.utils.PoissonExecutorService;
+import io.github.daniloarcidiacono.hazelcast.monitor.sample.app.utils.PoissonRunnableWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,31 +21,32 @@ import java.util.concurrent.TimeUnit;
  * @see ICache
  */
 public class CacheComponent implements Runnable {
-    public static class CacheComponentHazelcastConfigurer implements HazelcastConfigurer {
-        public void configure(final Config config) {
-            final Map<String, CacheSimpleConfig> cacheConfigs = new HashMap<>();
-            cacheConfigs.put("test_cache", new CacheSimpleConfig().setStatisticsEnabled(true));
-            config.setCacheConfigs(cacheConfigs);
-        }
+    private static final Logger logger = LoggerFactory.getLogger(CacheComponent.class);
+    private final PoissonExecutorService executorService;
+    private final Random rand = new Random();
+    private ICache<Object, Object> cache;
+    private PoissonRunnableWrapper poissonRunnable;
+
+    public CacheComponent(final HazelcastInstance hazelcastInstance, final ScheduledExecutorService threadPool) {
+        executorService = new PoissonExecutorService(threadPool);
+        cache = hazelcastInstance.getCacheManager().getCache("test_cache");
+        poissonRunnable = executorService.scheduleAsPoissonProcess(this, 30L, TimeUnit.MINUTES);
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(CacheComponent.class);
-    private final ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
-    private final Random rand = new Random();
-    private final HazelcastInstance hazelcastInstance;
-    private ICache<Object, Object> cache;
-    private ScheduledFuture<?> scheduledFuture;
-
-    public CacheComponent(final HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
-        cache = hazelcastInstance.getCacheManager().getCache("test_cache");
-        scheduledFuture = threadPool.scheduleWithFixedDelay(this, 0, 1, TimeUnit.SECONDS);
+    /**
+     * Applies additional configuration to Hazelcast.
+     * @param config the configuration object
+     */
+    public static void configure(final Config config) {
+        final Map<String, CacheSimpleConfig> cacheConfigs = new HashMap<>();
+        cacheConfigs.put("test_cache", new CacheSimpleConfig().setStatisticsEnabled(true));
+        config.setCacheConfigs(cacheConfigs);
     }
 
     public void destroy() {
-        if (scheduledFuture != null) {
-            scheduledFuture.cancel(true);
-            scheduledFuture = null;
+        if (poissonRunnable != null) {
+            poissonRunnable.stop();
+            poissonRunnable = null;
         }
     }
 
@@ -60,9 +61,12 @@ public class CacheComponent implements Runnable {
 
             // Remove
             cache.remove(rand.nextInt(20));
+        } catch (HazelcastInstanceNotActiveException e){
+            // This happens when killing the JVM, just stop
+            poissonRunnable.stop();
         } catch (Exception e) {
             logger.error("Exception occurred when modifying the cache", e);
-            scheduledFuture.cancel(true);
+            poissonRunnable.stop();
         }
     }
 }

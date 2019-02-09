@@ -17,7 +17,6 @@ import java.util.concurrent.Future;
 public class SemaphoreComponent {
     private static final Logger logger = LoggerFactory.getLogger(SemaphoreComponent.class);
     private final ExecutorService threadPool = Executors.newFixedThreadPool(2);
-    private final HazelcastInstance hazelcastInstance;
     private ISemaphore semaphore;
     private Future<?> consumerAFuture, consumerBFuture;
 
@@ -47,16 +46,12 @@ public class SemaphoreComponent {
                     semaphore.release();
                 }
             } catch (InterruptedException e) {
-                logger.error("Exception occurred when modifying the semaphore", e);
-
-                // This will stop the thread from running
-                throw new RuntimeException("Exception in SemaphoreConsumer", e);
+                // Just catch the error and stop the thread
             }
         }
     }
 
     public SemaphoreComponent(final HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
         semaphore = hazelcastInstance.getSemaphore("test_semaphore");
         semaphore.init(10);
 

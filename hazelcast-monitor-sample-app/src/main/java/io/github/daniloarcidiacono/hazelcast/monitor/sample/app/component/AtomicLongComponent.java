@@ -1,14 +1,12 @@
 package io.github.daniloarcidiacono.hazelcast.monitor.sample.app.component;
 
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.IAtomicLong;
+import com.hazelcast.core.*;
+import io.github.daniloarcidiacono.hazelcast.monitor.sample.app.utils.PoissonExecutorService;
+import io.github.daniloarcidiacono.hazelcast.monitor.sample.app.utils.PoissonRunnableWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Test component for atomic longs.
@@ -16,22 +14,20 @@ import java.util.concurrent.TimeUnit;
  */
 public class AtomicLongComponent implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(AtomicLongComponent.class);
-    private final ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
-    private final HazelcastInstance hazelcastInstance;
+    private final PoissonExecutorService executorService;
     private IAtomicLong atomicLong;
-    private ScheduledFuture<?> scheduledFuture;
+    private PoissonRunnableWrapper poissonRunnable;
 
-    public AtomicLongComponent(final HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
-
+    public AtomicLongComponent(final HazelcastInstance hazelcastInstance, final ScheduledExecutorService threadPool) {
+        executorService = new PoissonExecutorService(threadPool);
         atomicLong = hazelcastInstance.getAtomicLong("test_atomic_long");
-        scheduledFuture = threadPool.scheduleWithFixedDelay(this, 0, 1, TimeUnit.SECONDS);
+        poissonRunnable = executorService.scheduleAsPoissonProcess(this, 60, TimeUnit.MINUTES);
     }
 
     public void destroy() {
-        if (scheduledFuture != null) {
-            scheduledFuture.cancel(true);
-            scheduledFuture = null;
+        if (poissonRunnable != null) {
+            poissonRunnable.stop();
+            poissonRunnable = null;
         }
     }
 
@@ -45,9 +41,12 @@ public class AtomicLongComponent implements Runnable {
             if (value > 100) {
                 atomicLong.set(0);
             }
+        } catch (HazelcastInstanceNotActiveException e){
+            // This happens when killing the JVM, just stop
+            poissonRunnable.stop();
         } catch (Exception e) {
             logger.error("Exception occurred when modifying the atomic long", e);
-            scheduledFuture.cancel(true);
+            poissonRunnable.stop();
         }
     }
 }

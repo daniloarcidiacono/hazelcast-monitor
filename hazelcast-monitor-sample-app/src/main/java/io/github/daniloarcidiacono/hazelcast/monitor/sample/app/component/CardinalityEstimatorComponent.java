@@ -2,13 +2,14 @@ package io.github.daniloarcidiacono.hazelcast.monitor.sample.app.component;
 
 import com.hazelcast.cardinality.CardinalityEstimator;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.HazelcastInstanceNotActiveException;
+import io.github.daniloarcidiacono.hazelcast.monitor.sample.app.utils.PoissonExecutorService;
+import io.github.daniloarcidiacono.hazelcast.monitor.sample.app.utils.PoissonRunnableWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Random;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,22 +18,21 @@ import java.util.concurrent.TimeUnit;
  */
 public class CardinalityEstimatorComponent implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(CardinalityEstimatorComponent.class);
-    private final ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(1);
+    private final PoissonExecutorService executorService;
     private final Random rand = new Random();
-    private final HazelcastInstance hazelcastInstance;
     private CardinalityEstimator cardinalityEstimator;
-    private ScheduledFuture<?> scheduledFuture;
+    private PoissonRunnableWrapper poissonRunnable;
 
-    public CardinalityEstimatorComponent(final HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
+    public CardinalityEstimatorComponent(final HazelcastInstance hazelcastInstance, final ScheduledExecutorService threadPool) {
+        executorService = new PoissonExecutorService(threadPool);
         cardinalityEstimator = hazelcastInstance.getCardinalityEstimator("test_card_estimator");
-        scheduledFuture = threadPool.scheduleWithFixedDelay(this, 0, 1, TimeUnit.SECONDS);
+        poissonRunnable = executorService.scheduleAsPoissonProcess(this, 60, TimeUnit.MINUTES);
     }
 
     public void destroy() {
-        if (scheduledFuture != null) {
-            scheduledFuture.cancel(true);
-            scheduledFuture = null;
+        if (poissonRunnable != null) {
+            poissonRunnable.stop();
+            poissonRunnable = null;
         }
     }
 
@@ -40,9 +40,12 @@ public class CardinalityEstimatorComponent implements Runnable {
     public void run() {
         try {
             cardinalityEstimator.add(rand.nextInt());
+        } catch (HazelcastInstanceNotActiveException e){
+            // This happens when killing the JVM, just stop
+            poissonRunnable.stop();
         } catch (Exception e) {
             logger.error("Exception occurred when modifying the cardinality estimator", e);
-            scheduledFuture.cancel(true);
+            poissonRunnable.stop();
         }
     }
 }

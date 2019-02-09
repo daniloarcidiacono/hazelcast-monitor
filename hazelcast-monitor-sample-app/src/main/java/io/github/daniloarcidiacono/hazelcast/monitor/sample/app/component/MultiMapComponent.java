@@ -13,11 +13,9 @@ import org.slf4j.LoggerFactory;
  */
 public class MultiMapComponent implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(MultiMapComponent.class);
-    private final HazelcastInstance hazelcastInstance;
     private MultiMap<Object, Object> multiMap;
 
     public MultiMapComponent(final HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
         multiMap = hazelcastInstance.getMultiMap("test_multimap");
 
         for (final Person person : Persons.random(15)) {

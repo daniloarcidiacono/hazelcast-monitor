@@ -4,11 +4,15 @@ import com.hazelcast.config.Config;
 import com.hazelcast.core.HazelcastInstance;
 import io.github.daniloarcidiacono.hazelcast.monitor.sample.app.component.*;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 /**
  * Represents a set of hazelcast components tied to a specific instance.
  * @see HazelcastAppFactory
  */
 public class HazelcastApp {
+    private final ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(16);
     private AtomicLongComponent atomicLongComponent;
     private AtomicReferenceComponent atomicReferenceComponent;
     private CacheComponent cacheComponent;
@@ -29,17 +33,17 @@ public class HazelcastApp {
     }
 
     public void configure(final Config config) {
-        new CacheComponent.CacheComponentHazelcastConfigurer().configure(config);
+        CacheComponent.configure(config);
     }
 
     public void create(final HazelcastInstance hazelcastInstance) {
-        this.atomicLongComponent = new AtomicLongComponent(hazelcastInstance);
-        this.atomicReferenceComponent = new AtomicReferenceComponent(hazelcastInstance);
-        this.cacheComponent = new CacheComponent(hazelcastInstance);
-        this.cardinalityEstimatorComponent = new CardinalityEstimatorComponent(hazelcastInstance);
-        this.countDownLatchComponent = new CountDownLatchComponent(hazelcastInstance);
+        this.atomicLongComponent = new AtomicLongComponent(hazelcastInstance, threadPool);
+        this.atomicReferenceComponent = new AtomicReferenceComponent(hazelcastInstance, threadPool);
+        this.cacheComponent = new CacheComponent(hazelcastInstance, threadPool);
+        this.cardinalityEstimatorComponent = new CardinalityEstimatorComponent(hazelcastInstance, threadPool);
+        this.countDownLatchComponent = new CountDownLatchComponent(hazelcastInstance, threadPool);
         this.listComponent = new ListComponent(hazelcastInstance);
-        this.locksComponent = new LocksComponent(hazelcastInstance);
+        this.locksComponent = new LocksComponent(hazelcastInstance, threadPool);
         this.mapComponent = new MapComponent(hazelcastInstance);
         this.multiMapComponent = new MultiMapComponent(hazelcastInstance);
         this.queuesComponent = new QueuesComponent(hazelcastInstance);
@@ -47,7 +51,7 @@ public class HazelcastApp {
         this.ringbufferComponent = new RingbufferComponent(hazelcastInstance);
         this.semaphoreComponent = new SemaphoreComponent(hazelcastInstance);
         this.setComponent = new SetComponent(hazelcastInstance);
-        this.topicComponent = new TopicComponent(hazelcastInstance);
+        this.topicComponent = new TopicComponent(hazelcastInstance, threadPool);
     }
 
     public void destroy() {

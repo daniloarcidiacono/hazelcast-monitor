@@ -13,11 +13,9 @@ import org.slf4j.LoggerFactory;
  */
 public class SetComponent implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(SetComponent.class);
-    private final HazelcastInstance hazelcastInstance;
     private ISet<Object> set;
 
     public SetComponent(final HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
         set = hazelcastInstance.getSet("test_set");
 
         for (final Person person : Persons.random(4)) {
