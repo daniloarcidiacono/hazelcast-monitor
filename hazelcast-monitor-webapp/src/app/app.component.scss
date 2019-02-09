@@ -47,6 +47,7 @@ mdc-top-app-bar {
 }
 
 // Used by shared-fullscreen-button
+// Puts fullscreen element below dialogs
 .Element--fullscreen {
   position: fixed;
   padding: 1em;
@@ -54,6 +55,11 @@ mdc-top-app-bar {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 7; // 8 is used by dialogs
+  z-index: 6; // 7 is used by dialogs
   background-color: white;
+}
+
+// Puts dialogs above menus (used by scripting button)
+.mdc-dialog {
+  z-index: 9; // 8 is used by menus
 }
