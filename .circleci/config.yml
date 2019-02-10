@@ -52,6 +52,11 @@ jobs:
           path: artifacts
           destination: artifacts-fe
 
+      - persist_to_workspace:
+          root: '~'
+          paths:
+            - hazelcast-monitor
+
   build_be:
     docker:
       - image: daniloarcidiacono/ci-java-node:0.4.0
@@ -76,15 +81,6 @@ jobs:
       - run:
           command: mvn clean package -Pdocs
 
-      - deploy:
-          name: Create GitHub release
-          command: |
-            hub release create -d \
-                               -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-*-javadoc.jar \
-                               -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-*-javadoc.jar \
-                               -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-*-javadoc.jar \
-                               -F CHANGELOG_LATEST.md $CIRCLE_TAG
-
       - run:
           name: Create artifacts directory
           command: |
@@ -95,6 +91,31 @@ jobs:
       - store_artifacts:
           path: artifacts
           destination: artifacts-be
+
+      - persist_to_workspace:
+          root: '~'
+          paths:
+            - hazelcast-monitor
+
+  deploy_github:
+    docker:
+      - image: daniloarcidiacono/ci-java-node:0.4.0
+
+    working_directory: ~/hazelcast-monitor
+
+    steps:
+      - attach_workspace:
+          at: '~'
+
+      - deploy:
+          name: Create GitHub release
+          command: |
+            hub release create -d \
+                               -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-*-javadoc.jar \
+                               -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-*-javadoc.jar \
+                               -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-*-javadoc.jar \
+                               -a hazelcast-monitor-webapp/dist/hazelcast-monitor-$CIRCLE_TAG.zip \
+                               -F CHANGELOG_LATEST.md $CIRCLE_TAG
 
 workflows:
   version: 2
@@ -119,6 +140,16 @@ workflows:
       - build_be:
           requires:
             - build_prepare
+          filters:
+            tags:
+              only: /^pre.*/
+            branches:
+              ignore: /.*/
+
+      - deploy_github:
+          requires:
+            - build_fe
+            - build_be
           filters:
             tags:
               only: /^pre.*/
