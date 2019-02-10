@@ -21,40 +21,62 @@
 			<groupId>javax.cache</groupId>
 			<artifactId>cache-api</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.hazelcast</groupId>
 			<artifactId>hazelcast-all</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.github.daniloarcidiacono.typescriptmapper</groupId>
 			<artifactId>typescript-mapper-core</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.github.daniloarcidiacono.typescriptmapper</groupId>
 			<artifactId>typescript-mapper-maven-plugin</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>docs</id>
+			<build>
+				<plugins>
+					<!-- Export Javadoc -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
+			<!-- Compiler -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+
+			<!-- Export sources -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<!-- DTO mapping -->
 			<plugin>
 				<groupId>io.github.daniloarcidiacono.typescriptmapper</groupId>
 				<artifactId>typescript-mapper-maven-plugin</artifactId>
@@ -77,10 +99,6 @@
 						<io.github.daniloarcidiacono.hazelcast.monitor.agent.product>topic-products.dto.ts</io.github.daniloarcidiacono.hazelcast.monitor.agent.product>
 					</mappings>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

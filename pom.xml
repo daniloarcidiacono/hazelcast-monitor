@@ -9,16 +9,39 @@
     <packaging>pom</packaging>
     <name>Hazelcast Monitor tool</name>
     <description>Hazelcast Monitor tool</description>
+    <url>http://github.com/daniloarcidiacono/hazelcast-monitor</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Danilo Arcidiacono</name>
+            <email>danilo.arcidiacono@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:daniloarcidiacono/hazelcast-monitor.git</connection>
+        <developerConnection>scm:git:git@github.com:daniloarcidiacono/hazelcast-monitor.git</developerConnection>
+        <url>https://github.com/daniloarcidiacono/hazelcast-monitor.git</url>
+    </scm>
+
+    <issueManagement>
+        <url>https://github.com/daniloarcidiacono/hazelcast-monitor</url>
+    </issueManagement>
 
     <properties>
         <!-- Build properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
 
-        <!-- Third party libraries -->
+        <!-- Dependencies -->
         <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
         <jackson.version>2.9.5</jackson.version>
         <rhino.version>1.7.10</rhino.version>
@@ -27,14 +50,15 @@
         <hazelcast.version>3.9.3</hazelcast.version>
         <typescript-mapper.version>0.1.0</typescript-mapper.version>
         <java-websocket.version>1.3.9</java-websocket.version>
-    </properties>
 
-    <modules>
-        <module>hazelcast-monitor-agent</module>
-        <module>hazelcast-monitor-sample-app</module>
-        <module>hazelcast-monitor-starter-spring</module>
-        <module>hazelcast-monitor-starter-java-websockets</module>
-    </modules>
+        <!-- Plugins -->
+        <maven-compiler.plugin.version>3.7.0</maven-compiler.plugin.version>
+        <maven-source.plugin.version>3.0.1</maven-source.plugin.version>
+        <maven-javadoc.plugin.version>2.10.4</maven-javadoc.plugin.version>
+        <nexus-staging-maven.plugin.version>1.6.8</nexus-staging-maven.plugin.version>
+        <maven-gpg.plugin.version>1.6</maven-gpg.plugin.version>
+        <versions-maven.plugin.version>2.7</versions-maven.plugin.version>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -115,18 +139,94 @@
         </dependencies>
     </dependencyManagement>
 
+    <modules>
+        <module>hazelcast-monitor-agent</module>
+        <module>hazelcast-monitor-sample-app</module>
+        <module>hazelcast-monitor-starter-spring</module>
+        <module>hazelcast-monitor-starter-java-websockets</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+
+            <build>
+                <plugins>
+                    <!-- GPG signatures -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <pluginManagement>
             <plugins>
+                <!-- Compiler -->
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler.plugin.version}</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
 
+                <!-- Export Javadoc -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Export sources -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- DTO mapping -->
                 <plugin>
                     <groupId>io.github.daniloarcidiacono.typescriptmapper</groupId>
                     <artifactId>typescript-mapper-maven-plugin</artifactId>
@@ -139,7 +239,84 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!-- GPG signatures -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                    The maven-deploy-plugin is a viable option to handle the task of deploying to artifacts of a project to
+                    Nexus, but it was not built to take full advantage of what Nexus has to offer.
+                    Because of that fact, Sonatype built a Nexus specific plugin – the nexus-staging-maven-plugin –
+                    that is actually designed to take full advantage of the more advanced functionality that Nexus has to
+                    offer – functionality such as staging.
+
+                    The only reason to use the maven-deploy-plugin is to keep open the option of using an alternative to Nexus in
+                    the future – for example, an Artifactory repository. However, unlike other components that may actually change
+                    throughout the lifecycle of a project, the Maven Repository Manager is highly unlikely to change,
+                    so that flexibility is not required.
+
+                    So, the first step in using another deployment plugin in the deploy phase is to disable the existing, default
+                    mapping:
+                -->
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${nexus-staging-maven.plugin.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                        <!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+                        <!--<autoDropAfterRelease>true</autoDropAfterRelease>-->
+                        <!--
+                            If true, will not locally stage. This triggers basically equivalent
+                            behaviour to maven-deploy-plugin, each deploy will happen "directly",
+                            at the end of the each module build.
+                        -->
+                        <!--<skipLocalStaging>true</skipLocalStaging>-->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>deploy-to-sonatype</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>deploy</goal>
+                                <!--<goal>close</goal>-->
+                                <!--<goal>release</goal>-->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <!-- Versioning -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${versions-maven.plugin.version}</version>
+            </plugin>
+        </plugins>
     </build>
 </project>
