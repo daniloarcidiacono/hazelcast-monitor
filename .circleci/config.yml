@@ -106,7 +106,17 @@ workflows:
       - build_fe:
           requires:
             - build_prepare
+          filters:
+            tags:
+              only: /^pre.*/
+            branches:
+              ignore: /.*/
 
       - build_be:
           requires:
             - build_prepare
+          filters:
+            tags:
+              only: /^pre.*/
+            branches:
+              ignore: /.*/
