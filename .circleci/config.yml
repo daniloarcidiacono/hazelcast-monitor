@@ -98,7 +98,8 @@ workflows:
       - build_prepare:
           filters:
             branches:
-              only: dev
+              only:
+                - prerelease
 
       - build_fe:
           requires:
