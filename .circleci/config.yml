@@ -74,7 +74,8 @@ jobs:
       - deploy:
           name: Create GitHub release
           command: |
-            hub release create -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG-javadoc.jar
+            hub release create -d
+                               -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG-javadoc.jar
                                -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG-javadoc.jar
                                -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG-javadoc.jar
                                -F CHANGELOG_LATEST.md $CIRCLE_TAG
@@ -97,9 +98,9 @@ workflows:
     jobs:
       - build_prepare:
           filters:
-            branches:
+            tags:
               only:
-                - prerelease
+                - /^pre.*/
 
       - build_fe:
           requires:
