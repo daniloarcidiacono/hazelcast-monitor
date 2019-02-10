@@ -47,6 +47,14 @@ jobs:
       - store_artifacts:
           path: hazelcast-monitor-webapp/dist/hazelcast-monitor-$CIRCLE_TAG.zip
 
+      - run:
+          name: Create artifacts directory
+          command: mkdir ./artifacts && cp hazelcast-monitor-webapp/dist/hazelcast-monitor-$CIRCLE_TAG.zip ./artifacts
+
+      - store_artifacts:
+          path: artifacts
+          destination: artifacts-fe
+
   build_be:
     docker:
       - image: daniloarcidiacono/ci-java-node:0.4.0
@@ -80,17 +88,19 @@ jobs:
                                -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG-javadoc.jar \
                                -F CHANGELOG_LATEST.md $CIRCLE_TAG
 
-      - store_artifacts:
-          path: hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG.jar
+      - run:
+          name: Create artifacts directory
+          command: |
+            mkdir ./artifacts && \
+            cp hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG.jar \
+                hazelcast-monitor-starter-sample-app/target/hazelcast-monitor-starter-sample-app-$CIRCLE_TAG.jar \
+                hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG.jar \
+                hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG.jar \
+                ./artifacts
 
       - store_artifacts:
-          path: hazelcast-monitor-starter-sample-app/target/hazelcast-monitor-starter-sample-app-$CIRCLE_TAG.jar
-
-      - store_artifacts:
-          path: hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG.jar
-
-      - store_artifacts:
-          path: hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG.jar
+          path: artifacts
+          destination: artifacts-be
 
 workflows:
   version: 2
