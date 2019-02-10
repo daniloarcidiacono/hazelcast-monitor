@@ -9,9 +9,6 @@ import org.mozilla.javascript.ContextFactory;
 public class CustomContextFactory extends ContextFactory {
     /**
      * We enable {@value Context#FEATURE_ENHANCED_JAVA_ACCESS} in order to pick all members in non-public classes.
-     * @param cx
-     * @param featureIndex
-     * @return
      */
     @Override
     public boolean hasFeature(final Context cx, final int featureIndex) {

@@ -53,9 +53,9 @@ public class ScriptEngine {
 
         /**
          * Executes the script, passing the given variables to the scope.
-         * This method is thread safe.
+         * <p>This method is thread safe.
          *
-         * @param scopeVariables
+         * @param scopeVariables a map (name -&gt; value) of properties to inject into the scope
          * @param <T> the expected result type
          * @return the script result
          */

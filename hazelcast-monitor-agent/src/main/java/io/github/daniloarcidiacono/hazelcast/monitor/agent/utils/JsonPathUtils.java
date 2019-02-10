@@ -20,7 +20,7 @@ public abstract class JsonPathUtils {
     /**
      * Tries to slice the given object using jsonPath.
      *
-     * @param object
+     * @param object the object to slice (cannot be null)
      * @param jsonPath may be null
      * @return the sliced object, or null if an error occurs
      */
@@ -49,9 +49,8 @@ public abstract class JsonPathUtils {
 
     /**
      * Compiles the given JsonPath string into a {@link JsonPath} object.
-     * @param value
+     * @param value the path in JsonPath syntax
      * @return the parsed object, or null if the string is a no-op slicing operation.
-     * @throws Exception if the JsonPath string is malformed
      */
     public static JsonPath toJsonPath(final String value) {
         final String trimmed = value.trim();

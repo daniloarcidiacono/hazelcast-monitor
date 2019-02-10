@@ -45,13 +45,13 @@ public abstract class AbstractTopicProducer {
 
     /**
      * Updates a parameter of this producer.
-     * Subclasses may override this method to implement custom update logic.
+     * <p>Subclasses may override this method to implement custom update logic.
      * Implementations should check if the new value is the same as the current one, and do nothing in that case.
-     * Default implementation always throws an exception.
+     * <p>Default implementation always throws an exception.
      *
-     * @param parameter
-     * @param value
-     * @throws UpdateParameterException
+     * @param parameter the name of the parameter to update.
+     * @param value the value to set
+     * @throws UpdateParameterException if an error occurs
      */
     public void updateParameter(final String parameter, final String value) throws UpdateParameterException {
         final UpdateParameterException updateParameterException = new UpdateParameterException("Unsupported parameter " + parameter);
