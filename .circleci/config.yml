@@ -25,16 +25,16 @@ jobs:
           at: '~'
 
       - restore_cache:
-          key: npm-dependency-cache-{{ checksum "package.json" }}
+          key: npm-dependency-cache-{{ checksum "hazelcast-monitor-webapp/package.json" }}
 
       - run:
           name: Install npm packages
           command: cd hazelcast-monitor-webapp && npm install
 
       - save_cache:
-          key: npm-dependency-cache-{{ checksum "package.json" }}
+          key: npm-dependency-cache-{{ checksum "hazelcast-monitor-webapp/package.json" }}
           paths:
-          - hazelcast-monitor-webapp/node_modules
+            - hazelcast-monitor-webapp/node_modules
 
       - run:
           name: Build prod
@@ -42,10 +42,10 @@ jobs:
 
       - run:
           name: Zipping
-          command: cd hazelcast-monitor-webapp/dist && zip -r hazelcast-monitor-{{ .Environment.CIRCLE_TAG }}.zip hazelcast-monitor
+          command: cd hazelcast-monitor-webapp/dist && zip -r hazelcast-monitor-$CIRCLE_TAG.zip hazelcast-monitor
 
       - store_artifacts:
-          path: hazelcast-monitor-webapp/dist/hazelcast-monitor-{{ .Environment.CIRCLE_TAG }}.zip
+          path: hazelcast-monitor-webapp/dist/hazelcast-monitor-$CIRCLE_TAG.zip
 
   build_be:
     docker:
@@ -74,23 +74,23 @@ jobs:
       - deploy:
           name: Create GitHub release
           command: |
-            hub release create -d
-                               -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG-javadoc.jar
-                               -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG-javadoc.jar
-                               -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG-javadoc.jar
+            hub release create -d \
+                               -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG-javadoc.jar \
+                               -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG-javadoc.jar \
+                               -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG-javadoc.jar \
                                -F CHANGELOG_LATEST.md $CIRCLE_TAG
 
       - store_artifacts:
-          path: hazelcast-monitor-agent/target/hazelcast-monitor-agent-{{ .Environment.CIRCLE_TAG }}.jar
+          path: hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG.jar
 
       - store_artifacts:
-          path: hazelcast-monitor-starter-sample-app/target/hazelcast-monitor-starter-sample-app-{{ .Environment.CIRCLE_TAG }}.jar
+          path: hazelcast-monitor-starter-sample-app/target/hazelcast-monitor-starter-sample-app-$CIRCLE_TAG.jar
 
       - store_artifacts:
-          path: hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-{{ .Environment.CIRCLE_TAG }}.jar
+          path: hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG.jar
 
       - store_artifacts:
-          path: hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-{{ .Environment.CIRCLE_TAG }}.jar
+          path: hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG.jar
 
 workflows:
   version: 2
