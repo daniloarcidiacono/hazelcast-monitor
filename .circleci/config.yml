@@ -80,20 +80,17 @@ jobs:
           name: Create GitHub release
           command: |
             hub release create -d \
-                               -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG-javadoc.jar \
-                               -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG-javadoc.jar \
-                               -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG-javadoc.jar \
+                               -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-*-javadoc.jar \
+                               -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-*-javadoc.jar \
+                               -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-*-javadoc.jar \
                                -F CHANGELOG_LATEST.md $CIRCLE_TAG
 
       - run:
           name: Create artifacts directory
           command: |
-            mkdir ./artifacts && \
-            cp hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG.jar \
-                hazelcast-monitor-starter-sample-app/target/hazelcast-monitor-starter-sample-app-$CIRCLE_TAG.jar \
-                hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG.jar \
-                hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG.jar \
-                ./artifacts
+            shopt -s globstar
+            mkdir ./artifacts
+            cp **/target/*-jar ./artifacts
 
       - store_artifacts:
           path: artifacts
