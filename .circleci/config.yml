@@ -46,7 +46,7 @@ jobs:
 
       - run:
           name: Create artifacts directory
-          command: mkdir ./artifacts && cp hazelcast-monitor-webapp/dist/hazelcast-monitor-$CIRCLE_TAG.zip ./artifacts
+          command: mkdir ./artifacts && cp hazelcast-monitor-webapp/dist/hazelcast-monitor-*.zip ./artifacts
 
       - store_artifacts:
           path: artifacts
@@ -55,7 +55,7 @@ jobs:
       - persist_to_workspace:
           root: '~'
           paths:
-            - hazelcast-monitor
+            - hazelcast-monitor/hazelcast-monitor-webapp/dist/hazelcast-monitor-*.zip
 
   build_be:
     docker:
@@ -95,7 +95,7 @@ jobs:
       - persist_to_workspace:
           root: '~'
           paths:
-            - hazelcast-monitor
+            - hazelcast-monitor/**/target/*-javadoc.jar
 
   deploy_github:
     docker:
@@ -110,11 +110,10 @@ jobs:
       - deploy:
           name: Create GitHub release
           command: |
+            shopt -s globstar
             hub release create -d \
-                               -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-*-javadoc.jar \
-                               -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-*-javadoc.jar \
-                               -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-*-javadoc.jar \
-                               -a hazelcast-monitor-webapp/dist/hazelcast-monitor-$CIRCLE_TAG.zip \
+                               -a **/target/*-javadoc.jar \
+                               -a hazelcast-monitor-webapp/dist/hazelcast-monitor-*.zip \
                                -F CHANGELOG_LATEST.md $CIRCLE_TAG
 
 workflows:
