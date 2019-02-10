@@ -99,15 +99,14 @@ workflows:
       - build_prepare:
           filters:
             tags:
-              only:
-                - /^pre.*/
+              only: /^pre.*/
             branches:
               ignore: /.*/
 
       - build_fe:
           requires:
-          - build_prepare
+            - build_prepare
 
       - build_be:
           requires:
-          - build_prepare
+            - build_prepare
