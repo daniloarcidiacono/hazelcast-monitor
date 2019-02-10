@@ -101,6 +101,8 @@ workflows:
             tags:
               only:
                 - /^pre.*/
+            branches:
+              ignore: /.*/
 
       - build_fe:
           requires:
