@@ -1,40 +1,28 @@
-# Note that the following stanza uses CircleCI 2.1 to make use of a Reusable Executor
-# This allows defining a docker image to reuse across jobs.
-# visit https://circleci.com/docs/2.0/reusing-config/#authoring-reusable-executors to learn more.
-version: 2.1
-
-references:
-  fast-checkout: &fast-checkout
-    attach_workspace:
-      at: '~'
-
-executors:
-  my-executor:
-    docker:
-      - image: daniloarcidiacono/ci-java-node:0.4.0
-    working_directory: ~/hazelcast-monitor
-
+version: 2
 jobs:
   build_prepare:
-    executor: my-executor
-    steps:
-      # check out source code to working directory
-      #
-      # Note: On Linux Alpine, the tar with xargs skips some files (must be a bug)
-      #       mkdir -p /root/hazelcast-monitor && cd /tmp/_circleci_local_build_repo && git ls-files -z | xargs -0 tar -c | tar -x -C /root/hazelcast-monitor
-      - checkout
-#      - run: mkdir -p ~/hazelcast-monitor && cd /tmp/_circleci_local_build_repo && tar -c $(git ls-files) | tar -x -C ~/hazelcast-monitor
+    docker:
+      - image: daniloarcidiacono/ci-java-node:0.4.0
 
-      # https://discuss.circleci.com/t/instant-git-checkout-in-your-workflow/21469
+    working_directory: ~/hazelcast-monitor
+
+    steps:
+      - checkout
+
       - persist_to_workspace:
           root: '~'
           paths:
             - hazelcast-monitor
 
   build_fe:
-    executor: my-executor
+    docker:
+      - image: daniloarcidiacono/ci-java-node:0.4.0
+
+    working_directory: ~/hazelcast-monitor
+
     steps:
-      - *fast-checkout
+      - attach_workspace:
+          at: '~'
 
       - restore_cache:
           key: npm-dependency-cache-{{ checksum "package.json" }}
@@ -46,7 +34,8 @@ jobs:
       - save_cache:
           key: npm-dependency-cache-{{ checksum "package.json" }}
           paths:
-            - hazelcast-monitor-webapp/node_modules
+          - hazelcast-monitor-webapp/node_modules
+
       - run:
           name: Build prod
           command: cd hazelcast-monitor-webapp && npm run build-prod
@@ -59,45 +48,37 @@ jobs:
           path: hazelcast-monitor-webapp/dist/hazelcast-monitor-{{ .Environment.CIRCLE_TAG }}.zip
 
   build_be:
-    executor: my-executor
+    docker:
+      - image: daniloarcidiacono/ci-java-node:0.4.0
+
+    working_directory: ~/hazelcast-monitor
 
     steps:
-      - *fast-checkout
+      - attach_workspace:
+          at: '~'
 
-      # restore the saved cache after the first run or if `pom.xml` has changed
       - restore_cache:
           key: hazelcast-monitor-{{ checksum "pom.xml" }}
 
-      # gets the project dependencies
-      #
-      # Add the verify goal (from see https://issues.apache.org/jira/browse/MDEP-516):
-      #
-      # "It can be solved by using mvn package dependency:go-offline which creates a reactor and will works as expected.
-      #  But you can also use mvn compile dependency:go-offline but with the drawback that you can't do a mvn -o package
-      #  cause all things which are done after the life cycle phase compile will not being downloaded.."
-      #  For example if you do mvn package dependency:go-offline and afterwards you do mvn -o deploy your build will fail
-      #  cause maven-install-plugin can't be found, cause it has not been solved...."
-      - run: mvn verify dependency:go-offline
+      - run:
+          command: mvn verify dependency:go-offline
 
-      # saves the project dependencies
       - save_cache:
           paths:
             - ~/.m2
           key: hazelcast-monitor-{{ checksum "pom.xml" }}
 
-      # Build
-      - run: mvn clean package -Pdocs
+      - run:
+          command: mvn clean package -Pdocs
 
-      # Deploy
       - deploy:
-          name: "Create GitHub release"
+          name: Create GitHub release
           command: |
             hub release create -a hazelcast-monitor-agent/target/hazelcast-monitor-agent-$CIRCLE_TAG-javadoc.jar
                                -a hazelcast-monitor-starter-java-websockets/target/hazelcast-monitor-starter-java-websockets-$CIRCLE_TAG-javadoc.jar
                                -a hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-$CIRCLE_TAG-javadoc.jar
                                -F CHANGELOG_LATEST.md $CIRCLE_TAG
 
-      # store the jar as an artifact
       - store_artifacts:
           path: hazelcast-monitor-agent/target/hazelcast-monitor-agent-{{ .Environment.CIRCLE_TAG }}.jar
 
@@ -111,7 +92,7 @@ jobs:
           path: hazelcast-monitor-starter-spring/target/hazelcast-monitor-starter-spring-{{ .Environment.CIRCLE_TAG }}.jar
 
 workflows:
-  version: 2.1
+  version: 2
   build_and_deploy:
     jobs:
       - build_prepare:
@@ -119,15 +100,10 @@ workflows:
             branches:
               only: dev
 
-#            tags:
-#              only: /.*/
-#            branches:
-#              ignore: /.*/
-
       - build_fe:
           requires:
-            - build_prepare
+          - build_prepare
 
       - build_be:
           requires:
-            - build_prepare
+          - build_prepare
