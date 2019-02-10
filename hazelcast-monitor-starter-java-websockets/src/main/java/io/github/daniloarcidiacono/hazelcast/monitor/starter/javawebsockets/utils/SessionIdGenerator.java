@@ -148,9 +148,9 @@ public class SessionIdGenerator {
 
     /**
      * Generate and return a new session identifier.
+     * @return a random session identifier (16 bytes)
      */
     public String generateSessionId() {
-
         byte random[] = new byte[16];
 
         // Render the result as a String of hexadecimal digits
