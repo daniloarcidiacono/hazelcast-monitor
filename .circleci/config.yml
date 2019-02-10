@@ -44,9 +44,6 @@ jobs:
           name: Zipping
           command: cd hazelcast-monitor-webapp/dist && zip -r hazelcast-monitor-$CIRCLE_TAG.zip hazelcast-monitor
 
-      - store_artifacts:
-          path: hazelcast-monitor-webapp/dist/hazelcast-monitor-$CIRCLE_TAG.zip
-
       - run:
           name: Create artifacts directory
           command: mkdir ./artifacts && cp hazelcast-monitor-webapp/dist/hazelcast-monitor-$CIRCLE_TAG.zip ./artifacts
