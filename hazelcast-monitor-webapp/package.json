@@ -17,7 +17,10 @@
     "type": "git",
     "url": "https://github.com/daniloarcidiacono/hazelcast-monitor.git"
   },
-  "keywords": [ "hazelcast", "monitor" ],
+  "keywords": [
+    "hazelcast",
+    "monitor"
+  ],
   "author": "Danilo Arcidiacono <danilo.arcidiacono@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -40,7 +43,7 @@
     "core-js": "^2.5.4",
     "google-palette": "^1.1.0",
     "moment": "^2.22.2",
-    "ng2-ace-editor": "^0.3.8",
+    "ng2-ace-editor": "^0.3.9",
     "ngx-moment": "^3.1.0",
     "ngx-webstorage-service": "^3.1.1",
     "rxjs": "^6.0.0",
