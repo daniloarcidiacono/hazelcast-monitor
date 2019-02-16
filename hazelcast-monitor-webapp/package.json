@@ -9,6 +9,7 @@
     "build": "ng build --base-href \".\"",
     "build-prod": "ng build --prod --base-href \".\"",
     "serve-dist": "http-server dist/hazelcast-monitor",
+    "serve-dist-ssl": "http-server dist/hazelcast-monitor --ssl -C keys/cert.pem -K keys/key.pem",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
