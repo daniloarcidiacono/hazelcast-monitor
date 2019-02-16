@@ -77,8 +77,16 @@ export class SharedWebSocketService {
       };
     } catch (e) {
       // This can happen, for example, when trying to establish an insecure SockJS connection from an https page
-      // TODO: Fix this (CloseEvent)
-      this.onError.next(e);
+      // Convert Error to CloseEvent
+      this.onError.next(
+        new CloseEvent("error", {
+          wasClean: false,
+
+          // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
+          code: 3000,
+          reason: e.message
+        })
+      );
 
       // Reset the state
       this.state = ConnectionState.DISCONNECTED;
