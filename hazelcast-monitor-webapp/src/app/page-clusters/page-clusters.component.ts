@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {SharedClustersService} from '@shared/services/shared-clusters.service';
 import {Cluster} from '@shared/model/shared-cluster.model';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ConnectionState, SharedWebSocketService} from '@shared/services/shared-websocket.service';
 import {SharedSnackbarService} from '@shared/services/shared-snackbar.service';
 import {Router} from '@angular/router';
@@ -20,6 +20,7 @@ import {ClustersProductDTO} from '@shared/dto/topic-products.dto';
 })
 export class PageClustersComponent implements OnDestroy {
   private form: FormGroup;
+  private clusterControl: FormControl;
   private wsStateSub: Subscription;
   private clusterSub: Subscription;
   private isLoading: boolean = false;
@@ -65,6 +66,11 @@ export class PageClustersComponent implements OnDestroy {
       (notice: SubscriptionNoticeResponseDTO<ClustersProductDTO>) => {
         const newData: Cluster[] = notice.notice.clusters.map(cluster => new Cluster(cluster.instanceName, cluster.groupName));
         this.clustersService.setClusters(newData);
+        if (!this.hasClusters()) {
+          this.clusterControl.disable();
+        } else {
+          this.clusterControl.enable();
+        }
 
         if (this.form.pristine) {
           this.form.patchValue({
@@ -88,9 +94,12 @@ export class PageClustersComponent implements OnDestroy {
     return cluster ? cluster.instanceName : undefined;
   }
 
+
   private initForm(): void {
+    this.clusterControl = this.fb.control({ undefined, disabled: false }, Validators.required);
+
     this.form = this.fb.group({
-      cluster: [ undefined, Validators.required ],
+      cluster: this.clusterControl,
       password: [ undefined ]
     });
   }

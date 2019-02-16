@@ -9,7 +9,6 @@
     <form [formGroup]="bindings.form" class="PageClusters__Card__Form">
       <!-- Cluster -->
       <mdc-select formControlName="cluster"
-                  [disabled]="!hasClusters()"
                   [outlined]="true"
                   [autosize]="false"
                   [helperText]="clusterHelper"
@@ -39,6 +38,7 @@
                       [dense]="false"
                       label="Group password"
                       [required]="false"
+                      autocomplete="current-password"
                       class="PageClusters__Card__PasswordSelector">
       </mdc-text-field>
 
