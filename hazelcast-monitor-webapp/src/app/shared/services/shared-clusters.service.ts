@@ -7,6 +7,10 @@ export class SharedClustersService {
   private currentCluster: Cluster;
 
   public constructor() {
+    this.reset();
+  }
+
+  public reset(): void {
     this.clusters = [];
     this.currentCluster = undefined;
   }

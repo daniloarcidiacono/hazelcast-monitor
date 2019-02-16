@@ -52,6 +52,7 @@ export class PageClustersComponent implements OnDestroy {
                      private hazelcastService: SharedHazelcastAgentService,
                      private router: Router,
                      private fb: FormBuilder) {
+    this.clustersService.reset();
     this.initForm();
 
     this.wsStateSub = this.wsService.onConnectivityChanged.subscribe((value: ConnectionState) => {
