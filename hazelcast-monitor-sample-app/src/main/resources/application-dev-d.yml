@@ -1,0 +1,6 @@
+sampleapp:
+  instances:
+    dev-c:
+      instanceName: "dev-d"
+      groupName: "other-group"
+      groupPassword: "pass-d"

@@ -13,11 +13,22 @@ public class SampleAppProperties {
     @NestedConfigurationProperty
     private Map<String, HazelcastInstanceProperties> instances = new HashMap<>();
 
+    @NestedConfigurationProperty
+    private ComponentsProperties components = new ComponentsProperties();
+
     public Map<String, HazelcastInstanceProperties> getInstances() {
         return instances;
     }
 
     public void setInstances(Map<String, HazelcastInstanceProperties> instances) {
         this.instances = instances;
+    }
+
+    public ComponentsProperties getComponents() {
+        return components;
+    }
+
+    public void setComponents(ComponentsProperties components) {
+        this.components = components;
     }
 }
